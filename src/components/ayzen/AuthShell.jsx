@@ -77,8 +77,8 @@ export default function AuthShell({ children }) {
                         setLang(l.code);
                         setLangOpen(false);
                       }}
-                      className={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm font-medium transition-colors ${
-                        active ? "bg-[#E8EAF6] text-black" : "text-[#333] hover:bg-gray-50"
+                      className={`mx-1 flex items-center gap-2.5 px-3 py-2 text-left text-sm font-medium rounded-lg transition-colors ${
+                        active ? "bg-[#EBEDF4] text-black" : "text-[#333] hover:bg-[#EBEDF4]"
                       }`}
                     >
                       <Flag code={l.code} />
