@@ -89,7 +89,7 @@ export default function CurationSection() {
                 <Image
                   src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/db8cb624f_ChatGPTImage16desetde202623_41_31.png"
                   alt="Zyntra"
-                  className="w-full h-full object-contain mix-blend-screen"
+                  className="w-full h-full object-contain"
                   fittingType="fit"
                 />
               </div>
