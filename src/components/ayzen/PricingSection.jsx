@@ -178,7 +178,7 @@ export default function PricingSection() {
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
                     <Sparkles className="w-3 h-3 text-[#8B5CF6]" />
-                    Gemma 4 31B
+                    Gemma
                   </span>
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
                     <Bot className="w-3 h-3 text-[#111111]" />
@@ -186,7 +186,7 @@ export default function PricingSection() {
                   </span>
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
                     <Bot className="w-3 h-3 text-[#111111]" />
-                    DeepSeek
+                    GPT-OSS 20B
                   </span>
                 </div>
               </div> :
