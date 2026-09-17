@@ -75,7 +75,7 @@ export default function Hero() {
               
             </div>
 
-            <div className="mt-6 lg:mt-8 text-center">
+            <div className="mt-0 text-center">
               <div className="text-5xl lg:text-6xl font-bold text-gray-900">
                 67%
               </div>
