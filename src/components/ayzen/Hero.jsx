@@ -62,12 +62,8 @@ export default function Hero() {
             <p className="mt-5 text-sm text-gray-400">
               +1.200 profissionais já usam
             </p>
-          </div>
 
-          {/* Right: included models + bullets + stats */}
-          <div className="lg:col-span-5 relative self-start">
-            {/* Top: included models (aligned with buttons row) */}
-            <div className="text-center">
+            <div className="mt-8 text-center">
               <div className="text-xs font-medium text-gray-500 mb-2">
                 Inclusas no plano
               </div>
@@ -82,16 +78,11 @@ export default function Hero() {
                 )}
               </div>
             </div>
+          </div>
 
-            {/* Middle: bullets */}
-            <ul className="mt-6 space-y-2 text-sm text-gray-600 text-center">
-              <li>• IAs de elite em uma assinatura</li>
-              <li>• Histórico unificado entre modelos</li>
-              <li>• Pagamento simplificado em Reais</li>
-            </ul>
-
-            {/* Bottom: stats */}
-            <div className="mt-6 text-center">
+          {/* Right: stats (top) + bullets (middle) */}
+          <div className="lg:col-span-5 relative self-start">
+            <div className="text-right">
               <div className="text-xs font-medium text-gray-500 mb-1">
                 Economia média
               </div>
@@ -101,6 +92,11 @@ export default function Hero() {
               <div className="text-sm text-gray-500 mt-1">
                 vs. assinaturas avulsas
               </div>
+              <ul className="mt-5 space-y-2 text-sm text-gray-600">
+                <li>• IAs de elite em uma assinatura</li>
+                <li>• Histórico unificado entre modelos</li>
+                <li>• Pagamento simplificado em Reais</li>
+              </ul>
             </div>
           </div>
         </div>
