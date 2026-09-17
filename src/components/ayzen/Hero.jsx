@@ -67,6 +67,9 @@ export default function Hero() {
           {/* Right: stats + bullets */}
           <div className="lg:col-span-5 relative self-start">
             <div className="text-center">
+              <div className="text-xs font-medium text-gray-400 mb-1">
+                Economia média
+              </div>
               <div className="text-5xl lg:text-6xl font-bold text-gray-900">
                 67%
               </div>
