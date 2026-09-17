@@ -24,6 +24,7 @@ import MobileDashboard from "@/components/ayzen/MobileDashboard";
 import ModelSelector, { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import { DiamondLogo, ChatPlusIcon, BooksIcon, IntegrationIcon } from "@/components/ayzen/SidebarIcons";
+import IncognitoAvatar from "@/components/ayzen/IncognitoAvatar";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -44,6 +45,7 @@ export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [model, setModel] = useState("auto");
+  const [tempMode, setTempMode] = useState(false);
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
 
@@ -196,23 +198,54 @@ export default function Dashboard() {
             <span className="text-[#7E57C2] font-medium">{t("dash.weekChange")}</span>
             <span className="text-gray-400">›</span>
           </div>
-          <button className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
-            <VenetianMask className="w-4 h-4" />
-          </button>
+          <div className="relative group">
+            <button
+              onClick={() => setTempMode((v) => !v)}
+              className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
+                tempMode ? "bg-[#F3EEFF] text-[#7E57C2]" : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              <VenetianMask className="w-4 h-4" />
+            </button>
+            {!tempMode && (
+              <div className="absolute right-0 top-full mt-1 px-2.5 py-1.5 bg-white rounded-lg shadow-lg border border-gray-100 text-xs font-medium text-black whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                {t("dash.tempTooltip")}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* center stage */}
         <div className="flex-1 flex flex-col items-center justify-end px-6 pb-24 -mt-6">
-          <div className="relative w-16 h-16 mb-5">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-60 animate-pulse" />
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#C084FC] via-[#7E57C2] to-[#EC4899] shadow-2xl shadow-purple-300/50" />
-          </div>
-          <p className="text-xs text-gray-500 mb-1">
-            {greeting()}, {firstName}
-          </p>
-          <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6">
-            {t("dash.headline")}
-          </h1>
+          {tempMode ? (
+            <>
+              <div className="relative w-16 h-16 mb-5">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-40" />
+                <div className="relative w-16 h-16 rounded-full bg-[#F3EEFF] shadow-2xl shadow-purple-300/30 flex items-center justify-center">
+                  <IncognitoAvatar className="w-8 h-8 text-[#1D1D1F]" />
+                </div>
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-2">
+                {t("dash.tempTitle")}
+              </h1>
+              <p className="text-sm text-gray-500 text-center max-w-md mb-6">
+                {t("dash.tempDesc")}
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="relative w-16 h-16 mb-5">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-60 animate-pulse" />
+                <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#C084FC] via-[#7E57C2] to-[#EC4899] shadow-2xl shadow-purple-300/50" />
+              </div>
+              <p className="text-xs text-gray-500 mb-1">
+                {greeting()}, {firstName}
+              </p>
+              <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6">
+                {t("dash.headline")}
+              </h1>
+            </>
+          )}
 
           {/* input */}
           <div className="w-full max-w-3xl bg-white rounded-2xl border border-gray-200 p-4">

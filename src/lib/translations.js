@@ -119,6 +119,9 @@ export const translations = {
     "dash.popoverNews": "Abrir novidades",
     "dash.popoverLogout": "Sair",
     "dash.popoverNew": "NOVO",
+    "dash.tempTooltip": "Criar chat temporário",
+    "dash.tempTitle": "Chat temporário",
+    "dash.tempDesc": "Este chat não aparecerá no histórico nem será usado para criar memórias. Por segurança, podemos manter uma cópia por até 30 dias.",
 
     // Hero
     "hero.badge": "Hub de IA Profissional",
@@ -510,6 +513,9 @@ export const translations = {
     "dash.popoverNews": "What's new",
     "dash.popoverLogout": "Sign out",
     "dash.popoverNew": "NEW",
+    "dash.tempTooltip": "Create temporary chat",
+    "dash.tempTitle": "Temporary chat",
+    "dash.tempDesc": "This chat won't appear in your history or be used to create memories. For safety, we may keep a copy for up to 30 days.",
 
     // Hero
     "hero.badge": "Professional AI Hub",
@@ -901,6 +907,9 @@ export const translations = {
     "dash.popoverNews": "Novedades",
     "dash.popoverLogout": "Salir",
     "dash.popoverNew": "NUEVO",
+    "dash.tempTooltip": "Crear chat temporal",
+    "dash.tempTitle": "Chat temporal",
+    "dash.tempDesc": "Este chat no aparecerá en el historial ni se usará para crear recuerdos. Por seguridad, podemos mantener una copia hasta 30 días.",
 
     // Hero
     "hero.badge": "Hub de IA Profesional",
