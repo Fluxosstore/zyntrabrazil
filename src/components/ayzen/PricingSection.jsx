@@ -56,17 +56,26 @@ export default function PricingSection() {
   const [tab, setTab] = useState("pessoal");
 
   return (
-    <section id="planos" className="py-20 lg:py-28 bg-white">
+    <section id="planos" className="py-20 lg:py-28 bg-[#F9FAFB]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-            Planos
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-            Um plano. Todas as IAs.
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
+            <span className="text-xs font-medium tracking-widest text-[#374151] uppercase">
+              Planos
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+            <span className="text-[#111827]">Escolha um plano.</span>
+            <br />
+            <span className="text-[#8B5CF6]">Pare de pagar cinco.</span>
           </h2>
-          <p className="mt-5 text-lg text-gray-500 leading-relaxed">
-            Escolha a potência que cabe no seu momento. Cancele quando quiser.
+          <p className="mt-6 text-base sm:text-lg text-[#6B7280] leading-relaxed">
+            Cobrança em real, nota fiscal incluída e cancelamento a qualquer
+            momento. Sem fidelidade, sem letra miúda.
+          </p>
+          <p className="mt-8 text-sm text-[#6B7280]">
+            Faturado mensalmente • Cancele quando quiser
           </p>
         </div>
 
