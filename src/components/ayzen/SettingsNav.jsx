@@ -1,5 +1,24 @@
 import React from "react";
+import {
+  BarChart3,
+  Crown,
+  User,
+  Receipt,
+  Brain,
+  Wand2,
+  Plug,
+} from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+
+const ICONS = {
+  usage: BarChart3,
+  plan: Crown,
+  account: User,
+  invoices: Receipt,
+  memories: Brain,
+  skills: Wand2,
+  connectors: Plug,
+};
 
 export default function SettingsNav({ active = "usage" }) {
   const { t } = useLanguage();
@@ -28,8 +47,9 @@ export default function SettingsNav({ active = "usage" }) {
   ];
 
   return (
-    <aside className="w-56 shrink-0 flex flex-col px-4 py-6 border-r border-gray-100">
+    <aside className="w-56 shrink-0 flex flex-col bg-[#f7f7f8] px-4 py-6">
       <h2 className="text-lg font-bold text-black px-2 mb-4">{t("settings.title")}</h2>
+      <div className="h-px bg-gray-200 mx-2 mb-4" />
       <nav className="flex-1 space-y-5 overflow-y-auto">
         {sections.map((sec) => (
           <div key={sec.label}>
@@ -37,18 +57,22 @@ export default function SettingsNav({ active = "usage" }) {
               {sec.label}
             </p>
             <div className="space-y-0.5">
-              {sec.items.map((it) => (
-                <button
-                  key={it.id}
-                  className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    active === it.id
-                      ? "bg-gray-100 text-black"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {it.label}
-                </button>
-              ))}
+              {sec.items.map((it) => {
+                const Icon = ICONS[it.id];
+                return (
+                  <button
+                    key={it.id}
+                    className={`w-full flex items-center gap-2.5 text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                      active === it.id
+                        ? "bg-[#e8e8e8] text-black"
+                        : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    {Icon && <Icon className="w-4 h-4 shrink-0 text-[#333333]" />}
+                    {it.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
         ))}
