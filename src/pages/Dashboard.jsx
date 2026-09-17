@@ -107,12 +107,12 @@ export default function Dashboard() {
             onClick={() => setPopoverOpen((v) => !v)}
             className="w-full flex items-center gap-2.5 px-2 py-2 rounded-xl bg-[#f4f5f7] hover:bg-[#eceef0] transition-colors"
           >
-            <div className="relative w-7 h-7 shrink-0">
+            <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
               <Image
                 src={DEFAULT_AVATAR}
                 alt="Profile"
-                className="relative w-7 h-7 rounded-full object-cover"
+                className="relative w-7 h-7 object-cover"
               />
             </div>
             <div className="flex-1 text-left min-w-0">

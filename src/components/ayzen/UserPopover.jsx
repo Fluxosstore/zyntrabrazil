@@ -54,12 +54,12 @@ export default function UserPopover({ user, firstName, planLabel, onLogout, onCl
     >
       {/* Header */}
       <div className="flex items-center gap-2.5 px-3.5 py-3">
-        <div className="relative w-9 h-9 shrink-0">
+        <div className="relative w-9 h-9 shrink-0 rounded-full overflow-hidden">
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
           <Image
             src={DEFAULT_AVATAR}
             alt="Profile"
-            className="relative w-9 h-9 rounded-full object-cover"
+            className="relative w-9 h-9 object-cover"
           />
         </div>
         <div className="flex-1 min-w-0">
