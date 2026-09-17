@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, Monitor, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, Sun, Moon, Monitor, ChevronDown } from "lucide-react";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -12,8 +12,8 @@ export default function Header() {
           <div className="flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full pl-2 pr-2 py-2 shadow-lg shadow-violet-200/30">
             {/* Logo */}
             <a href="#" className="flex items-center gap-2 pl-2 pr-3">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
-                <Sparkles className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+              <div className="w-7 h-7 rotate-45 rounded-md bg-gradient-to-br from-violet-500 via-violet-600 to-indigo-700 shadow-md shadow-violet-500/40 flex items-center justify-center">
+                <div className="w-2.5 h-2.5 -rotate-45 rounded-sm bg-white/90" />
               </div>
               <span className="text-lg font-bold tracking-tight text-gray-900">
                 Ayzen
@@ -74,13 +74,13 @@ export default function Header() {
 
           {/* Right / secondary pill */}
           <div className="hidden lg:flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full px-2 py-2 shadow-lg shadow-violet-200/30">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white transition-colors">
               <Sun className="w-4 h-4" />
             </button>
             <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
               <Moon className="w-4 h-4" />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white transition-colors">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
               <Monitor className="w-4 h-4" />
             </button>
             <button className="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 px-2.5 py-1.5 rounded-full hover:bg-gray-100 transition-colors">
