@@ -67,11 +67,11 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 text-sm sm:text-base text-gray-500 leading-relaxed max-w-xl">
-              A Ayzen é um hub de IA profissional. A Ayzen é a plataforma que{" "}
+              <span className="whitespace-nowrap">A Ayzen é um hub de IA profissional. A Ayzen é a plataforma que</span>{" "}
               <span className="whitespace-nowrap">reúne GPT-5, Claude, DeepSeek, Grok e outras IAs de elite</span>{" "}
-              em uma{" "}
-              <span className="whitespace-nowrap">única interface profissional, com histórico unificado</span>,{" "}
-              pagamento simplificado em Reais e conectores para Gmail, Google Agenda, Contatos, Tarefas e Drive.
+              <span className="whitespace-nowrap">em uma única interface profissional, com histórico unificado,</span>{" "}
+              <span className="whitespace-nowrap">pagamento simplificado em Reais e conectores para Gmail, Google Agenda</span>{" "}
+              <span className="whitespace-nowrap">Contatos, Tarefas e Drive.</span>
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
