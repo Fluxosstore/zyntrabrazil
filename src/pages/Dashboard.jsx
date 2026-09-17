@@ -21,6 +21,7 @@ import UserPopover from "@/components/ayzen/UserPopover";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
+import ModelSelector from "@/components/ayzen/ModelSelector";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -39,6 +40,8 @@ export default function Dashboard() {
   const [msg, setMsg] = useState("");
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [modelOpen, setModelOpen] = useState(false);
+  const [model, setModel] = useState("auto");
 
   return (
     <>
@@ -187,15 +190,32 @@ export default function Dashboard() {
               className="w-full resize-none text-sm text-black placeholder:text-gray-400 focus:outline-none bg-transparent"
             />
             <div className="flex items-center justify-between mt-1.5">
-              <div className="flex items-center gap-2">
+              <div className="relative flex items-center gap-2">
                 <button className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
                   <Plus className="w-3.5 h-3.5" />
                 </button>
-                <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-gray-100 text-xs font-medium text-gray-700 transition-colors">
-                  <img src={LOGO} alt="Ayzen" className="w-4 h-4 rounded object-contain" />
-                  {t("dash.auto")}
-                  <ChevronDown className="w-3 h-3 text-gray-500" />
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setModelOpen((v) => !v)}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-gray-100 text-xs font-medium text-gray-700 transition-colors"
+                  >
+                    <img src={LOGO} alt="Ayzen" className="w-4 h-4 rounded object-contain" />
+                    {t("dash.auto")}
+                    <ChevronDown className="w-3 h-3 text-gray-500" />
+                  </button>
+                  <AnimatePresence>
+                    {modelOpen && (
+                      <ModelSelector
+                        selected={model}
+                        onSelect={(id) => {
+                          setModel(id);
+                          setModelOpen(false);
+                        }}
+                        onClose={() => setModelOpen(false)}
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
               <div className="flex items-center gap-1.5">
                 <button className="w-7 h-7 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors">
