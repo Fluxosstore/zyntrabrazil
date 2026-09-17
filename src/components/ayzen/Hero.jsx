@@ -29,7 +29,7 @@ export default function Hero() {
               </span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 leading-[1.05]">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-gray-900 leading-[1.05]">
               A Ayzen reúne as IAs mais potentes do mundo.
               <br />
               <span className="text-violet-600">Em uma única assinatura.</span>
