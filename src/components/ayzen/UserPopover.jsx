@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Sun,
   Moon,
@@ -141,12 +142,12 @@ export default function UserPopover({ user, firstName, planLabel, onLogout, onCl
         <p className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase mb-1">
           {t("dash.popoverAccount")}
         </p>
-        <button className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-50 text-left">
+        <Link to="/settings" onClick={onClose} className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-50 text-left">
           <Settings className="w-3.5 h-3.5 text-gray-600" />
           <span className="text-xs font-medium text-black">
             {t("dash.popoverSettings")}
           </span>
-        </button>
+        </Link>
         <button className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-50 text-left">
           <BarChart3 className="w-3.5 h-3.5 text-gray-600" />
           <span className="text-xs font-medium text-black">

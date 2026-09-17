@@ -125,9 +125,9 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
       {collapsed && <div className="flex-1" />}
       {collapsed && (
         <div className="px-3 pb-1">
-          <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+          <Link to="/settings" className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
             <Settings className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       )}
 
