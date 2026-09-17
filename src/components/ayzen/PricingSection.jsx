@@ -103,7 +103,7 @@ const businessPlans = [
     period: "/mês",
     highlightFeature: "Mensagens limitadas",
     features: [
-      "Vídeo do troféu",
+      "Imagens em 8K",
       "Opus 47",
       "Vídeo premium",
       "Conta máxima",
