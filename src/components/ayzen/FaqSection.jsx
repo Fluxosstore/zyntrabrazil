@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp, ArrowUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 
 const faqs = [
   {
@@ -126,7 +126,7 @@ export default function FaqSection() {
 
       {/* Floating action button */}
       <button className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-[#8b5cf6] flex items-center justify-center shadow-lg shadow-violet-300 hover:bg-[#7c3aed] transition-colors z-50">
-        <ArrowUp className="w-5 h-5 text-white" />
+        <Sparkles className="w-5 h-5 text-white" />
       </button>
     </section>
   );
