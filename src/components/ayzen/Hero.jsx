@@ -12,8 +12,8 @@ export default function Hero() {
         src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/511df5c24_hero-ayzen-light-orb.png"
         alt=""
         className="absolute inset-0 w-full h-full object-cover"
-        fittingType="fill"
-      />
+        fittingType="fill" />
+      
       {/* subtle background glow */}
       <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-violet-200/30 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-40 left-0 w-[400px] h-[400px] bg-indigo-200/20 rounded-full blur-[100px] pointer-events-none" />
@@ -46,15 +46,15 @@ export default function Hero() {
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <a
                 href="#planos"
-                className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-base font-semibold px-7 py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5"
-              >
+                className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-base font-semibold px-7 py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
+                
                 Começar agora
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="#planos"
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-base font-semibold px-7 py-3.5 rounded-full border border-gray-200 transition-all"
-              >
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-base font-semibold px-7 py-3.5 rounded-full border border-gray-200 transition-all">
+                
                 Ver planos
               </a>
             </div>
@@ -70,9 +70,9 @@ export default function Hero() {
               <Image
                 src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5eaa81aeb_generated_3fa476c1.jpg"
                 alt="Esfera abstrata representando o hub de IA da Ayzen"
-                className="w-full h-full object-contain"
-                fittingType="fit"
-              />
+                className="w-full h-full object-contain hidden"
+                fittingType="fit" />
+              
             </div>
 
             <div className="mt-6 lg:mt-8 text-center lg:text-right">
@@ -97,18 +97,18 @@ export default function Hero() {
             Inclusas no plano
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2.5">
-            {aiModels.map((m) => (
-              <span
-                key={m}
-                className="inline-flex items-center gap-2 text-xs font-medium text-gray-600 bg-white/80 backdrop-blur border border-gray-200 px-3.5 py-2 rounded-full"
-              >
+            {aiModels.map((m) =>
+            <span
+              key={m}
+              className="inline-flex items-center gap-2 text-xs font-medium text-gray-600 bg-white/80 backdrop-blur border border-gray-200 px-3.5 py-2 rounded-full">
+              
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
                 {m}
               </span>
-            ))}
+            )}
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
