@@ -31,7 +31,7 @@ const integrations = [
 
 export default function IntegrationsSection() {
   return (
-    <section className="py-20 lg:py-28 bg-[#FAFAFA] border-y border-gray-100">
+    <section className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="max-w-3xl mb-14">
           <span className="text-xs font-semibold tracking-widest text-[#8878c3] uppercase">

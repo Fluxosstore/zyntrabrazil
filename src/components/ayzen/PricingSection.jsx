@@ -185,7 +185,7 @@ export default function PricingSection() {
   const [tab, setTab] = useState("pessoal");
 
   return (
-    <section id="planos" className="py-20 lg:py-28 bg-[#F9FAFB]">
+    <section id="planos" className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="flex items-center justify-center gap-2 mb-6">

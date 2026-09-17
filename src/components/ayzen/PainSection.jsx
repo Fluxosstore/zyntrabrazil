@@ -26,7 +26,7 @@ const cards = [
 
 export default function PainSection() {
   return (
-    <section id="beneficios" className="relative py-20 lg:py-28 bg-[#f9f9fb] overflow-hidden">
+    <section id="beneficios" className="relative py-20 lg:py-28 bg-[#FAFAFA] overflow-hidden">
       {/* ambient purple glows behind cards */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-violet-300/20 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-300/15 rounded-full blur-[120px] pointer-events-none" />

@@ -19,9 +19,9 @@ const footerCols = [
 
 export default function Footer() {
   return (
-    <footer className="bg-white">
+    <footer className="bg-[#FAFAFA]">
       {/* Pre-footer CTA */}
-      <div className="bg-[#fcfcfc]">
+      <div className="bg-[#FAFAFA]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* Left - text content */}
@@ -74,17 +74,17 @@ export default function Footer() {
                 className="absolute inset-0 w-full h-full object-cover" />
               
               {/* Soft white gradients on top, bottom and right edge */}
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#FAFAFA] to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#FAFAFA] to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#FAFAFA] to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#FAFAFA] to-transparent" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer links */}
-      <div className="text-gray-400 bg-[hsl(var(--background))]">
+      <div className="text-gray-400 bg-[#FAFAFA]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-8">
           <div className="grid lg:grid-cols-4 gap-10">
             {/* Brand */}

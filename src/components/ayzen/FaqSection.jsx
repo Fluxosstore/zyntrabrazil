@@ -44,7 +44,7 @@ export default function FaqSection() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section id="faq" className="relative py-20 lg:py-28 bg-white">
+    <section id="faq" className="relative py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left card with full background image */}
@@ -57,10 +57,10 @@ export default function FaqSection() {
             {/* Faint white wash so text stays legible over the image */}
             <div className="pointer-events-none absolute inset-0 bg-white/30" />
             {/* White gradient overlays to fade edges */}
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/80 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#FAFAFA] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#FAFAFA] to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#FAFAFA] to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA]/80 to-transparent" />
             {/* Stacked text */}
             <div className="relative z-10 w-full">
               <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
