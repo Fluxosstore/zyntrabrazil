@@ -165,7 +165,7 @@ export default function Dashboard() {
         </div>
 
         {/* center stage */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 -mt-6">
+        <div className="flex-1 flex flex-col items-center justify-end px-6 pb-24 -mt-6">
           <div className="relative w-16 h-16 mb-5">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-60 animate-pulse" />
             <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#C084FC] via-[#7E57C2] to-[#EC4899] shadow-2xl shadow-purple-300/50" />
