@@ -49,19 +49,11 @@ export default function FaqSection() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left card with astronaut + purple swirl */}
           <div className="relative rounded-3xl overflow-hidden min-h-[560px] bg-[#FDFDFD] flex flex-col items-center justify-end p-8 lg:p-10">
-            {/* Purple swirl backdrop */}
-            <div
-              className="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square rounded-full blur-3xl opacity-70 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(circle, #D0A8FF 0%, #9A58FF 45%, rgba(154,88,255,0) 70%)",
-              }}
-            />
-            {/* Astronaut */}
+            {/* Astronaut + emblem image */}
             <img
-              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0a283434b_generated_image.png"
+              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1536c52c1_ChatGPTImage17desetde202601_00_23.png"
               alt=""
-              className="relative z-10 w-[78%] max-w-[360px] object-contain mb-2"
+              className="relative z-10 w-full max-w-[420px] object-contain mb-2"
             />
             {/* Stacked text */}
             <div className="relative z-10 w-full">
