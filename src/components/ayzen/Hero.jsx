@@ -65,17 +65,8 @@ export default function Hero() {
           </div>
 
           {/* Right: stats + bullets */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative aspect-square max-w-[420px] mx-auto">
-              
-
-
-
-              
-              
-            </div>
-
-            <div className="mt-0 text-center">
+          <div className="lg:col-span-5 relative self-start">
+            <div className="text-center">
               <div className="text-5xl lg:text-6xl font-bold text-gray-900">
                 67%
               </div>
