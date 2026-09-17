@@ -95,6 +95,7 @@ export default function Dashboard() {
                 firstName={firstName}
                 planLabel={t("dash.plan")}
                 onLogout={() => logout()}
+                onClose={() => setPopoverOpen(false)}
               />
             )}
           </AnimatePresence>

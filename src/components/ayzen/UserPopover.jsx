@@ -24,12 +24,20 @@ const LANGS = [
   { code: "ES", label: "Español" },
 ];
 
-export default function UserPopover({ user, firstName, planLabel, onLogout }) {
+export default function UserPopover({ user, firstName, planLabel, onLogout, onClose }) {
   const { lang, setLang, t } = useLanguage();
   const [theme, setTheme] = useState("light");
   const ref = useRef(null);
 
   const langLabel = LANGS.find((l) => l.code === lang)?.label || "Português";
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (ref.current && !ref.current.contains(e.target)) onClose?.();
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   return (
     <motion.div
