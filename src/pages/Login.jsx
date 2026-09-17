@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { Mail, Lock, Eye, EyeOff, Loader2, KeyRound } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2, Fingerprint } from "lucide-react";
 import AuthShell from "@/components/ayzen/AuthShell";
 import { safeReturnTo } from "@/lib/authReturnTo";
 
@@ -107,7 +107,7 @@ export default function Login() {
       </div>
 
       <button className="w-full h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
-        <KeyRound className="w-3.5 h-3.5 text-[#7E57C2]" />
+        <Fingerprint className="w-3.5 h-3.5 text-[#7E57C2]" />
         Entrar com passkey
       </button>
 
