@@ -12,9 +12,7 @@ import {
 import Flag from "@/components/ayzen/Flag";
 import { Image } from "@/components/ui/image";
 import { useLanguage } from "@/lib/LanguageContext";
-
-const DEFAULT_AVATAR =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/977c79c2e_default-light.webp";
+import { getAvatarForUser } from "@/lib/avatars";
 
 const THEMES = [
   { code: "light", icon: Sun, label: "Claro" },
@@ -57,7 +55,7 @@ export default function UserPopover({ user, firstName, planLabel, onLogout, onCl
         <div className="relative w-9 h-9 shrink-0 rounded-full overflow-hidden">
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
           <Image
-            src={DEFAULT_AVATAR}
+            src={getAvatarForUser(user?.id)}
             alt="Profile"
             className="relative w-9 h-9 object-cover"
           />

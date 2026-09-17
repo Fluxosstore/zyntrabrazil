@@ -18,12 +18,10 @@ import {
 import { useLanguage } from "@/lib/LanguageContext";
 import UserPopover from "@/components/ayzen/UserPopover";
 import { Image } from "@/components/ui/image";
+import { getAvatarForUser } from "@/lib/avatars";
 
 const LOGO =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
-
-const DEFAULT_AVATAR =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/977c79c2e_default-light.webp";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -110,7 +108,7 @@ export default function Dashboard() {
             <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
               <Image
-                src={DEFAULT_AVATAR}
+                src={getAvatarForUser(user?.id)}
                 alt="Profile"
                 className="relative w-7 h-7 object-cover"
               />
