@@ -2,6 +2,14 @@ import React from "react";
 import { Sparkles, Gauge, FileText, Zap, LayoutGrid, CreditCard, Shield } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
+const orbitModels = [
+  { name: "ChatGPT", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1014d87f6_chatgpt.svg" },
+  { name: "Claude", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6eacbb876_claude.svg" },
+  { name: "Gemini", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f28ca4f40_gemini.svg" },
+  { name: "Grok", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/4e5164997_grok.svg" },
+  { name: "DeepSeek", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/efa424a0a_deepseek.svg" },
+];
+
 const features = [
   {
     icon: Gauge,
@@ -95,23 +103,25 @@ export default function CurationSection() {
               </div>
             </div>
             {/* orbiting nodes */}
-            {["GPT-4", "Claude", "Gemini", "Grok", "DeepSeek"].map((m, i) => {
-              const angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
-              const r = 140;
-              const x = Math.cos(angle) * r;
-              const y = Math.sin(angle) * r;
-              return (
-                <div
-                  key={m}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  style={{ transform: `translate(${x}px, ${y}px) translate(-50%, -50%)` }}
-                >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border border-gray-200 shadow-lg flex items-center justify-center text-[10px] sm:text-xs font-bold text-gray-700">
-                    {m}
+            <div className="absolute inset-0 animate-[orbit-spin_24s_linear_infinite]">
+              {orbitModels.map((m, i) => {
+                const angle = (i / orbitModels.length) * Math.PI * 2 - Math.PI / 2;
+                const r = 140;
+                const x = Math.cos(angle) * r;
+                const y = Math.sin(angle) * r;
+                return (
+                  <div
+                    key={m.name}
+                    className="absolute top-1/2 left-1/2"
+                    style={{ transform: `translate(${x}px, ${y}px) translate(-50%, -50%)` }}
+                  >
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border border-gray-200 shadow-lg flex items-center justify-center p-2.5 animate-[orbit-counter_24s_linear_infinite]">
+                      <img src={m.logo} alt={m.name} className="w-full h-full object-contain" />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
 
