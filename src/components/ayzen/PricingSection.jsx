@@ -175,7 +175,7 @@ export default function PricingSection() {
                     3 modelos
                   </span>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-nowrap gap-1.5">
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
                     <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f965acc9b_gemma.svg" alt="" className="w-3 h-3 object-contain" />
                     Gemma
