@@ -42,9 +42,9 @@ export default function Dashboard() {
 
   return (
     <>
-    <div className="hidden md:flex h-screen bg-[#F9F9FB] overflow-hidden">
+    <div className="hidden md:flex h-screen bg-[#FAFAFA] overflow-hidden py-2 pr-2 gap-2">
       {/* Sidebar */}
-      <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F1F3F5] flex flex-col border-r border-gray-200 transition-all duration-200`}>
+      <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F4F4F6] flex flex-col rounded-r-2xl transition-all duration-200`}>
         <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
           {!collapsed && (
             <Link to="/" className="flex items-center gap-2">
@@ -150,7 +150,7 @@ export default function Dashboard() {
       </aside>
 
       {/* Main */}
-      <main className="flex-1 flex flex-col relative">
+      <main className="flex-1 flex flex-col relative bg-white rounded-2xl overflow-hidden">
         {/* top bar */}
         <div className="h-9 flex items-center justify-between px-5 border-b border-gray-100">
           <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -178,7 +178,7 @@ export default function Dashboard() {
           </h1>
 
           {/* input */}
-          <div className="w-full max-w-2xl bg-white rounded-2xl border border-gray-200 shadow-sm p-3">
+          <div className="w-full max-w-2xl bg-white rounded-2xl border border-gray-200 p-3">
             <textarea
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
