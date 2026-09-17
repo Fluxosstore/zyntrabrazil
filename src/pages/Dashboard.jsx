@@ -15,6 +15,7 @@ import {
   VenetianMask,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import UserPopover from "@/components/ayzen/UserPopover";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
@@ -31,6 +32,7 @@ export default function Dashboard() {
   }
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
   const [msg, setMsg] = useState("");
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
     <div className="h-screen flex bg-[#F9F9FB] overflow-hidden">
@@ -83,9 +85,17 @@ export default function Dashboard() {
         </div>
 
         {/* user footer */}
-        <div className="px-2.5 py-2 border-t border-gray-200">
+        <div className="relative px-2.5 py-2 border-t border-gray-200">
+          {popoverOpen && (
+            <UserPopover
+              user={user}
+              firstName={firstName}
+              planLabel={t("dash.plan")}
+              onLogout={() => logout()}
+            />
+          )}
           <button
-            onClick={() => logout()}
+            onClick={() => setPopoverOpen((v) => !v)}
             className="w-full flex items-center gap-2.5 px-2 py-2 rounded-xl bg-[#f4f5f7] hover:bg-[#eceef0] transition-colors"
           >
             <div className="relative w-7 h-7 shrink-0">
