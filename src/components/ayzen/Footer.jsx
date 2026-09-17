@@ -3,19 +3,19 @@ import { Sparkles, ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
 const footerCols = [
-  {
-    title: "Produto",
-    links: ["IAs", "Benefícios", "Planos", "FAQ"],
-  },
-  {
-    title: "Guias e Conteúdo",
-    links: ["Blog", "ChatGPT vs Claude vs Gemini", "Centralizar IAs", "Glossário de IA"],
-  },
-  {
-    title: "Legal",
-    links: ["Termos de Uso", "Política de Privacidade", "Cookies"],
-  },
-];
+{
+  title: "Produto",
+  links: ["IAs", "Benefícios", "Planos", "FAQ"]
+},
+{
+  title: "Guias e Conteúdo",
+  links: ["Blog", "ChatGPT vs Claude vs Gemini", "Centralizar IAs", "Glossário de IA"]
+},
+{
+  title: "Legal",
+  links: ["Termos de Uso", "Política de Privacidade", "Cookies"]
+}];
+
 
 export default function Footer() {
   return (
@@ -45,14 +45,14 @@ export default function Footer() {
               <div className="mt-8 flex flex-wrap items-center gap-5">
                 <a
                   href="#planos"
-                  className="inline-flex items-center gap-2 bg-[#8c52ff] hover:bg-[#7c3aed] text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg shadow-violet-500/25 hover:-translate-y-0.5"
-                >
+                  className="inline-flex items-center gap-2 bg-[#8c52ff] hover:bg-[#7c3aed] text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg shadow-violet-500/25 hover:-translate-y-0.5">
+                  
                   Ver planos
                 </a>
                 <a
                   href="#ias"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#111111] hover:text-[#8c52ff] transition-colors"
-                >
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#111111] hover:text-[#8c52ff] transition-colors">
+                  
                   Conhecer as IAs
                   <ArrowRight className="w-4 h-4" />
                 </a>
@@ -71,8 +71,8 @@ export default function Footer() {
               <img
                 src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3d455afee_ChatGPTImage17desetde202601_13_21.png"
                 alt="Astronauta em paisagem lunar olhando para uma esfera de energia"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
+                className="absolute inset-0 w-full h-full object-cover" />
+              
               {/* Soft white gradients on top, bottom and right edge */}
               <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
@@ -84,7 +84,7 @@ export default function Footer() {
       </div>
 
       {/* Footer links */}
-      <div className="bg-gray-950 text-gray-400">
+      <div className="text-gray-400 bg-[hsl(var(--background))]">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-14">
           <div className="grid lg:grid-cols-4 gap-10">
             {/* Brand */}
@@ -102,25 +102,25 @@ export default function Footer() {
             </div>
 
             {/* Link columns */}
-            {footerCols.map((col) => (
-              <div key={col.title}>
+            {footerCols.map((col) =>
+            <div key={col.title}>
                 <h4 className="text-sm font-semibold text-white mb-4">
                   {col.title}
                 </h4>
                 <ul className="space-y-2.5">
-                  {col.links.map((l) => (
-                    <li key={l}>
+                  {col.links.map((l) =>
+                <li key={l}>
                       <a
-                        href="#"
-                        className="text-sm text-gray-500 hover:text-violet-400 transition-colors"
-                      >
+                    href="#"
+                    className="text-sm text-gray-500 hover:text-violet-400 transition-colors">
+                    
                         {l}
                       </a>
                     </li>
-                  ))}
+                )}
                 </ul>
               </div>
-            ))}
+            )}
           </div>
 
           {/* Legal bar */}
@@ -142,6 +142,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>);
+
 }
