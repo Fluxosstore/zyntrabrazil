@@ -60,7 +60,7 @@ export default function CurationSection() {
           </div>
 
           {/* Right: data cards */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 mt-16 lg:mt-24">
             <div className="flex-1 bg-white border border-gray-200 rounded-2xl p-6 text-center">
               <div className="text-4xl font-bold text-black">9+</div>
               <div className="mt-2 text-sm text-gray-500">IAs integradas</div>
