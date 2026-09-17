@@ -70,16 +70,16 @@ export default function SmarterSection() {
                 className="absolute inset-0 w-full h-full object-cover"
                 fittingType="fill"
               />
-              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm" />
+              <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/85 to-white/95" />
               <div className="relative h-full flex flex-col p-6">
-                <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold mb-5">
+                <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold">
                   {c.num}
                 </span>
-                <h3 className="text-xl font-bold text-[#222] mb-2">{c.title}</h3>
-                <p className="text-sm text-[#666] leading-relaxed">
-                  {c.desc}
-                </p>
                 <div className="mt-auto">
+                  <h3 className="text-xl font-bold text-[#222] mb-2">{c.title}</h3>
+                  <p className="text-sm text-[#666] leading-relaxed">
+                    {c.desc}
+                  </p>
                   <div className="h-px bg-gray-200 my-4" />
                   <div className="flex items-end justify-between gap-3">
                     <div className="space-y-1">
