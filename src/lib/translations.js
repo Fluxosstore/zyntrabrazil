@@ -163,6 +163,9 @@ export const translations = {
     "settings.unlimited": "Ilimitado",
     "settings.noModels": "Nenhum modelo encontrado.",
     "settings.showingModels": "Mostrando {shown} de {total} modelos",
+    "settings.day": "DIA",
+    "settings.week": "SEMANA",
+    "settings.month": "MÊS",
 
     // Library
     "library.title": "Biblioteca",
@@ -629,6 +632,9 @@ export const translations = {
     "settings.unlimited": "Unlimited",
     "settings.noModels": "No models found.",
     "settings.showingModels": "Showing {shown} of {total} models",
+    "settings.day": "DAY",
+    "settings.week": "WEEK",
+    "settings.month": "MONTH",
 
     // Library
     "library.title": "Library",
@@ -1095,6 +1101,9 @@ export const translations = {
     "settings.unlimited": "Ilimitado",
     "settings.noModels": "Ningún modelo encontrado.",
     "settings.showingModels": "Mostrando {shown} de {total} modelos",
+    "settings.day": "DÍA",
+    "settings.week": "SEMANA",
+    "settings.month": "MES",
 
     // Library
     "library.title": "Biblioteca",

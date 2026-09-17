@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { BarChart3, Search, ChevronDown, Menu } from "lucide-react";
+import { BarChart3, Search, Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import SettingsNav from "@/components/ayzen/SettingsNav";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import { MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
+import ModelUsageRow from "@/components/ayzen/ModelUsageRow";
 
 function UsageContent() {
   const { t } = useLanguage();
@@ -120,34 +121,7 @@ function UsageContent() {
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
             {filtered.map((m, i) => (
-              <div
-                key={m.name}
-                className={`flex items-center gap-3 px-4 py-3.5 ${
-                  i !== filtered.length - 1 ? "border-b border-gray-100" : ""
-                }`}
-              >
-                <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center shrink-0">
-                  <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-black">{m.name}</p>
-                  <div className="flex gap-1.5 mt-1">
-                    {m.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10px] text-gray-500 bg-gray-100 rounded-full px-2 py-0.5"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <span className="flex items-center gap-1.5 text-[11px] font-medium text-gray-600 bg-gray-100 rounded-full px-2.5 py-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
-                  {t("settings.unlimited")}
-                </span>
-                <ChevronDown className="w-4 h-4 text-gray-400 shrink-0" />
-              </div>
+              <ModelUsageRow key={m.name} model={m} isLast={i === filtered.length - 1} />
             ))}
             {filtered.length === 0 && (
               <p className="px-4 py-6 text-sm text-gray-400 text-center">
