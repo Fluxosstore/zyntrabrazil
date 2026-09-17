@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Check, Star, Sparkles, Bot } from "lucide-react";
+import { Check, Star } from "lucide-react";
 
 const plans = [
 {
@@ -177,15 +177,15 @@ export default function PricingSection() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
-                    <Sparkles className="w-3 h-3 text-[#8B5CF6]" />
+                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f965acc9b_gemma.svg" alt="" className="w-3 h-3 object-contain" />
                     Gemma
                   </span>
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
-                    <Bot className="w-3 h-3 text-[#111111]" />
+                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cf8c1f33c_gemini.svg" alt="" className="w-3 h-3 object-contain" />
                     Gemini
                   </span>
                   <span className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]">
-                    <Bot className="w-3 h-3 text-[#111111]" />
+                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/543e42d1a_deepseek.svg" alt="" className="w-3 h-3 object-contain" />
                     DeepSeek
                   </span>
                 </div>
