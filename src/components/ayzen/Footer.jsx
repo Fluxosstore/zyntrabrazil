@@ -32,7 +32,7 @@ export default function Footer() {
                   Pronto para pensar com tudo isso?
                 </span>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
                 <span className="text-[#111111]">Centralize. Evolua.</span>
                 <br />
                 <span className="text-[#8c52ff]">Pense à frente.</span>
