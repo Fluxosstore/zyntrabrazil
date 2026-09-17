@@ -14,8 +14,8 @@ export default function Header() {
             <Image
               src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/589397f87_ChatGPTImage16desetde202623_41_31.png"
               alt="Ayzen"
-              className="w-9 h-9 rounded-lg object-cover"
-              fittingType="fill"
+              className="w-9 h-9 rounded-lg bg-black"
+              fittingType="fit"
             />
             <span className="text-lg font-bold tracking-tight text-gray-900">
               Ayzen
