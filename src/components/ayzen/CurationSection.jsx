@@ -93,7 +93,7 @@ export default function CurationSection() {
             <div className="absolute inset-8 rounded-full border border-gray-200" />
             {/* center */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center shadow-2xl shadow-violet-600/30 overflow-hidden">
+              <div className="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
                 <Image
                   src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/db8cb624f_ChatGPTImage16desetde202623_41_31.png"
                   alt="Zyntra"
