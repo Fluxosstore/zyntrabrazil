@@ -27,16 +27,23 @@ export default function SmarterSection() {
   return (
     <section className="py-20 lg:py-28 bg-white">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-        <div className="max-w-3xl mb-14">
-          <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-            03 — O futuro
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-            Seu trabalho, mais inteligente. Hoje e no futuro
-          </h2>
-          <p className="mt-5 text-lg text-gray-500 leading-relaxed">
-            Uma plataforma que evolui com você. O que você usa hoje já está
-            pronto; o que vem já está incluído.
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-16 mb-14">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl font-bold text-black">03</span>
+              <span className="w-px h-6 bg-gray-300" />
+              <span className="text-sm font-medium text-gray-400">/06 Por que Zyntra</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+              Seu trabalho, mais inteligente.
+              <br />
+              <span className="text-violet-600">Hoje e no futuro.</span>
+            </h2>
+          </div>
+          <p className="text-sm text-gray-500 leading-relaxed lg:max-w-sm lg:mt-16">
+            A Zyntra já centraliza IAs de elite e evolui para conectar
+            ferramentas, automatizar fluxos e transformar ideias em produtos
+            digitais.
           </p>
         </div>
 
