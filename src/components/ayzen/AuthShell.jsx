@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Sun, ChevronDown, Check } from "lucide-react";
+import Flag from "@/components/ayzen/Flag";
 
 const LANGS = [
-  { code: "PT", flag: "🇧🇷", label: "Português" },
-  { code: "EN", flag: "🇺🇸", label: "English" },
-  { code: "ES", flag: "🇪🇸", label: "Español" },
+  { code: "PT", label: "Português" },
+  { code: "EN", label: "English" },
+  { code: "ES", label: "Español" },
 ];
 
 const HERO_IMG =
@@ -60,7 +61,7 @@ export default function AuthShell({ children }) {
               onClick={() => setLangOpen((o) => !o)}
               className="flex items-center gap-1.5 bg-[#F2F2F2] rounded-full pl-2 pr-2.5 py-1.5 text-sm font-medium text-black"
             >
-              <span className="text-sm leading-none">{current.flag}</span>
+              <Flag code={current.code} />
               <span className="text-xs font-medium text-black">{current.code}</span>
               <ChevronDown className="w-3 h-3 text-black" />
             </button>
@@ -80,7 +81,7 @@ export default function AuthShell({ children }) {
                         active ? "bg-[#E8EAF6] text-black" : "text-[#333] hover:bg-gray-50"
                       }`}
                     >
-                      <span className="text-base leading-none">{l.flag}</span>
+                      <Flag code={l.code} />
                       <span className="flex-1">{l.label}</span>
                       {active && <Check className="w-4 h-4 text-[#7E57C2]" />}
                     </button>
