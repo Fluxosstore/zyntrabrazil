@@ -10,7 +10,6 @@ import {
   ChevronDown,
   ChevronsUpDown,
   Mic,
-  ArrowUp,
   Sparkles,
   PanelLeftClose,
   PanelLeftOpen,
@@ -22,6 +21,7 @@ import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
 import ModelSelector, { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
+import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -229,7 +229,7 @@ export default function Dashboard() {
                     msg ? "bg-[#1D1D1F] text-white" : "bg-gray-200 text-gray-400"
                   }`}
                 >
-                  <ArrowUp className="w-3.5 h-3.5" />
+                  <ArrowUpIcon className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
