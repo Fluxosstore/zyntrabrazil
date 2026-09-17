@@ -233,9 +233,9 @@ export default function Dashboard() {
               >
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-40" />
                 <img
-                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3ed423a5d_Capturadetela_17-9-2026_19516_appayzenone.jpeg"
-                  alt="Incognito"
-                  className="relative w-20 h-20 object-contain rounded-full bg-white shadow-2xl shadow-purple-300/30"
+                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
+                  alt="Zyntra"
+                  className="relative w-20 h-20 object-contain drop-shadow-2xl"
                 />
               </motion.div>
               <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-2">
