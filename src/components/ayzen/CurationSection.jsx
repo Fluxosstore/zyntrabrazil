@@ -60,18 +60,18 @@ export default function CurationSection() {
           </div>
 
           {/* Right: data cards */}
-          <div className="flex gap-4 mt-24 lg:mt-32">
-            <div className="flex-1 bg-white border border-gray-200 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-black">9+</div>
-              <div className="mt-2 text-sm text-gray-500">IAs integradas</div>
+          <div className="flex gap-3 mt-24 lg:mt-32">
+            <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center">
+              <div className="text-3xl font-bold text-black">9+</div>
+              <div className="mt-1 text-xs text-gray-500">IAs integradas</div>
             </div>
-            <div className="flex-1 bg-white border border-gray-200 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-black">2</div>
-              <div className="mt-2 text-sm text-gray-500">Modalidades</div>
+            <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center">
+              <div className="text-3xl font-bold text-black">2</div>
+              <div className="mt-1 text-xs text-gray-500">Modalidades</div>
             </div>
-            <div className="flex-1 bg-white border border-gray-200 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-black">1</div>
-              <div className="mt-2 text-sm text-gray-500">Assinatura</div>
+            <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center">
+              <div className="text-3xl font-bold text-black">1</div>
+              <div className="mt-1 text-xs text-gray-500">Assinatura</div>
             </div>
           </div>
         </div>
