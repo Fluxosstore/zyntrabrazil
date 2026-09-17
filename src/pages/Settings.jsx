@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import { BarChart3, Search, ChevronDown, Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import SettingsNav from "@/components/ayzen/SettingsNav";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
-
-const GEMMA =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
-const GPT =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
-
-const MODELS = [
-  { name: "Gemma 4 31B", logo: GEMMA, tags: ["Texto", "Imagem"] },
-  { name: "GPT-OSS 120B", logo: GPT, tags: ["Texto"] },
-  { name: "GPT-OSS 20B", logo: GPT, tags: ["Texto"] },
-];
+import { MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 
 function UsageContent() {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const plan = user?.plan || "free";
   const [query, setQuery] = useState("");
 
-  const filtered = MODELS.filter((m) =>
+  const planModels = (MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
+    name: m.name,
+    logo: m.logo,
+    tags: ["Texto"],
+  }));
+
+  const filtered = planModels.filter((m) =>
     m.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -56,7 +55,7 @@ function UsageContent() {
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                   {t("settings.activeModels")}
                 </p>
-                <p className="text-lg font-bold text-black mt-0.5">3</p>
+                <p className="text-lg font-bold text-black mt-0.5">{planModels.length}</p>
               </div>
               <div className="p-4 border-r border-gray-100">
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
@@ -157,7 +156,7 @@ function UsageContent() {
             )}
           </div>
           <p className="text-xs text-gray-400 mt-2">
-            {t("settings.showingModels", { shown: filtered.length, total: MODELS.length })}
+            {t("settings.showingModels", { shown: filtered.length, total: planModels.length })}
           </p>
         </section>
       </div>

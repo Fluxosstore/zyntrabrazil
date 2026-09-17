@@ -25,7 +25,7 @@ export const PLAN_LABELS = {
   enterprise: "Empresarial Enterprise"
 };
 
-const MODELS_BY_PLAN = {
+export const MODELS_BY_PLAN = {
   free: [
   { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" }],
 
