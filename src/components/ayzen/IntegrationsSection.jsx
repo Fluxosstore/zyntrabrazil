@@ -66,6 +66,21 @@ export default function IntegrationsSection() {
             </div>
           ))}
         </div>
+
+        <div className="mt-10 max-w-3xl">
+          <p className="text-sm text-[#555555] leading-relaxed">
+            Os dados recebidos das APIs do Google seguem a Política de Dados do
+            Usuário dos Serviços de API do Google, incluindo os requisitos de
+            Uso Limitado. Não são vendidos, não são usados para publicidade nem
+            para treinar modelos de IA.
+          </p>
+          <a
+            href="#"
+            className="inline-block mt-3 text-sm font-medium text-[#7E57C2] hover:underline"
+          >
+            Ler a Política de Privacidade
+          </a>
+        </div>
       </div>
     </section>
   );
