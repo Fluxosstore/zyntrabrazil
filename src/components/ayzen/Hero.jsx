@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
@@ -11,15 +11,44 @@ const aiModels = [
 ];
 
 export default function Hero() {
+  const sectionRef = useRef(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    setOffset({ x: px * 24, y: py * 24 });
+  };
+
+  const handleMouseLeave = () => setOffset({ x: 0, y: 0 });
+
   return (
-    <section className="relative pt-28 lg:pt-36 pb-16 lg:pb-24 overflow-hidden">
-      {/* background image */}
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative pt-28 lg:pt-36 pb-16 lg:pb-24 overflow-hidden">
+      {/* background image with parallax */}
       <Image
         src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/511df5c24_hero-ayzen-light-orb.png"
         alt=""
-        className="absolute inset-0 w-full h-full object-cover"
-        fittingType="fill" />
-      
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out will-change-transform scale-110"
+        fittingType="fill"
+        style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+      />
+
+      {/* micro purple dots pattern */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-60"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(139, 92, 246, 0.18) 1.2px, transparent 1.4px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+
       {/* subtle background glow */}
       <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-violet-200/30 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-40 left-0 w-[400px] h-[400px] bg-indigo-200/20 rounded-full blur-[100px] pointer-events-none" />
