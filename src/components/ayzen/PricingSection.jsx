@@ -7,7 +7,7 @@ const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698
 const CLAUDE = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
 const GROK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
 
-const plans = [
+const personalPlans = [
   {
     name: "Zyntra Free",
     desc: "Plano gratuito permanente. Chat com IAs gratuitas e fallback automático.",
@@ -56,6 +56,63 @@ const plans = [
     modelsCount: "5 modelos",
     models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { src: GPT, label: "GPT-5" }],
     cta: "Assinar Premium",
+    tag: null,
+  },
+];
+
+const businessPlans = [
+  {
+    name: "Empresarial Team",
+    desc: "Para times pequenos. Conta compartilhada com até 8 usuários e 9 modelos de IA.",
+    price: { mensal: "R$ 399,90", anual: "R$ 399,90" },
+    period: "/mês",
+    highlightFeature: "Mensagens limitadas",
+    features: [
+      "Até 8 usuários",
+      "Conta compartilhada",
+      "9 modelos de IA",
+      "Suporte prioritário",
+    ],
+    modelsCount: "9 modelos",
+    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 4 }],
+    cta: "Assinar Team",
+    tag: null,
+  },
+  {
+    name: "Empresarial Startup",
+    desc: "Para startups em crescimento. 10 usuários, conta compartilhada e recursos premium.",
+    price: { mensal: "R$ 599,90", anual: "R$ 599,90" },
+    period: "/mês",
+    highlightFeature: "Mensagens limitadas",
+    features: [
+      "10 usuários",
+      "Conta compartilhada",
+      "Cash premium",
+      "Imagem, transcrição e voz",
+      "9 modelos de IA",
+    ],
+    modelsCount: "9 modelos",
+    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 4 }],
+    cta: "Assinar Startup",
+    tag: "Mais popular",
+  },
+  {
+    name: "Empresarial Enterprise",
+    desc: "Para grandes empresas. Opus 47, vídeo premium, conta máxima e SLA dedicado.",
+    price: { mensal: "R$ 999,90", anual: "R$ 999,90" },
+    period: "/mês",
+    highlightFeature: "Mensagens limitadas",
+    features: [
+      "Vídeo do troféu",
+      "Opus 47",
+      "Vídeo premium",
+      "Conta máxima",
+      "SLA dedicado",
+      "5 modelos + outros 9",
+    ],
+    modelsCount: "14 modelos",
+    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 9 }],
+    cta: "Assinar Enterprise",
     tag: null,
   },
 ];
@@ -192,7 +249,7 @@ export default function PricingSection() {
 
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
-          {plans.map((plan) => (
+          {(tab === "pessoal" ? personalPlans : businessPlans).map((plan) => (
             <PlanCard key={plan.name} plan={plan} cycle={cycle} />
           ))}
         </div>
