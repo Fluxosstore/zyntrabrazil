@@ -36,14 +36,14 @@ export default function BlogSection() {
               <span className="text-[#7c5dfa]">Use melhor no trabalho.</span>
             </h2>
           </div>
-          <div className="lg:max-w-sm lg:mt-16">
+          <div className="lg:max-w-sm lg:mt-16 flex flex-col items-end">
             <p className="text-sm text-[#707070] leading-relaxed mb-5">
               Análises claras e guias práticos para você escolher melhor cada IA
               e aplicar tudo no seu dia a dia.
             </p>
             <a
               href="#"
-              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1a1a1a] hover:text-[#7c5dfa] transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1a1a1a] hover:text-[#7c5dfa] transition-colors self-end"
             >
               Acessar o blog
               <ArrowUpRight className="w-4 h-4" />
