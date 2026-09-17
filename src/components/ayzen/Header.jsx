@@ -82,7 +82,7 @@ export default function Header() {
               <span className="h-5 w-px bg-gray-200 mx-1 hidden lg:block" />
 
               <a
-                href="#"
+                href="/login"
                 className="hidden lg:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full transition-colors"
               >
                 Entrar
