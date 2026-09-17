@@ -59,7 +59,9 @@ export default function Hero() {
             </div>
 
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.05]">
-              A Ayzen reúne as IAs mais potentes do mundo.
+              A Ayzen reúne as IAs mais
+              <br />
+              <span>potentes do mundo.</span>
               <br />
               <span className="text-violet-600">Em uma única assinatura.</span>
             </h1>
