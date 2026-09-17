@@ -115,14 +115,8 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
         />
       </div>
 
-      {/* Category label */}
-      <div className="px-3.5 pt-2.5 pb-1">
-        <span className="text-[10px] font-bold tracking-wider text-[#757575]">TEXTO</span>
-      </div>
-
-      {/* Model list */}
-      <div className="px-1.5 pb-2 space-y-0.5">
-        {/* Ayzen Auto */}
+      {/* Ayzen Auto */}
+      <div className="px-1.5 pt-2 pb-1">
         <button
           onClick={() => onSelect?.("auto")}
           className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
@@ -140,6 +134,17 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
           </div>
           {selected === "auto" && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
         </button>
+      </div>
+
+      <div className="h-px bg-gray-100" />
+
+      {/* Category label */}
+      <div className="px-3.5 pt-2.5 pb-1">
+        <span className="text-[10px] font-bold tracking-wider text-[#757575]">TEXTO</span>
+      </div>
+
+      {/* Model list */}
+      <div className="px-1.5 pb-2 space-y-0.5">
         {filtered.map((m) => (
           <button
             key={m.id}
