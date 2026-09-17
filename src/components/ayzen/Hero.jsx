@@ -72,11 +72,11 @@ export default function Hero() {
           {/* Right: visual + stats */}
           <div className="lg:col-span-5 relative">
             <div className="relative aspect-square max-w-[420px] mx-auto">
-              <Image
-                src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5eaa81aeb_generated_3fa476c1.jpg"
-                alt="Esfera abstrata representando o hub de IA da Ayzen"
-                className="w-full h-full object-contain hidden"
-                fittingType="fit" />
+              
+
+
+
+              
               
             </div>
 
