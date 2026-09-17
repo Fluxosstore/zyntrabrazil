@@ -108,7 +108,7 @@ export default function Dashboard() {
         {collapsed && <div className="flex-1" />}
 
         {/* user footer */}
-        <div className="relative px-2.5 py-2 border-t border-gray-200">
+        <div className="relative px-2.5 py-2">
           <AnimatePresence>
             {popoverOpen && (
               <UserPopover
