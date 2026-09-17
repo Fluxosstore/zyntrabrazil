@@ -189,6 +189,9 @@ export default function PricingSection() {
                     DeepSeek
                   </span>
                 </div>
+                <button className="mt-6 w-full py-3 rounded-full text-sm font-semibold text-black bg-white border border-[#D1D1D1] hover:border-violet-300 hover:bg-gray-50 transition-colors">
+                  Começar grátis
+                </button>
               </div> :
 
           <div
