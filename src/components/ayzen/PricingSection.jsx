@@ -64,7 +64,7 @@ const businessPlans = [
   {
     name: "Empresarial Team",
     desc: "Para times pequenos. Conta compartilhada com até 8 usuários e 9 modelos de IA.",
-    price: { mensal: "R$ 399,90", anual: "R$ 399,90" },
+    price: { mensal: "R$ 399,90", anual: "R$ 333,25" },
     period: "/mês",
     highlightFeature: "Mensagens limitadas",
     features: [
@@ -81,7 +81,7 @@ const businessPlans = [
   {
     name: "Empresarial Startup",
     desc: "Para startups em crescimento. 10 usuários, conta compartilhada e recursos premium.",
-    price: { mensal: "R$ 599,90", anual: "R$ 599,90" },
+    price: { mensal: "R$ 599,90", anual: "R$ 499,90" },
     period: "/mês",
     highlightFeature: "Mensagens limitadas",
     features: [
@@ -99,7 +99,7 @@ const businessPlans = [
   {
     name: "Empresarial Enterprise",
     desc: "Para grandes empresas. Opus 47, vídeo premium, conta máxima e SLA dedicado.",
-    price: { mensal: "R$ 999,90", anual: "R$ 999,90" },
+    price: { mensal: "R$ 999,90", anual: "R$ 833,25" },
     period: "/mês",
     highlightFeature: "Mensagens limitadas",
     features: [
