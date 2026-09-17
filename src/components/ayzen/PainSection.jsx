@@ -3,6 +3,7 @@ import React from "react";
 const cards = [
   {
     number: "01",
+    icon: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/362eef0fa_generated_image.png",
     heading: "Cinco assinaturas, cinco faturas em dólar",
     body: "GPT-5, Claude, Gemini, Grok e outras ferramentas. Cada uma renova num dia diferente, cobra em dólar e espalha seu trabalho. Sua fatura só cresce.",
     metric: "R$ 247",
@@ -10,6 +11,7 @@ const cards = [
   },
   {
     number: "02",
+    icon: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c5de531d9_generated_image.png",
     heading: "Histórico espalhado em mil abas",
     body: "Aquela conversa boa está perdida em alguma das 14 abas abertas. Trocar de IA significa perder contexto, copiar, colar, e começar do zero — toda vez.",
     metric: "14 abas",
@@ -17,6 +19,7 @@ const cards = [
   },
   {
     number: "03",
+    icon: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/916f34ce5_generated_image.png",
     heading: "Limite baixo, espera longa",
     body: "Você usa, esbarra no limite, espera 3 horas, paga premium, esbarra de novo. E desiste justo na hora em que precisava da ferramenta funcionando.",
     metric: "3 horas",
@@ -58,6 +61,13 @@ export default function PainSection() {
             >
               {/* glowing orb top-right */}
               <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-white to-[#d6caff] blur-2xl opacity-70 pointer-events-none" />
+
+              {/* 3D icon top-right */}
+              <img
+                src={c.icon}
+                alt=""
+                className="absolute top-5 right-5 w-14 h-14 object-contain pointer-events-none select-none"
+              />
 
               {/* large thin number top-left */}
               <span className="relative block text-5xl font-thin text-[#d1d1d1] leading-none mb-8">
