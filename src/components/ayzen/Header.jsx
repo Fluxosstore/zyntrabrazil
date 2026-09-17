@@ -1,9 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon, Monitor, ChevronDown } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
+const navLinks = [
+  { label: "IAs", href: "#ias", id: "ias" },
+  { label: "Benefícios", href: "#beneficios", id: "beneficios" },
+  { label: "Planos", href: "#planos", id: "planos" },
+  { label: "FAQ", href: "#faq", id: "faq" },
+  { label: "Blog", href: "#blog", id: "blog" },
+];
+
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeId, setActiveId] = useState("");
+
+  useEffect(() => {
+    const sections = navLinks
+      .map((l) => document.getElementById(l.id))
+      .filter(Boolean);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Pick the entry most in view
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) {
+          setActiveId(visible[0].target.id);
+        }
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
@@ -28,26 +61,22 @@ export default function Header() {
             <div className="flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full pl-2 pr-2 py-2 shadow-lg shadow-violet-200/30">
               {/* Nav */}
               <nav className="hidden lg:flex items-center gap-1">
-                <a
-                  href="#ias"
-                  className="text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 px-3.5 py-1.5 rounded-full transition-colors"
-                >
-                  IAs
-                </a>
-                {[
-                  { label: "Benefícios", href: "#beneficios" },
-                  { label: "Planos", href: "#planos" },
-                  { label: "FAQ", href: "#faq" },
-                  { label: "Blog", href: "#blog" },
-                ].map((l) => (
-                  <a
-                    key={l.label}
-                    href={l.href}
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors"
-                  >
-                    {l.label}
-                  </a>
-                ))}
+                {navLinks.map((l) => {
+                  const isActive = activeId === l.id;
+                  return (
+                    <a
+                      key={l.label}
+                      href={l.href}
+                      className={`text-sm font-medium px-3.5 py-1.5 rounded-full transition-colors border ${
+                        isActive
+                          ? "text-gray-900 bg-gray-100 border-gray-200"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 border-transparent"
+                      }`}
+                    >
+                      {l.label}
+                    </a>
+                  );
+                })}
               </nav>
 
               <span className="h-5 w-px bg-gray-200 mx-1 hidden lg:block" />
@@ -100,18 +129,27 @@ export default function Header() {
       {mobileOpen && (
         <div className="lg:hidden mt-2 mx-4 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl px-4 py-4 shadow-lg">
           <nav className="flex flex-col gap-1">
-            {["IAs", "Benefícios", "Planos", "FAQ", "Blog", "Entrar"].map(
-              (label) => (
-                <a
-                  key={label}
-                  href="#"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50"
-                >
-                  {label}
-                </a>
-              )
-            )}
+            {navLinks.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className={`text-base font-medium px-3 py-2 rounded-lg ${
+                  activeId === l.id
+                    ? "text-violet-600 bg-gray-50"
+                    : "text-gray-700 hover:text-violet-600 hover:bg-gray-50"
+                }`}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="#"
+              onClick={() => setMobileOpen(false)}
+              className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50"
+            >
+              Entrar
+            </a>
           </nav>
         </div>
       )}
