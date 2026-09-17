@@ -23,7 +23,7 @@ import { getAvatarForUser } from "@/lib/avatars";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
 
 const LOGO =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
