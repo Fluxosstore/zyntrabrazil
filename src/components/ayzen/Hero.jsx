@@ -65,7 +65,7 @@ export default function Hero() {
           </div>
 
           {/* Right: stats + bullets */}
-          <div className="lg:col-span-5 relative self-start mt-10 lg:mt-14">
+          <div className="lg:col-span-5 relative self-start">
             <div className="text-right">
               <div className="text-xs font-medium text-gray-500 mb-1">
                 Economia média
