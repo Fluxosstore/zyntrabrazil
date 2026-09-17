@@ -65,7 +65,7 @@ export default function PricingSection() {
               Planos
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
             <span className="text-[#111827]">Escolha um plano.</span>
             <br />
             <span className="text-[#8B5CF6]">Pare de pagar cinco.</span>
