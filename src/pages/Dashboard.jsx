@@ -20,6 +20,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import UserPopover from "@/components/ayzen/UserPopover";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
+import MobileDashboard from "@/components/ayzen/MobileDashboard";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
@@ -40,7 +41,8 @@ export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="h-screen flex bg-[#F9F9FB] overflow-hidden">
+    <>
+    <div className="hidden md:flex h-screen bg-[#F9F9FB] overflow-hidden">
       {/* Sidebar */}
       <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F1F3F5] flex flex-col border-r border-gray-200 transition-all duration-200`}>
         <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
@@ -211,5 +213,7 @@ export default function Dashboard() {
         </div>
       </main>
     </div>
+    <MobileDashboard />
+    </>
   );
 }
