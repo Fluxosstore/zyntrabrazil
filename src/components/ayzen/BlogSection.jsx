@@ -5,7 +5,7 @@ const featured = {
   tag: "Leitura recomendada",
   title: "Por que pagar 5 assinaturas de IA quando uma resolve?",
   cta: "Abrir artigo",
-  img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/7b1d0fc5e_generated_image.png",
+  img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/78dbb0c79_ChatGPTImage17desetde202600_46_49.png",
 };
 
 const sidePosts = [
