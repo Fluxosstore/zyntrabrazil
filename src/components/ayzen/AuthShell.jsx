@@ -15,6 +15,9 @@ export default function AuthShell({ children }) {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        {/* right-edge fade so the image melts into the white panel */}
+        <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white via-white/70 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white/60 to-transparent" />
         <div className="relative flex flex-col justify-end p-12 z-10">
           <p className="text-xs font-medium tracking-[0.2em] text-white/80 uppercase mb-3">
             Plataforma de IA Conversacional
