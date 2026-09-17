@@ -231,7 +231,7 @@ export default function Dashboard() {
                   ease: "easeInOut",
                 }}
               >
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-40" />
+
                 <img
                   src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
                   alt="Zyntra"
@@ -259,7 +259,7 @@ export default function Dashboard() {
                   ease: "easeInOut",
                 }}
               >
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-60" />
+
                 <img
                   src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
                   alt="Zyntra"
