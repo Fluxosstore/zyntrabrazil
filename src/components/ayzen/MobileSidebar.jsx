@@ -77,10 +77,10 @@ export default function MobileSidebar({ open, onClose }) {
                 <BookOpen className="w-3.5 h-3.5 text-gray-500 shrink-0" />
                 {t("dash.library")}
               </Link>
-              <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
+              <Link to="/automations" onClick={onClose} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
                 <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
                 {t("dash.automations")}
-              </button>
+              </Link>
             </div>
 
             <div className="h-px bg-gray-200 my-2 mx-2.5" />

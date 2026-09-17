@@ -123,6 +123,15 @@ export const translations = {
     "dash.tempTitle": "Chat temporário",
     "dash.tempDesc": "Este chat não aparecerá no histórico nem será usado para criar memórias. Por segurança, podemos manter uma cópia por até 30 dias.",
 
+    // Automations
+    "auto.title": "Automações",
+    "auto.desc1": "Sua IA trabalha sozinha, no horário que você definir.",
+    "auto.desc2": "Programe tarefas recorrentes em linguagem natural. A Zyntra escolhe a IA, executa as instruções no horário definido e entrega o resultado em uma conversa dedicada.",
+    "auto.telegramDesc": "Receba os avisos das suas automações no seu Telegram",
+    "auto.connect": "Conectar",
+    "auto.emptyTitle": "Nenhuma automação ainda",
+    "auto.emptyDesc": "Crie a primeira: um briefing diário dos seus e-mails, um radar de notícias do setor, um resumo semanal da agenda.",
+
     // Library
     "library.title": "Biblioteca",
     "library.desc": "Tudo que passou pela IA: imagens geradas e arquivos enviados, em um só lugar.",
@@ -548,6 +557,15 @@ export const translations = {
     "dash.tempTitle": "Temporary chat",
     "dash.tempDesc": "This chat won't appear in your history or be used to create memories. For safety, we may keep a copy for up to 30 days.",
 
+    // Automations
+    "auto.title": "Automations",
+    "auto.desc1": "Your AI works on its own, on the schedule you set.",
+    "auto.desc2": "Program recurring tasks in natural language. Zyntra picks the AI, runs the instructions at the defined time and delivers the result in a dedicated conversation.",
+    "auto.telegramDesc": "Receive your automation alerts on your Telegram",
+    "auto.connect": "Connect",
+    "auto.emptyTitle": "No automations yet",
+    "auto.emptyDesc": "Create your first: a daily email briefing, an industry news radar, a weekly agenda summary.",
+
     // Library
     "library.title": "Library",
     "library.desc": "Everything that went through AI: generated images and uploaded files, in one place.",
@@ -972,6 +990,15 @@ export const translations = {
     "dash.tempTooltip": "Crear chat temporal",
     "dash.tempTitle": "Chat temporal",
     "dash.tempDesc": "Este chat no aparecerá en el historial ni se usará para crear recuerdos. Por seguridad, podemos mantener una copia hasta 30 días.",
+
+    // Automations
+    "auto.title": "Automatizaciones",
+    "auto.desc1": "Tu IA trabaja sola, en el horario que definas.",
+    "auto.desc2": "Programa tareas recurrentes en lenguaje natural. Zyntra elige la IA, ejecuta las instrucciones en el horario definido y entrega el resultado en una conversación dedicada.",
+    "auto.telegramDesc": "Recibe los avisos de tus automatizaciones en tu Telegram",
+    "auto.connect": "Conectar",
+    "auto.emptyTitle": "Ninguna automatización todavía",
+    "auto.emptyDesc": "Crea la primera: un briefing diario de tus correos, un radar de noticias del sector, un resumen semanal de la agenda.",
 
     // Library
     "library.title": "Biblioteca",

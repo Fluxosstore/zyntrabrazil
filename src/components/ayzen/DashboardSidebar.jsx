@@ -70,9 +70,9 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
             <Link to="/library" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "library" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
               <BooksIcon className="w-4 h-4" />
             </Link>
-            <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+            <Link to="/automations" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "automations" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
               <IntegrationIcon className="w-4 h-4" />
-            </button>
+            </Link>
           </>
         ) : (
           <>
@@ -99,10 +99,13 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
               <BookOpen className="w-3.5 h-3.5 text-gray-500 shrink-0" />
               {t("dash.library")}
             </Link>
-            <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
+            <Link
+              to="/automations"
+              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "automations" ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"}`}
+            >
               <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
               {t("dash.automations")}
-            </button>
+            </Link>
           </>
         )}
       </div>
