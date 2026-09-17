@@ -247,10 +247,25 @@ export default function Dashboard() {
             </>
           ) : (
             <>
-              <div className="relative w-16 h-16 mb-5">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-60 animate-pulse" />
-                <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#C084FC] via-[#7E57C2] to-[#EC4899] shadow-2xl shadow-purple-300/50" />
-              </div>
+              <motion.div
+                className="relative w-20 h-20 mb-5"
+                animate={{
+                  scale: [1, 1.08, 0.96, 1.05, 1],
+                  rotate: [0, 6, -4, 3, 0],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-60" />
+                <img
+                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
+                  alt="Zyntra"
+                  className="relative w-20 h-20 object-contain drop-shadow-2xl"
+                />
+              </motion.div>
               <p className="text-xs text-gray-500 mb-1">
                 {greeting()}, {firstName}
               </p>
