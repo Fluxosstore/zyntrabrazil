@@ -80,18 +80,18 @@ export default function Hero() {
             </div>
 
             {/* Middle: bullets */}
-            <ul className="mt-6 space-y-2 text-sm text-gray-600">
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+            <ul className="mt-6 space-y-2 text-sm text-gray-600 text-right">
+              <li className="flex items-center justify-end gap-2">
                 IAs de elite em uma assinatura
-              </li>
-              <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              </li>
+              <li className="flex items-center justify-end gap-2">
                 Histórico unificado entre modelos
-              </li>
-              <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              </li>
+              <li className="flex items-center justify-end gap-2">
                 Pagamento simplificado em Reais
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
               </li>
             </ul>
 
