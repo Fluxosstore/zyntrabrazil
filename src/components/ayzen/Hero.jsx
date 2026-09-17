@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
+import FloatingDots from "@/components/ayzen/FloatingDots";
 
 const aiModels = [
   { name: "GPT-5", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0bb1a42e9_chatgpt.svg" },
@@ -39,15 +40,8 @@ export default function Hero() {
         style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
       />
 
-      {/* micro purple dots pattern */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-60"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(139, 92, 246, 0.18) 1.2px, transparent 1.4px)",
-          backgroundSize: "22px 22px",
-        }}
-      />
+      {/* floating purple particles rising from bottom to top */}
+      <FloatingDots />
 
       {/* subtle background glow */}
       <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-violet-200/30 rounded-full blur-[120px] pointer-events-none" />
