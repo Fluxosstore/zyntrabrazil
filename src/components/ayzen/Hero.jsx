@@ -68,8 +68,8 @@ export default function Hero() {
 
             <p className="mt-6 text-sm sm:text-base text-gray-500 leading-relaxed max-w-xl">
               A Ayzen é um hub de IA profissional. A Ayzen é a plataforma que
-              reúne GPT-5, Claude, DeepSeek, Grok e outras IAs de elite em uma
-              única interface profissional, com histórico unificado, pagamento
+              reúne&nbsp;GPT-5,&nbsp;Claude,&nbsp;DeepSeek,&nbsp;Grok&nbsp;e&nbsp;outras&nbsp;IAs&nbsp;de&nbsp;elite em uma
+              única&nbsp;interface&nbsp;profissional,&nbsp;com&nbsp;histórico&nbsp;unificado, pagamento
               simplificado em Reais e conectores para Gmail, Google Agenda,
               Contatos, Tarefas e Drive.
             </p>
