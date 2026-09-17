@@ -209,7 +209,7 @@ export default function Dashboard() {
 
         </div>
 
-        <p className="absolute bottom-4 left-0 right-0 text-center text-[11px] text-gray-400 max-w-xl mx-auto px-6 whitespace-nowrap">
+        <p className="absolute bottom-4 left-0 right-0 text-center text-[11px] text-gray-400 max-w-xl mx-auto px-6 whitespace-nowrap -translate-x-4">
           {t("dash.disclaimer")}
         </p>
       </main>
