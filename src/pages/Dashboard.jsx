@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
 import {
   Plus,
@@ -219,12 +219,25 @@ export default function Dashboard() {
         <div className="flex-1 flex flex-col items-center justify-end px-6 pb-24 -mt-6">
           {tempMode ? (
             <>
-              <div className="relative w-16 h-16 mb-5">
+              <motion.div
+                className="relative w-20 h-20 mb-5"
+                animate={{
+                  scale: [1, 1.08, 0.96, 1.05, 1],
+                  rotate: [0, 6, -4, 3, 0],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#A855F7] via-[#7E57C2] to-[#EC4899] blur-xl opacity-40" />
-                <div className="relative w-16 h-16 rounded-full bg-[#F3EEFF] shadow-2xl shadow-purple-300/30 flex items-center justify-center">
-                  <IncognitoAvatar className="w-8 h-8 text-[#1D1D1F]" />
-                </div>
-              </div>
+                <img
+                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1fba96bc9_baixados.png"
+                  alt="Zyntra"
+                  className="relative w-20 h-20 object-contain drop-shadow-2xl"
+                />
+              </motion.div>
               <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-2">
                 {t("dash.tempTitle")}
               </h1>
