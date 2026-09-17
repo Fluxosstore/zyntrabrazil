@@ -62,26 +62,11 @@ export default function Hero() {
             <p className="mt-5 text-sm text-gray-400">
               +1.200 profissionais já usam
             </p>
-
-            <div className="mt-8 text-center">
-              <div className="text-xs font-medium text-gray-500 mb-2">
-                Inclusas no plano
-              </div>
-              <div className="flex flex-wrap items-center justify-center gap-2">
-                {aiModels.map((m) =>
-                <span
-                  key={m}
-                  className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white/80 backdrop-blur border border-gray-200 px-3 py-1.5 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-                  {m}
-                </span>
-                )}
-              </div>
-            </div>
           </div>
 
-          {/* Right: stats (top) + bullets (middle) */}
+          {/* Right: stats (top) + bullets (middle) + included models (bottom) */}
           <div className="lg:col-span-5 relative self-start">
+            {/* Top: stats */}
             <div className="text-right">
               <div className="text-xs font-medium text-gray-500 mb-1">
                 Economia média
@@ -92,11 +77,39 @@ export default function Hero() {
               <div className="text-sm text-gray-500 mt-1">
                 vs. assinaturas avulsas
               </div>
-              <ul className="mt-5 space-y-2 text-sm text-gray-600">
-                <li>• IAs de elite em uma assinatura</li>
-                <li>• Histórico unificado entre modelos</li>
-                <li>• Pagamento simplificado em Reais</li>
-              </ul>
+            </div>
+
+            {/* Middle: bullets */}
+            <ul className="mt-6 space-y-2 text-sm text-gray-600">
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                IAs de elite em uma assinatura
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                Histórico unificado entre modelos
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                Pagamento simplificado em Reais
+              </li>
+            </ul>
+
+            {/* Bottom: included models */}
+            <div className="mt-8 text-right">
+              <div className="text-xs font-medium text-gray-400 mb-2">
+                Inclusas no plano
+              </div>
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                {aiModels.map((m) =>
+                <span
+                  key={m}
+                  className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                  {m}
+                </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
