@@ -7,6 +7,7 @@ import {
   BookOpen,
   Workflow,
   ChevronDown,
+  ChevronsUpDown,
   Mic,
   ArrowUp,
   Sparkles,
@@ -85,18 +86,21 @@ export default function Dashboard() {
         <div className="px-2.5 py-2 border-t border-gray-200">
           <button
             onClick={() => logout()}
-            className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-200/60 transition-colors"
+            className="w-full flex items-center gap-2.5 px-2 py-2 rounded-xl bg-[#f4f5f7] hover:bg-[#eceef0] transition-colors"
           >
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] flex items-center justify-center text-white text-[10px] font-bold">
-              {firstName.charAt(0).toUpperCase()}
+            <div className="relative w-7 h-7 shrink-0">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
+              <div className="relative w-7 h-7 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] flex items-center justify-center text-white text-[10px] font-bold">
+                {firstName.charAt(0).toUpperCase()}
+              </div>
             </div>
-            <div className="flex-1 text-left">
+            <div className="flex-1 text-left min-w-0">
               <p className="text-xs font-semibold text-black truncate">
                 {user?.full_name || firstName}
               </p>
-              <p className="text-[10px] text-gray-500">{t("dash.plan")}</p>
+              <p className="text-[10px] text-gray-500 truncate">{t("dash.plan")}</p>
             </div>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+            <ChevronsUpDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
           </button>
         </div>
       </aside>
