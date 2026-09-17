@@ -1,20 +1,21 @@
 import React from "react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 
-const posts = [
+const featured = {
+  tag: "Leitura recomendada",
+  title: "Por que pagar 5 assinaturas de IA quando uma resolve?",
+  cta: "Abrir artigo",
+  img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/7b1d0fc5e_generated_image.png",
+};
+
+const sidePosts = [
   {
-    tag: "Economia",
-    title: "Por que pagar 5 assinaturas de IA se uma só resolve?",
-    excerpt:
-      "Entenda como centralizar modelos de ponta em um único plano reduz custo, contexto e fricção.",
-    read: "5 min de leitura",
+    tag: "Fluxos de trabalho",
+    title: "Contexto preservado: troque de IA sem perder a conversa",
   },
   {
-    tag: "Comparativo",
-    title: "ChatGPT vs Claude vs Gemini: qual IA usar para cada tarefa?",
-    excerpt:
-      "Testamos os três modelos em escrita, código e análise. Veja qual brilha em cada cenário.",
-    read: "8 min de leitura",
+    tag: "Modelos de IA",
+    title: "ChatGPT vs Claude vs Gemini: qual usar em cada tarefa?",
   },
 ];
 
@@ -51,35 +52,62 @@ export default function BlogSection() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {posts.map((p) => (
-            <a
-              key={p.title}
-              href="#"
-              className="group relative bg-[#FAFAFA] border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300"
-            >
-              <div className="aspect-[16/9] bg-gradient-to-br from-violet-100 via-indigo-50 to-gray-100 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-500/30 to-indigo-500/20 blur-2xl" />
-                </div>
-                <span className="absolute top-4 left-4 text-xs font-semibold text-violet-700 bg-white/80 backdrop-blur px-3 py-1 rounded-full">
-                  {p.tag}
+        <div className="grid lg:grid-cols-2 gap-6">
+          {/* Large featured card */}
+          <a
+            href="#"
+            className="group relative bg-[#F9F9F9] rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 min-h-[460px] flex flex-col justify-between p-8"
+          >
+            <div className="flex items-center gap-2 text-[#666666]">
+              <BookOpen className="w-4 h-4" />
+              <span className="text-xs font-medium tracking-widest uppercase">
+                {featured.tag}
+              </span>
+            </div>
+            <img
+              src={featured.img}
+              alt=""
+              className="absolute top-1/2 right-0 -translate-y-1/2 w-1/2 max-w-none object-contain opacity-90 pointer-events-none"
+            />
+            <div className="relative z-10 max-w-md">
+              <h3 className="text-2xl lg:text-3xl font-bold text-[#111111] leading-tight mb-5">
+                {featured.title}
+              </h3>
+              <div className="inline-flex items-center gap-3">
+                <span className="text-sm font-semibold text-[#111111]">
+                  {featured.cta}
+                </span>
+                <span className="w-9 h-9 rounded-full border border-[#DDDDDD] flex items-center justify-center group-hover:bg-[#111111] group-hover:border-[#111111] transition-colors">
+                  <ArrowUpRight className="w-4 h-4 text-[#111111] group-hover:text-white transition-colors" />
                 </span>
               </div>
-              <div className="p-7">
-                <h3 className="text-xl font-bold text-gray-900 leading-snug group-hover:text-violet-600 transition-colors">
-                  {p.title}
-                </h3>
-                <p className="mt-3 text-sm text-gray-500 leading-relaxed">
-                  {p.excerpt}
-                </p>
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-xs text-gray-400">{p.read}</span>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-violet-600 group-hover:translate-x-1 transition-all" />
+            </div>
+          </a>
+
+          {/* Right column - stacked cards */}
+          <div className="flex flex-col gap-6">
+            {sidePosts.map((p) => (
+              <a
+                key={p.title}
+                href="#"
+                className="group bg-[#F9F9F9] rounded-3xl p-8 flex flex-col justify-between flex-1 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300"
+              >
+                <div>
+                  <span className="text-xs font-medium tracking-widest uppercase text-[#666666]">
+                    {p.tag}
+                  </span>
+                  <h3 className="mt-4 text-lg lg:text-xl font-bold text-[#111111] leading-snug">
+                    {p.title}
+                  </h3>
                 </div>
-              </div>
-            </a>
-          ))}
+                <div className="mt-6 pt-5 border-t border-[#E5E5E5] flex justify-end">
+                  <span className="w-9 h-9 rounded-full border border-[#DDDDDD] flex items-center justify-center group-hover:bg-[#111111] group-hover:border-[#111111] transition-colors">
+                    <ArrowUpRight className="w-4 h-4 text-[#111111] group-hover:text-white transition-colors" />
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
