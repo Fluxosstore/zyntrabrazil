@@ -191,7 +191,7 @@ export default function Dashboard() {
                 <button className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
                   <Plus className="w-3.5 h-3.5" />
                 </button>
-                <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-medium text-gray-700 transition-colors">
+                <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-gray-100 text-xs font-medium text-gray-700 transition-colors">
                   <img src={LOGO} alt="Ayzen" className="w-4 h-4 rounded object-contain" />
                   {t("dash.auto")}
                   <ChevronDown className="w-3 h-3 text-gray-500" />
