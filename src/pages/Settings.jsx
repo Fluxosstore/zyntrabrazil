@@ -34,6 +34,8 @@ function UsageContent() {
           <p className="text-sm text-gray-500 mt-1">{t("settings.usageSubtitle")}</p>
         </div>
 
+        <div className="border-t border-gray-200" />
+
         {/* Visão geral */}
         <section>
           <h2 className="text-base font-bold text-black mb-1">{t("settings.overview")}</h2>
