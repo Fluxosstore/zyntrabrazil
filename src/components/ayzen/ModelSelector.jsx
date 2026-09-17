@@ -115,25 +115,6 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
         />
       </div>
 
-      {/* Active selection - Ayzen Auto */}
-      <button
-        onClick={() => onSelect?.("auto")}
-        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg transition-colors text-left ${
-          selected === "auto" ? "bg-[#F0F2F5]" : "hover:bg-gray-100"
-        }`}
-      >
-        <img src={LOGO} alt="Ayzen Auto" className="w-6 h-6 rounded-md object-cover shrink-0" />
-        <div className="flex-1 min-w-0">
-          <p className="text-xs font-semibold text-[#212121]">Ayzen Auto</p>
-          <p className="text-[10px] text-[#757575] truncate">
-            Escolhe automaticamente entre texto e imagem
-          </p>
-        </div>
-        {selected === "auto" && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
-      </button>
-
-      <div className="h-px bg-gray-100" />
-
       {/* Category label */}
       <div className="px-3.5 pt-2.5 pb-1">
         <span className="text-[10px] font-bold tracking-wider text-[#757575]">TEXTO</span>
@@ -141,6 +122,24 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
 
       {/* Model list */}
       <div className="px-1.5 pb-2 space-y-0.5">
+        {/* Ayzen Auto */}
+        <button
+          onClick={() => onSelect?.("auto")}
+          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+            selected === "auto" ? "bg-[#F0F2F5]" : "hover:bg-gray-100"
+          }`}
+        >
+          <div className="w-6 h-6 flex items-center justify-center shrink-0">
+            <img src={LOGO} alt="Ayzen Auto" className="w-5 h-5 rounded-md object-cover" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-semibold text-[#212121]">Ayzen Auto</p>
+            <p className="text-[10px] text-[#757575] truncate">
+              Escolhe automaticamente entre texto e imagem
+            </p>
+          </div>
+          {selected === "auto" && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+        </button>
         {filtered.map((m) => (
           <button
             key={m.id}
