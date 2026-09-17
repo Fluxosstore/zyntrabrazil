@@ -65,7 +65,7 @@ export default function FaqSection() {
             />
             {/* Stacked text */}
             <div className="relative z-10 w-full">
-              <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.05]">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
                 <span className="text-black">Respostas diretas.</span>
                 <br />
                 <span className="text-[#8A4FFF]">Antes de você decidir.</span>
