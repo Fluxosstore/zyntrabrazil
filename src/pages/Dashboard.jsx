@@ -183,7 +183,7 @@ export default function Dashboard() {
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
               placeholder={t("dash.placeholder")}
-              rows={1}
+              rows={2}
               className="w-full resize-none text-sm text-black placeholder:text-gray-400 focus:outline-none bg-transparent"
             />
             <div className="flex items-center justify-between mt-1.5">
