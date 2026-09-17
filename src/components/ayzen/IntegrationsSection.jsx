@@ -37,7 +37,7 @@ export default function IntegrationsSection() {
           <span className="text-xs font-semibold tracking-widest text-[#8878c3] uppercase">
             Conectores Google
           </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+          <h2 className="mt-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
             <span className="text-gray-900">Suas ferramentas Google,</span>
             <br />
             <span className="text-[#7b61ff]">operadas pela IA.</span>
