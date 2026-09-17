@@ -207,7 +207,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <p className="mt-4 text-center text-[11px] text-gray-400 max-w-xl">
+          <p className="mt-8 text-center text-[11px] text-gray-400 max-w-xl">
             {t("dash.disclaimer")}
           </p>
         </div>
