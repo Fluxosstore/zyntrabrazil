@@ -14,10 +14,10 @@ export default function Header() {
             <Image
               src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/589397f87_ChatGPTImage16desetde202623_41_31.png"
               alt="Ayzen"
-              className="w-9 h-9 rounded-lg"
+              className="w-10 h-10 rounded-lg"
               fittingType="fit"
             />
-            <span className="text-lg font-bold tracking-tight text-gray-900">
+            <span className="text-xl font-bold tracking-tight text-gray-900">
               Zyntra
             </span>
           </a>
