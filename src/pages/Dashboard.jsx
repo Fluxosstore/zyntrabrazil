@@ -35,8 +35,8 @@ export default function Dashboard() {
       <aside className="w-60 bg-[#F1F3F5] flex flex-col border-r border-gray-200">
         <div className="flex items-center justify-between px-3 py-2.5">
           <Link to="/" className="flex items-center gap-2">
-            <img src={LOGO} alt="Ayzen" className="w-6 h-6 rounded-lg object-contain" />
-            <span className="text-base font-bold text-black">Ayzen</span>
+            <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
+            <span className="text-base font-bold text-black">Zyntra</span>
           </Link>
           <button className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors">
             <PanelLeftClose className="w-3.5 h-3.5" />
@@ -92,7 +92,7 @@ export default function Dashboard() {
               <p className="text-xs font-semibold text-black truncate">
                 {user?.full_name || firstName}
               </p>
-              <p className="text-[10px] text-gray-500">Ayzen Free</p>
+              <p className="text-[10px] text-gray-500">Zyntra Free</p>
             </div>
             <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
           </button>
@@ -139,7 +139,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between mt-1.5">
               <button className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-xs font-medium text-gray-700 transition-colors">
                 <Plus className="w-3 h-3" />
-                Ayzen Auto
+                Zyntra Auto
                 <ChevronDown className="w-3 h-3 text-gray-400" />
               </button>
               <div className="flex items-center gap-1.5">

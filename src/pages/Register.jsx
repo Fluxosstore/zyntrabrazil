@@ -187,12 +187,12 @@ export default function Register() {
     <AuthShell>
       <div className="mb-5">
         <div className="flex items-center gap-2 mb-4">
-          <img src={LOGO} alt="Ayzen" className="w-7 h-7 rounded-lg object-contain" />
-          <span className="text-lg font-bold text-black">Ayzen</span>
+          <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
+          <span className="text-lg font-bold text-black">Zyntra</span>
         </div>
         <h1 className="text-base font-bold text-black mb-0.5">Crie sua conta</h1>
         <p className="text-xs text-[#757575]">
-          Entre na sua conta para conversar com a Ayzen.
+          Entre na sua conta para conversar com a Zyntra.
         </p>
       </div>
 
