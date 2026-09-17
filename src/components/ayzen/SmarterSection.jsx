@@ -6,7 +6,7 @@ const cards = [
     num: "01",
     title: "Workspace unificado.",
     desc: "Todas as IAs, um só histórico. Alterne modelos sem perder contexto, com tudo sincronizado em uma única interface profissional.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f948e298d_Capturadetela2026-09-17000242.png",
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0d8aac86f_quality_restoration_20260917024803194.jpg",
     stats: [
       { value: "1", label: "histórico só" },
       { value: "1-clique", label: "troca de IA" },
@@ -16,7 +16,7 @@ const cards = [
     num: "02",
     title: "Chat inteligente.",
     desc: "Converse com a IA certa para cada tarefa, sem sair da conversa. Roteamento automático e respostas em segundos.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/31e754706_Capturadetela2026-09-17000222.png",
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/20ecbddfa_quality_restoration_20260917024816699.jpg",
     stats: [
       { value: "Auto", label: "roteamento" },
       { value: "Seg", label: "resposta" },
@@ -26,7 +26,7 @@ const cards = [
     num: "03",
     title: "Pensando à frente.",
     desc: "Novos modelos entram no plano automaticamente, sem custo extra. Você sempre usa o que há de mais avançado.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8728b9d33_Capturadetela2026-09-17000255.png",
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f728bb9cf_quality_restoration_20260917024836989.jpg",
     stats: [
       { value: "0", label: "custo extra" },
       { value: "Auto", label: "atualizações" },
