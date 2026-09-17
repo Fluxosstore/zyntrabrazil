@@ -40,7 +40,7 @@ export default function PainSection() {
             </span>
             <h2 className="mt-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
               Você está pagando caro{" "}
-              <span className="text-violet-600">para pensar em pedaços.</span>
+              <span className="text-violet-600 whitespace-nowrap">para pensar em pedaços.</span>
             </h2>
           </div>
           <p className="text-base text-gray-500 leading-relaxed lg:max-w-sm lg:text-right">
