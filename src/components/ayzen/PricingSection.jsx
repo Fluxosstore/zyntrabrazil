@@ -151,8 +151,8 @@ export default function PricingSection() {
           </p>
         </div>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-8">
+        {/* Tabs + Cycle toggle side by side */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 mb-12">
           <div className="inline-flex bg-gray-100 rounded-full p-1">
             {["pessoal", "empresarial"].map((t) => (
               <button
@@ -166,29 +166,28 @@ export default function PricingSection() {
               </button>
             ))}
           </div>
-        </div>
 
-        {/* Cycle toggle */}
-        <div className="flex justify-center items-center gap-3 mb-12">
-          <span className={`text-sm font-medium ${cycle === "mensal" ? "text-gray-900" : "text-gray-400"}`}>
-            Mensal
-          </span>
-          <button
-            onClick={() => setCycle(cycle === "mensal" ? "anual" : "mensal")}
-            className="relative w-12 h-6 rounded-full bg-gray-200 transition-colors"
-          >
-            <span
-              className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                cycle === "anual" ? "translate-x-6 bg-violet-600" : ""
-              }`}
-            />
-          </button>
-          <span className={`text-sm font-medium ${cycle === "anual" ? "text-gray-900" : "text-gray-400"}`}>
-            Anual
-          </span>
-          <span className="text-xs font-semibold text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full">
-            2 meses grátis
-          </span>
+          <div className="flex items-center gap-3">
+            <span className={`text-sm font-medium ${cycle === "mensal" ? "text-gray-900" : "text-gray-400"}`}>
+              Mensal
+            </span>
+            <button
+              onClick={() => setCycle(cycle === "mensal" ? "anual" : "mensal")}
+              className="relative w-12 h-6 rounded-full bg-gray-200 transition-colors"
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                  cycle === "anual" ? "translate-x-6 bg-violet-600" : ""
+                }`}
+              />
+            </button>
+            <span className={`text-sm font-medium ${cycle === "anual" ? "text-gray-900" : "text-gray-400"}`}>
+              Anual
+            </span>
+            <span className="text-xs font-semibold text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full">
+              2 meses grátis
+            </span>
+          </div>
         </div>
 
         {/* Cards */}
