@@ -71,7 +71,7 @@ export default function Dashboard() {
           {collapsed && (
             <button
               onClick={() => setCollapsed(false)}
-              className="w-full flex items-center justify-center py-2 rounded-lg hover:bg-gray-200/60 transition-colors"
+              className="w-full flex items-center justify-center aspect-square py-2 rounded-lg hover:bg-gray-200/60 transition-colors"
             >
               <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
             </button>
@@ -89,16 +89,16 @@ export default function Dashboard() {
         <div className={`${collapsed ? "px-2" : "px-2.5"} space-y-1`}>
           {collapsed ? (
             <>
-              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+              <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
                 <Search className="w-4 h-4" />
               </button>
-              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+              <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
                 <ChatPlusIcon className="w-4 h-4" />
               </button>
-              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+              <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
                 <BooksIcon className="w-4 h-4" />
               </button>
-              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+              <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
                 <IntegrationIcon className="w-4 h-4" />
               </button>
             </>
@@ -147,7 +147,7 @@ export default function Dashboard() {
         {collapsed && <div className="flex-1" />}
         {collapsed && (
           <div className="px-2 pb-1">
-            <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+            <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
               <Settings className="w-4 h-4" />
             </button>
           </div>
