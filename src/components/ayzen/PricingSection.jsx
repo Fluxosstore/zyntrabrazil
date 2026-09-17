@@ -3,7 +3,7 @@ import { Check, Star } from "lucide-react";
 
 const plans = [
   {
-    name: "Ayzen Free",
+    name: "Zyntra Free",
     price: { mensal: "R$ 0", anual: "R$ 0" },
     period: "para sempre",
     tag: null,

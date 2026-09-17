@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "São os modelos oficiais ou versões abertas?",
-    a: "A Ayzen usa os modelos oficiais das empresas (OpenAI, Anthropic, Google, xAI, DeepSeek), com a mesma qualidade e capacidade de contexto.",
+    a: "A Zyntra usa os modelos oficiais das empresas (OpenAI, Anthropic, Google, xAI, DeepSeek), com a mesma qualidade e capacidade de contexto.",
   },
   {
     q: "Meus dados treinam algum modelo?",

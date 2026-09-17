@@ -18,7 +18,7 @@ export default function Header() {
               fittingType="fit"
             />
             <span className="text-lg font-bold tracking-tight text-gray-900">
-              Ayzen
+              Zyntra
             </span>
           </a>
 

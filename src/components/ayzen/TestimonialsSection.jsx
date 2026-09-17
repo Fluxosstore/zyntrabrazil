@@ -10,7 +10,7 @@ const testimonials = [
   {
     name: "Marina Costa",
     role: "Designer de Produto",
-    text: "Cancelei quatro assinaturas depois da Ayzen. O contexto unificado mudou meu fluxo completamente.",
+    text: "Cancelei quatro assinaturas depois da Zyntra. O contexto unificado mudou meu fluxo completamente.",
   },
   {
     name: "Rafael Mendes",
@@ -30,7 +30,7 @@ const testimonials = [
   {
     name: "Camila Rocha",
     role: "Fundadora, Startup",
-    text: "Meu time inteiro usa a Ayzen. O plano empresarial centralizou tudo e barateou o stack.",
+    text: "Meu time inteiro usa a Zyntra. O plano empresarial centralizou tudo e barateou o stack.",
   },
   {
     name: "Diego Almeida",

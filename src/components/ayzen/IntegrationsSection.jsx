@@ -41,7 +41,7 @@ export default function IntegrationsSection() {
             Suas ferramentas Google, operadas pela IA.
           </h2>
           <p className="mt-5 text-lg text-gray-500 leading-relaxed">
-            Conecte seu ecossistema Google e deixe a Ayzen trabalhar por você.
+            Conecte seu ecossistema Google e deixe a Zyntra trabalhar por você.
           </p>
         </div>
 

@@ -59,7 +59,7 @@ export default function Hero() {
             </div>
 
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.05]">
-              A Ayzen reúne as IAs mais
+              A Zyntra reúne as IAs mais
               <br />
               <span>potentes do mundo.</span>
               <br />
@@ -67,7 +67,7 @@ export default function Hero() {
             </h1>
 
             <p className="mt-6 text-sm text-gray-500 leading-relaxed max-w-xl font-light">
-              <span className="whitespace-nowrap"><span className="font-bold">A Ayzen é um hub de IA profissional.</span> E a unica plataforma</span>{" "}
+              <span className="whitespace-nowrap"><span className="font-bold">A Zyntra é um hub de IA profissional.</span> E a unica plataforma</span>{" "}
               <span className="whitespace-nowrap">que reúne GPT-5, Claude, DeepSeek, Grok e outras IAs de elite</span>{" "}
               <span className="whitespace-nowrap">em uma única interface profissional, com histórico unificado,</span>{" "}
               <span className="whitespace-nowrap">pagamento simplificado em Reais e conectores para Gmail,</span>{" "}
