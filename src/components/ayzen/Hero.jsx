@@ -96,7 +96,7 @@ export default function Hero() {
             </ul>
 
             {/* Bottom: included models */}
-            <div className="mt-40 text-right">
+            <div className="mt-48 text-right">
               <div className="text-xs font-medium text-gray-400 mb-2">
                 Inclusas no plano
               </div>
