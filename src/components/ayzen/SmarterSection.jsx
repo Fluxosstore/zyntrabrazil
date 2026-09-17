@@ -51,34 +51,34 @@ export default function SmarterSection() {
           {cards.map((c, i) => (
             <div
               key={i}
-              className="group relative bg-[#FAFAFA] border border-gray-100 rounded-3xl p-6 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300"
+              className="group relative aspect-[3/4] rounded-3xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-violet-300/40 transition-all duration-300"
             >
-              {/* phone mockup */}
-              <div className="relative aspect-[9/16] max-w-[180px] mx-auto mb-6 rounded-2xl overflow-hidden bg-gray-100">
-                <Image
-                  src={c.img}
-                  alt={c.title}
-                  className="w-full h-full object-cover"
-                  fittingType="fill"
-                />
+              <Image
+                src={c.img}
+                alt={c.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                fittingType="fill"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-white/10" />
+              <div className="relative h-full flex flex-col justify-end p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{c.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                  {c.desc}
+                </p>
+                <ul className="space-y-2">
+                  {c.points.map((pt) => (
+                    <li
+                      key={pt}
+                      className="flex items-center gap-2 text-sm text-gray-700"
+                    >
+                      <span className="w-4 h-4 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0">
+                        <Check className="w-2.5 h-2.5 text-violet-600" strokeWidth={3} />
+                      </span>
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{c.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                {c.desc}
-              </p>
-              <ul className="space-y-2">
-                {c.points.map((pt) => (
-                  <li
-                    key={pt}
-                    className="flex items-center gap-2 text-sm text-gray-600"
-                  >
-                    <span className="w-4 h-4 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-2.5 h-2.5 text-violet-600" strokeWidth={3} />
-                    </span>
-                    {pt}
-                  </li>
-                ))}
-              </ul>
             </div>
           ))}
         </div>
