@@ -81,25 +81,23 @@ export default function Hero() {
                 <li>• Histórico unificado entre modelos</li>
                 <li>• Pagamento simplificado em Reais</li>
               </ul>
-            </div>
-          </div>
-        </div>
 
-        {/* Bottom: included models */}
-        <div className="relative mt-14 lg:mt-20">
-          <div className="text-right text-xs text-gray-400 mb-3">
-            Inclusas no plano
-          </div>
-          <div className="flex flex-wrap items-center justify-end gap-2.5">
-            {aiModels.map((m) =>
-            <span
-              key={m}
-              className="inline-flex items-center gap-2 text-xs font-medium text-gray-600 bg-white/80 backdrop-blur border border-gray-200 px-3.5 py-2 rounded-full">
-              
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-                {m}
-              </span>
-            )}
+              <div className="mt-6">
+                <div className="text-xs font-medium text-gray-500 mb-2">
+                  Inclusas no plano
+                </div>
+                <div className="flex flex-wrap items-center justify-end gap-2">
+                  {aiModels.map((m) =>
+                  <span
+                    key={m}
+                    className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white/80 backdrop-blur border border-gray-200 px-3 py-1.5 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                    {m}
+                  </span>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
