@@ -80,7 +80,7 @@ export default function Hero() {
             </div>
 
             {/* Middle: bullets */}
-            <ul className="mt-32 space-y-2 text-sm text-gray-600 text-right">
+            <ul className="mt-24 space-y-2 text-sm text-gray-600 text-right">
               <li className="flex items-center justify-end gap-2">
                 IAs de elite em uma assinatura
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
