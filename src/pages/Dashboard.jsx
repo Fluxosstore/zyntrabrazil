@@ -62,9 +62,9 @@ export default function Dashboard() {
           {collapsed && (
             <button
               onClick={() => setCollapsed(false)}
-              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-200 transition-colors"
+              className="flex items-center justify-center rounded-lg hover:bg-gray-200 transition-colors"
             >
-              <DiamondLogo className="w-5 h-5" />
+              <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
             </button>
           )}
           {!collapsed && (
