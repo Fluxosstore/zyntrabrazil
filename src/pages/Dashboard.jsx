@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
 import {
   Plus,
@@ -86,14 +87,17 @@ export default function Dashboard() {
 
         {/* user footer */}
         <div className="relative px-2.5 py-2 border-t border-gray-200">
-          {popoverOpen && (
-            <UserPopover
-              user={user}
-              firstName={firstName}
-              planLabel={t("dash.plan")}
-              onLogout={() => logout()}
-            />
-          )}
+          <AnimatePresence>
+            {popoverOpen && (
+              <UserPopover
+                key="user-popover"
+                user={user}
+                firstName={firstName}
+                planLabel={t("dash.plan")}
+                onLogout={() => logout()}
+              />
+            )}
+          </AnimatePresence>
           <button
             onClick={() => setPopoverOpen((v) => !v)}
             className="w-full flex items-center gap-2.5 px-2 py-2 rounded-xl bg-[#f4f5f7] hover:bg-[#eceef0] transition-colors"

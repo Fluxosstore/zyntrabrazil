@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import {
   Sun,
   Moon,
@@ -31,9 +32,13 @@ export default function UserPopover({ user, firstName, planLabel, onLogout }) {
   const langLabel = LANGS.find((l) => l.code === lang)?.label || "Português";
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className="absolute bottom-full left-2.5 mb-2 w-72 bg-white rounded-2xl shadow-xl shadow-black/10 border border-gray-100 overflow-hidden z-50"
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 24 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className="absolute bottom-0 left-0 right-0 bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50"
     >
       {/* Header */}
       <div className="flex items-center gap-2.5 px-3.5 py-3">
@@ -161,6 +166,6 @@ export default function UserPopover({ user, firstName, planLabel, onLogout }) {
           </span>
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
