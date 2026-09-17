@@ -89,8 +89,10 @@ export default function CurationSection() {
         <div className="relative flex items-center justify-center mb-16 py-8">
           <div className="relative w-[280px] h-[280px] sm:w-[360px] sm:h-[360px]">
             {/* rings */}
-            <div className="absolute inset-0 rounded-full border border-dashed border-gray-300" />
-            <div className="absolute inset-8 rounded-full border border-gray-200" />
+            <div className="absolute inset-0 animate-[orbit-counter_32s_linear_infinite]">
+              <div className="absolute inset-0 rounded-full border border-dashed border-gray-300" />
+              <div className="absolute inset-8 rounded-full border border-gray-200" />
+            </div>
             {/* center */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
