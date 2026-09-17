@@ -115,6 +115,29 @@ export default function LibraryPage() {
             </div>
           )}
 
+          {/* Sub-filter (files only) */}
+          {activeTab === "files" && (
+            <div className="px-8 pb-4">
+              <div className="flex items-center gap-1.5">
+                {["all", "docs", "images", "audio", "video"].map((sub) => {
+                  const labelKey = `library.sub${sub.charAt(0).toUpperCase() + sub.slice(1)}`;
+                  return (
+                    <button
+                      key={sub}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        sub === "all"
+                          ? "bg-black text-white"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
+                    >
+                      {t(labelKey)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Empty state */}
           <div className="flex-1 px-8 pb-8">
             <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
