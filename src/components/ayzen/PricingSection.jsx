@@ -169,7 +169,7 @@ export default function PricingSection() {
         </div>
 
         {/* Cycle toggle */}
-        <div className="flex justify-center items-center gap-3 mb-12">
+        <div className="flex justify-start items-center gap-3 mb-12">
           <span className={`text-sm font-medium ${cycle === "mensal" ? "text-gray-900" : "text-gray-400"}`}>
             Mensal
           </span>
