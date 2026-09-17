@@ -178,7 +178,7 @@ export default function Dashboard() {
           </h1>
 
           {/* input */}
-          <div className="w-full max-w-2xl bg-white rounded-2xl border border-gray-200 p-3">
+          <div className="w-full max-w-3xl bg-white rounded-2xl border border-gray-200 p-4">
             <textarea
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
