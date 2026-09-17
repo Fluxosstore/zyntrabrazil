@@ -96,19 +96,19 @@ function PlanCard({ plan, cycle }) {
         <span className="text-xs font-medium text-[#666666]">IAs incluídas</span>
         <span className="text-xs font-semibold text-[#111111]">{plan.modelsCount}</span>
       </div>
-      <div className="mt-4 flex flex-nowrap gap-1.5 flex-1">
+      <div className="mt-4 flex flex-wrap gap-1.5">
         {plan.models.map((m, i) =>
           m.more ? (
             <span
               key={i}
-              className="inline-flex items-center bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#666666]"
+              className="inline-flex items-center bg-[#F8F9FA] border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[11px] font-medium text-[#374151]"
             >
               +{m.more}
             </span>
           ) : (
             <span
               key={i}
-              className="inline-flex items-center gap-1.5 bg-white border border-[#e5e5e5] rounded-full px-3 py-1.5 text-xs font-medium text-[#111111]"
+              className="inline-flex items-center gap-1 bg-[#F8F9FA] border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[11px] font-medium text-[#374151]"
             >
               <img src={m.src} alt="" className="w-3 h-3 object-contain" />
               {m.label}
