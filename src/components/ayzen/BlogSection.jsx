@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 const posts = [
   {
@@ -22,22 +22,33 @@ export default function BlogSection() {
   return (
     <section id="blog" className="py-20 lg:py-28 bg-white">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-16 mb-14">
           <div className="max-w-2xl">
-            <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-              Blog
-            </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-              Entenda melhor a IA. Use melhor no trabalho.
+            <div className="flex items-center gap-2 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#7c5dfa]" />
+              <span className="text-xs font-medium tracking-widest text-[#707070] uppercase">
+                Conteúdo Ayzen
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
+              <span className="text-[#1a1a1a]">Entenda melhor a IA.</span>
+              <br />
+              <span className="text-[#7c5dfa]">Use melhor no trabalho.</span>
             </h2>
           </div>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 hover:text-violet-700 group"
-          >
-            Acessar o blog
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          <div className="lg:max-w-sm lg:mt-16">
+            <p className="text-sm text-[#707070] leading-relaxed mb-5">
+              Análises claras e guias práticos para você escolher melhor cada IA
+              e aplicar tudo no seu dia a dia.
+            </p>
+            <a
+              href="#"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1a1a1a] hover:text-[#7c5dfa] transition-colors"
+            >
+              Acessar o blog
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
