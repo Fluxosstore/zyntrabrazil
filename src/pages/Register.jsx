@@ -114,13 +114,13 @@ export default function Register() {
     return (
       <AuthShell>
         <div className="flex flex-col items-center text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#f3f0f7] flex items-center justify-center mb-6">
-            <MailCheck className="w-7 h-7 text-[#7E57C2]" />
+          <div className="w-12 h-12 rounded-xl bg-[#f3f0f7] flex items-center justify-center mb-4">
+            <MailCheck className="w-5 h-5 text-[#7E57C2]" />
           </div>
-          <h1 className="text-xl font-bold text-[#1e1e1e] mb-3">
+          <h1 className="text-base font-bold text-[#1e1e1e] mb-2">
             Confirme seu e-mail para continuar
           </h1>
-          <p className="text-sm text-[#707070] leading-relaxed mb-8 max-w-xs">
+          <p className="text-xs text-[#707070] leading-relaxed mb-5 max-w-xs">
             Enviamos um código de 6 dígitos para{" "}
             <span className="font-medium text-[#1e1e1e]">{email}</span>. Digite-o
             abaixo para confirmar seu e-mail.
@@ -132,7 +132,7 @@ export default function Register() {
             </div>
           )}
 
-          <div className="flex gap-2 mb-8" onPaste={onOtpPaste}>
+          <div className="flex gap-1.5 mb-5" onPaste={onOtpPaste}>
             {otp.map((d, i) => (
               <input
                 key={i}
@@ -144,7 +144,7 @@ export default function Register() {
                 onChange={(e) => onOtpChange(i, e.target.value)}
                 onKeyDown={(e) => onOtpKey(i, e)}
                 autoFocus={i === 0}
-                className="w-11 h-14 rounded-xl bg-white border border-[#E5E5E5] text-center text-xl font-bold text-[#1e1e1e] focus:outline-none focus:border-[#7E57C2] transition-colors"
+                className="w-9 h-11 rounded-lg bg-white border border-[#E5E5E5] text-center text-base font-bold text-[#1e1e1e] focus:outline-none focus:border-[#7E57C2] transition-colors"
               />
             ))}
           </div>
@@ -152,13 +152,13 @@ export default function Register() {
           <button
             onClick={handleVerify}
             disabled={loading || otp.join("").length < 6}
-            className="w-full h-12 rounded-full bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
+            className="w-full h-9 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-xs font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Confirmar"}
           </button>
 
-          <div className="mt-6 flex flex-col gap-2">
-            <p className="text-sm text-[#707070]">
+          <div className="mt-4 flex flex-col gap-1.5">
+            <p className="text-xs text-[#707070]">
               {resendIn > 0
                 ? `Reenviar código em ${resendIn}s`
                 : (
@@ -172,7 +172,7 @@ export default function Register() {
             </p>
             <Link
               to="/login"
-              className="text-sm text-[#707070] hover:text-[#7E57C2] transition-colors"
+              className="text-xs text-[#707070] hover:text-[#7E57C2] transition-colors"
             >
               &lt; Voltar ao login
             </Link>
@@ -185,8 +185,8 @@ export default function Register() {
   /* ---------- Registration form (image 2) ---------- */
   return (
     <AuthShell>
-      <div className="mb-5">
-        <div className="flex items-center gap-2 mb-4">
+      <div className="mb-3">
+        <div className="flex items-center gap-2 mb-2">
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </div>
@@ -202,7 +202,7 @@ export default function Register() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-2">
         <div className="space-y-1">
           <label className="text-xs font-medium text-[#333]">Nome</label>
           <div className="relative">
@@ -213,7 +213,7 @@ export default function Register() {
               placeholder="Como podemos te chamar?"
               required
               autoFocus
-              className="w-full h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
           </div>
         </div>
@@ -228,7 +228,7 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="voce@email.com"
               required
-              className="w-full h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
           </div>
         </div>
@@ -248,7 +248,7 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Crie uma senha"
               required
-              className="w-full h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-9 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
             <button
               type="button"
@@ -258,7 +258,7 @@ export default function Register() {
               {showPwd ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <ul className="text-[11px] text-gray-400 space-y-0.5 pt-1">
+          <ul className="text-[10px] text-gray-400 space-y-0.5 pt-0.5">
             <li>• Pelo menos 8 caracteres</li>
             <li>• 1 letra maiúscula</li>
             <li>• 1 número</li>
@@ -276,7 +276,7 @@ export default function Register() {
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder="Tem um cupom? Digite aqui"
-              className="w-full h-10 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-9 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
             <button type="button" className="absolute right-3 text-xs font-medium text-[#7E57C2] hover:underline">
               Aplicar
@@ -301,13 +301,13 @@ export default function Register() {
         <button
           type="submit"
           disabled={loading || !canSubmit}
-          className="w-full h-10 rounded-full bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
+          className="w-full h-9 rounded-lg bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Começar grátis"}
         </button>
       </form>
 
-      <p className="mt-4 text-center text-xs text-[#757575]">
+      <p className="mt-3 text-center text-xs text-[#757575]">
         Já tem conta?{" "}
         <Link to="/login" className="text-[#7E57C2] font-medium hover:underline">
           Entrar
