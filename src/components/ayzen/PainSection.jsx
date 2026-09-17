@@ -54,7 +54,7 @@ export default function PainSection() {
           {cards.map((c, i) => (
             <div
               key={i}
-              className="relative group bg-[#fcfcfd] border border-gray-100 rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.08)] hover:border-violet-200 transition-all duration-300 overflow-hidden"
+              className="relative group flex flex-col bg-[#fcfcfd] border border-gray-100 rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.08)] hover:border-violet-200 transition-all duration-300 overflow-hidden"
             >
               {/* glowing orb top-right */}
               <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-white to-[#d6caff] blur-2xl opacity-70 pointer-events-none" />
@@ -64,7 +64,7 @@ export default function PainSection() {
                 {c.number}
               </span>
 
-              <div className="relative">
+              <div className="relative flex-1 flex flex-col">
                 <h3 className="text-lg font-semibold text-gray-900 leading-snug mb-4">
                   {c.heading}
                 </h3>
@@ -72,13 +72,15 @@ export default function PainSection() {
                   {c.body}
                 </p>
 
-                <div className="h-px bg-[#e4e4e7] mb-5" />
+                <div className="mt-auto">
+                  <div className="h-px bg-[#e4e4e7] mb-5" />
 
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-gray-900">
-                    {c.metric}
-                  </span>
-                  <span className="text-sm text-[#71717a]">{c.metricLabel}</span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold text-gray-900">
+                      {c.metric}
+                    </span>
+                    <span className="text-sm text-[#71717a]">{c.metricLabel}</span>
+                  </div>
                 </div>
               </div>
             </div>
