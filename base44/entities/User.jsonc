@@ -7,6 +7,19 @@
         "admin",
         "user"
       ]
+    },
+    "plan": {
+      "type": "string",
+      "description": "The subscription plan of the user",
+      "enum": [
+        "free",
+        "starter",
+        "premium",
+        "team",
+        "startup",
+        "enterprise"
+      ],
+      "default": "free"
     }
   },
   "required": [

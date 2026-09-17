@@ -1,41 +1,68 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Check, Sparkles, SignalHigh, SignalMedium, SignalLow } from "lucide-react";
+import { Search, Check, SignalHigh, SignalMedium, SignalLow } from "lucide-react";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
-const MODELS = [
-  {
-    id: "gemma",
-    name: "Gemma 4 31B",
-    ms: "166 ms",
-    level: "high",
-    icon: "sparkle",
-  },
-  {
-    id: "gpt-oss-120",
-    name: "GPT-OSS 120B",
-    ms: "226 ms",
-    level: "medium",
-    icon: "openai",
-  },
-  {
-    id: "gpt-oss-20",
-    name: "GPT-OSS 20B",
-    ms: "323 ms",
-    level: "low",
-    icon: "openai",
-  },
-];
+const GEMINI =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
+const DEEPSEEK =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
+const GPT =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
+const CLAUDE =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
+const GROK =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
 
-function OpenAIIcon({ className }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7473-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.019 1.1641a.1839.1839 0 0 1 .1004.1504v5.581a4.504 4.504 0 0 1-4.4969 4.5021zm-9.6901-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0856 4.7831 2.7582a.7712.7712 0 0 0 .7803 0l5.8425-3.3685v2.3281a.184.184 0 0 1-.0662.1604l-4.8304 2.7866a4.4977 4.4977 0 0 1-6.1171-1.6467zM3.6804 8.5478a4.4894 4.4894 0 0 1 2.3554-1.9728V12.77a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.019 1.1641a.1839.1839 0 0 1-.1662 0l-4.8303-2.7913a4.504 4.504 0 0 1-1.6467-6.1258zm16.5961 3.8558L13.965 8.5478l2.019-1.1641a.1839.1839 0 0 1 .1662 0l4.8303 2.7866a4.4977 4.4977 0 0 1-.6765 8.1056v-6.1949a.7759.7759 0 0 0-.3927-.6765zm2.009-3.0137-.1419.0804-4.7783 2.7582a.7712.7712 0 0 0-.7803 0l-5.8425 3.3685V7.5478a.1839.1839 0 0 1 .0662-.1604l4.8304-2.7866a4.4977 4.4977 0 0 1 6.7082 4.6907zM8.3854 13.9048l-2.019-1.1641a.1839.1839 0 0 1-.1004-.1504V7.0137a4.4977 4.4977 0 0 1 7.3849-3.4416l-.142.0804L8.7306 6.4107a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654L12.0001 10.04l2.5171 1.4994v2.9988l-2.5171 1.4994-2.5171-1.4994z"/>
-    </svg>
-  );
-}
+export const PLAN_LABELS = {
+  free: "Zyntra Free",
+  starter: "Starter",
+  premium: "Pessoal Premium",
+  team: "Empresarial Team",
+  startup: "Empresarial Startup",
+  enterprise: "Empresarial Enterprise",
+};
+
+const MODELS_BY_PLAN = {
+  free: [
+    { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" },
+  ],
+  starter: [
+    { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
+    { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" },
+    { id: "gpt", name: "GPT-5", logo: GPT, ms: "220 ms", level: "medium" },
+  ],
+  premium: [
+    { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
+    { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" },
+    { id: "claude", name: "Claude Sonnet 4.5", logo: CLAUDE, ms: "210 ms", level: "medium" },
+    { id: "grok", name: "Grok 4", logo: GROK, ms: "250 ms", level: "medium" },
+    { id: "gpt5", name: "GPT-5", logo: GPT, ms: "220 ms", level: "medium" },
+  ],
+  team: [
+    { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
+    { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" },
+    { id: "gpt", name: "GPT-5", logo: GPT, ms: "220 ms", level: "medium" },
+    { id: "claude", name: "Claude Sonnet 4.5", logo: CLAUDE, ms: "210 ms", level: "medium" },
+    { id: "grok", name: "Grok 4", logo: GROK, ms: "250 ms", level: "medium" },
+  ],
+  startup: [
+    { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
+    { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" },
+    { id: "gpt", name: "GPT-5", logo: GPT, ms: "220 ms", level: "medium" },
+    { id: "claude", name: "Claude Sonnet 4.5", logo: CLAUDE, ms: "210 ms", level: "medium" },
+    { id: "grok", name: "Grok 4", logo: GROK, ms: "250 ms", level: "medium" },
+  ],
+  enterprise: [
+    { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
+    { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" },
+    { id: "gpt", name: "GPT-5", logo: GPT, ms: "220 ms", level: "medium" },
+    { id: "claude", name: "Claude Opus 4.7", logo: CLAUDE, ms: "280 ms", level: "low" },
+    { id: "grok", name: "Grok 4", logo: GROK, ms: "250 ms", level: "medium" },
+  ],
+};
 
 function SignalIndicator({ level }) {
   if (level === "high") return <SignalHigh className="w-3.5 h-3.5 text-[#2E7D32]" />;
@@ -43,7 +70,7 @@ function SignalIndicator({ level }) {
   return <SignalLow className="w-3.5 h-3.5 text-[#2E7D32]" />;
 }
 
-export default function ModelSelector({ selected, onSelect, onClose }) {
+export default function ModelSelector({ selected, onSelect, onClose, plan = "free" }) {
   const [query, setQuery] = useState("");
   const ref = useRef(null);
 
@@ -62,7 +89,8 @@ export default function ModelSelector({ selected, onSelect, onClose }) {
     };
   }, [onClose]);
 
-  const filtered = MODELS.filter((m) =>
+  const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
+  const filtered = models.filter((m) =>
     m.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -117,15 +145,9 @@ export default function ModelSelector({ selected, onSelect, onClose }) {
             onClick={() => onSelect?.(m.id)}
             className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-gray-50 transition-colors text-left"
           >
-            {m.icon === "sparkle" ? (
-              <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4 text-blue-500" />
-              </div>
-            ) : (
-              <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                <OpenAIIcon className="w-4 h-4 text-black" />
-              </div>
-            )}
+            <div className="w-6 h-6 flex items-center justify-center shrink-0">
+              <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
+            </div>
             <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
             <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
               {m.ms}

@@ -21,7 +21,7 @@ import UserPopover from "@/components/ayzen/UserPopover";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
-import ModelSelector from "@/components/ayzen/ModelSelector";
+import ModelSelector, { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -42,6 +42,8 @@ export default function Dashboard() {
   const [collapsed, setCollapsed] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [model, setModel] = useState("auto");
+  const plan = user?.plan || "free";
+  const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
 
   return (
     <>
@@ -118,7 +120,7 @@ export default function Dashboard() {
                 key="user-popover"
                 user={user}
                 firstName={firstName}
-                planLabel={t("dash.plan")}
+                planLabel={planLabel}
                 onLogout={() => logout()}
                 onClose={() => setPopoverOpen(false)}
                 collapsed={collapsed}
@@ -143,7 +145,7 @@ export default function Dashboard() {
                   <p className="text-xs font-semibold text-black truncate">
                     {user?.full_name || firstName}
                   </p>
-                  <p className="text-[10px] text-gray-500 truncate">{t("dash.plan")}</p>
+                  <p className="text-[10px] text-gray-500 truncate">{planLabel}</p>
                 </div>
                 <ChevronsUpDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
               </>
@@ -207,6 +209,7 @@ export default function Dashboard() {
                     {modelOpen && (
                       <ModelSelector
                         selected={model}
+                        plan={plan}
                         onSelect={(id) => {
                           setModel(id);
                           setModelOpen(false);
