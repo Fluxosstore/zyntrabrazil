@@ -1,61 +1,98 @@
 import React from "react";
-import { Receipt, Layers, Clock } from "lucide-react";
 
-const pains = [
+const cards = [
   {
-    icon: Receipt,
-    title: "Cinco assinaturas, cinco faturas em dólar",
+    number: null,
+    logo: true,
+    title: "Ayzen",
+    heading: "Cinco assinaturas, cinco faturas em dólar",
+    body: "GPT-5, Claude, Gemini, Grok e outras ferramentas. Cada uma renova num dia diferente, cobra em dólar e espalha seu trabalho. Sua fatura só cresce.",
     metric: "R$ 247",
-    sub: "por mês, somando tudo",
+    metricLabel: "por mês em IA",
   },
   {
-    icon: Layers,
-    title: "Histórico espalhado em mil abas",
+    number: "02",
+    heading: "Histórico espalhado em mil abas",
+    body: "Aquela conversa boa está perdida em alguma das 14 abas abertas. Trocar de IA significa perder contexto, copiar, colar, e começar do zero — toda vez.",
     metric: "14 abas",
-    sub: "abertas ao mesmo tempo",
+    metricLabel: "para uma tarefa",
   },
   {
-    icon: Clock,
-    title: "Limite baixo, espera longa",
+    number: "03",
+    heading: "Limite baixo, espera longa",
+    body: "Você usa, esbarra no limite, espera 3 horas, paga premium, esbarra de novo. E desiste justo na hora em que precisava da ferramenta funcionando.",
     metric: "3 horas",
-    sub: "de espera por resposta",
+    metricLabel: "de espera por uso",
   },
 ];
 
 export default function PainSection() {
   return (
-    <section id="beneficios" className="py-20 lg:py-28 bg-white border-y border-gray-100">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-        <div className="max-w-3xl mb-14">
-          <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-            01 — O problema
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-            Você está pagando caro para pensar em pedaços
-          </h2>
-          <p className="mt-5 text-lg text-gray-500 leading-relaxed">
-            Cada modelo brilha em algo. Mas alternar entre eles vira um ritual
-            caro, fragmentado e lento.
+    <section id="beneficios" className="relative py-20 lg:py-28 bg-[#f9f9fb] overflow-hidden">
+      {/* ambient purple glows behind cards */}
+      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-violet-300/20 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-indigo-300/15 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative max-w-[1280px] mx-auto px-6 lg:px-10">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
+          <div className="max-w-2xl">
+            <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
+              01 /06 Hoje está assim
+            </span>
+            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+              Você está pagando caro{" "}
+              <span className="text-violet-600">para pensar em pedaços.</span>
+            </h2>
+          </div>
+          <p className="text-base text-gray-500 leading-relaxed lg:max-w-sm lg:text-right">
+            Cinco assinaturas, cinco contas em dólar, contexto perdido a cada
+            troca de IA. Reconhece a sensação?
           </p>
         </div>
 
+        {/* Cards */}
         <div className="grid md:grid-cols-3 gap-5">
-          {pains.map((p, i) => (
+          {cards.map((c, i) => (
             <div
               key={i}
-              className="group relative bg-[#FAFAFA] border border-gray-100 rounded-2xl p-7 hover:border-violet-200 hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300"
+              className="relative group bg-white border border-gray-100 rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.08)] hover:border-violet-200 transition-all duration-300 overflow-hidden"
             >
-              <div className="w-11 h-11 rounded-xl bg-gray-100 group-hover:bg-violet-50 flex items-center justify-center mb-6 transition-colors">
-                <p.icon className="w-5 h-5 text-gray-600 group-hover:text-violet-600 transition-colors" />
-              </div>
-              <h3 className="text-base font-semibold text-gray-900 leading-snug mb-4">
-                {p.title}
-              </h3>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-bold text-gray-900">
-                  {p.metric}
+              {/* faded background number */}
+              {c.number && (
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+                  <span className="text-[180px] font-bold text-violet-500/[0.06] leading-none">
+                    {c.number}
+                  </span>
                 </span>
-                <span className="text-sm text-gray-400">{p.sub}</span>
+              )}
+
+              <div className="relative">
+                {/* Ayzen logo */}
+                {c.logo && (
+                  <div className="flex items-center gap-2.5 mb-6">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 via-fuchsia-400 to-white shadow-md shadow-violet-500/30 flex items-center justify-center overflow-hidden">
+                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white via-violet-200 to-violet-500" />
+                    </div>
+                    <span className="text-lg font-bold tracking-tight text-gray-900">
+                      {c.title}
+                    </span>
+                  </div>
+                )}
+
+                <h3 className="text-base font-semibold text-gray-900 leading-snug mb-4">
+                  {c.heading}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed mb-8">
+                  {c.body}
+                </p>
+
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-bold text-gray-900">
+                    {c.metric}
+                  </span>
+                  <span className="text-sm text-gray-400">{c.metricLabel}</span>
+                </div>
               </div>
             </div>
           ))}
