@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, Monitor, ChevronDown } from "lucide-react";
+import { Menu, X, Sun, Moon, Monitor } from "lucide-react";
 import { Image } from "@/components/ui/image";
+import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 
 const navLinks = [
   { label: "IAs", href: "#ias", id: "ias" },
@@ -116,10 +117,7 @@ export default function Header() {
               <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
                 <Monitor className="w-4 h-4" />
               </button>
-              <button className="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 px-2.5 py-1.5 rounded-full hover:bg-gray-100 transition-colors">
-                PT
-                <ChevronDown className="w-3.5 h-3.5" />
-              </button>
+              <LanguageSwitcher variant="text" />
             </div>
           </div>
         </div>
