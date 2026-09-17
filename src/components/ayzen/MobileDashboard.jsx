@@ -4,8 +4,6 @@ import {
   ChevronDown,
   FolderOpen,
   MessageSquarePlus,
-  ChevronUp,
-  Compass,
   Plus,
   Mic,
   ArrowUp,
@@ -98,28 +96,6 @@ export default function MobileDashboard() {
         </p>
       </div>
 
-      {/* Bottom nav */}
-      <div className="flex items-center justify-between px-6 py-3 border-t border-gray-100">
-        <button className="w-10 h-10 flex items-center justify-center rounded-full text-gray-600 active:bg-gray-100">
-          <ChevronUp className="w-5 h-5" />
-        </button>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[#FF8C42] text-white">
-          <Compass className="w-5 h-5" />
-        </button>
-        <button className="relative w-10 h-10 flex items-center justify-center rounded-full bg-[#7E57C2]">
-          <img
-            src={LOGO}
-            alt="Zyntra"
-            className="w-5 h-5 rounded object-contain brightness-0 invert"
-          />
-          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-blue-500 text-white text-[9px] flex items-center justify-center font-bold">
-            ×
-          </span>
-        </button>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 active:bg-gray-200">
-          <Plus className="w-5 h-5" />
-        </button>
-      </div>
     </div>
   );
 }
