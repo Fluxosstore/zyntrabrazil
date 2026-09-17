@@ -65,7 +65,7 @@ export default function PainSection() {
               </span>
 
               <div className="relative">
-                <h3 className="text-base font-semibold text-gray-900 leading-snug mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 leading-snug mb-4">
                   {c.heading}
                 </h3>
                 <p className="text-sm text-[#71717a] leading-relaxed mb-8">
