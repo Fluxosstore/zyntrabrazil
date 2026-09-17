@@ -7,6 +7,13 @@ const aiModels = ["GPT-4", "Claude", "Gemini", "Grok", "DeepSeek"];
 export default function Hero() {
   return (
     <section className="relative pt-28 lg:pt-36 pb-16 lg:pb-24 overflow-hidden">
+      {/* background image */}
+      <Image
+        src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/511df5c24_hero-ayzen-light-orb.png"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+        fittingType="fill"
+      />
       {/* subtle background glow */}
       <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-violet-200/30 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-40 left-0 w-[400px] h-[400px] bg-indigo-200/20 rounded-full blur-[100px] pointer-events-none" />
