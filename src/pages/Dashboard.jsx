@@ -42,7 +42,7 @@ export default function Dashboard() {
 
   return (
     <>
-    <div className="hidden md:flex h-screen bg-[#FAFAFA] overflow-hidden py-2 pr-2 gap-2">
+    <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
       {/* Sidebar */}
       <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F4F4F6] flex flex-col rounded-r-2xl transition-all duration-200`}>
         <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
