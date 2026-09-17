@@ -21,30 +21,61 @@ export default function Footer() {
   return (
     <footer className="bg-white">
       {/* Pre-footer CTA */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/66af2ae0c_generated_a031b5b3.jpg"
-            alt="Pessoa em uma duna olhando para uma estrutura brilhante"
-            className="w-full h-full object-cover"
-            fittingType="fill"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-950/50 to-gray-950/30" />
-        </div>
-        <div className="relative px-6 lg:px-10 py-24 lg:py-36 text-center">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05] max-w-3xl mx-auto">
-            Centralize. Evolua. Pense à frente.
-          </h2>
-          <p className="mt-6 text-lg text-gray-300 max-w-xl mx-auto">
-            Uma assinatura. Todas as IAs. Sem fricção.
-          </p>
-          <a
-            href="#planos"
-            className="mt-8 inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-base font-semibold px-8 py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/30 hover:-translate-y-0.5"
-          >
-            Começar agora
-            <ArrowRight className="w-4 h-4" />
-          </a>
+      <div className="bg-[#fcfcfc]">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* Left - text content */}
+            <div className="order-2 lg:order-1">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8c52ff]" />
+                <span className="text-xs font-medium tracking-widest text-[#666666] uppercase">
+                  Pronto para pensar com tudo isso?
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+                <span className="text-[#111111]">Centralize. Evolua.</span>
+                <br />
+                <span className="text-[#8c52ff]">Pense à frente.</span>
+              </h2>
+              <p className="mt-6 text-base text-[#666666] leading-relaxed max-w-md">
+                Comece agora com o que há de melhor em IA e prepare-se para as
+                ferramentas de automação e desenvolvimento que vão mudar seu
+                jogo.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-5">
+                <a
+                  href="#planos"
+                  className="inline-flex items-center gap-2 bg-[#8c52ff] hover:bg-[#7c3aed] text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg shadow-violet-500/25 hover:-translate-y-0.5"
+                >
+                  Ver planos
+                </a>
+                <a
+                  href="#ias"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#111111] hover:text-[#8c52ff] transition-colors"
+                >
+                  Conhecer as IAs
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+              <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[#666666]">
+                <span>7 dias grátis</span>
+                <span className="text-[#cccccc]">•</span>
+                <span>Devolução total</span>
+                <span className="text-[#cccccc]">•</span>
+                <span>Sem fidelidade</span>
+              </div>
+            </div>
+
+            {/* Right - visual */}
+            <div className="order-1 lg:order-2 relative rounded-3xl overflow-hidden min-h-[320px] lg:min-h-[440px]">
+              <Image
+                src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/66af2ae0c_generated_a031b5b3.jpg"
+                alt="Astronauta em paisagem lunar olhando para um portal de energia"
+                className="w-full h-full object-cover"
+                fittingType="fill"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
