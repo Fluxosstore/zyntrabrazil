@@ -66,7 +66,7 @@ export default function Hero() {
               <span className="text-violet-600">Em uma única assinatura.</span>
             </h1>
 
-            <p className="mt-6 text-sm sm:text-base text-gray-500 leading-relaxed max-w-xl">
+            <p className="mt-6 text-sm sm:text-base text-gray-500 leading-relaxed max-w-xl font-light">
               <span className="whitespace-nowrap"><span className="font-bold">A Ayzen é um hub de IA profissional.</span> E a unica plataforma</span>{" "}
               <span className="whitespace-nowrap">que reúne GPT-5, Claude, DeepSeek, Grok e outras IAs de elite</span>{" "}
               <span className="whitespace-nowrap">em uma única interface profissional, com histórico unificado,</span>{" "}
