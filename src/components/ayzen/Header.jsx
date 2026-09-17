@@ -13,7 +13,7 @@ export default function Header() {
           <a href="#" className="flex items-center gap-2 py-1 z-10">
             <Image
               src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/589397f87_ChatGPTImage16desetde202623_41_31.png"
-              alt="Ayzen"
+              alt="Zyntra"
               className="w-10 h-10 rounded-lg"
               fittingType="fit"
             />

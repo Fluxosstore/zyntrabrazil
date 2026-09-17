@@ -3,7 +3,7 @@ import { Quote } from "lucide-react";
 
 const rowOne = [
   {
-    text: "Eu gastava uns R$ 480 por mês entre GPT, Grok e Claude Pro. Migrei pro Pro da Ayzen e cortei mais da metade.",
+    text: "Eu gastava uns R$ 480 por mês entre GPT, Grok e Claude Pro. Migrei pro Pro da Zyntra e cortei mais da metade.",
     metric: "-54%",
     name: "João Vasconcellos",
     role: "COPYWRITER SÊNIOR · STUDIO BELVEDER",
@@ -44,7 +44,7 @@ const rowTwo = [
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces",
   },
   {
-    text: "Crio roteiros com Claude e narrações no ElevenLabs dentro da Ayzen. Pago em real, com NF, sem precisar pedir reembolso de cartão internacional.",
+    text: "Crio roteiros com Claude e narrações no ElevenLabs dentro da Zyntra. Pago em real, com NF, sem precisar pedir reembolso de cartão internacional.",
     name: "Fernanda Lima",
     role: "EDITORA DE CONTEÚDO · FOLHA",
     avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=80&h=80&fit=crop&crop=faces",

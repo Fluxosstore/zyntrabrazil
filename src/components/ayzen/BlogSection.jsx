@@ -28,7 +28,7 @@ export default function BlogSection() {
             <div className="flex items-center gap-2 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#7c5dfa]" />
               <span className="text-xs font-medium tracking-widest text-[#707070] uppercase">
-                Conteúdo Ayzen
+                Conteúdo Zyntra
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
