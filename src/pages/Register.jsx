@@ -185,113 +185,113 @@ export default function Register() {
   /* ---------- Registration form (image 2) ---------- */
   return (
     <AuthShell>
-      <div className="mb-8">
-        <div className="flex items-center gap-2.5 mb-6">
-          <img src={LOGO} alt="Ayzen" className="w-9 h-9 rounded-lg object-contain" />
-          <span className="text-2xl font-bold text-black">Ayzen</span>
+      <div className="mb-5">
+        <div className="flex items-center gap-2 mb-4">
+          <img src={LOGO} alt="Ayzen" className="w-7 h-7 rounded-lg object-contain" />
+          <span className="text-lg font-bold text-black">Ayzen</span>
         </div>
-        <h1 className="text-xl font-bold text-black mb-1">Crie sua conta</h1>
-        <p className="text-sm text-[#757575]">
+        <h1 className="text-base font-bold text-black mb-0.5">Crie sua conta</h1>
+        <p className="text-xs text-[#757575]">
           Entre na sua conta para conversar com a Ayzen.
         </p>
       </div>
 
       {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-600 text-sm">
+        <div className="mb-3 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium text-[#333]">Nome</label>
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <div className="space-y-1">
+          <label className="text-xs font-medium text-[#333]">Nome</label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Como podemos te chamar?"
               required
               autoFocus
-              className="w-full h-12 pl-10 pr-4 rounded-xl bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
           </div>
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-sm font-medium text-[#333]">Email</label>
+        <div className="space-y-1">
+          <label className="text-xs font-medium text-[#333]">Email</label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="voce@email.com"
               required
-              className="w-full h-12 pl-10 pr-4 rounded-xl bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
           </div>
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-[#333]">Senha</label>
-            <button type="button" className="text-xs text-[#7E57C2] font-medium hover:underline">
+            <label className="text-xs font-medium text-[#333]">Senha</label>
+            <button type="button" className="text-[11px] text-[#7E57C2] font-medium hover:underline">
               Gerar senha forte
             </button>
           </div>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               type={showPwd ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Crie uma senha"
               required
-              className="w-full h-12 pl-10 pr-10 rounded-xl bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
             <button
               type="button"
               onClick={() => setShowPwd(!showPwd)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {showPwd ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <ul className="text-xs text-gray-400 space-y-1 pt-1">
+          <ul className="text-[11px] text-gray-400 space-y-0.5 pt-1">
             <li>• Pelo menos 8 caracteres</li>
             <li>• 1 letra maiúscula</li>
             <li>• 1 número</li>
           </ul>
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-[#333]">Cupom</label>
-            <span className="text-xs text-gray-400">Opcional</span>
+            <label className="text-xs font-medium text-[#333]">Cupom</label>
+            <span className="text-[11px] text-gray-400">Opcional</span>
           </div>
           <div className="relative flex items-center">
-            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder="Tem um cupom? Digite aqui"
-              className="w-full h-12 pl-10 pr-16 rounded-xl bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-10 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
-            <button type="button" className="absolute right-3 text-sm font-medium text-[#7E57C2] hover:underline">
+            <button type="button" className="absolute right-3 text-xs font-medium text-[#7E57C2] hover:underline">
               Aplicar
             </button>
           </div>
         </div>
 
-        <label className="flex items-start gap-2.5 cursor-pointer">
+        <label className="flex items-start gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={accepted}
             onChange={(e) => setAccepted(e.target.checked)}
-            className="mt-0.5 w-4 h-4 rounded border-[#E5E5E5] accent-[#7E57C2]"
+            className="mt-0.5 w-3.5 h-3.5 rounded border-[#E5E5E5] accent-[#7E57C2]"
           />
-          <span className="text-xs text-[#666] leading-relaxed">
+          <span className="text-[11px] text-[#666] leading-relaxed">
             Li e aceito os{" "}
             <a href="#" className="text-[#7E57C2] font-medium">Termos de Uso</a> e a{" "}
             <a href="#" className="text-[#7E57C2] font-medium">Política de Privacidade</a>.
@@ -301,13 +301,13 @@ export default function Register() {
         <button
           type="submit"
           disabled={loading || !canSubmit}
-          className="w-full h-12 rounded-full bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
+          className="w-full h-10 rounded-full bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Começar grátis"}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-[#757575]">
+      <p className="mt-4 text-center text-xs text-[#757575]">
         Já tem conta?{" "}
         <Link to="/login" className="text-[#7E57C2] font-medium hover:underline">
           Entrar
