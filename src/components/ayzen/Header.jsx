@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, X, Sun, Moon, Monitor, ChevronDown } from "lucide-react";
+import { Image } from "@/components/ui/image";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -10,9 +11,12 @@ export default function Header() {
         <div className="flex items-center justify-between gap-3">
           {/* Logo (separate, left) */}
           <a href="#" className="flex items-center gap-2 py-1 z-10">
-            <div className="w-8 h-8 rotate-45 rounded-md bg-gradient-to-br from-violet-500 via-violet-600 to-indigo-700 shadow-md shadow-violet-500/40 flex items-center justify-center">
-              <div className="w-3 h-3 -rotate-45 rounded-sm bg-white/90" />
-            </div>
+            <Image
+              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/589397f87_ChatGPTImage16desetde202623_41_31.png"
+              alt="Ayzen"
+              className="w-9 h-9 rounded-lg object-cover"
+              fittingType="fill"
+            />
             <span className="text-lg font-bold tracking-tight text-gray-900">
               Ayzen
             </span>
