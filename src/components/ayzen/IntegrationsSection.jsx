@@ -42,7 +42,7 @@ export default function IntegrationsSection() {
             <br />
             <span className="text-[#7b61ff]">operadas pela IA.</span>
           </h2>
-          <p className="mt-5 text-base text-[#666666] leading-relaxed">
+          <p className="mt-5 text-sm text-[#666666] leading-relaxed">
             Ao conectar sua conta Google, a Zyntra acessa somente os dados
             necessários para executar o que você pede no chat. Você autoriza
             cada permissão na tela de consentimento do Google e pode revogar o
