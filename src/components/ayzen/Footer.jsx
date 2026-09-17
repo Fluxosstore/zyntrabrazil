@@ -73,6 +73,10 @@ export default function Footer() {
                 alt="Astronauta em paisagem lunar olhando para uma esfera de energia"
                 className="absolute inset-0 w-full h-full object-cover"
               />
+              {/* Soft white gradients on top, bottom and right edge */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white to-transparent" />
             </div>
           </div>
         </div>
