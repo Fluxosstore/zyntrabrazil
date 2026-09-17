@@ -2,7 +2,13 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
-const aiModels = ["GPT-5", "Claude", "Gemini", "Grok", "DeepSeek"];
+const aiModels = [
+  { name: "GPT-5", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0bb1a42e9_chatgpt.svg" },
+  { name: "Claude", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3fe0894ec_claude.svg" },
+  { name: "Gemini", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3a4b6ee08_gemini.svg" },
+  { name: "Grok", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/9c7876675_grok.svg" },
+  { name: "DeepSeek", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d9975d697_deepseek.svg" },
+];
 
 export default function Hero() {
   return (
@@ -103,10 +109,10 @@ export default function Hero() {
               <div className="flex flex-wrap items-center justify-end gap-2">
                 {aiModels.map((m) =>
                 <span
-                  key={m}
+                  key={m.name}
                   className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-                  {m}
+                  <img src={m.logo} alt={m.name} className="w-4 h-4 object-contain" />
+                  {m.name}
                 </span>
                 )}
               </div>
