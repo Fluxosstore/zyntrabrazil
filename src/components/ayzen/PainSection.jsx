@@ -1,8 +1,4 @@
 import React from "react";
-import { Image } from "@/components/ui/image";
-
-const ORB_URL =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/26ac2b58f_990224e9-89c3-4aaf-a792-b08141457068.png";
 
 const cards = [
   {
@@ -61,14 +57,7 @@ export default function PainSection() {
               className="relative group bg-[#fcfcfd] border border-gray-100 rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.08)] hover:border-violet-200 transition-all duration-300 overflow-hidden"
             >
               {/* glowing orb top-right */}
-              <div className="absolute -top-8 -right-8 w-28 h-28 pointer-events-none">
-                <Image
-                  src={ORB_URL}
-                  alt=""
-                  className="w-full h-full object-contain drop-shadow-[0_8px_24px_rgba(168,85,247,0.25)]"
-                  fittingType="fit"
-                />
-              </div>
+              <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-white to-[#d6caff] blur-2xl opacity-70 pointer-events-none" />
 
               {/* large thin number top-left */}
               <span className="relative block text-5xl font-thin text-[#d1d1d1] leading-none mb-8">
