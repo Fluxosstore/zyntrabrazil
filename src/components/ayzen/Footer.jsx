@@ -85,7 +85,7 @@ export default function Footer() {
 
       {/* Footer links */}
       <div className="text-gray-400 bg-[hsl(var(--background))]">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-14">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-8">
           <div className="grid lg:grid-cols-4 gap-10">
             {/* Brand */}
             <div className="lg:col-span-1">
