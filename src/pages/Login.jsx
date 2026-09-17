@@ -91,7 +91,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-10 rounded-full bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
+          className="w-full h-10 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
         </button>
@@ -106,7 +106,7 @@ export default function Login() {
         </div>
       </div>
 
-      <button className="w-full h-10 rounded-full bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+      <button className="w-full h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
         <KeyRound className="w-3.5 h-3.5 text-[#7E57C2]" />
         Entrar com passkey
       </button>
