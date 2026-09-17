@@ -47,27 +47,34 @@ export default function FaqSection() {
     <section id="faq" className="relative py-20 lg:py-28 bg-white">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          {/* Left card with background image */}
-          <div className="relative rounded-3xl overflow-hidden min-h-[560px] flex flex-col justify-between p-8 lg:p-10">
-            <img
-              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3fad8c105_generated_image.png"
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
+          {/* Left card with astronaut + purple swirl */}
+          <div className="relative rounded-3xl overflow-hidden min-h-[560px] bg-[#FDFDFD] flex flex-col items-center justify-end p-8 lg:p-10">
+            {/* Purple swirl backdrop */}
+            <div
+              className="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square rounded-full blur-3xl opacity-70 pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(circle, #D0A8FF 0%, #9A58FF 45%, rgba(154,88,255,0) 70%)",
+              }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-            <div className="relative z-10">
+            {/* Astronaut */}
+            <img
+              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0a283434b_generated_image.png"
+              alt=""
+              className="relative z-10 w-[78%] max-w-[360px] object-contain mb-2"
+            />
+            {/* Stacked text */}
+            <div className="relative z-10 w-full">
               <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.05]">
                 <span className="text-black">Respostas diretas.</span>
                 <br />
-                <span className="text-[#8b5cf6]">Antes de você decidir.</span>
+                <span className="text-[#8A4FFF]">Antes de você decidir.</span>
               </h2>
-              <p className="mt-5 text-sm text-[#475569] leading-relaxed max-w-sm">
+              <p className="mt-5 text-sm text-[#6B6B6B] leading-relaxed max-w-sm">
                 Planos, cobrança, privacidade e limites — tudo explicado com
                 clareza, sem letras miúdas.
               </p>
-            </div>
-            <div className="relative z-10">
-              <button className="inline-flex items-center gap-2 bg-white border border-[#cbd5e1] rounded-full px-5 py-2.5 text-sm font-semibold text-[#111111] hover:bg-gray-50 transition-colors">
+              <button className="mt-6 inline-flex items-center gap-2 bg-transparent border border-[#E0E0E0] rounded-full px-5 py-2.5 text-sm font-semibold text-black hover:bg-gray-50 transition-colors">
                 Falar com o time
               </button>
             </div>
