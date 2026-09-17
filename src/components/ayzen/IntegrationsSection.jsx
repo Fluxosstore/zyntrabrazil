@@ -56,8 +56,8 @@ export default function IntegrationsSection() {
               key={it.name}
               className="group bg-white border border-gray-100 rounded-2xl p-6 hover:border-violet-200 hover:shadow-lg hover:shadow-gray-200/50 transition-all duration-300"
             >
-              <div className="w-11 h-11 rounded-xl bg-gray-50 group-hover:bg-violet-50 flex items-center justify-center mb-4 transition-colors">
-                <it.icon className="w-5 h-5 text-gray-600 group-hover:text-violet-600 transition-colors" />
+              <div className="w-10 h-10 rounded-lg bg-violet-50 group-hover:bg-violet-600 flex items-center justify-center mb-4 transition-colors">
+                <it.icon className="w-5 h-5 text-violet-600 group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-sm font-semibold text-gray-900 mb-1.5">
                 {it.name}
