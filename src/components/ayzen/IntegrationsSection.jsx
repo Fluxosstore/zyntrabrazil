@@ -34,14 +34,19 @@ export default function IntegrationsSection() {
     <section className="py-20 lg:py-28 bg-[#FAFAFA] border-y border-gray-100">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="max-w-3xl mb-14">
-          <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-            Integrações
+          <span className="text-xs font-semibold tracking-widest text-[#8878c3] uppercase">
+            Conectores Google
           </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-            Suas ferramentas Google, operadas pela IA.
+          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+            <span className="text-gray-900">Suas ferramentas Google,</span>
+            <br />
+            <span className="text-[#7b61ff]">operadas pela IA.</span>
           </h2>
-          <p className="mt-5 text-lg text-gray-500 leading-relaxed">
-            Conecte seu ecossistema Google e deixe a Zyntra trabalhar por você.
+          <p className="mt-5 text-base text-[#666666] leading-relaxed">
+            Ao conectar sua conta Google, a Zyntra acessa somente os dados
+            necessários para executar o que você pede no chat. Você autoriza
+            cada permissão na tela de consentimento do Google e pode revogar o
+            acesso quando quiser.
           </p>
         </div>
 
