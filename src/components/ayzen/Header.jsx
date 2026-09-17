@@ -1,105 +1,112 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Globe, Moon, Search, Sparkles } from "lucide-react";
-
-const navLinks = [
-  { label: "IAs", href: "#ias" },
-  { label: "Benefícios", href: "#beneficios" },
-  { label: "Planos", href: "#planos" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Blog", href: "#blog" },
-];
+import { Menu, X, Sun, Moon, Monitor, ChevronDown, Sparkles } from "lucide-react";
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#FAFAFA]/85 backdrop-blur-xl border-b border-gray-200/60"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10 h-16 lg:h-20 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-600/20">
-            <Sparkles className="w-4 h-4 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="text-xl font-bold tracking-tight text-gray-900">
-            Ayzen
-          </span>
-        </a>
-
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              {link.label}
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <div className="max-w-[1280px] mx-auto px-4 lg:px-10 pt-4">
+        <div className="flex items-center justify-center gap-2 lg:gap-3">
+          {/* Left / main pill */}
+          <div className="flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full pl-2 pr-2 py-2 shadow-lg shadow-violet-200/30">
+            {/* Logo */}
+            <a href="#" className="flex items-center gap-2 pl-2 pr-3">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+                <Sparkles className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+              </div>
+              <span className="text-lg font-bold tracking-tight text-gray-900">
+                Ayzen
+              </span>
             </a>
-          ))}
-        </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2 lg:gap-3">
-          <button className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-            <Search className="w-4 h-4" />
-          </button>
-          <button className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-            <Moon className="w-4 h-4" />
-          </button>
-          <button className="hidden sm:flex w-9 h-9 items-center justify-center rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-            <Globe className="w-4 h-4" />
-          </button>
-          <a
-            href="#"
-            className="hidden md:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-2 transition-colors"
-          >
-            Entrar
-          </a>
-          <a
-            href="#planos"
-            className="inline-flex items-center justify-center bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all shadow-lg shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5"
-          >
-            Assinar
-          </a>
-          <button
-            className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+            <span className="h-5 w-px bg-gray-200 mx-1 hidden lg:block" />
+
+            {/* Nav */}
+            <nav className="hidden lg:flex items-center gap-1">
+              <a
+                href="#ias"
+                className="text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 px-3.5 py-1.5 rounded-full transition-colors"
+              >
+                IAs
+              </a>
+              {[
+                { label: "Benefícios", href: "#beneficios" },
+                { label: "Planos", href: "#planos" },
+                { label: "FAQ", href: "#faq" },
+                { label: "Blog", href: "#blog" },
+              ].map((l) => (
+                <a
+                  key={l.label}
+                  href={l.href}
+                  className="text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+
+            <span className="h-5 w-px bg-gray-200 mx-1 hidden lg:block" />
+
+            <a
+              href="#"
+              className="hidden lg:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full transition-colors"
+            >
+              Entrar
+            </a>
+
+            <a
+              href="#planos"
+              className="inline-flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-all shadow-md shadow-violet-600/25"
+            >
+              Assinar
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            </a>
+
+            {/* Mobile toggle */}
+            <button
+              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 ml-1"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+
+          {/* Right / secondary pill */}
+          <div className="hidden lg:flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full px-2 py-2 shadow-lg shadow-violet-200/30">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+              <Sun className="w-4 h-4" />
+            </button>
+            <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
+              <Moon className="w-4 h-4" />
+            </button>
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white transition-colors">
+              <Monitor className="w-4 h-4" />
+            </button>
+            <button className="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900 px-2.5 py-1.5 rounded-full hover:bg-gray-100 transition-colors">
+              PT
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#FAFAFA] border-t border-gray-200 px-6 py-6">
-          <nav className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-base font-medium text-gray-700 hover:text-violet-600"
-              >
-                {link.label}
-              </a>
-            ))}
-            <a href="#" className="text-base font-medium text-gray-700">
-              Entrar
-            </a>
+        <div className="lg:hidden mt-2 mx-4 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl px-4 py-4 shadow-lg">
+          <nav className="flex flex-col gap-1">
+            {["IAs", "Benefícios", "Planos", "FAQ", "Blog", "Entrar"].map(
+              (label) => (
+                <a
+                  key={label}
+                  href="#"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50"
+                >
+                  {label}
+                </a>
+              )
+            )}
           </nav>
         </div>
       )}
