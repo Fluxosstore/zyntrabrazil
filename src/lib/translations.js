@@ -123,6 +123,19 @@ export const translations = {
     "dash.tempTitle": "Chat temporário",
     "dash.tempDesc": "Este chat não aparecerá no histórico nem será usado para criar memórias. Por segurança, podemos manter uma cópia por até 30 dias.",
 
+    // Library
+    "library.title": "Biblioteca",
+    "library.desc": "Tudo que passou pela IA: imagens geradas e arquivos enviados, em um só lugar.",
+    "library.tabAll": "Tudo",
+    "library.tabImages": "Imagens",
+    "library.tabFiles": "Arquivos",
+    "library.tabDocs": "Documentos",
+    "library.tabResponses": "Respostas",
+    "library.search": "Buscar na biblioteca...",
+    "library.recent": "Mais recentes",
+    "library.emptyTitle": "Sua biblioteca está vazia",
+    "library.emptyDesc": "Imagens que você gerar e arquivos que enviar no chat aparecerão aqui.",
+
     // Hero
     "hero.badge": "Hub de IA Profissional",
     "hero.title1": "A Zyntra reúne as IAs mais",
@@ -517,6 +530,19 @@ export const translations = {
     "dash.tempTitle": "Temporary chat",
     "dash.tempDesc": "This chat won't appear in your history or be used to create memories. For safety, we may keep a copy for up to 30 days.",
 
+    // Library
+    "library.title": "Library",
+    "library.desc": "Everything that went through AI: generated images and uploaded files, in one place.",
+    "library.tabAll": "All",
+    "library.tabImages": "Images",
+    "library.tabFiles": "Files",
+    "library.tabDocs": "Documents",
+    "library.tabResponses": "Responses",
+    "library.search": "Search library...",
+    "library.recent": "Most recent",
+    "library.emptyTitle": "Your library is empty",
+    "library.emptyDesc": "Images you generate and files you upload in chat will appear here.",
+
     // Hero
     "hero.badge": "Professional AI Hub",
     "hero.title1": "Zyntra brings together the most",
@@ -910,6 +936,19 @@ export const translations = {
     "dash.tempTooltip": "Crear chat temporal",
     "dash.tempTitle": "Chat temporal",
     "dash.tempDesc": "Este chat no aparecerá en el historial ni se usará para crear recuerdos. Por seguridad, podemos mantener una copia hasta 30 días.",
+
+    // Library
+    "library.title": "Biblioteca",
+    "library.desc": "Todo lo que pasó por la IA: imágenes generadas y archivos enviados, en un solo lugar.",
+    "library.tabAll": "Todo",
+    "library.tabImages": "Imágenes",
+    "library.tabFiles": "Archivos",
+    "library.tabDocs": "Documentos",
+    "library.tabResponses": "Respuestas",
+    "library.search": "Buscar en la biblioteca...",
+    "library.recent": "Más recientes",
+    "library.emptyTitle": "Tu biblioteca está vacía",
+    "library.emptyDesc": "Las imágenes que generes y los archivos que envíes en el chat aparecerán aquí.",
 
     // Hero
     "hero.badge": "Hub de IA Profesional",

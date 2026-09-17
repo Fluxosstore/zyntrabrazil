@@ -1,0 +1,179 @@
+import React, { useState } from "react";
+import {
+  Search,
+  ChevronDown,
+  LayoutGrid,
+  List,
+  Library,
+  Image as ImageIcon,
+  FileText,
+  File,
+  Star,
+  Menu,
+} from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
+import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
+import MobileSidebar from "@/components/ayzen/MobileSidebar";
+
+const TABS = [
+  { id: "all", icon: Library },
+  { id: "images", icon: ImageIcon },
+  { id: "files", icon: FileText },
+  { id: "docs", icon: File },
+  { id: "responses", icon: Star },
+];
+
+export default function LibraryPage() {
+  const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState("all");
+  const [view, setView] = useState("grid");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <>
+      {/* Desktop */}
+      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
+        <DashboardSidebar activePage="library" />
+
+        <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
+          {/* Header */}
+          <div className="px-8 pt-8 pb-5">
+            <h1 className="text-2xl font-bold text-black">{t("library.title")}</h1>
+            <p className="text-sm text-gray-500 mt-1.5">{t("library.desc")}</p>
+          </div>
+
+          {/* Filter tabs */}
+          <div className="px-8 pb-4">
+            <div className="inline-flex items-center gap-1 bg-gray-100 rounded-full p-1">
+              {TABS.map((tab) => {
+                const Icon = tab.icon;
+                const active = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                      active
+                        ? "bg-white border border-gray-300 text-black shadow-sm"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    {t(`library.tab${tab.id.charAt(0).toUpperCase()}${tab.id.slice(1)}`)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Search + controls */}
+          <div className="px-8 pb-4 flex items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                placeholder={t("library.search")}
+                className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+              />
+            </div>
+            <button className="flex items-center gap-1.5 h-10 px-4 rounded-xl bg-gray-50 border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors">
+              {t("library.recent")}
+              <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
+            </button>
+            <div className="flex items-center gap-0.5 bg-gray-100 rounded-lg p-0.5">
+              <button
+                onClick={() => setView("grid")}
+                className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
+                  view === "grid" ? "bg-white text-black shadow-sm" : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setView("list")}
+                className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
+                  view === "list" ? "bg-white text-black shadow-sm" : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Empty state */}
+          <div className="flex-1 px-8 pb-8">
+            <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-gray-400" />
+              </div>
+              <p className="mt-4 text-sm font-semibold text-black">{t("library.emptyTitle")}</p>
+              <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t("library.emptyDesc")}</p>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      {/* Mobile */}
+      <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <span className="text-sm font-semibold text-black">{t("library.title")}</span>
+          <div className="w-9" />
+        </div>
+
+        {/* Filter tabs */}
+        <div className="px-4 py-3 overflow-x-auto">
+          <div className="inline-flex items-center gap-1 bg-gray-100 rounded-full p-1">
+            {TABS.map((tab) => {
+              const Icon = tab.icon;
+              const active = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                    active
+                      ? "bg-white border border-gray-300 text-black shadow-sm"
+                      : "text-gray-600"
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  {t(`library.tab${tab.id.charAt(0).toUpperCase()}${tab.id.slice(1)}`)}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Search */}
+        <div className="px-4 pb-3">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              placeholder={t("library.search")}
+              className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+            />
+          </div>
+        </div>
+
+        {/* Empty state */}
+        <div className="flex-1 px-4 pb-4">
+          <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+              <FileText className="w-5 h-5 text-gray-400" />
+            </div>
+            <p className="mt-4 text-sm font-semibold text-black">{t("library.emptyTitle")}</p>
+            <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t("library.emptyDesc")}</p>
+          </div>
+        </div>
+
+        <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      </div>
+    </>
+  );
+}
