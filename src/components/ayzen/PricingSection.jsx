@@ -196,9 +196,9 @@ export default function PricingSection() {
 
           <div
             key={plan.name}
-            className={`relative rounded-3xl p-8 transition-all duration-300 bg-[hsl(var(--background))] ${
+            className={`relative rounded-3xl p-8 transition-all duration-300 ${
             plan.highlight ?
-            "border-2 border-violet-500 shadow-2xl shadow-violet-500/20 lg:scale-105" :
+            "bg-gray-900 border-2 border-violet-500 shadow-2xl shadow-violet-500/20 lg:scale-105" :
             "bg-[#FAFAFA] border border-gray-200 hover:border-violet-200 hover:shadow-lg"}`
             }>
             
