@@ -67,7 +67,7 @@ export default function AuthShell({ children }) {
             </button>
 
             {langOpen && (
-              <div className="absolute right-0 top-full mt-2 w-44 bg-white border border-[#E5E5E5] rounded-xl shadow-lg py-1 overflow-hidden">
+              <div className="absolute right-0 top-full mt-2 w-44 bg-white border border-[#E5E5E5] rounded-xl shadow-lg p-1">
                 {LANGS.map((l) => {
                   const active = l.code === lang;
                   return (
@@ -77,7 +77,7 @@ export default function AuthShell({ children }) {
                         setLang(l.code);
                         setLangOpen(false);
                       }}
-                      className={`mx-1 flex items-center gap-2.5 px-3 py-2 text-left text-sm font-medium rounded-lg transition-colors ${
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm font-medium rounded-lg transition-colors ${
                         active ? "bg-[#EBEDF4] text-black" : "text-[#333] hover:bg-[#EBEDF4]"
                       }`}
                     >
