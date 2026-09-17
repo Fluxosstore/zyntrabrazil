@@ -51,7 +51,7 @@ export default function CurationSection() {
               <br />
               <span className="text-violet-600">para cada objetivo.</span>
             </h2>
-            <p className="mt-5 text-lg text-gray-500 leading-relaxed">
+            <p className="mt-5 text-sm text-[#71717a] leading-relaxed">
               Não oferecemos volume, oferecemos performance. De modelos de
               raciocínio avançado como GPT-5 e Claude a especialistas como
               DeepSeek, Qwen e Mistral Large. Em breve: expansão total para
