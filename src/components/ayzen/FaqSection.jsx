@@ -54,6 +54,8 @@ export default function FaqSection() {
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
+            {/* Faint white wash so text stays legible over the image */}
+            <div className="pointer-events-none absolute inset-0 bg-white/30" />
             {/* White gradient overlays to fade edges */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white to-transparent" />
             <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
