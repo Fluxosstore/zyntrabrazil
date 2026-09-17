@@ -151,6 +151,8 @@ export const translations = {
     "library.emptyDescDocs": "Peça pra IA criar um documento ou uma planilha no chat e ele aparece aqui.",
     "library.emptyTitleResponses": "Nenhuma resposta salva ainda",
     "library.emptyDescResponses": "Favorite uma resposta no chat clicando na estrela e ela aparece aqui.",
+    "library.noResultsTitle": "Nenhum resultado encontrado",
+    "library.noResultsDesc": "Tente buscar por outro termo.",
 
     // Hero
     "hero.badge": "Hub de IA Profissional",
@@ -574,6 +576,8 @@ export const translations = {
     "library.emptyDescDocs": "Ask the AI to create a document or spreadsheet in chat and it shows up here.",
     "library.emptyTitleResponses": "No saved responses yet",
     "library.emptyDescResponses": "Favorite a response in chat by clicking the star and it appears here.",
+    "library.noResultsTitle": "No results found",
+    "library.noResultsDesc": "Try searching for another term.",
 
     // Hero
     "hero.badge": "Professional AI Hub",
@@ -997,6 +1001,8 @@ export const translations = {
     "library.emptyDescDocs": "Pide a la IA que cree un documento o una hoja de cálculo en el chat y aparece aquí.",
     "library.emptyTitleResponses": "Ninguna respuesta guardada todavía",
     "library.emptyDescResponses": "Favorita una respuesta en el chat haciendo clic en la estrella y aparece aquí.",
+    "library.noResultsTitle": "Ningún resultado encontrado",
+    "library.noResultsDesc": "Intenta buscar por otro término.",
 
     // Hero
     "hero.badge": "Hub de IA Profesional",

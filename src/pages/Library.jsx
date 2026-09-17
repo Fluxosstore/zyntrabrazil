@@ -9,6 +9,8 @@ import {
   FileText,
   FilePlus,
   Star,
+  Music,
+  Video,
   Menu,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -23,6 +25,14 @@ const TABS = [
   { id: "responses", icon: Star },
 ];
 
+const SUB_FILTERS = [
+  { id: "all", icon: LayoutGrid },
+  { id: "docs", icon: FileText },
+  { id: "images", icon: ImageIcon },
+  { id: "audio", icon: Music },
+  { id: "video", icon: Video },
+];
+
 const EMPTY_ICON = {
   all: FileText,
   images: ImageIcon,
@@ -34,8 +44,11 @@ const EMPTY_ICON = {
 export default function LibraryPage() {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("all");
+  const [subFilter, setSubFilter] = useState("all");
   const [view, setView] = useState("grid");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const showNoResults = activeTab === "files" && subFilter !== "all";
 
   const showControls = activeTab !== "responses";
   const searchKey = `library.search${activeTab === "all" ? "" : activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`;
@@ -119,17 +132,21 @@ export default function LibraryPage() {
           {activeTab === "files" && (
             <div className="px-8 pb-4">
               <div className="flex items-center gap-1.5">
-                {["all", "docs", "images", "audio", "video"].map((sub) => {
-                  const labelKey = `library.sub${sub.charAt(0).toUpperCase() + sub.slice(1)}`;
+                {SUB_FILTERS.map((sub) => {
+                  const Icon = sub.icon;
+                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase() + sub.id.slice(1)}`;
+                  const active = subFilter === sub.id;
                   return (
                     <button
-                      key={sub}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                        sub === "all"
+                      key={sub.id}
+                      onClick={() => setSubFilter(sub.id)}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        active
                           ? "bg-black text-white"
-                          : "text-gray-600 hover:bg-gray-100"
+                          : "bg-[#F3F3F5] text-gray-700 hover:bg-gray-200"
                       }`}
                     >
+                      <Icon className="w-3.5 h-3.5" />
                       {t(labelKey)}
                     </button>
                   );
@@ -141,11 +158,23 @@ export default function LibraryPage() {
           {/* Empty state */}
           <div className="flex-1 px-8 pb-8">
             <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
-              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                <EmptyIcon className="w-5 h-5 text-gray-400" />
-              </div>
-              <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
-              <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
+              {showNoResults ? (
+                <>
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                    <Search className="w-5 h-5 text-gray-400" />
+                  </div>
+                  <p className="mt-4 text-sm font-semibold text-gray-700">{t("library.noResultsTitle")}</p>
+                  <p className="mt-1.5 text-sm text-gray-400 text-center max-w-sm">{t("library.noResultsDesc")}</p>
+                </>
+              ) : (
+                <>
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                    <EmptyIcon className="w-5 h-5 text-gray-400" />
+                  </div>
+                  <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
+                  <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
+                </>
+              )}
             </div>
           </div>
         </main>
