@@ -38,7 +38,7 @@ export default function PainSection() {
             <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
               01 /06 Hoje está assim
             </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+            <h2 className="mt-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
               Você está pagando caro{" "}
               <span className="text-violet-600">para pensar em pedaços.</span>
             </h2>
