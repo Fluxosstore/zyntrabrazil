@@ -33,11 +33,15 @@ export default function Register() {
   const [resendIn, setResendIn] = useState(47);
   const otpRefs = useRef([]);
 
-  const canSubmit = name && email && password && accepted;
+  const canSubmit = name && email && password;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    if (!accepted) {
+      setError("Você precisa aceitar os Termos de Uso e a Política de Privacidade para continuar.");
+      return;
+    }
     setLoading(true);
     try {
       await base44.auth.register({ email, password });
@@ -300,7 +304,7 @@ export default function Register() {
 
         <button
           type="submit"
-          disabled={loading || !canSubmit}
+          disabled={loading || !canSubmit || !accepted}
           className="w-full h-9 rounded-lg bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Começar grátis"}
