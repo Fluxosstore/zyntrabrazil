@@ -2,9 +2,7 @@ import React from "react";
 
 const cards = [
   {
-    number: null,
-    logo: true,
-    title: "Ayzen",
+    number: "01",
     heading: "Cinco assinaturas, cinco faturas em dólar",
     body: "GPT-5, Claude, Gemini, Grok e outras ferramentas. Cada uma renova num dia diferente, cobra em dólar e espalha seu trabalho. Sua fatura só cresce.",
     metric: "R$ 247",
@@ -56,42 +54,31 @@ export default function PainSection() {
           {cards.map((c, i) => (
             <div
               key={i}
-              className="relative group bg-white border border-gray-100 rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.08)] hover:border-violet-200 transition-all duration-300 overflow-hidden"
+              className="relative group bg-[#fcfcfd] border border-gray-100 rounded-2xl p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.08)] hover:border-violet-200 transition-all duration-300 overflow-hidden"
             >
-              {/* faded background number */}
-              {c.number && (
-                <span className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-                  <span className="text-[180px] font-bold text-violet-500/[0.06] leading-none">
-                    {c.number}
-                  </span>
-                </span>
-              )}
+              {/* glowing orb top-right */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br from-white to-[#d6caff] blur-2xl opacity-70 pointer-events-none" />
+
+              {/* large thin number top-left */}
+              <span className="relative block text-5xl font-thin text-[#d1d1d1] leading-none mb-8">
+                {c.number}
+              </span>
 
               <div className="relative">
-                {/* Ayzen logo */}
-                {c.logo && (
-                  <div className="flex items-center gap-2.5 mb-6">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 via-fuchsia-400 to-white shadow-md shadow-violet-500/30 flex items-center justify-center overflow-hidden">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-white via-violet-200 to-violet-500" />
-                    </div>
-                    <span className="text-lg font-bold tracking-tight text-gray-900">
-                      {c.title}
-                    </span>
-                  </div>
-                )}
-
                 <h3 className="text-base font-semibold text-gray-900 leading-snug mb-4">
                   {c.heading}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed mb-8">
+                <p className="text-sm text-[#71717a] leading-relaxed mb-8">
                   {c.body}
                 </p>
+
+                <div className="h-px bg-[#e4e4e7] mb-5" />
 
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-bold text-gray-900">
                     {c.metric}
                   </span>
-                  <span className="text-sm text-gray-400">{c.metricLabel}</span>
+                  <span className="text-sm text-[#71717a]">{c.metricLabel}</span>
                 </div>
               </div>
             </div>
