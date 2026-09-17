@@ -17,9 +17,13 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import UserPopover from "@/components/ayzen/UserPopover";
+import { Image } from "@/components/ui/image";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
+
+const DEFAULT_AVATAR =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/977c79c2e_default-light.webp";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -105,9 +109,11 @@ export default function Dashboard() {
           >
             <div className="relative w-7 h-7 shrink-0">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
-              <div className="relative w-7 h-7 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] flex items-center justify-center text-white text-[10px] font-bold">
-                {firstName.charAt(0).toUpperCase()}
-              </div>
+              <Image
+                src={DEFAULT_AVATAR}
+                alt="Profile"
+                className="relative w-7 h-7 rounded-full object-cover"
+              />
             </div>
             <div className="flex-1 text-left min-w-0">
               <p className="text-xs font-semibold text-black truncate">
