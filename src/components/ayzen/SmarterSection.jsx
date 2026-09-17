@@ -3,7 +3,6 @@ import { Image } from "@/components/ui/image";
 
 const cards = [
   {
-    num: "01",
     title: "Workspace unificado.",
     desc: "Todas as IAs, um só histórico. Alterne modelos sem perder contexto, com tudo sincronizado em uma única interface profissional.",
     img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f948e298d_Capturadetela2026-09-17000242.png",
@@ -13,7 +12,6 @@ const cards = [
     ],
   },
   {
-    num: "02",
     title: "Chat inteligente.",
     desc: "Converse com a IA certa para cada tarefa, sem sair da conversa. Roteamento automático e respostas em segundos.",
     img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/31e754706_Capturadetela2026-09-17000222.png",
@@ -23,7 +21,6 @@ const cards = [
     ],
   },
   {
-    num: "03",
     title: "Pensando à frente.",
     desc: "Novos modelos entram no plano automaticamente, sem custo extra. Você sempre usa o que há de mais avançado.",
     img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8728b9d33_Capturadetela2026-09-17000255.png",
@@ -70,29 +67,26 @@ export default function SmarterSection() {
                 className="absolute inset-0 w-full h-full object-cover"
                 fittingType="fill"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/85 to-white/95" />
-              <div className="relative h-full flex flex-col p-6">
-                <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold">
-                  {c.num}
-                </span>
+              <div className="absolute inset-0 bg-white/85 backdrop-blur-sm" />
+              <div className="relative h-full flex flex-col p-8">
+                <h3 className="text-xl font-bold text-[#0f111a] mb-2">{c.title}</h3>
+                <p className="text-sm text-[#4a4b52] leading-relaxed">
+                  {c.desc}
+                </p>
                 <div className="mt-auto">
-                  <h3 className="text-xl font-bold text-[#222] mb-2">{c.title}</h3>
-                  <p className="text-sm text-[#666] leading-relaxed">
-                    {c.desc}
-                  </p>
-                  <div className="h-px bg-gray-200 my-4" />
+                  <div className="h-px bg-[#d1d1d1] my-5" />
                   <div className="flex items-end justify-between gap-3">
                     <div className="space-y-1">
                       {c.stats.map((s) => (
                         <div key={s.label} className="text-sm">
-                          <span className="font-bold text-[#222]">{s.value}</span>{" "}
-                          <span className="text-[#999]">{s.label}</span>
+                          <span className="font-bold text-[#0f111a]">{s.value}</span>{" "}
+                          <span className="text-[#808080]">{s.label}</span>
                         </div>
                       ))}
                     </div>
                     <a
                       href="#planos"
-                      className="inline-flex items-center justify-center bg-[#7F56D9] hover:bg-[#6941C6] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
+                      className="inline-flex items-center justify-center bg-[#7f5af0] hover:bg-[#6941C6] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
                     >
                       Ver planos
                     </a>
