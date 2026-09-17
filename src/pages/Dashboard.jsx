@@ -14,6 +14,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   VenetianMask,
+  Settings,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import UserPopover from "@/components/ayzen/UserPopover";
@@ -22,6 +23,7 @@ import { getAvatarForUser } from "@/lib/avatars";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
 import ModelSelector, { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
+import { DiamondLogo, ChatPlusIcon, BooksIcon, IntegrationIcon } from "@/components/ayzen/SidebarIcons";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -57,45 +59,68 @@ export default function Dashboard() {
               <span className="text-base font-bold text-black">Zyntra</span>
             </Link>
           )}
-          <button
-            onClick={() => setCollapsed((v) => !v)}
-            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors"
-          >
-            {collapsed ? <PanelLeftOpen className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />}
-          </button>
+          {collapsed && (
+            <button
+              onClick={() => setCollapsed(false)}
+              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              <DiamondLogo className="w-5 h-5" />
+            </button>
+          )}
+          {!collapsed && (
+            <button
+              onClick={() => setCollapsed(true)}
+              className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors"
+            >
+              <PanelLeftClose className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
 
         <div className={`${collapsed ? "px-2" : "px-2.5"} space-y-1`}>
-          <button className={`w-full flex items-center ${collapsed ? "justify-center" : "gap-2 px-2.5"} py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium`}>
-            <Plus className="w-3.5 h-3.5 shrink-0" />
-            {!collapsed && t("dash.newConversation")}
-          </button>
-
           {collapsed ? (
-            <button className="w-full flex items-center justify-center py-2 rounded-lg bg-white border border-gray-200 text-gray-400 hover:bg-gray-50 transition-colors">
-              <Search className="w-3.5 h-3.5" />
-            </button>
+            <>
+              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+                <Search className="w-4 h-4" />
+              </button>
+              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+                <ChatPlusIcon className="w-4 h-4" />
+              </button>
+              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+                <BooksIcon className="w-4 h-4" />
+              </button>
+              <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+                <IntegrationIcon className="w-4 h-4" />
+              </button>
+            </>
           ) : (
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-              <input
-                placeholder={t("dash.searchConversation")}
-                className="w-full h-8 pl-8 pr-10 rounded-lg bg-white border border-gray-200 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
-              />
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-medium text-gray-400 bg-gray-100 px-1 py-0.5 rounded">
-                ⌘K
-              </span>
-            </div>
-          )}
+            <>
+              <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
+                <Plus className="w-3.5 h-3.5 shrink-0" />
+                {t("dash.newConversation")}
+              </button>
 
-          <button className={`w-full flex items-center ${collapsed ? "justify-center" : "gap-2 px-2.5"} py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors`}>
-            <BookOpen className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-            {!collapsed && t("dash.library")}
-          </button>
-          <button className={`w-full flex items-center ${collapsed ? "justify-center" : "gap-2 px-2.5"} py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors`}>
-            <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-            {!collapsed && t("dash.automations")}
-          </button>
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                <input
+                  placeholder={t("dash.searchConversation")}
+                  className="w-full h-8 pl-8 pr-10 rounded-lg bg-white border border-gray-200 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+                />
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-medium text-gray-400 bg-gray-100 px-1 py-0.5 rounded">
+                  ⌘K
+                </span>
+              </div>
+
+              <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
+                <BookOpen className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                {t("dash.library")}
+              </button>
+              <button className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
+                <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                {t("dash.automations")}
+              </button>
+            </>
+          )}
         </div>
 
         {!collapsed && (
@@ -111,6 +136,13 @@ export default function Dashboard() {
           </>
         )}
         {collapsed && <div className="flex-1" />}
+        {collapsed && (
+          <div className="px-2 pb-1">
+            <button className="w-full flex items-center justify-center py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+              <Settings className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* user footer */}
         <div className="relative px-2.5 py-2">
