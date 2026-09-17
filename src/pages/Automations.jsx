@@ -17,9 +17,9 @@ export default function Automations() {
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
           {/* Header */}
           <div className="px-8 pt-8 pb-6">
-            <div className="p-6 bg-[#F8F8F8] border border-gray-200 rounded-2xl">
+            <div className="p-6 bg-white border border-gray-200 rounded-2xl">
               <h1 className="text-2xl font-bold text-black">{t("auto.title")}</h1>
-              <p className="text-sm text-gray-700 mt-1.5">{t("auto.desc1")}</p>
+              <p className="text-sm text-gray-500 mt-1.5">{t("auto.desc1")}</p>
               <p className="text-sm text-gray-500 mt-1 max-w-2xl">{t("auto.desc2")}</p>
             </div>
           </div>
@@ -67,9 +67,9 @@ export default function Automations() {
         </div>
 
         <div className="px-4 pt-6 pb-4">
-          <div className="p-5 bg-[#F8F8F8] border border-gray-200 rounded-2xl">
+          <div className="p-5 bg-white border border-gray-200 rounded-2xl">
             <h1 className="text-xl font-bold text-black">{t("auto.title")}</h1>
-            <p className="text-sm text-gray-700 mt-1.5">{t("auto.desc1")}</p>
+            <p className="text-sm text-gray-500 mt-1.5">{t("auto.desc1")}</p>
             <p className="text-sm text-gray-500 mt-1">{t("auto.desc2")}</p>
           </div>
         </div>
