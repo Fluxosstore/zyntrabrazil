@@ -1,25 +1,36 @@
 import React from "react";
 import { Image } from "@/components/ui/image";
-import { Check } from "lucide-react";
 
 const cards = [
   {
-    title: "Workspace unificado",
-    desc: "Todas as IAs, um só histórico. Alterne modelos sem perder contexto.",
+    num: "01",
+    title: "Workspace unificado.",
+    desc: "Todas as IAs, um só histórico. Alterne modelos sem perder contexto, com tudo sincronizado em uma única interface profissional.",
     img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f948e298d_Capturadetela2026-09-17000242.png",
-    points: ["Histórico sincronizado", "Troca de modelo em 1 clique"],
+    stats: [
+      { value: "1", label: "histórico só" },
+      { value: "1-clique", label: "troca de IA" },
+    ],
   },
   {
-    title: "Chat inteligente",
-    desc: "Converse com a IA certa para cada tarefa, sem sair da conversa.",
+    num: "02",
+    title: "Chat inteligente.",
+    desc: "Converse com a IA certa para cada tarefa, sem sair da conversa. Roteamento automático e respostas em segundos.",
     img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/31e754706_Capturadetela2026-09-17000222.png",
-    points: ["Roteamento automático", "Respostas em segundos"],
+    stats: [
+      { value: "Auto", label: "roteamento" },
+      { value: "Seg", label: "resposta" },
+    ],
   },
   {
-    title: "Pensando à frente",
-    desc: "Novos modelos entram no plano automaticamente, sem custo extra.",
+    num: "03",
+    title: "Pensando à frente.",
+    desc: "Novos modelos entram no plano automaticamente, sem custo extra. Você sempre usa o que há de mais avançado.",
     img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8728b9d33_Capturadetela2026-09-17000255.png",
-    points: ["Modelos sempre atualizados", "Previsão de tendências"],
+    stats: [
+      { value: "0", label: "custo extra" },
+      { value: "Auto", label: "atualizações" },
+    ],
   },
 ];
 
@@ -51,7 +62,7 @@ export default function SmarterSection() {
           {cards.map((c, i) => (
             <div
               key={i}
-              className="group relative aspect-[3/4] rounded-3xl overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-violet-300/40 transition-all duration-300"
+              className="group relative aspect-[3/4] rounded-[28px] overflow-hidden shadow-lg hover:shadow-xl hover:shadow-violet-300/40 transition-all duration-300"
             >
               <Image
                 src={c.img}
@@ -59,25 +70,34 @@ export default function SmarterSection() {
                 className="absolute inset-0 w-full h-full object-cover"
                 fittingType="fill"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-white/10" />
-              <div className="relative h-full flex flex-col justify-end p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{c.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-4">
+              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm" />
+              <div className="relative h-full flex flex-col p-6">
+                <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold mb-5">
+                  {c.num}
+                </span>
+                <h3 className="text-xl font-bold text-[#222] mb-2">{c.title}</h3>
+                <p className="text-sm text-[#666] leading-relaxed">
                   {c.desc}
                 </p>
-                <ul className="space-y-2">
-                  {c.points.map((pt) => (
-                    <li
-                      key={pt}
-                      className="flex items-center gap-2 text-sm text-gray-700"
+                <div className="mt-auto">
+                  <div className="h-px bg-gray-200 my-4" />
+                  <div className="flex items-end justify-between gap-3">
+                    <div className="space-y-1">
+                      {c.stats.map((s) => (
+                        <div key={s.label} className="text-sm">
+                          <span className="font-bold text-[#222]">{s.value}</span>{" "}
+                          <span className="text-[#999]">{s.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <a
+                      href="#planos"
+                      className="inline-flex items-center justify-center bg-[#7F56D9] hover:bg-[#6941C6] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
                     >
-                      <span className="w-4 h-4 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0">
-                        <Check className="w-2.5 h-2.5 text-violet-600" strokeWidth={3} />
-                      </span>
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
+                      Ver planos
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
