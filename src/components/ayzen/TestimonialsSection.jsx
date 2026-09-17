@@ -43,13 +43,24 @@ export default function TestimonialsSection() {
   return (
     <section className="py-20 lg:py-28 bg-[#FAFAFA] border-y border-gray-100">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-        <div className="max-w-3xl mb-12">
-          <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-            Depoimentos
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-            Profissionais que centralizaram suas IAs e cortaram custos.
-          </h2>
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 lg:gap-16 mb-14">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="w-2 h-2 rounded-full bg-[#7c3aed]" />
+              <span className="text-xs font-medium tracking-widest text-gray-500 uppercase">
+                Quem já usa
+              </span>
+            </div>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
+              <span className="text-black">Profissionais que centralizaram</span>
+              <br />
+              <span className="text-[#7c3aed]">suas IAs e cortaram custos.</span>
+            </h2>
+          </div>
+          <p className="text-sm text-[#71717a] leading-relaxed lg:max-w-sm lg:mt-16">
+            Não pedimos para escreverem isso. São pessoas reais que migraram
+            de várias assinaturas para uma só.
+          </p>
         </div>
 
         {/* Metrics */}
