@@ -35,9 +35,11 @@ export default function PainSection() {
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-14">
           <div className="max-w-2xl">
-            <span className="text-xs font-semibold tracking-widest text-violet-600 uppercase">
-              01 /06 Hoje está assim
-            </span>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-2xl font-bold text-black">01</span>
+              <span className="w-px h-6 bg-gray-300" />
+              <span className="text-sm font-medium text-gray-400">/06 Hoje está assim</span>
+            </div>
             <h2 className="mt-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
               Você está pagando caro{" "}
               <span className="text-violet-600 whitespace-nowrap">para pensar em pedaços.</span>
