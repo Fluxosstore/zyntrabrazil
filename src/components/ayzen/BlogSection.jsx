@@ -58,17 +58,17 @@ export default function BlogSection() {
             href="#"
             className="group relative bg-[#F9F9F9] rounded-3xl overflow-hidden hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 min-h-[460px] flex flex-col justify-between p-8"
           >
-            <div className="flex items-center gap-2 text-[#666666]">
-              <BookOpen className="w-4 h-4" />
-              <span className="text-xs font-medium tracking-widest uppercase">
-                {featured.tag}
-              </span>
-            </div>
             <img
               src={featured.img}
               alt=""
-              className="absolute top-1/2 right-0 -translate-y-1/2 w-1/2 max-w-none object-contain opacity-90 pointer-events-none"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             />
+            <div className="relative z-10 flex items-center gap-2 text-[#666666]">
+              <BookOpen className="w-4 h-4" />
+              <span className="text-xs font-medium tracking-widest uppercase bg-white/70 backdrop-blur px-2 py-1 rounded-full">
+                {featured.tag}
+              </span>
+            </div>
             <div className="relative z-10 max-w-md">
               <h3 className="text-2xl lg:text-3xl font-bold text-[#111111] leading-tight mb-5">
                 {featured.title}
@@ -77,7 +77,7 @@ export default function BlogSection() {
                 <span className="text-sm font-semibold text-[#111111]">
                   {featured.cta}
                 </span>
-                <span className="w-9 h-9 rounded-full border border-[#DDDDDD] flex items-center justify-center group-hover:bg-[#111111] group-hover:border-[#111111] transition-colors">
+                <span className="w-9 h-9 rounded-full border border-[#DDDDDD] bg-white flex items-center justify-center group-hover:bg-[#111111] group-hover:border-[#111111] transition-colors">
                   <ArrowUpRight className="w-4 h-4 text-[#111111] group-hover:text-white transition-colors" />
                 </span>
               </div>
