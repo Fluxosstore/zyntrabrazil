@@ -1,5 +1,5 @@
 import React from "react";
-import { Sun } from "lucide-react";
+import { Sun, ChevronDown } from "lucide-react";
 
 const HERO_IMG =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3d455afee_ChatGPTImage17desetde202601_13_21.png";
@@ -36,10 +36,12 @@ export default function AuthShell({ children }) {
       <div className="flex-1 relative flex flex-col">
         {/* top-right controls */}
         <div className="absolute top-6 right-8 flex items-center gap-3 z-10">
-          <button className="flex items-center gap-1.5 text-sm font-medium text-gray-600">
-            <span className="text-base">🇧🇷</span> PT
+          <button className="flex items-center gap-1.5 bg-[#F2F2F2] rounded-full pl-2 pr-2.5 py-1.5 text-sm font-medium text-black">
+            <span className="text-sm leading-none">🇧🇷</span>
+            <span className="text-xs font-medium text-black">PT</span>
+            <ChevronDown className="w-3 h-3 text-black" />
           </button>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors">
+          <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#4A4A4A] hover:bg-gray-100 transition-colors">
             <Sun className="w-4 h-4" />
           </button>
         </div>
