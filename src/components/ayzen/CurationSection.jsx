@@ -46,7 +46,7 @@ export default function CurationSection() {
               <span className="w-px h-6 bg-gray-300" />
               <span className="text-sm font-medium text-gray-400">/06 O catálogo</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1]">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
               Uma curadoria de elite
               <br />
               <span className="text-violet-600">para cada objetivo.</span>
