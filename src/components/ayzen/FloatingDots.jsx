@@ -11,7 +11,7 @@ export default function FloatingDots() {
         size: 2 + Math.random() * 4,
         duration: 7 + Math.random() * 9,
         delay: Math.random() * 10,
-        opacity: 0.15 + Math.random() * 0.35,
+        opacity: 0.2 + Math.random() * 0.4,
       })),
     []
   );
@@ -20,16 +20,16 @@ export default function FloatingDots() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <style>{`
         @keyframes ayzen-rise {
-          0% { transform: translateY(0); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(-110%); opacity: 0; }
+          0% { top: 100%; opacity: 0; }
+          8% { opacity: 1; }
+          92% { opacity: 1; }
+          100% { top: -6%; opacity: 0; }
         }
       `}</style>
       {dots.map((d) => (
         <span
           key={d.id}
-          className="absolute bottom-0 rounded-full bg-violet-500"
+          className="absolute rounded-full bg-violet-500"
           style={{
             left: `${d.left}%`,
             width: `${d.size}px`,
