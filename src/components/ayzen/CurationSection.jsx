@@ -1,5 +1,6 @@
 import React from "react";
 import { Sparkles, Gauge, FileText, Zap, LayoutGrid, CreditCard, Shield } from "lucide-react";
+import { Image } from "@/components/ui/image";
 
 const features = [
   {
@@ -84,8 +85,13 @@ export default function CurationSection() {
             <div className="absolute inset-8 rounded-full border border-gray-200" />
             {/* center */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-2xl shadow-violet-600/30">
-                <Sparkles className="w-8 h-8 text-white" strokeWidth={2} />
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center shadow-2xl shadow-violet-600/30 overflow-hidden">
+                <Image
+                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/db8cb624f_ChatGPTImage16desetde202623_41_31.png"
+                  alt="Zyntra"
+                  className="w-full h-full object-contain"
+                  fittingType="fit"
+                />
               </div>
             </div>
             {/* orbiting nodes */}
