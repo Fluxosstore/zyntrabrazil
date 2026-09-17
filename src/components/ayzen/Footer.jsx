@@ -93,7 +93,7 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-white" strokeWidth={2.5} />
                 </div>
-                <span className="text-xl font-bold text-white">Zyntra</span>
+                <span className="text-xl font-bold text-black">Zyntra</span>
               </a>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
                 O hub de IA profissional que centraliza os modelos mais potentes
