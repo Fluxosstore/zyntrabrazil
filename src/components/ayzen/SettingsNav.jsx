@@ -20,7 +20,7 @@ const ICONS = {
   connectors: Plug,
 };
 
-export default function SettingsNav({ active = "usage" }) {
+export default function SettingsNav({ active = "usage", onSelect }) {
   const { t } = useLanguage();
 
   const sections = [
@@ -62,6 +62,7 @@ export default function SettingsNav({ active = "usage" }) {
                 return (
                   <button
                     key={it.id}
+                    onClick={() => onSelect?.(it.id)}
                     className={`w-full flex items-center gap-2.5 text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                       active === it.id
                         ? "bg-[#e8e8e8] text-black"

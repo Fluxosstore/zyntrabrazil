@@ -7,6 +7,10 @@ import SettingsNav from "@/components/ayzen/SettingsNav";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import { MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 import ModelUsageRow from "@/components/ayzen/ModelUsageRow";
+import PlanContent from "@/components/ayzen/settings/PlanContent";
+import InvoicesContent from "@/components/ayzen/settings/InvoicesContent";
+import SkillsContent from "@/components/ayzen/settings/SkillsContent";
+import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
 
 function UsageContent() {
   const { t } = useLanguage();
@@ -143,6 +147,22 @@ function UsageContent() {
 export default function Settings() {
   const { t } = useLanguage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("usage");
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "plan":
+        return <PlanContent />;
+      case "invoices":
+        return <InvoicesContent />;
+      case "skills":
+        return <SkillsContent />;
+      case "connectors":
+        return <ConnectorsContent />;
+      default:
+        return <UsageContent />;
+    }
+  };
 
   return (
     <>
@@ -150,8 +170,8 @@ export default function Settings() {
       <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
         <DashboardSidebar activePage="settings" />
         <main className="flex-1 flex bg-white rounded-2xl overflow-hidden">
-          <SettingsNav active="usage" />
-          <UsageContent />
+          <SettingsNav active={activeSection} onSelect={setActiveSection} />
+          {renderContent()}
         </main>
       </div>
 
@@ -168,8 +188,8 @@ export default function Settings() {
           <div className="w-9" />
         </div>
         <div className="flex flex-1 overflow-hidden">
-          <SettingsNav active="usage" />
-          <UsageContent />
+          <SettingsNav active={activeSection} onSelect={setActiveSection} />
+          {renderContent()}
         </div>
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
