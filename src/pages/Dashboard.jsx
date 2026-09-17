@@ -86,7 +86,7 @@ export default function Dashboard() {
           )}
         </div>
 
-        <div className={`${collapsed ? "px-2" : "px-2.5"} space-y-1`}>
+        <div className={`${collapsed ? "px-3" : "px-2.5"} space-y-1`}>
           {collapsed ? (
             <>
               <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
@@ -146,7 +146,7 @@ export default function Dashboard() {
         )}
         {collapsed && <div className="flex-1" />}
         {collapsed && (
-          <div className="px-2 pb-1">
+          <div className="px-3 pb-1">
             <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
               <Settings className="w-4 h-4" />
             </button>
@@ -154,7 +154,7 @@ export default function Dashboard() {
         )}
 
         {/* user footer */}
-        <div className="relative px-2.5 py-2">
+        <div className={`relative ${collapsed ? "px-3" : "px-2.5"} py-2`}>
           <AnimatePresence>
             {popoverOpen && (
               <UserPopover
@@ -170,7 +170,7 @@ export default function Dashboard() {
           </AnimatePresence>
           <button
             onClick={() => setPopoverOpen((v) => !v)}
-            className={`w-full flex items-center ${collapsed ? "justify-center py-2 rounded-lg hover:bg-gray-200/60" : "gap-2.5 px-2 rounded-2xl bg-[#f4f5f7] border border-gray-200/70 hover:bg-[#eceef0]"} transition-colors`}
+            className={`w-full flex items-center ${collapsed ? "justify-center aspect-square rounded-lg hover:bg-gray-200/60" : "gap-2.5 px-2 rounded-2xl bg-[#f4f5f7] border border-gray-200/70 hover:bg-[#eceef0]"} transition-colors`}
           >
             <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
