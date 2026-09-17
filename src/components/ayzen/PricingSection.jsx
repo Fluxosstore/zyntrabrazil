@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Star } from "lucide-react";
 
-const GEMMA = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f965acc9b_gemma.svg";
-const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cf8c1f33c_gemini.svg";
-const DEEPSEEK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/543e42d1a_deepseek.svg";
+const GEMINI = "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/gemini-color.png";
+const DEEPSEEK = "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/deepseek-color.png";
+const GPT = "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/openai.png";
+const CLAUDE = "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/claude-color.png";
+const GROK = "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light/grok.png";
 
 const plans = [
   {
@@ -18,7 +20,7 @@ const plans = [
       "Sem cartão, sem expiração",
     ],
     modelsCount: "1 modelo",
-    models: [{ src: GEMMA, label: "Gemma" }],
+    models: [{ src: DEEPSEEK, label: "DeepSeek" }],
     cta: "Começar grátis",
     tag: null,
   },
@@ -35,7 +37,7 @@ const plans = [
       "Suporte prioritário",
     ],
     modelsCount: "3 modelos",
-    models: [{ src: GEMMA, label: "Gemma" }, { src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }],
+    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }],
     cta: "Assinar Starter",
     tag: "Mais popular",
   },
@@ -51,8 +53,8 @@ const plans = [
       "Integrações Google + Drive",
       "Suporte dedicado 24/7",
     ],
-    modelsCount: "Todos os modelos",
-    models: [{ src: GEMMA, label: "Gemma" }, { src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { more: "todos" }],
+    modelsCount: "5 modelos",
+    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { src: GPT, label: "GPT-5" }],
     cta: "Assinar Premium",
     tag: null,
   },
