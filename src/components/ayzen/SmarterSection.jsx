@@ -70,12 +70,11 @@ export default function SmarterSection() {
                 className="absolute inset-0 w-full h-full object-cover"
                 fittingType="fill"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/85 to-white/95" />
-              <div className="relative h-full flex flex-col p-6">
-                <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold">
-                  {c.num}
-                </span>
-                <div className="mt-auto">
+              <div className="relative h-full flex flex-col justify-end p-4">
+                <div className="bg-white/85 backdrop-blur-md rounded-2xl p-5 shadow-lg">
+                  <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold mb-3">
+                    {c.num}
+                  </span>
                   <h3 className="text-xl font-bold text-[#222] mb-2">{c.title}</h3>
                   <p className="text-sm text-[#666] leading-relaxed">
                     {c.desc}
