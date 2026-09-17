@@ -6,19 +6,19 @@ const cards = [
   {
     title: "Workspace unificado",
     desc: "Todas as IAs, um só histórico. Alterne modelos sem perder contexto.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d8cb529e_generated_83658005.jpg",
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f948e298d_Capturadetela2026-09-17000242.png",
     points: ["Histórico sincronizado", "Troca de modelo em 1 clique"],
   },
   {
     title: "Chat inteligente",
     desc: "Converse com a IA certa para cada tarefa, sem sair da conversa.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/27ead898a_generated_4ae7b836.jpg",
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/31e754706_Capturadetela2026-09-17000222.png",
     points: ["Roteamento automático", "Respostas em segundos"],
   },
   {
     title: "Pensando à frente",
     desc: "Novos modelos entram no plano automaticamente, sem custo extra.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d8cb529e_generated_83658005.jpg",
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8728b9d33_Capturadetela2026-09-17000255.png",
     points: ["Modelos sempre atualizados", "Previsão de tendências"],
   },
 ];
