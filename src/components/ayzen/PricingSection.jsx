@@ -31,7 +31,7 @@ const plans = [
     period: "/mês",
     highlightFeature: "Mensagens ilimitadas",
     features: [
-      "8 modelos de elite",
+      "3 modelos de elite",
       "Histórico ilimitado",
       "Integrações Google",
       "Suporte prioritário",
