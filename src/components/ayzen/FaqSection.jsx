@@ -47,13 +47,12 @@ export default function FaqSection() {
     <section id="faq" className="relative py-20 lg:py-28 bg-white">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          {/* Left card with astronaut + purple swirl */}
-          <div className="relative rounded-3xl overflow-hidden min-h-[560px] bg-[#FDFDFD] flex flex-col items-center justify-end p-8 lg:p-10">
-            {/* Astronaut + emblem image */}
+          {/* Left card with full background image */}
+          <div className="relative rounded-3xl overflow-hidden min-h-[560px] flex flex-col justify-end p-8 lg:p-10">
             <img
               src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1536c52c1_ChatGPTImage17desetde202601_00_23.png"
               alt=""
-              className="relative z-10 w-full max-w-[420px] object-contain mb-2"
+              className="absolute inset-0 w-full h-full object-cover"
             />
             {/* Stacked text */}
             <div className="relative z-10 w-full">
