@@ -64,9 +64,34 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Right: stats + bullets */}
+          {/* Right: included models + bullets + stats */}
           <div className="lg:col-span-5 relative self-start">
-            <div className="text-right">
+            {/* Top: included models (aligned with buttons row) */}
+            <div className="text-center">
+              <div className="text-xs font-medium text-gray-500 mb-2">
+                Inclusas no plano
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {aiModels.map((m) =>
+                <span
+                  key={m}
+                  className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white/80 backdrop-blur border border-gray-200 px-3 py-1.5 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                  {m}
+                </span>
+                )}
+              </div>
+            </div>
+
+            {/* Middle: bullets */}
+            <ul className="mt-6 space-y-2 text-sm text-gray-600 text-center">
+              <li>• IAs de elite em uma assinatura</li>
+              <li>• Histórico unificado entre modelos</li>
+              <li>• Pagamento simplificado em Reais</li>
+            </ul>
+
+            {/* Bottom: stats */}
+            <div className="mt-6 text-center">
               <div className="text-xs font-medium text-gray-500 mb-1">
                 Economia média
               </div>
@@ -75,27 +100,6 @@ export default function Hero() {
               </div>
               <div className="text-sm text-gray-500 mt-1">
                 vs. assinaturas avulsas
-              </div>
-              <ul className="mt-5 space-y-2 text-sm text-gray-600">
-                <li>• IAs de elite em uma assinatura</li>
-                <li>• Histórico unificado entre modelos</li>
-                <li>• Pagamento simplificado em Reais</li>
-              </ul>
-
-              <div className="mt-6">
-                <div className="text-xs font-medium text-gray-500 mb-2">
-                  Inclusas no plano
-                </div>
-                <div className="flex flex-wrap items-center justify-end gap-2">
-                  {aiModels.map((m) =>
-                  <span
-                    key={m}
-                    className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-white/80 backdrop-blur border border-gray-200 px-3 py-1.5 rounded-full">
-                    <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-                    {m}
-                  </span>
-                  )}
-                </div>
               </div>
             </div>
           </div>
