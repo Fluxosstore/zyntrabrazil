@@ -71,7 +71,7 @@ export default function SmarterSection() {
                 fittingType="fill"
               />
               <div className="relative h-full flex flex-col justify-end p-4">
-                <div className="bg-white/85 backdrop-blur-md rounded-2xl p-5 shadow-lg">
+                <div className="bg-white/60 backdrop-blur-md rounded-2xl p-5 shadow-lg">
                   <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full bg-[#444] text-white text-xs font-semibold mb-3">
                     {c.num}
                   </span>
