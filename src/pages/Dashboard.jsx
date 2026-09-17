@@ -207,10 +207,11 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <p className="mt-24 text-center text-[11px] text-gray-400 max-w-xl">
-            {t("dash.disclaimer")}
-          </p>
         </div>
+
+        <p className="absolute bottom-4 left-0 right-0 text-center text-[11px] text-gray-400 max-w-xl mx-auto px-6">
+          {t("dash.disclaimer")}
+        </p>
       </main>
     </div>
     <MobileDashboard />
