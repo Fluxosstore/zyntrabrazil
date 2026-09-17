@@ -118,8 +118,9 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
       {/* Active selection - Ayzen Auto */}
       <button
         onClick={() => onSelect?.("auto")}
-        className="w-full flex items-center gap-2.5 px-3.5 py-2.5 mx-1.5 my-1 rounded-lg border border-gray-200 bg-[#F0F2F5] hover:bg-gray-200 hover:border-gray-300 transition-colors text-left"
-        style={{ width: "calc(100% - 12px)" }}
+        className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg transition-colors text-left ${
+          selected === "auto" ? "bg-[#F0F2F5]" : "hover:bg-gray-100"
+        }`}
       >
         <img src={LOGO} alt="Ayzen Auto" className="w-6 h-6 rounded-md object-cover shrink-0" />
         <div className="flex-1 min-w-0">
@@ -139,12 +140,14 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
       </div>
 
       {/* Model list */}
-      <div className="px-1.5 pb-2 space-y-1">
+      <div className="px-1.5 pb-2 space-y-0.5">
         {filtered.map((m) => (
           <button
             key={m.id}
             onClick={() => onSelect?.(m.id)}
-            className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-100 hover:border-gray-300 transition-colors text-left"
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+              selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"
+            }`}
           >
             <div className="w-6 h-6 flex items-center justify-center shrink-0">
               <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
