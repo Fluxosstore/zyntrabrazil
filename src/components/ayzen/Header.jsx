@@ -2,16 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon, Monitor } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
+import { useLanguage } from "@/lib/LanguageContext";
 
-const navLinks = [
-  { label: "IAs", href: "#ias", id: "ias" },
-  { label: "Benefícios", href: "#beneficios", id: "beneficios" },
-  { label: "Planos", href: "#planos", id: "planos" },
-  { label: "FAQ", href: "#faq", id: "faq" },
-  { label: "Blog", href: "#blog", id: "blog" },
+const navLinkDefs = [
+  { key: "nav.ias", href: "#ias", id: "ias" },
+  { key: "nav.beneficios", href: "#beneficios", id: "beneficios" },
+  { key: "nav.planos", href: "#planos", id: "planos" },
+  { key: "nav.faq", href: "#faq", id: "faq" },
+  { key: "nav.blog", href: "#blog", id: "blog" },
 ];
 
 export default function Header() {
+  const { t } = useLanguage();
+  const navLinks = navLinkDefs.map((l) => ({ ...l, label: t(l.key) }));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
 
@@ -86,14 +89,14 @@ export default function Header() {
                 href="/login"
                 className="hidden lg:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full transition-colors"
               >
-                Entrar
+                {t("header.entrar")}
               </a>
 
               <a
                 href="#planos"
                 className="inline-flex items-center gap-1.5 bg-violet-600 hover:bg-violet-700 text-white text-sm font-semibold px-4 py-2 rounded-full transition-all shadow-md shadow-violet-600/25"
               >
-                Assinar
+                {t("header.assinar")}
                 <span className="w-1.5 h-1.5 rounded-full bg-white" />
               </a>
 
@@ -146,7 +149,7 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
               className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50"
             >
-              Entrar
+              {t("header.entrar")}
             </a>
           </nav>
         </div>

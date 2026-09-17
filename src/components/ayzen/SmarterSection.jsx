@@ -1,40 +1,42 @@
 import React from "react";
 import { Image } from "@/components/ui/image";
-
-const cards = [
-  {
-    num: "01",
-    title: "Workspace unificado.",
-    desc: "Todas as IAs, um só histórico. Alterne modelos sem perder contexto, com tudo sincronizado em uma única interface profissional.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0d8aac86f_quality_restoration_20260917024803194.jpg",
-    stats: [
-      { value: "1", label: "histórico só" },
-      { value: "1-clique", label: "troca de IA" },
-    ],
-  },
-  {
-    num: "02",
-    title: "Chat inteligente.",
-    desc: "Converse com a IA certa para cada tarefa, sem sair da conversa. Roteamento automático e respostas em segundos.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/20ecbddfa_quality_restoration_20260917024816699.jpg",
-    stats: [
-      { value: "Auto", label: "roteamento" },
-      { value: "Seg", label: "resposta" },
-    ],
-  },
-  {
-    num: "03",
-    title: "Pensando à frente.",
-    desc: "Novos modelos entram no plano automaticamente, sem custo extra. Você sempre usa o que há de mais avançado.",
-    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f728bb9cf_quality_restoration_20260917024836989.jpg",
-    stats: [
-      { value: "0", label: "custo extra" },
-      { value: "Auto", label: "atualizações" },
-    ],
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function SmarterSection() {
+  const { t } = useLanguage();
+  const cards = [
+    {
+      num: "01",
+      title: t("smarter.card1Title"),
+      desc: t("smarter.card1Desc"),
+      img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0d8aac86f_quality_restoration_20260917024803194.jpg",
+      stats: [
+        { value: t("smarter.card1Stat1"), label: t("smarter.card1Stat1Label") },
+        { value: t("smarter.card1Stat2"), label: t("smarter.card1Stat2Label") },
+      ],
+    },
+    {
+      num: "02",
+      title: t("smarter.card2Title"),
+      desc: t("smarter.card2Desc"),
+      img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/20ecbddfa_quality_restoration_20260917024816699.jpg",
+      stats: [
+        { value: t("smarter.card2Stat1"), label: t("smarter.card2Stat1Label") },
+        { value: t("smarter.card2Stat2"), label: t("smarter.card2Stat2Label") },
+      ],
+    },
+    {
+      num: "03",
+      title: t("smarter.card3Title"),
+      desc: t("smarter.card3Desc"),
+      img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/f728bb9cf_quality_restoration_20260917024836989.jpg",
+      stats: [
+        { value: t("smarter.card3Stat1"), label: t("smarter.card3Stat1Label") },
+        { value: t("smarter.card3Stat2"), label: t("smarter.card3Stat2Label") },
+      ],
+    },
+  ];
+
   return (
     <section className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -43,18 +45,16 @@ export default function SmarterSection() {
             <div className="flex items-center gap-3 mb-6">
               <span className="text-2xl font-bold text-black">03</span>
               <span className="w-px h-6 bg-gray-300" />
-              <span className="text-sm font-medium text-gray-400">/06 Por que Zyntra</span>
+              <span className="text-sm font-medium text-gray-400">{t("smarter.counter")}</span>
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-              Seu trabalho, mais inteligente.
+              {t("smarter.title")}
               <br />
-              <span className="text-violet-600">Hoje e no futuro.</span>
+              <span className="text-violet-600">{t("smarter.titleHighlight")}</span>
             </h2>
           </div>
           <p className="text-sm text-gray-500 leading-relaxed lg:max-w-sm lg:mt-16">
-            A Zyntra já centraliza IAs de elite e evolui para conectar
-            ferramentas, automatizar fluxos e transformar ideias em produtos
-            digitais.
+            {t("smarter.desc")}
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default function SmarterSection() {
                       href="#planos"
                       className="inline-flex items-center justify-center bg-[#7F56D9] hover:bg-[#6941C6] text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
                     >
-                      Ver planos
+                      {t("smarter.verPlanos")}
                     </a>
                   </div>
                 </div>

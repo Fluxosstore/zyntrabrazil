@@ -1,23 +1,16 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
-
-const footerCols = [
-{
-  title: "Produto",
-  links: ["IAs", "Benefícios", "Planos", "FAQ"]
-},
-{
-  title: "Guias e Conteúdo",
-  links: ["Blog", "ChatGPT vs Claude vs Gemini", "Centralizar IAs", "Glossário de IA"]
-},
-{
-  title: "Legal",
-  links: ["Termos de Uso", "Política de Privacidade", "Cookies"]
-}];
-
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
+  const footerCols = [
+    { title: t("footer.col1Title"), links: t("footer.col1Links") },
+    { title: t("footer.col2Title"), links: t("footer.col2Links") },
+    { title: t("footer.col3Title"), links: t("footer.col3Links") },
+  ];
+
   return (
     <footer className="bg-[#FAFAFA]">
       {/* Pre-footer CTA */}
@@ -29,40 +22,38 @@ export default function Footer() {
               <div className="flex items-center gap-2 mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8c52ff]" />
                 <span className="text-xs font-medium tracking-widest text-[#666666] uppercase">
-                  Pronto para pensar com tudo isso?
+                  {t("footer.badge")}
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
-                <span className="text-[#111111]">Centralize. Evolua.</span>
+                <span className="text-[#111111]">{t("footer.title")}</span>
                 <br />
-                <span className="text-[#8c52ff]">Pense à frente.</span>
+                <span className="text-[#8c52ff]">{t("footer.titleHighlight")}</span>
               </h2>
               <p className="mt-6 text-base text-[#666666] leading-relaxed max-w-md">
-                Comece agora com o que há de melhor em IA e prepare-se para as
-                ferramentas de automação e desenvolvimento que vão mudar seu
-                jogo.
+                {t("footer.desc")}
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-5">
                 <a
                   href="#planos"
                   className="inline-flex items-center gap-2 bg-[#8c52ff] hover:bg-[#7c3aed] text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg shadow-violet-500/25 hover:-translate-y-0.5">
-                  
-                  Ver planos
+
+                  {t("footer.verPlanos")}
                 </a>
                 <a
                   href="#ias"
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#111111] hover:text-[#8c52ff] transition-colors">
-                  
-                  Conhecer as IAs
+
+                  {t("footer.conhecerIas")}
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
               <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[#666666]">
-                <span>7 dias grátis</span>
+                <span>{t("footer.benefit1")}</span>
                 <span className="text-[#cccccc]">•</span>
-                <span>Devolução total</span>
+                <span>{t("footer.benefit2")}</span>
                 <span className="text-[#cccccc]">•</span>
-                <span>Sem fidelidade</span>
+                <span>{t("footer.benefit3")}</span>
               </div>
             </div>
 
@@ -98,8 +89,7 @@ export default function Footer() {
                 <span className="text-xl font-bold text-black">Zyntra</span>
               </a>
               <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
-                O hub de IA profissional que centraliza os modelos mais potentes
-                do mundo em uma única assinatura.
+                {t("footer.brandDesc")}
               </p>
             </div>
 
@@ -128,17 +118,17 @@ export default function Footer() {
           {/* Legal bar */}
           <div className="mt-14 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-xs text-gray-500">
-              © 2026 Korda Lab CORP. Todos os direitos reservados.
+              {t("footer.copyright")}
             </p>
             <div className="flex items-center gap-6">
               <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
-                Termos
+                {t("footer.terms")}
               </a>
               <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
-                Privacidade
+                {t("footer.privacy")}
               </a>
               <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
-                Cookies
+                {t("footer.cookies")}
               </a>
             </div>
           </div>

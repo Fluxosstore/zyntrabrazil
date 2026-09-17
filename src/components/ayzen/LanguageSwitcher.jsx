@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import Flag from "@/components/ayzen/Flag";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const LANGS = [
   { code: "PT", label: "Português" },
@@ -9,10 +10,10 @@ const LANGS = [
 ];
 
 export default function LanguageSwitcher({ variant = "text" }) {
+  const { lang, setLang } = useLanguage();
   const [langOpen, setLangOpen] = useState(false);
-  const [lang, setLang] = useState("PT");
   const langRef = useRef(null);
-  const current = LANGS.find((l) => l.code === lang);
+  const current = LANGS.find((l) => l.code === lang) || LANGS[0];
 
   useEffect(() => {
     const onClick = (e) => {

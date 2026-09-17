@@ -1,46 +1,15 @@
 import React from "react";
 import TestimonialsCarousel from "./TestimonialsCarousel";
-
-const metrics = [
-  { value: "800+", label: "profissionais ativos" },
-  { value: "-54%", label: "custo médio reduzido" },
-  { value: "4.9/5", label: "avaliação NPS" },
-];
-
-const testimonials = [
-  {
-    name: "Marina Costa",
-    role: "Designer de Produto",
-    text: "Cancelei quatro assinaturas depois da Zyntra. O contexto unificado mudou meu fluxo completamente.",
-  },
-  {
-    name: "Rafael Mendes",
-    role: "Desenvolvedor Full-stack",
-    text: "Alterno Claude e GPT-4 sem sair da conversa. A economia em dólar sozinha já se paga.",
-  },
-  {
-    name: "Juliana Prado",
-    role: "Head de Conteúdo",
-    text: "A integração com Gmail e Agenda poupa horas por semana. Parece mágica, mas é só organização.",
-  },
-  {
-    name: "Bruno Tavares",
-    role: "Consultor Financeiro",
-    text: "Paguei R$ 247 por mês em dólar. Hoje pago menos da metade e tenho mais modelos.",
-  },
-  {
-    name: "Camila Rocha",
-    role: "Fundadora, Startup",
-    text: "Meu time inteiro usa a Zyntra. O plano empresarial centralizou tudo e barateou o stack.",
-  },
-  {
-    name: "Diego Almeida",
-    role: "Pesquisador de IA",
-    text: "A curadoria de modelos é impecável. DeepSeek para código, Claude para escrita, Gemini para web.",
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function TestimonialsSection() {
+  const { t } = useLanguage();
+  const metrics = [
+    { value: "800+", label: t("testimonials.m1Label") },
+    { value: "-54%", label: t("testimonials.m2Label") },
+    { value: "4.9/5", label: t("testimonials.m3Label") },
+  ];
+
   return (
     <section className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -49,18 +18,17 @@ export default function TestimonialsSection() {
             <div className="flex items-center gap-2 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#7c3aed]" />
               <span className="text-xs font-medium tracking-widest text-gray-500 uppercase">
-                Quem já usa
+                {t("testimonials.badge")}
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
-              <span className="text-black">Profissionais que centralizaram</span>
+              <span className="text-black">{t("testimonials.title")}</span>
               <br />
-              <span className="text-[#7c3aed]">suas IAs e cortaram custos.</span>
+              <span className="text-[#7c3aed]">{t("testimonials.titleHighlight")}</span>
             </h2>
           </div>
           <p className="text-sm text-[#71717a] leading-relaxed lg:max-w-sm lg:mt-16">
-            Não pedimos para escreverem isso. São pessoas reais que migraram
-            de várias assinaturas para uma só.
+            {t("testimonials.desc")}
           </p>
         </div>
 

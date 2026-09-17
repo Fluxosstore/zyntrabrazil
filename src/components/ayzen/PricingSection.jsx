@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Star } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
 const DEEPSEEK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
@@ -7,117 +8,89 @@ const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698
 const CLAUDE = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
 const GROK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
 
-const personalPlans = [
-  {
-    name: "Zyntra Free",
-    desc: "Plano gratuito permanente. Chat com IAs gratuitas e fallback automático.",
-    price: { mensal: "Grátis", anual: "Grátis" },
-    period: null,
-    highlightFeature: "Mensagens ilimitadas",
-    features: [
-      "Chat com modelos gratuitos",
-      "Fallback automático se um modelo falhar",
-      "Sem cartão, sem expiração",
-    ],
-    modelsCount: "1 modelo",
-    models: [{ src: DEEPSEEK, label: "DeepSeek" }],
-    cta: "Começar grátis",
-    tag: null,
-  },
-  {
-    name: "Starter",
-    desc: "Para profissionais autônomos. Acesso aos modelos de elite com mensagens ilimitadas.",
-    price: { mensal: "R$ 90,00", anual: "R$ 75,00" },
-    period: "/mês",
-    highlightFeature: "Mensagens ilimitadas",
-    features: [
-      "3 modelos de elite",
-      "Histórico ilimitado",
-      "Integrações Google",
-      "Suporte prioritário",
-    ],
-    modelsCount: "3 modelos",
-    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }],
-    cta: "Assinar Starter",
-    tag: "Mais popular",
-  },
-  {
-    name: "Pessoal Premium",
-    desc: "Para quem vive de IA. Todos os modelos, incluindo Opus, com contexto expandido.",
-    price: { mensal: "R$ 149,90", anual: "R$ 124,90" },
-    period: "/mês",
-    highlightFeature: "Mensagens ilimitadas",
-    features: [
-      "Todos os modelos, incluindo Opus",
-      "Contexto expandido (200k)",
-      "Integrações Google + Drive",
-      "Suporte dedicado 24/7",
-    ],
-    modelsCount: "5 modelos",
-    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { src: GPT, label: "GPT-5" }],
-    cta: "Assinar Premium",
-    tag: null,
-  },
-];
+function buildPersonalPlans(t) {
+  return [
+    {
+      name: "Zyntra Free",
+      desc: t("pricing.freeDesc"),
+      price: { mensal: t("pricing.free"), anual: t("pricing.free") },
+      period: null,
+      highlightFeature: t("pricing.unlimitedMessages"),
+      features: [t("pricing.freeF1"), t("pricing.freeF2"), t("pricing.freeF3")],
+      modelsCount: t("pricing.freeModels"),
+      models: [{ src: DEEPSEEK, label: "DeepSeek" }],
+      cta: t("pricing.freeCta"),
+      tag: null,
+    },
+    {
+      name: "Starter",
+      desc: t("pricing.starterDesc"),
+      price: { mensal: "R$ 90,00", anual: "R$ 75,00" },
+      period: t("pricing.perMonth"),
+      highlightFeature: t("pricing.unlimitedMessages"),
+      features: [t("pricing.starterF1"), t("pricing.starterF2"), t("pricing.starterF3"), t("pricing.starterF4")],
+      modelsCount: t("pricing.starterModels"),
+      models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }],
+      cta: t("pricing.starterCta"),
+      tag: t("pricing.mostPopular"),
+    },
+    {
+      name: "Pessoal Premium",
+      desc: t("pricing.premiumDesc"),
+      price: { mensal: "R$ 149,90", anual: "R$ 124,90" },
+      period: t("pricing.perMonth"),
+      highlightFeature: t("pricing.unlimitedMessages"),
+      features: [t("pricing.premiumF1"), t("pricing.premiumF2"), t("pricing.premiumF3"), t("pricing.premiumF4")],
+      modelsCount: t("pricing.premiumModels"),
+      models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { src: GPT, label: "GPT-5" }],
+      cta: t("pricing.premiumCta"),
+      tag: null,
+    },
+  ];
+}
 
-const businessPlans = [
-  {
-    name: "Empresarial Team",
-    desc: "Para times pequenos. Conta compartilhada com até 8 usuários e 9 modelos de IA.",
-    price: { mensal: "R$ 399,90", anual: "R$ 333,25" },
-    period: "/mês",
-    highlightFeature: "Mensagens limitadas",
-    features: [
-      "Até 8 usuários",
-      "Conta compartilhada",
-      "9 modelos de IA",
-      "Suporte prioritário",
-    ],
-    modelsCount: "9 modelos",
-    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 4 }],
-    cta: "Assinar Team",
-    tag: null,
-  },
-  {
-    name: "Empresarial Startup",
-    desc: "Para startups em crescimento. 10 usuários, conta compartilhada e recursos premium.",
-    price: { mensal: "R$ 599,90", anual: "R$ 499,90" },
-    period: "/mês",
-    highlightFeature: "Mensagens limitadas",
-    features: [
-      "10 usuários",
-      "Conta compartilhada",
-      "Cash premium",
-      "Imagem, transcrição e voz",
-      "9 modelos de IA",
-    ],
-    modelsCount: "9 modelos",
-    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 4 }],
-    cta: "Assinar Startup",
-    tag: "Mais popular",
-  },
-  {
-    name: "Empresarial Enterprise",
-    desc: "Para grandes empresas. Opus 47, vídeo premium, conta máxima e SLA dedicado.",
-    price: { mensal: "R$ 999,90", anual: "R$ 833,25" },
-    period: "/mês",
-    highlightFeature: "Mensagens limitadas",
-    features: [
-      "Imagens em 8K",
-      "Opus 47",
-      "Vídeo premium",
-      "Conta máxima",
-      "SLA dedicado",
-      "5 modelos + outros 9",
-    ],
-    modelsCount: "14 modelos",
-    models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 9 }],
-    cta: "Assinar Enterprise",
-    tag: null,
-  },
-];
+function buildBusinessPlans(t) {
+  return [
+    {
+      name: "Empresarial Team",
+      desc: t("pricing.teamDesc"),
+      price: { mensal: "R$ 399,90", anual: "R$ 333,25" },
+      period: t("pricing.perMonth"),
+      highlightFeature: t("pricing.limitedMessages"),
+      features: [t("pricing.teamF1"), t("pricing.teamF2"), t("pricing.teamF3"), t("pricing.teamF4")],
+      modelsCount: t("pricing.teamModels"),
+      models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 4 }],
+      cta: t("pricing.teamCta"),
+      tag: null,
+    },
+    {
+      name: "Empresarial Startup",
+      desc: t("pricing.startupDesc"),
+      price: { mensal: "R$ 599,90", anual: "R$ 499,90" },
+      period: t("pricing.perMonth"),
+      highlightFeature: t("pricing.limitedMessages"),
+      features: [t("pricing.startupF1"), t("pricing.startupF2"), t("pricing.startupF3"), t("pricing.startupF4"), t("pricing.startupF5")],
+      modelsCount: t("pricing.startupModels"),
+      models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 4 }],
+      cta: t("pricing.startupCta"),
+      tag: t("pricing.mostPopular"),
+    },
+    {
+      name: "Empresarial Enterprise",
+      desc: t("pricing.enterpriseDesc"),
+      price: { mensal: "R$ 999,90", anual: "R$ 833,25" },
+      period: t("pricing.perMonth"),
+      highlightFeature: t("pricing.limitedMessages"),
+      features: [t("pricing.enterpriseF1"), t("pricing.enterpriseF2"), t("pricing.enterpriseF3"), t("pricing.enterpriseF4"), t("pricing.enterpriseF5"), t("pricing.enterpriseF6")],
+      modelsCount: t("pricing.enterpriseModels"),
+      models: [{ src: GEMINI, label: "Gemini" }, { src: DEEPSEEK, label: "DeepSeek" }, { src: GPT, label: "GPT" }, { src: CLAUDE, label: "Claude" }, { src: GROK, label: "Grok" }, { more: 9 }],
+      cta: t("pricing.enterpriseCta"),
+      tag: null,
+    },
+  ];
+}
 
-function PlanCard({ plan, cycle }) {
+function PlanCard({ plan, cycle, t }) {
   return (
     <div className="relative bg-white border border-[#e5e5e5] rounded-3xl p-8 flex flex-col">
       {plan.tag && (
@@ -150,7 +123,7 @@ function PlanCard({ plan, cycle }) {
       </ul>
       <hr className="my-6 border-[#e5e5e5]" />
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-[#666666]">IAs incluídas</span>
+        <span className="text-xs font-medium text-[#666666]">{t("pricing.iasIncluded")}</span>
         <span className="text-xs font-semibold text-[#111111]">{plan.modelsCount}</span>
       </div>
       <div className="mt-4 flex flex-wrap gap-1.5">
@@ -181,8 +154,11 @@ function PlanCard({ plan, cycle }) {
 }
 
 export default function PricingSection() {
+  const { t } = useLanguage();
   const [cycle, setCycle] = useState("mensal");
   const [tab, setTab] = useState("pessoal");
+  const personalPlans = buildPersonalPlans(t);
+  const businessPlans = buildBusinessPlans(t);
 
   return (
     <section id="planos" className="py-20 lg:py-28 bg-[#FAFAFA]">
@@ -191,42 +167,41 @@ export default function PricingSection() {
           <div className="flex items-center justify-center gap-2 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
             <span className="text-xs font-medium tracking-widest text-[#374151] uppercase">
-              Planos
+              {t("pricing.badge")}
             </span>
           </div>
           <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
-            <span className="text-[#111827]">Escolha um plano.</span>
+            <span className="text-[#111827]">{t("pricing.title")}</span>
             <br />
-            <span className="text-[#8B5CF6]">Pare de pagar cinco.</span>
+            <span className="text-[#8B5CF6]">{t("pricing.titleHighlight")}</span>
           </h2>
           <p className="mt-6 text-base sm:text-lg text-[#6B7280] leading-relaxed">
-            Cobrança em real, nota fiscal incluída e cancelamento a qualquer
-            momento. Sem fidelidade, sem letra miúda.
+            {t("pricing.desc")}
           </p>
           <p className="mt-8 text-sm text-[#6B7280]">
-            Faturado mensalmente • Cancele quando quiser
+            {t("pricing.billedMonthly")}
           </p>
         </div>
 
         {/* Tabs + Cycle toggle side by side */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 mb-12">
           <div className="inline-flex bg-gray-100 rounded-full p-1">
-            {["pessoal", "empresarial"].map((t) => (
+            {["pessoal", "empresarial"].map((tabKey) => (
               <button
-                key={t}
-                onClick={() => setTab(t)}
+                key={tabKey}
+                onClick={() => setTab(tabKey)}
                 className={`px-6 py-2 text-sm font-medium rounded-full transition-all capitalize ${
-                  tab === t ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  tab === tabKey ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
                 }`}
               >
-                {t === "pessoal" ? "Pessoal" : "Empresarial"}
+                {tabKey === "pessoal" ? t("pricing.tabPersonal") : t("pricing.tabBusiness")}
               </button>
             ))}
           </div>
 
           <div className="flex items-center gap-3">
             <span className={`text-sm font-medium ${cycle === "mensal" ? "text-gray-900" : "text-gray-400"}`}>
-              Mensal
+              {t("pricing.monthly")}
             </span>
             <button
               onClick={() => setCycle(cycle === "mensal" ? "anual" : "mensal")}
@@ -239,10 +214,10 @@ export default function PricingSection() {
               />
             </button>
             <span className={`text-sm font-medium ${cycle === "anual" ? "text-gray-900" : "text-gray-400"}`}>
-              Anual
+              {t("pricing.annual")}
             </span>
             <span className="text-xs font-semibold text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full">
-              2 meses grátis
+              {t("pricing.twoMonthsFree")}
             </span>
           </div>
         </div>
@@ -250,7 +225,7 @@ export default function PricingSection() {
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
           {(tab === "pessoal" ? personalPlans : businessPlans).map((plan) => (
-            <PlanCard key={plan.name} plan={plan} cycle={cycle} />
+            <PlanCard key={plan.name} plan={plan} cycle={cycle} t={t} />
           ))}
         </div>
       </div>

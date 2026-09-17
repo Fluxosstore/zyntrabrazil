@@ -1,25 +1,21 @@
 import React from "react";
 import { ArrowUpRight, BookOpen } from "lucide-react";
-
-const featured = {
-  tag: "Leitura recomendada",
-  title: "Por que pagar 5 assinaturas de IA quando uma resolve?",
-  cta: "Abrir artigo",
-  img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/78dbb0c79_ChatGPTImage17desetde202600_46_49.png",
-};
-
-const sidePosts = [
-  {
-    tag: "Fluxos de trabalho",
-    title: "Contexto preservado: troque de IA sem perder a conversa",
-  },
-  {
-    tag: "Modelos de IA",
-    title: "ChatGPT vs Claude vs Gemini: qual usar em cada tarefa?",
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function BlogSection() {
+  const { t } = useLanguage();
+  const featured = {
+    tag: t("blog.featuredTag"),
+    title: t("blog.featuredTitle"),
+    cta: t("blog.featuredCta"),
+    img: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/78dbb0c79_ChatGPTImage17desetde202600_46_49.png",
+  };
+
+  const sidePosts = [
+    { tag: t("blog.side1Tag"), title: t("blog.side1Title") },
+    { tag: t("blog.side2Tag"), title: t("blog.side2Title") },
+  ];
+
   return (
     <section id="blog" className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -28,25 +24,24 @@ export default function BlogSection() {
             <div className="flex items-center gap-2 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#7c5dfa]" />
               <span className="text-xs font-medium tracking-widest text-[#707070] uppercase">
-                Conteúdo Zyntra
+                {t("blog.badge")}
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
-              <span className="text-[#1a1a1a]">Entenda melhor a IA.</span>
+              <span className="text-[#1a1a1a]">{t("blog.title")}</span>
               <br />
-              <span className="text-[#7c5dfa]">Use melhor no trabalho.</span>
+              <span className="text-[#7c5dfa]">{t("blog.titleHighlight")}</span>
             </h2>
           </div>
           <div className="lg:max-w-sm lg:mt-16 flex flex-col items-end">
             <p className="text-sm text-[#707070] leading-relaxed mb-5">
-              Análises claras e guias práticos para você escolher melhor cada IA
-              e aplicar tudo no seu dia a dia.
+              {t("blog.desc")}
             </p>
             <a
               href="#"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-[#1a1a1a] hover:text-[#7c5dfa] transition-colors self-end"
             >
-              Acessar o blog
+              {t("blog.accessBlog")}
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>

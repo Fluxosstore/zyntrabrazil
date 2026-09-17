@@ -1,47 +1,18 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp, Sparkles } from "lucide-react";
-
-const faqs = [
-  {
-    num: "01",
-    cat: "Uso e limites",
-    q: "Tem limite de uso ou rate limit?",
-    a: "No plano Pro o uso é ilimitado, dentro de uma política de uso justo. Você acessa modelos de ponta como GPT-5, Claude e Gemini em uma única interface, sem precisar gerenciar várias assinaturas.",
-  },
-  {
-    num: "02",
-    cat: "Pagamentos",
-    q: "Como funciona a cobrança e a nota fiscal?",
-    a: "Tudo é cobrado em reais, uma única fatura por mês. Sem surpresas com câmbio em dólar. No plano anual você economiza o equivalente a dois meses.",
-  },
-  {
-    num: "03",
-    cat: "Assinatura",
-    q: "Posso cancelar quando quiser?",
-    a: "Sim. O cancelamento é imediato e sem burocracia. Você mantém o acesso até o fim do período já pago.",
-  },
-  {
-    num: "04",
-    cat: "Modelos",
-    q: "São os modelos oficiais ou versões abertas?",
-    a: "A Zyntra usa os modelos oficiais das empresas (OpenAI, Anthropic, Google, xAI, DeepSeek), com a mesma qualidade e capacidade de contexto.",
-  },
-  {
-    num: "05",
-    cat: "Privacidade",
-    q: "Meus dados treinam algum modelo?",
-    a: "Não. Seus dados e conversas nunca são usados para treinar modelos. Tudo é criptografado e permanece privado.",
-  },
-  {
-    num: "06",
-    cat: "Times",
-    q: "Funciona para o meu time?",
-    a: "Sim. O plano Empresarial oferece gestão de usuários, faturamento único, permissões e um workspace compartilhado para todo o time.",
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function FaqSection() {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(0);
+  const faqs = [
+    { num: "01", cat: t("faq.q1cat"), q: t("faq.q1"), a: t("faq.a1") },
+    { num: "02", cat: t("faq.q2cat"), q: t("faq.q2"), a: t("faq.a2") },
+    { num: "03", cat: t("faq.q3cat"), q: t("faq.q3"), a: t("faq.a3") },
+    { num: "04", cat: t("faq.q4cat"), q: t("faq.q4"), a: t("faq.a4") },
+    { num: "05", cat: t("faq.q5cat"), q: t("faq.q5"), a: t("faq.a5") },
+    { num: "06", cat: t("faq.q6cat"), q: t("faq.q6"), a: t("faq.a6") },
+  ];
 
   return (
     <section id="faq" className="relative py-20 lg:py-28 bg-[#FAFAFA]">
@@ -64,16 +35,15 @@ export default function FaqSection() {
             {/* Stacked text */}
             <div className="relative z-10 w-full">
               <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
-                <span className="text-black">Respostas diretas.</span>
+                <span className="text-black">{t("faq.title")}</span>
                 <br />
-                <span className="text-[#8A4FFF]">Antes de você decidir.</span>
+                <span className="text-[#8A4FFF]">{t("faq.titleHighlight")}</span>
               </h2>
               <p className="mt-5 text-sm text-[#6B6B6B] leading-relaxed max-w-sm">
-                Planos, cobrança, privacidade e limites — tudo explicado com
-                clareza, sem letras miúdas.
+                {t("faq.desc")}
               </p>
               <button className="mt-6 inline-flex items-center gap-2 bg-transparent border border-[#E0E0E0] rounded-full px-5 py-2.5 text-sm font-semibold text-black hover:bg-gray-50 transition-colors">
-                Falar com o time
+                {t("faq.talkToTeam")}
               </button>
             </div>
           </div>

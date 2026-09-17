@@ -1,52 +1,31 @@
 import React from "react";
 import { Calendar, Mail, Users, ListTodo, HardDrive } from "lucide-react";
-
-const integrations = [
-  {
-    icon: Calendar,
-    name: "Google Agenda",
-    desc: "A IA agenda, reorganiza e lembra dos seus compromissos.",
-  },
-  {
-    icon: Mail,
-    name: "Gmail",
-    desc: "Resuma, redija e responda e-mails com o modelo ideal.",
-  },
-  {
-    icon: Users,
-    name: "Contatos",
-    desc: "Enriqueça sua base e mantenha tudo atualizado.",
-  },
-  {
-    icon: ListTodo,
-    name: "Tarefas",
-    desc: "Crie e priorize tarefas a partir das suas conversas.",
-  },
-  {
-    icon: HardDrive,
-    name: "Drive",
-    desc: "Busque e analise documentos sem sair do chat.",
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function IntegrationsSection() {
+  const { t } = useLanguage();
+  const integrations = [
+    { icon: Calendar, name: t("integrations.int1Name"), desc: t("integrations.int1Desc") },
+    { icon: Mail, name: t("integrations.int2Name"), desc: t("integrations.int2Desc") },
+    { icon: Users, name: t("integrations.int3Name"), desc: t("integrations.int3Desc") },
+    { icon: ListTodo, name: t("integrations.int4Name"), desc: t("integrations.int4Desc") },
+    { icon: HardDrive, name: t("integrations.int5Name"), desc: t("integrations.int5Desc") },
+  ];
+
   return (
     <section className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="max-w-3xl mb-14">
           <span className="text-xs font-semibold tracking-widest text-[#8878c3] uppercase">
-            Conectores Google
+            {t("integrations.badge")}
           </span>
           <h2 className="mt-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight leading-[1.1]">
-            <span className="text-gray-900">Suas ferramentas Google,</span>
+            <span className="text-gray-900">{t("integrations.title")}</span>
             <br />
-            <span className="text-[#7b61ff]">operadas pela IA.</span>
+            <span className="text-[#7b61ff]">{t("integrations.titleHighlight")}</span>
           </h2>
           <p className="mt-5 text-sm text-[#666666] leading-relaxed">
-            Ao conectar sua conta Google, a Zyntra acessa somente os dados
-            necessários para executar o que você pede no chat. Você autoriza
-            cada permissão na tela de consentimento do Google e pode revogar o
-            acesso quando quiser.
+            {t("integrations.desc")}
           </p>
         </div>
 
@@ -69,16 +48,13 @@ export default function IntegrationsSection() {
 
         <div className="mt-10 max-w-3xl">
           <p className="text-sm text-[#555555] leading-relaxed">
-            Os dados recebidos das APIs do Google seguem a Política de Dados do
-            Usuário dos Serviços de API do Google, incluindo os requisitos de
-            Uso Limitado. Não são vendidos, não são usados para publicidade nem
-            para treinar modelos de IA.
+            {t("integrations.footer")}
           </p>
           <a
             href="#"
             className="inline-block mt-3 text-sm font-medium text-[#7E57C2] hover:underline"
           >
-            Ler a Política de Privacidade
+            {t("integrations.readPrivacy")}
           </a>
         </div>
       </div>

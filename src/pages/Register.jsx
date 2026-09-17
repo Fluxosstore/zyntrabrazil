@@ -13,11 +13,13 @@ import {
 } from "lucide-react";
 import AuthShell from "@/components/ayzen/AuthShell";
 import { toast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
 
 export default function Register() {
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +41,7 @@ export default function Register() {
     e.preventDefault();
     setError("");
     if (!accepted) {
-      setError("Você precisa aceitar os Termos de Uso e a Política de Privacidade para continuar.");
+      setError(t("register.termsError"));
       return;
     }
     setLoading(true);
@@ -48,7 +50,7 @@ export default function Register() {
       setShowOtp(true);
       setResendIn(47);
     } catch (err) {
-      setError(err.message || "Falha no cadastro");
+      setError(t("register.registerError"));
     } finally {
       setLoading(false);
     }
@@ -65,7 +67,7 @@ export default function Register() {
       }
       window.location.href = "/dashboard";
     } catch (err) {
-      setError(err.message || "Código inválido");
+      setError(t("register.otpError"));
     } finally {
       setLoading(false);
     }
@@ -76,7 +78,7 @@ export default function Register() {
     try {
       await base44.auth.resendOtp(email);
       setResendIn(47);
-      toast({ title: "Código reenviado", description: "Confira seu e-mail." });
+      toast({ title: t("register.resendToast"), description: t("register.resendToastDesc") });
     } catch (err) {
       setError(err.message || "Falha ao reenviar");
     }
@@ -122,12 +124,10 @@ export default function Register() {
             <MailCheck className="w-5 h-5 text-[#7E57C2]" />
           </div>
           <h1 className="text-base font-bold text-[#1e1e1e] mb-2">
-            Confirme seu e-mail para continuar
+            {t("register.otpTitle")}
           </h1>
           <p className="text-xs text-[#707070] leading-relaxed mb-5 max-w-xs">
-            Enviamos um código de 6 dígitos para{" "}
-            <span className="font-medium text-[#1e1e1e]">{email}</span>. Digite-o
-            abaixo para confirmar seu e-mail.
+            {t("register.otpDesc", { email })}
           </p>
 
           {error && (
@@ -158,19 +158,19 @@ export default function Register() {
             disabled={loading || otp.join("").length < 6}
             className="w-full h-9 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-xs font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
           >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Confirmar"}
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("register.confirm")}
           </button>
 
           <div className="mt-4 flex flex-col gap-1.5">
             <p className="text-xs text-[#707070]">
               {resendIn > 0
-                ? `Reenviar código em ${resendIn}s`
+                ? t("register.resendIn", { s: resendIn })
                 : (
                   <button
                     onClick={handleResend}
                     className="text-[#7E57C2] font-medium hover:underline"
                   >
-                    Reenviar código
+                    {t("register.resend")}
                   </button>
                 )}
             </p>
@@ -178,7 +178,7 @@ export default function Register() {
               to="/login"
               className="text-xs text-[#707070] hover:text-[#7E57C2] transition-colors"
             >
-              &lt; Voltar ao login
+              {t("register.backLogin")}
             </Link>
           </div>
         </div>
@@ -194,9 +194,9 @@ export default function Register() {
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </div>
-        <h1 className="text-base font-bold text-black mb-0.5">Crie sua conta</h1>
+        <h1 className="text-base font-bold text-black mb-0.5">{t("register.title")}</h1>
         <p className="text-xs text-[#757575]">
-          Entre na sua conta para conversar com a Zyntra.
+          {t("register.subtitle")}
         </p>
       </div>
 
@@ -208,13 +208,13 @@ export default function Register() {
 
       <form onSubmit={handleSubmit} className="space-y-2">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-[#333]">Nome</label>
+          <label className="text-xs font-medium text-[#333]">{t("register.name")}</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Como podemos te chamar?"
+              placeholder={t("register.namePlaceholder")}
               required
               autoFocus
               className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
@@ -223,14 +223,14 @@ export default function Register() {
         </div>
 
         <div className="space-y-1">
-          <label className="text-xs font-medium text-[#333]">Email</label>
+          <label className="text-xs font-medium text-[#333]">{t("register.email")}</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="voce@email.com"
+              placeholder={t("register.emailPlaceholder").toLowerCase()}
               required
               className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
@@ -239,9 +239,9 @@ export default function Register() {
 
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-medium text-[#333]">Senha</label>
+            <label className="text-xs font-medium text-[#333]">{t("register.password")}</label>
             <button type="button" className="text-[11px] text-[#7E57C2] font-medium hover:underline">
-              Gerar senha forte
+              {t("register.generateStrong")}
             </button>
           </div>
           <div className="relative">
@@ -250,7 +250,7 @@ export default function Register() {
               type={showPwd ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Crie uma senha"
+              placeholder={t("register.pwdPlaceholder")}
               required
               className="w-full h-9 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
@@ -263,27 +263,27 @@ export default function Register() {
             </button>
           </div>
           <ul className="text-[10px] text-gray-400 space-y-0.5 pt-0.5">
-            <li>• Pelo menos 8 caracteres</li>
-            <li>• 1 letra maiúscula</li>
-            <li>• 1 número</li>
+            <li>{t("register.pwdRule1")}</li>
+            <li>{t("register.pwdRule2")}</li>
+            <li>{t("register.pwdRule3")}</li>
           </ul>
         </div>
 
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-medium text-[#333]">Cupom</label>
-            <span className="text-[11px] text-gray-400">Opcional</span>
+            <label className="text-xs font-medium text-[#333]">{t("register.coupon")}</label>
+            <span className="text-[11px] text-gray-400">{t("register.couponOptional")}</span>
           </div>
           <div className="relative flex items-center">
             <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
-              placeholder="Tem um cupom? Digite aqui"
+              placeholder={t("register.couponPlaceholder")}
               className="w-full h-9 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
             <button type="button" className="absolute right-3 text-xs font-medium text-[#7E57C2] hover:underline">
-              Aplicar
+              {t("register.apply")}
             </button>
           </div>
         </div>
@@ -296,9 +296,18 @@ export default function Register() {
             className="mt-0.5 w-3.5 h-3.5 rounded border-[#E5E5E5] accent-[#7E57C2]"
           />
           <span className="text-[11px] text-[#666] leading-relaxed">
-            Li e aceito os{" "}
-            <a href="#" className="text-[#7E57C2] font-medium">Termos de Uso</a> e a{" "}
-            <a href="#" className="text-[#7E57C2] font-medium">Política de Privacidade</a>.
+            {(() => {
+              const parts = t("register.terms", { terms: "__T__", privacy: "__P__" }).split(/__T__|__P__/);
+              return (
+                <>
+                  {parts[0]}
+                  <a href="#" className="text-[#7E57C2] font-medium">{t("register.termsLink")}</a>
+                  {parts[1]}
+                  <a href="#" className="text-[#7E57C2] font-medium">{t("register.privacyLink")}</a>
+                  {parts[2]}
+                </>
+              );
+            })()}
           </span>
         </label>
 
@@ -307,14 +316,14 @@ export default function Register() {
           disabled={loading || !canSubmit || !accepted}
           className="w-full h-9 rounded-lg bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Começar grátis"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("register.submit")}
         </button>
       </form>
 
       <p className="mt-3 text-center text-xs text-[#757575]">
-        Já tem conta?{" "}
+        {t("register.haveAccount")}{" "}
         <Link to="/login" className="text-[#7E57C2] font-medium hover:underline">
-          Entrar
+          {t("register.signin")}
         </Link>
       </p>
     </AuthShell>

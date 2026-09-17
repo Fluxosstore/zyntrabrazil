@@ -1,30 +1,32 @@
 import React from "react";
-
-const cards = [
-  {
-    number: "01",
-    heading: "Cinco assinaturas, cinco faturas em dólar",
-    body: "GPT-5, Claude, Gemini, Grok e outras ferramentas. Cada uma renova num dia diferente, cobra em dólar e espalha seu trabalho. Sua fatura só cresce.",
-    metric: "R$ 247",
-    metricLabel: "por mês em IA",
-  },
-  {
-    number: "02",
-    heading: "Histórico espalhado em mil abas",
-    body: "Aquela conversa boa está perdida em alguma das 14 abas abertas. Trocar de IA significa perder contexto, copiar, colar, e começar do zero — toda vez.",
-    metric: "14 abas",
-    metricLabel: "para uma tarefa",
-  },
-  {
-    number: "03",
-    heading: "Limite baixo, espera longa",
-    body: "Você usa, esbarra no limite, espera 3 horas, paga premium, esbarra de novo. E desiste justo na hora em que precisava da ferramenta funcionando.",
-    metric: "3 horas",
-    metricLabel: "de espera por uso",
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function PainSection() {
+  const { t } = useLanguage();
+  const cards = [
+    {
+      number: "01",
+      heading: t("pain.card1Heading"),
+      body: t("pain.card1Body"),
+      metric: t("pain.card1Metric"),
+      metricLabel: t("pain.card1MetricLabel"),
+    },
+    {
+      number: "02",
+      heading: t("pain.card2Heading"),
+      body: t("pain.card2Body"),
+      metric: t("pain.card2Metric"),
+      metricLabel: t("pain.card2MetricLabel"),
+    },
+    {
+      number: "03",
+      heading: t("pain.card3Heading"),
+      body: t("pain.card3Body"),
+      metric: t("pain.card3Metric"),
+      metricLabel: t("pain.card3MetricLabel"),
+    },
+  ];
+
   return (
     <section id="beneficios" className="relative py-20 lg:py-28 bg-[#FAFAFA] overflow-hidden">
       {/* ambient purple glows behind cards */}
@@ -38,16 +40,15 @@ export default function PainSection() {
             <div className="flex items-center gap-3 mb-4">
               <span className="text-2xl font-bold text-black">01</span>
               <span className="w-px h-6 bg-gray-300" />
-              <span className="text-sm font-medium text-gray-400">/06 Hoje está assim</span>
+              <span className="text-sm font-medium text-gray-400">{t("pain.counter")}</span>
             </div>
             <h2 className="mt-4 text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-              Você está pagando caro{" "}
-              <span className="text-violet-600 whitespace-nowrap">para pensar em pedaços.</span>
+              {t("pain.title")}{" "}
+              <span className="text-violet-600 whitespace-nowrap">{t("pain.titleHighlight")}</span>
             </h2>
           </div>
           <p className="text-base text-gray-500 leading-relaxed lg:max-w-sm lg:text-right">
-            Cinco assinaturas, cinco contas em dólar, contexto perdido a cada
-            troca de IA. Reconhece a sensação?
+            {t("pain.subtitle")}
           </p>
         </div>
 

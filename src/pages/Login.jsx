@@ -4,11 +4,13 @@ import { base44 } from "@/api/base44Client";
 import { Mail, Lock, Eye, EyeOff, Loader2, Fingerprint } from "lucide-react";
 import AuthShell from "@/components/ayzen/AuthShell";
 import { safeReturnTo } from "@/lib/authReturnTo";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
 
 export default function Login() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
@@ -25,7 +27,7 @@ export default function Login() {
       await base44.auth.loginViaEmailPassword(email, password);
       window.location.href = dest;
     } catch (err) {
-      setError(err.message || "E-mail ou senha inválidos");
+      setError(t("login.error"));
     } finally {
       setLoading(false);
     }
@@ -38,9 +40,9 @@ export default function Login() {
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </div>
-        <h1 className="text-base font-bold text-black mb-0.5">Entre na sua conta</h1>
+        <h1 className="text-base font-bold text-black mb-0.5">{t("login.title")}</h1>
         <p className="text-xs text-[#757575]">
-          Entre na sua conta para conversar com a Zyntra.
+          {t("login.subtitle")}
         </p>
       </div>
 
@@ -52,14 +54,14 @@ export default function Login() {
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-[#333]">E-mail</label>
+          <label className="text-xs font-medium text-[#333]">{t("login.email")}</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="voce@email.com"
+              placeholder={t("login.emailPlaceholder")}
               required
               autoFocus
               className="w-full h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
@@ -67,14 +69,14 @@ export default function Login() {
           </div>
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-medium text-[#333]">Senha</label>
+          <label className="text-xs font-medium text-[#333]">{t("login.password")}</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input
               type={showPwd ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Digite sua senha"
+              placeholder={t("login.pwdPlaceholder")}
               required
               className="w-full h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
@@ -93,7 +95,7 @@ export default function Login() {
           disabled={loading}
           className="w-full h-10 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Entrar"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("login.submit")}
         </button>
       </form>
 
@@ -102,13 +104,13 @@ export default function Login() {
           <div className="w-full border-t border-[#E5E5E5]" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-gray-400">OU</span>
+          <span className="bg-white px-3 text-gray-400">{t("login.or")}</span>
         </div>
       </div>
 
       <button className="w-full h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
         <Fingerprint className="w-3.5 h-3.5 text-[#7E57C2]" />
-        Entrar com passkey
+        {t("login.passkey")}
       </button>
 
       <div className="mt-4 flex flex-col gap-1.5 text-center">
@@ -116,15 +118,15 @@ export default function Login() {
           to="/forgot-password"
           className="text-xs font-medium text-[#7E57C2] hover:underline"
         >
-          Esqueci minha senha
+          {t("login.forgot")}
         </Link>
         <p className="text-xs text-[#757575]">
-          Não tem conta?{" "}
+          {t("login.noAccount")}{" "}
           <Link
             to="/register"
             className="text-[#7E57C2] font-medium hover:underline"
           >
-            Criar conta grátis
+            {t("login.createAccount")}
           </Link>
         </p>
       </div>

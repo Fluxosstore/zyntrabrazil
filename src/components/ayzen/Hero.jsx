@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import FloatingDots from "@/components/ayzen/FloatingDots";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const aiModels = [
   { name: "GPT-5", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0bb1a42e9_chatgpt.svg" },
@@ -12,6 +13,7 @@ const aiModels = [
 ];
 
 export default function Hero() {
+  const { t } = useLanguage();
   const sectionRef = useRef(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
@@ -57,24 +59,24 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
               <span className="text-xs font-medium text-violet-700">
-                Hub de IA Profissional
+                {t("hero.badge")}
               </span>
             </div>
 
             <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.05]">
-              A Zyntra reúne as IAs mais
+              {t("hero.title1")}
               <br />
-              <span>potentes do mundo.</span>
+              <span>{t("hero.title2")}</span>
               <br />
-              <span className="text-violet-600">Em uma única assinatura.</span>
+              <span className="text-violet-600">{t("hero.title3")}</span>
             </h1>
 
             <p className="mt-6 text-sm text-gray-500 leading-relaxed max-w-xl font-light">
-              <span className="whitespace-nowrap"><span className="font-bold">A Zyntra é um hub de IA profissional.</span> E a unica plataforma</span>{" "}
-              <span className="whitespace-nowrap">que reúne GPT-5, Claude, DeepSeek, Grok e outras IAs de elite</span>{" "}
-              <span className="whitespace-nowrap">em uma única interface profissional, com histórico unificado,</span>{" "}
-              <span className="whitespace-nowrap">pagamento simplificado em Reais e conectores para Gmail,</span>{" "}
-              <span className="whitespace-nowrap">Google Agenda, Contatos, Tarefas e Drive.</span>
+              <span className="whitespace-nowrap"><span className="font-bold">{t("hero.descBold")}</span> {t("hero.desc2")}</span>{" "}
+              <span className="whitespace-nowrap">{t("hero.desc3")}</span>{" "}
+              <span className="whitespace-nowrap">{t("hero.desc4")}</span>{" "}
+              <span className="whitespace-nowrap">{t("hero.desc5")}</span>{" "}
+              <span className="whitespace-nowrap">{t("hero.desc6")}</span>
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -82,19 +84,19 @@ export default function Hero() {
                 href="#planos"
                 className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-base font-semibold px-7 py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
                 
-                Começar agora
+                {t("hero.cta1")}
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="#planos"
                 className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-base font-semibold px-7 py-3.5 rounded-full border border-gray-200 transition-all">
-                
-                Ver planos
+
+                {t("hero.cta2")}
               </a>
             </div>
 
             <p className="mt-5 text-sm text-gray-400">
-              +1.200 profissionais já usam
+              {t("hero.socialProof")}
             </p>
           </div>
 
@@ -103,28 +105,28 @@ export default function Hero() {
             {/* Top: stats */}
             <div className="text-right">
               <div className="text-xs font-medium text-gray-500 mb-1">
-                Economia média
+                {t("hero.avgSavings")}
               </div>
               <div className="text-5xl lg:text-6xl font-bold text-gray-900">
                 67%
               </div>
               <div className="text-sm text-gray-500 mt-1">
-                vs. assinaturas avulsas
+                {t("hero.vsAvulsas")}
               </div>
             </div>
 
             {/* Middle: bullets */}
             <ul className="mt-24 space-y-2 text-sm text-gray-600 text-right">
               <li className="flex items-center justify-end gap-2">
-                IAs de elite em uma assinatura
+                {t("hero.bullet1")}
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
               </li>
               <li className="flex items-center justify-end gap-2">
-                Histórico unificado entre modelos
+                {t("hero.bullet2")}
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
               </li>
               <li className="flex items-center justify-end gap-2">
-                Pagamento simplificado em Reais
+                {t("hero.bullet3")}
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
               </li>
             </ul>
@@ -132,7 +134,7 @@ export default function Hero() {
             {/* Bottom: included models */}
             <div className="mt-24 text-right">
               <div className="text-xs font-medium text-gray-400 mb-2">
-                Inclusas no plano
+                {t("hero.included")}
               </div>
               <div className="flex flex-wrap items-center justify-end gap-2">
                 {aiModels.map((m) =>

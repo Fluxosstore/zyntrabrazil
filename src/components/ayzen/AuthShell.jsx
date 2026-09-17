@@ -1,11 +1,13 @@
 import React from "react";
 import { Sun } from "lucide-react";
 import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const HERO_IMG =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3d455afee_ChatGPTImage17desetde202601_13_21.png";
 
 export default function AuthShell({ children }) {
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen flex bg-white">
@@ -22,14 +24,13 @@ export default function AuthShell({ children }) {
         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white/60 to-transparent" />
         <div className="relative flex flex-col justify-end p-12 z-10">
           <p className="text-xs font-medium tracking-[0.2em] text-white/80 uppercase mb-3">
-            Plataforma de IA Conversacional
+            {t("auth.platform")}
           </p>
           <h2 className="text-3xl font-bold text-white leading-tight mb-3 max-w-md">
-            Todas as IAs, uma só conversa.
+            {t("auth.heroTitle")}
           </h2>
           <p className="text-sm text-white/80 max-w-md leading-relaxed">
-            Acesse os modelos mais avançados em um único lugar, com seu
-            histórico sempre à mão.
+            {t("auth.heroDesc")}
           </p>
         </div>
       </div>
@@ -52,7 +53,7 @@ export default function AuthShell({ children }) {
 
         {/* bottom-right copyright */}
         <div className="px-8 py-6 text-right">
-          <p className="text-xs text-[#555]">© 2026 Todos os direitos reservados</p>
+          <p className="text-xs text-[#555]">{t("auth.copyright")}</p>
         </div>
       </div>
     </div>

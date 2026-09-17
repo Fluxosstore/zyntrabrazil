@@ -1,6 +1,7 @@
 import React from "react";
 import { Sparkles, Gauge, FileText, Zap, LayoutGrid, CreditCard, Shield } from "lucide-react";
 import { Image } from "@/components/ui/image";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const orbitModels = [
   { name: "ChatGPT", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1014d87f6_chatgpt.svg" },
@@ -10,40 +11,17 @@ const orbitModels = [
   { name: "DeepSeek", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/efa424a0a_deepseek.svg" },
 ];
 
-const features = [
-  {
-    icon: Gauge,
-    title: "Performance",
-    desc: "Acesso aos modelos mais potentes, sem gargalo de fila.",
-  },
-  {
-    icon: FileText,
-    title: "Contexto",
-    desc: "Histórico unificado entre todas as IAs em uma só conversa.",
-  },
-  {
-    icon: Zap,
-    title: "Velocidade",
-    desc: "Respostas em segundos, com prioridade para assinantes.",
-  },
-  {
-    icon: LayoutGrid,
-    title: "Modalidades",
-    desc: "Texto, imagem, código e voz em um único workspace.",
-  },
-  {
-    icon: CreditCard,
-    title: "Cobrança",
-    desc: "Um plano, uma fatura em reais. Sem surpresas em dólar.",
-  },
-  {
-    icon: Shield,
-    title: "Privacidade",
-    desc: "Seus dados não treinam modelos. Criptografia ponta a ponta.",
-  },
-];
-
 export default function CurationSection() {
+  const { t } = useLanguage();
+  const features = [
+    { icon: Gauge, title: t("curation.f1Title"), desc: t("curation.f1Desc") },
+    { icon: FileText, title: t("curation.f2Title"), desc: t("curation.f2Desc") },
+    { icon: Zap, title: t("curation.f3Title"), desc: t("curation.f3Desc") },
+    { icon: LayoutGrid, title: t("curation.f4Title"), desc: t("curation.f4Desc") },
+    { icon: CreditCard, title: t("curation.f5Title"), desc: t("curation.f5Desc") },
+    { icon: Shield, title: t("curation.f6Title"), desc: t("curation.f6Desc") },
+  ];
+
   return (
     <section id="ias" className="py-20 lg:py-28 bg-[#FAFAFA]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
@@ -53,34 +31,31 @@ export default function CurationSection() {
             <div className="flex items-center gap-3 mb-6">
               <span className="text-2xl font-bold text-black">02</span>
               <span className="w-px h-6 bg-gray-300" />
-              <span className="text-sm font-medium text-gray-400">/06 O catálogo</span>
+              <span className="text-sm font-medium text-gray-400">{t("curation.counter")}</span>
             </div>
             <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-              Uma curadoria de elite
+              {t("curation.title")}
               <br />
-              <span className="text-violet-600">para cada objetivo.</span>
+              <span className="text-violet-600">{t("curation.titleHighlight")}</span>
             </h2>
             <p className="mt-5 text-sm text-[#71717a] leading-relaxed">
-              Não oferecemos volume, oferecemos performance. De modelos de
-              raciocínio avançado como GPT-5 e Claude a especialistas como
-              DeepSeek, Qwen e Mistral Large. Em breve: expansão total para
-              geração de imagens, vídeos e áudio profissional.
+              {t("curation.desc")}
             </p>
           </div>
 
           {/* Right: data cards */}
           <div className="flex gap-3 mt-32 lg:mt-40">
             <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-black">+5</div>
-              <div className="mt-1 text-xs text-gray-500">IAs integradas</div>
+              <div className="text-3xl font-bold text-black">{t("curation.stat1Value")}</div>
+              <div className="mt-1 text-xs text-gray-500">{t("curation.stat1Label")}</div>
             </div>
             <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-black">2</div>
-              <div className="mt-1 text-xs text-gray-500">Modalidades</div>
+              <div className="text-3xl font-bold text-black">{t("curation.stat2Value")}</div>
+              <div className="mt-1 text-xs text-gray-500">{t("curation.stat2Label")}</div>
             </div>
             <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold text-black">1</div>
-              <div className="mt-1 text-xs text-gray-500">Assinatura</div>
+              <div className="text-3xl font-bold text-black">{t("curation.stat3Value")}</div>
+              <div className="mt-1 text-xs text-gray-500">{t("curation.stat3Label")}</div>
             </div>
           </div>
         </div>
