@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Metrics */}
-        <div className="grid grid-cols-3 gap-4 mb-14 max-w-3xl">
+        <div className="grid grid-cols-3 gap-4 mb-14 max-w-3xl mx-auto">
           {metrics.map((m) => (
             <div
               key={m.label}
