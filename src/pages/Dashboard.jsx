@@ -71,7 +71,7 @@ export default function Dashboard() {
           {collapsed && (
             <button
               onClick={() => setCollapsed(false)}
-              className="flex items-center justify-center rounded-lg hover:bg-gray-200 transition-colors"
+              className="w-full flex items-center justify-center py-2 rounded-lg hover:bg-gray-200/60 transition-colors"
             >
               <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
             </button>
