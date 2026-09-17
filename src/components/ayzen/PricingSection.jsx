@@ -101,16 +101,16 @@ function PlanCard({ plan, cycle }) {
           m.more ? (
             <span
               key={i}
-              className="inline-flex items-center bg-[#F8F9FA] border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[11px] font-medium text-[#374151]"
+              className="inline-flex items-center bg-[#F8F9FA] border border-[#E5E7EB] rounded-full px-2.5 py-1 text-xs font-medium text-[#374151]"
             >
               +{m.more}
             </span>
           ) : (
             <span
               key={i}
-              className="inline-flex items-center gap-1 bg-[#F8F9FA] border border-[#E5E7EB] rounded-full px-2 py-0.5 text-[11px] font-medium text-[#374151]"
+              className="inline-flex items-center gap-1.5 bg-[#F8F9FA] border border-[#E5E7EB] rounded-full px-2.5 py-1 text-xs font-medium text-[#374151]"
             >
-              <img src={m.src} alt="" className="w-3 h-3 object-contain" />
+              <img src={m.src} alt="" className="w-3.5 h-3.5 object-contain" />
               {m.label}
             </span>
           )
