@@ -21,7 +21,7 @@ import UserPopover from "@/components/ayzen/UserPopover";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
-import ModelSelector, { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
+import ModelSelector, { PLAN_LABELS, getModelInfo } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import { DiamondLogo, ChatPlusIcon, BooksIcon, IntegrationIcon } from "@/components/ayzen/SidebarIcons";
 import IncognitoAvatar from "@/components/ayzen/IncognitoAvatar";
@@ -301,8 +301,8 @@ export default function Dashboard() {
                     onClick={() => setModelOpen((v) => !v)}
                     className="flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-gray-100 text-xs font-medium text-gray-700 transition-colors"
                   >
-                    <img src={LOGO} alt="Ayzen" className="w-4 h-4 rounded object-contain" />
-                    {t("dash.auto")}
+                    <img src={getModelInfo(model, plan).logo} alt={getModelInfo(model, plan).name} className="w-4 h-4 rounded object-contain" />
+                    {getModelInfo(model, plan).name}
                     <ChevronDown className="w-3 h-3 text-gray-500" />
                   </button>
                   <AnimatePresence>

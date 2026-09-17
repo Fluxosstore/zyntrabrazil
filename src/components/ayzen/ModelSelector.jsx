@@ -64,6 +64,12 @@ const MODELS_BY_PLAN = {
 
 };
 
+export function getModelInfo(id, plan = "free") {
+  if (id === "auto") return { id: "auto", name: "Zyntra Auto", logo: LOGO };
+  const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
+  return models.find((m) => m.id === id) || { id: "auto", name: "Zyntra Auto", logo: LOGO };
+}
+
 function SignalIndicator({ level }) {
   if (level === "high") return <SignalHigh className="w-3.5 h-3.5 text-[#2E7D32]" />;
   if (level === "medium") return <SignalMedium className="w-3.5 h-3.5 text-[#2E7D32]" />;
