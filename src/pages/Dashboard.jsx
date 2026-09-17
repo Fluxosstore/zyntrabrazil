@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
@@ -33,12 +33,6 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
 
-  function greeting() {
-    const h = new Date().getHours();
-    if (h < 12) return t("dash.greetingMorning");
-    if (h < 18) return t("dash.greetingAfternoon");
-    return t("dash.greetingNight");
-  }
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
   const [msg, setMsg] = useState("");
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -48,6 +42,19 @@ export default function Dashboard() {
   const [tempMode, setTempMode] = useState(false);
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
+
+  const [greetingText, setGreetingText] = useState("");
+  useEffect(() => {
+    function updateGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) setGreetingText(t("dash.greetingMorning"));
+      else if (h < 18) setGreetingText(t("dash.greetingAfternoon"));
+      else setGreetingText(t("dash.greetingNight"));
+    }
+    updateGreeting();
+    const interval = setInterval(updateGreeting, 60000);
+    return () => clearInterval(interval);
+  }, [t]);
 
   return (
     <>
@@ -267,7 +274,7 @@ export default function Dashboard() {
                 />
               </motion.div>
               <p className="text-xs text-gray-500 mb-1">
-                {greeting()}, {firstName}
+                {greetingText}, {firstName}
               </p>
               <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6">
                 {t("dash.headline")}
