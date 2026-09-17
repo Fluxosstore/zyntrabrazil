@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
+import MobileSidebar from "@/components/ayzen/MobileSidebar";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
@@ -18,6 +19,7 @@ export default function MobileDashboard() {
   const { user } = useAuth();
   const { t } = useLanguage();
   const [msg, setMsg] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   function greeting() {
     const h = new Date().getHours();
@@ -31,7 +33,10 @@ export default function MobileDashboard() {
     <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
       {/* Top nav */}
       <div className="flex items-center justify-between px-4 py-3">
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
+        >
           <Menu className="w-5 h-5" />
         </button>
         <div className="flex items-center gap-1.5">
@@ -95,6 +100,8 @@ export default function MobileDashboard() {
           {t("dash.disclaimer")}
         </p>
       </div>
+
+      <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
     </div>
   );
