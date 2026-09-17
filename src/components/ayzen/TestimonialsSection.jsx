@@ -81,8 +81,13 @@ export default function TestimonialsSection() {
           ))}
         </div>
 
-        {/* Testimonial carousel */}
+      </div>
+
+      {/* Testimonial carousel - full width with edge fades */}
+      <div className="relative w-full overflow-hidden">
         <TestimonialsCarousel />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10" />
       </div>
     </section>
   );
