@@ -19,7 +19,7 @@ import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 import ChatMessages from "@/components/ayzen/chat/ChatMessages";
-import { isImageGenerationIntent } from "@/lib/chatUtils";
+import { isImageGenerationIntent, getRealModel, messagesToPrompt } from "@/lib/chatUtils";
 import { base44 } from "@/api/base44Client";
 
 export default function Dashboard() {
@@ -85,20 +85,32 @@ export default function Dashboard() {
   const handleSend = async () => {
     if (!msg.trim() && !attachedFile) return;
 
+    let fileUrl = null;
     let fileContent = null;
 
-    // Processa arquivo anexado
+    // Processa arquivo anexado usando integrações nativas
     if (attachedFile) {
       try {
-        const { file_url } = await base44.integrations.Core.UploadPublicFile({
+        const uploadResult = await base44.integrations.Core.UploadPublicFile({
           file: attachedFile,
         });
-        const processed = await base44.functions.invoke("process-file", {
-          fileUrl: file_url,
-          fileType: attachedFile.type,
-          fileName: attachedFile.name,
-        });
-        fileContent = processed;
+        fileUrl = uploadResult.file_url;
+
+        if (attachedFile.type?.startsWith("image/")) {
+          fileContent = { type: "image", content: fileUrl };
+        } else {
+          const extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
+            file_url: fileUrl,
+            json_schema: {
+              type: "object",
+              properties: {
+                text: { type: "string", description: "Conteúdo de texto completo extraído do arquivo" },
+              },
+              required: ["text"],
+            },
+          });
+          fileContent = { type: "text", content: extractResult.output?.text || "" };
+        }
       } catch (err) {
         console.error("Erro ao processar arquivo:", err);
       }
@@ -106,16 +118,12 @@ export default function Dashboard() {
 
     // Constrói a mensagem do usuário
     let userMessage = { role: "user", content: msg };
+    let fileUrlsForLLM = [];
 
     if (fileContent) {
       if (fileContent.type === "image") {
-        userMessage = {
-          role: "user",
-          content: [
-            { type: "text", text: msg || "O que há nesta imagem?" },
-            { type: "image_url", image_url: { url: fileContent.content } },
-          ],
-        };
+        fileUrlsForLLM = [fileContent.content];
+        userMessage = { role: "user", content: msg || "O que há nesta imagem?" };
       } else {
         userMessage = {
           role: "user",
@@ -133,26 +141,29 @@ export default function Dashboard() {
 
     try {
       if (isImageRequest) {
-        const result = await base44.functions.invoke("generate-image", { prompt: msg });
+        const result = await base44.integrations.Core.GenerateImage({ prompt: msg });
         setMessages([
           ...newMessages,
           {
             role: "assistant",
             content: "Aqui está a imagem gerada:",
-            image: result.imageUrl,
+            image: result.url,
           },
         ]);
       } else {
-        const result = await base44.functions.invoke("chat", {
-          messages: newMessages,
-          model,
-          useWebSearch,
+        const realModel = getRealModel(model, useWebSearch);
+        const prompt = messagesToPrompt(newMessages);
+        const result = await base44.integrations.Core.InvokeLLM({
+          prompt,
+          model: realModel,
+          add_context_from_internet: useWebSearch,
+          file_urls: fileUrlsForLLM.length > 0 ? fileUrlsForLLM : undefined,
         });
         setMessages([
           ...newMessages,
           {
             role: "assistant",
-            content: result.content || result.error || "Sem resposta",
+            content: typeof result === "string" ? result : result.content || "Sem resposta",
           },
         ]);
       }
