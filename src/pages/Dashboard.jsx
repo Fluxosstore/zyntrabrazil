@@ -176,6 +176,7 @@ export default function Dashboard() {
     try {
       if (isImageRequest) {
         const result = await base44.integrations.Core.GenerateImage({ prompt: msg });
+        base44.entities.TokenUsage.create({ tokens: 500, model: "image_generation" }).catch(() => {});
         setMessages([
           ...newMessages,
           {
@@ -194,6 +195,8 @@ export default function Dashboard() {
           add_context_from_internet: useWebSearch,
           file_urls: fileUrlsForLLM.length > 0 ? fileUrlsForLLM : undefined,
         });
+        const _respText = typeof result === "string" ? result : result.content || "";
+        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: realModel }).catch(() => {});
         setMessages([
           ...newMessages,
           {
@@ -233,6 +236,8 @@ export default function Dashboard() {
         prompt,
         model: realModel,
       });
+      const _respText = typeof result === "string" ? result : result.content || "";
+      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: realModel }).catch(() => {});
       setMessages([
         ...baseMessages,
         {
