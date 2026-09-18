@@ -8,16 +8,18 @@ import {
   Workflow,
   ChevronsUpDown,
   PanelLeftClose,
+  Plus,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
+import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
 
-export default function MobileSidebar({ open, onClose }) {
+export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect }) {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
@@ -60,10 +62,10 @@ export default function MobileSidebar({ open, onClose }) {
 
             {/* Nav */}
             <div className="px-2.5 space-y-1">
-              <Link to="/dashboard" onClick={onClose} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
+              <button onClick={onNewConversation} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
                 <MessageSquarePlus className="w-3.5 h-3.5 shrink-0" />
                 {t("dash.newConversation")}
-              </Link>
+              </button>
 
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
@@ -86,13 +88,33 @@ export default function MobileSidebar({ open, onClose }) {
             <div className="h-px bg-gray-200 my-2 mx-2.5" />
 
             {/* Chats */}
-            <div className="px-4 pt-1 pb-1">
+            <div className="flex items-center justify-between px-4 pt-1 pb-1">
               <span className="text-[10px] font-semibold tracking-wider text-gray-400">
                 {t("dash.chats")}
               </span>
+              <button onClick={onNewConversation} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+                <Plus className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <div className="flex-1 px-2.5">
-              <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
+            <div className="flex-1 px-2.5 overflow-y-auto">
+              {conversations.length === 0 ? (
+                <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
+              ) : (
+                <div className="space-y-0.5">
+                  {conversations.map((conv) => (
+                    <ChatListItem
+                      key={conv.id}
+                      conv={conv}
+                      active={conv.id === activeConversationId}
+                      onSelect={onSelectConversation}
+                      onPin={onTogglePin}
+                      onRenameCommit={onRenameConversation}
+                      onSelectToggle={onToggleSelect}
+                      onDelete={onDeleteConversation}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* User footer */}

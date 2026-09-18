@@ -528,7 +528,27 @@ export default function Dashboard() {
         </p>
       </main>
     </div>
-    <MobileDashboard />
+    <MobileDashboard
+      msg={msg}
+      setMsg={setMsg}
+      handleSend={handleSend}
+      messages={messages}
+      loading={loading}
+      model={model}
+      plan={plan}
+      attachedFile={attachedFile}
+      setAttachedFile={setAttachedFile}
+      conversations={conversations}
+      activeConversationId={activeConversationId}
+      onNewConversation={handleNewConversation}
+      onSelectConversation={handleSelectConversation}
+      onDeleteConversation={handleDeleteConversation}
+      onRenameConversation={handleRenameConversation}
+      onTogglePin={handleTogglePin}
+      onToggleSelect={handleToggleSelect}
+      onEditMessage={handleEditMessage}
+      onReprocess={handleReprocess}
+    />
     </>
   );
 }
