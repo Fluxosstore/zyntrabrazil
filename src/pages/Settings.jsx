@@ -25,11 +25,11 @@ function UsageContent() {
   const planModels = (MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
     name: m.name,
     logo: m.logo,
-    tags: ["Texto"],
+    tags: ["Texto"]
   }));
 
   const filtered = planModels.filter((m) =>
-    m.name.toLowerCase().includes(query.toLowerCase())
+  m.name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
@@ -95,7 +95,7 @@ function UsageContent() {
               <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                 {t("settings.daily")}
               </p>
-              <p className="text-lg font-bold text-black mt-1">0 / 8.000</p>
+              <p className="text-lg font-bold text-black mt-1">0 / 4.000</p>
               <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
                 <div className="h-full w-0 bg-black rounded-full" />
               </div>
@@ -126,26 +126,26 @@ function UsageContent() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t("settings.searchModel")}
-              className="w-full h-10 pl-9 pr-3 rounded-xl bg-white border border-gray-200 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
-            />
+              className="w-full h-10 pl-9 pr-3 rounded-xl bg-white border border-gray-200 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-300" />
+            
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-            {filtered.map((m, i) => (
-              <ModelUsageRow key={m.name} model={m} isLast={i === filtered.length - 1} />
-            ))}
-            {filtered.length === 0 && (
-              <p className="px-4 py-6 text-sm text-gray-400 text-center">
+            {filtered.map((m, i) =>
+            <ModelUsageRow key={m.name} model={m} isLast={i === filtered.length - 1} />
+            )}
+            {filtered.length === 0 &&
+            <p className="px-4 py-6 text-sm text-gray-400 text-center">
                 {t("settings.noModels")}
               </p>
-            )}
+            }
           </div>
           <p className="text-xs text-gray-400 mt-2">
             {t("settings.showingModels", { shown: filtered.length, total: planModels.length })}
           </p>
         </section>
       </div>
-    </div>
-  );
+    </div>);
+
 }
 
 export default function Settings() {
@@ -194,8 +194,8 @@ export default function Settings() {
         <div className="flex items-center px-4 py-3 border-b border-gray-100">
           <button
             onClick={() => navigate(-1)}
-            className="w-8 h-8 flex items-center justify-center -ml-1 text-gray-700 active:bg-gray-100 rounded-lg"
-          >
+            className="w-8 h-8 flex items-center justify-center -ml-1 text-gray-700 active:bg-gray-100 rounded-lg">
+            
             <ChevronLeft className="w-5 h-5" />
           </button>
           <span className="ml-0.5 text-base font-bold text-black">{t("settings.title")}</span>
@@ -205,6 +205,6 @@ export default function Settings() {
           {renderContent()}
         </div>
       </div>
-    </>
-  );
+    </>);
+
 }
