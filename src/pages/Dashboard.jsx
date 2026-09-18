@@ -18,6 +18,9 @@ import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
+import ChatMessages from "@/components/ayzen/chat/ChatMessages";
+import { isImageGenerationIntent } from "@/lib/chatUtils";
+import { base44 } from "@/api/base44Client";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -35,6 +38,11 @@ export default function Dashboard() {
   const [attachedFile, setAttachedFile] = useState(null);
   const plusRef = useRef(null);
   const fileInputRef = useRef(null);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [useWebSearch, setUseWebSearch] = useState(false);
+  const [saveMemories, setSaveMemories] = useState(false);
+  const [useMemories, setUseMemories] = useState(false);
   const plan = user?.plan || "free";
 
   const [greetingText, setGreetingText] = useState("");
@@ -74,6 +82,93 @@ export default function Dashboard() {
     }
   };
 
+  const handleSend = async () => {
+    if (!msg.trim() && !attachedFile) return;
+
+    let fileContent = null;
+
+    // Processa arquivo anexado
+    if (attachedFile) {
+      try {
+        const { file_url } = await base44.integrations.Core.UploadPublicFile({
+          file: attachedFile,
+        });
+        const processed = await base44.functions.invoke("process-file", {
+          fileUrl: file_url,
+          fileType: attachedFile.type,
+          fileName: attachedFile.name,
+        });
+        fileContent = processed;
+      } catch (err) {
+        console.error("Erro ao processar arquivo:", err);
+      }
+    }
+
+    // Constrói a mensagem do usuário
+    let userMessage = { role: "user", content: msg };
+
+    if (fileContent) {
+      if (fileContent.type === "image") {
+        userMessage = {
+          role: "user",
+          content: [
+            { type: "text", text: msg || "O que há nesta imagem?" },
+            { type: "image_url", image_url: { url: fileContent.content } },
+          ],
+        };
+      } else {
+        userMessage = {
+          role: "user",
+          content: `${msg}\n\n[Arquivo anexado: ${attachedFile.name}]\n\n${fileContent.content}`,
+        };
+      }
+    }
+
+    const isImageRequest = isImageGenerationIntent(msg);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setMsg("");
+    setAttachedFile(null);
+    setLoading(true);
+
+    try {
+      if (isImageRequest) {
+        const result = await base44.functions.invoke("generate-image", { prompt: msg });
+        setMessages([
+          ...newMessages,
+          {
+            role: "assistant",
+            content: "Aqui está a imagem gerada:",
+            image: result.imageUrl,
+          },
+        ]);
+      } else {
+        const result = await base44.functions.invoke("chat", {
+          messages: newMessages,
+          model,
+          useWebSearch,
+        });
+        setMessages([
+          ...newMessages,
+          {
+            role: "assistant",
+            content: result.content || result.error || "Sem resposta",
+          },
+        ]);
+      }
+    } catch (err) {
+      setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: `Erro: ${err.message || "Falha na requisição"}`,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
     <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
@@ -107,7 +202,9 @@ export default function Dashboard() {
         </div>
 
         {/* center stage */}
-        <div className="flex-1 flex flex-col items-center justify-end px-6 pb-24 -mt-6">
+        <div className="flex-1 flex flex-col">
+          {messages.length === 0 && (
+          <div className="flex-1 flex flex-col items-center justify-end px-6 pb-24 -mt-6">
           {tempMode ? (
             <>
               <motion.div
@@ -163,9 +260,14 @@ export default function Dashboard() {
               </h1>
             </>
           )}
+          </div>
+          )}
+          {messages.length > 0 && (
+            <ChatMessages messages={messages} loading={loading} />
+          )}
 
           {/* input */}
-          <div className="w-full max-w-3xl bg-white rounded-2xl border border-gray-200 p-4">
+          <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl border border-gray-200 p-4 mx-6 mb-6">
             {attachedFile && (
               <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-gray-50 rounded-lg w-fit">
                 <Paperclip className="w-3 h-3 text-gray-500 shrink-0" />
@@ -216,7 +318,15 @@ export default function Dashboard() {
                       />
                     )}
                     {plusMenuOpen && toolsPanelOpen && (
-                      <ToolsPanel onBack={() => setToolsPanelOpen(false)} />
+                      <ToolsPanel
+                        onBack={() => setToolsPanelOpen(false)}
+                        useWebSearch={useWebSearch}
+                        setUseWebSearch={setUseWebSearch}
+                        saveMemories={saveMemories}
+                        setSaveMemories={setSaveMemories}
+                        useMemories={useMemories}
+                        setUseMemories={setUseMemories}
+                      />
                     )}
                     {plusMenuOpen && connectorsPanelOpen && (
                       <ConnectorsPanel
@@ -271,7 +381,7 @@ export default function Dashboard() {
 
         </div>
 
-        <p className="absolute bottom-12 left-0 right-0 text-center text-[11px] text-gray-400 max-w-xl mx-auto px-6 whitespace-nowrap -translate-x-8">
+        <p className="text-center text-[11px] text-gray-400 mb-6 px-6">
           {t("dash.disclaimer")}
         </p>
       </main>

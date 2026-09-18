@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, Sparkles, Info, Save, Brain } from "lucide-react";
+import { ChevronLeft, Sparkles, Info, Save, Brain, Globe } from "lucide-react";
 
-export default function ToolsPanel({ onBack }) {
-  const [reasoning, setReasoning] = useState(50);
-  const [saveMemories, setSaveMemories] = useState(false);
-  const [useMemories, setUseMemories] = useState(false);
+export default function ToolsPanel({
+  onBack,
+  useWebSearch = false,
+  setUseWebSearch = () => {},
+  saveMemories = false,
+  setSaveMemories = () => {},
+  useMemories = false,
+  setUseMemories = () => {},
+  reasoning = 50,
+  setReasoning = () => {},
+}) {
 
   const reasoningLabel = reasoning < 34 ? "Baixo" : reasoning < 67 ? "Médio" : "Alto";
 
@@ -69,6 +76,34 @@ export default function ToolsPanel({ onBack }) {
             background: `linear-gradient(to right, #7C3AED ${reasoning}%, #E5E7EB ${reasoning}%)`,
           }}
         />
+      </div>
+
+      <div className="h-px bg-gray-100" />
+
+      {/* Pesquisa na Web */}
+      <div className="px-3.5 pt-3 pb-1">
+        <span className="text-[11px] font-medium text-gray-400">Pesquisa na Web</span>
+      </div>
+      <div className="px-3.5 pb-3">
+        <div className="flex items-center gap-2.5 py-1">
+          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
+            <Globe className="w-4 h-4 text-black" />
+          </div>
+          <span className="flex-1 text-sm font-medium text-black">Buscar na web</span>
+          <Info className="w-3.5 h-3.5 text-gray-400" />
+          <button
+            onClick={() => setUseWebSearch((v) => !v)}
+            className={`w-10 h-5 rounded-full transition-colors relative shrink-0 ${
+              useWebSearch ? "bg-[#7C3AED]" : "bg-gray-300"
+            }`}
+          >
+            <div
+              className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${
+                useWebSearch ? "translate-x-5" : "translate-x-1"
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
       <div className="h-px bg-gray-100" />
