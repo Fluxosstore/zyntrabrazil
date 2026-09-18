@@ -41,7 +41,7 @@ export default function PlanContent() {
                         {t("settings.activeBadge")}
                       </span>
                     </div>
-                    <p className="text-xs text-[#757575] mt-1 max-w-xs">{t("settings.planFreeDesc")}</p>
+                    <p className="text-xs text-[#757575] mt-1 whitespace-nowrap">{t("settings.planFreeDesc")}</p>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
