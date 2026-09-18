@@ -17,7 +17,7 @@ import { getAvatarForUser } from "@/lib/avatars";
 import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 
 const LOGO =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
 export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect }) {
   const { user } = useAuth();
@@ -65,11 +65,17 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
             {/* Nav */}
             <div className="px-2 space-y-0.5">
-              <button onClick={onNewConversation} className={navItemClass}>
+              <button
+                onClick={() => { onNewConversation(); onClose(); }}
+                className={navItemClass}
+              >
                 <MessageSquarePlus className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.newConversation")}
               </button>
-              <button className={navItemClass}>
+              <button
+                onClick={onClose}
+                className={navItemClass}
+              >
                 <Search className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.searchConversation")}
               </button>
