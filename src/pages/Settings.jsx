@@ -12,6 +12,7 @@ import InvoicesContent from "@/components/ayzen/settings/InvoicesContent";
 import SkillsContent from "@/components/ayzen/settings/SkillsContent";
 import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
 import AccountContent from "@/components/ayzen/settings/AccountContent";
+import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
 
 function UsageContent() {
   const { t } = useLanguage();
@@ -158,6 +159,8 @@ export default function Settings() {
         return <AccountContent />;
       case "invoices":
         return <InvoicesContent />;
+      case "memories":
+        return <MemoriesContent />;
       case "skills":
         return <SkillsContent />;
       case "connectors":
