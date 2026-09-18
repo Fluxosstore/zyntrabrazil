@@ -38,8 +38,23 @@ export default function Dashboard() {
   const [attachedFile, setAttachedFile] = useState(null);
   const plusRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = localStorage.getItem("zyntra_chat_messages");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("zyntra_chat_messages", JSON.stringify(messages));
+    } catch (err) {
+      console.error("Erro ao salvar histórico:", err);
+    }
+  }, [messages]);
   const [useWebSearch, setUseWebSearch] = useState(false);
   const [saveMemories, setSaveMemories] = useState(false);
   const [useMemories, setUseMemories] = useState(false);
