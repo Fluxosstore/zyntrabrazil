@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { BarChart3, Search, Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -148,8 +149,9 @@ function UsageContent() {
 
 export default function Settings() {
   const { t } = useLanguage();
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("usage");
+  const [activeSection, setActiveSection] = useState(location.state?.section || "usage");
 
   const renderContent = () => {
     switch (activeSection) {

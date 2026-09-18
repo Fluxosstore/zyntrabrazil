@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 import {
   Plus,
   ChevronDown,
   Mic,
   VenetianMask,
+  X,
+  Paperclip,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
@@ -14,6 +17,7 @@ import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
+import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -24,9 +28,13 @@ export default function Dashboard() {
   const [modelOpen, setModelOpen] = useState(false);
   const [model, setModel] = useState("auto");
   const [tempMode, setTempMode] = useState(false);
+  const navigate = useNavigate();
   const [plusMenuOpen, setPlusMenuOpen] = useState(false);
   const [toolsPanelOpen, setToolsPanelOpen] = useState(false);
+  const [connectorsPanelOpen, setConnectorsPanelOpen] = useState(false);
+  const [attachedFile, setAttachedFile] = useState(null);
   const plusRef = useRef(null);
+  const fileInputRef = useRef(null);
   const plan = user?.plan || "free";
 
   const [greetingText, setGreetingText] = useState("");
@@ -47,6 +55,7 @@ export default function Dashboard() {
       if (plusRef.current && !plusRef.current.contains(e.target)) {
         setPlusMenuOpen(false);
         setToolsPanelOpen(false);
+        setConnectorsPanelOpen(false);
       }
     }
     if (plusMenuOpen) {
@@ -54,6 +63,16 @@ export default function Dashboard() {
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [plusMenuOpen]);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAttachedFile(file);
+      setPlusMenuOpen(false);
+      setToolsPanelOpen(false);
+      setConnectorsPanelOpen(false);
+    }
+  };
 
   return (
     <>
@@ -147,6 +166,18 @@ export default function Dashboard() {
 
           {/* input */}
           <div className="w-full max-w-3xl bg-white rounded-2xl border border-gray-200 p-4">
+            {attachedFile && (
+              <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-gray-50 rounded-lg w-fit">
+                <Paperclip className="w-3 h-3 text-gray-500 shrink-0" />
+                <span className="text-xs text-gray-700 truncate max-w-[200px]">{attachedFile.name}</span>
+                <button
+                  onClick={() => setAttachedFile(null)}
+                  className="w-4 h-4 flex items-center justify-center rounded-full hover:bg-gray-200 text-gray-500"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            )}
             <textarea
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
@@ -157,10 +188,18 @@ export default function Dashboard() {
             <div className="flex items-center justify-between mt-1.5">
               <div className="relative flex items-center gap-2">
                 <div ref={plusRef} className="relative">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*,.pdf,.txt,.csv"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
                   <button
                     onClick={() => {
                       setPlusMenuOpen((v) => !v);
                       setToolsPanelOpen(false);
+                      setConnectorsPanelOpen(false);
                     }}
                     className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
                       plusMenuOpen ? "bg-gray-100 text-gray-600" : "hover:bg-gray-100 text-gray-600"
@@ -169,11 +208,25 @@ export default function Dashboard() {
                     <Plus className="w-3.5 h-3.5" />
                   </button>
                   <AnimatePresence>
-                    {plusMenuOpen && !toolsPanelOpen && (
-                      <PlusMenu onOpenTools={() => setToolsPanelOpen(true)} />
+                    {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && (
+                      <PlusMenu
+                        onOpenTools={() => setToolsPanelOpen(true)}
+                        onOpenConnectors={() => setConnectorsPanelOpen(true)}
+                        onAttachFile={() => fileInputRef.current?.click()}
+                      />
                     )}
                     {plusMenuOpen && toolsPanelOpen && (
                       <ToolsPanel onBack={() => setToolsPanelOpen(false)} />
+                    )}
+                    {plusMenuOpen && connectorsPanelOpen && (
+                      <ConnectorsPanel
+                        onBack={() => setConnectorsPanelOpen(false)}
+                        onConnectApps={() => {
+                          setPlusMenuOpen(false);
+                          setConnectorsPanelOpen(false);
+                          navigate("/settings", { state: { section: "connectors" } });
+                        }}
+                      />
                     )}
                   </AnimatePresence>
                 </div>
