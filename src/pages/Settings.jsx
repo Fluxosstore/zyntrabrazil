@@ -16,6 +16,33 @@ import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
 import AccountContent from "@/components/ayzen/settings/AccountContent";
 import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
 
+const PLAN_TOKEN_WINDOWS = {
+  free: [
+    { labelKey: "settings.daily", value: "4.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.weekly", value: "30.000", descKey: "settings.weeklyDesc" }
+  ],
+  starter: [
+    { labelKey: "settings.daily", value: "128.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.weekly", value: "900.000", descKey: "settings.weeklyDesc" }
+  ],
+  premium: [
+    { labelKey: "settings.weekly", value: "500.000", descKey: "settings.weeklyDesc" },
+    { labelKey: "settings.monthly", value: "5.000.000", descKey: "settings.monthlyDesc" }
+  ],
+  team: [
+    { labelKey: "settings.daily", value: "1.000.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.weekly", value: "10.000.000", descKey: "settings.weeklyDesc" }
+  ],
+  startup: [
+    { labelKey: "settings.daily", value: "5.000.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.weekly", value: "15.000.000", descKey: "settings.weeklyDesc" }
+  ],
+  enterprise: [
+    { labelKey: "settings.daily", value: "10.000.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.weekly", value: "25.000.000", descKey: "settings.weeklyDesc" }
+  ]
+};
+
 function UsageContent() {
   const { t } = useLanguage();
   const { user } = useAuth();
@@ -91,28 +118,19 @@ function UsageContent() {
           <h2 className="text-base font-bold text-black mb-1">{t("settings.tokensPlan")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.tokensPlanDesc")}</p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-2xl border border-gray-200 bg-white p-5">
-              <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                {t("settings.daily")}
-              </p>
-              <p className="text-lg font-bold text-black mt-1">0 / 4.000</p>
-              <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                <div className="h-full w-0 bg-black rounded-full" />
+            {(PLAN_TOKEN_WINDOWS[plan] || PLAN_TOKEN_WINDOWS.free).map((win) => (
+              <div key={win.labelKey} className="rounded-2xl border border-gray-200 bg-white p-5">
+                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
+                  {t(win.labelKey)}
+                </p>
+                <p className="text-lg font-bold text-black mt-1">0 / {win.value}</p>
+                <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="h-full w-0 bg-black rounded-full" />
+                </div>
+                <p className="text-[10px] text-gray-400 mt-2">● 0%</p>
+                <p className="text-[11px] text-gray-500 mt-2">{t(win.descKey)}</p>
               </div>
-              <p className="text-[10px] text-gray-400 mt-2">● 0%</p>
-              <p className="text-[11px] text-gray-500 mt-2">{t("settings.dailyDesc")}</p>
-            </div>
-            <div className="rounded-2xl border border-gray-200 bg-white p-5">
-              <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                {t("settings.weekly")}
-              </p>
-              <p className="text-lg font-bold text-black mt-1">0 / 30.000</p>
-              <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                <div className="h-full w-0 bg-black rounded-full" />
-              </div>
-              <p className="text-[10px] text-gray-400 mt-2">● 0%</p>
-              <p className="text-[11px] text-gray-500 mt-2">{t("settings.weeklyDesc")}</p>
-            </div>
+            ))}
           </div>
         </section>
 
