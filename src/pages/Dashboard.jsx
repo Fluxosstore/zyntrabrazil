@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
 import {
@@ -12,6 +12,8 @@ import MobileDashboard from "@/components/ayzen/MobileDashboard";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
+import PlusMenu from "@/components/ayzen/chat/PlusMenu";
+import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -22,6 +24,9 @@ export default function Dashboard() {
   const [modelOpen, setModelOpen] = useState(false);
   const [model, setModel] = useState("auto");
   const [tempMode, setTempMode] = useState(false);
+  const [plusMenuOpen, setPlusMenuOpen] = useState(false);
+  const [toolsPanelOpen, setToolsPanelOpen] = useState(false);
+  const plusRef = useRef(null);
   const plan = user?.plan || "free";
 
   const [greetingText, setGreetingText] = useState("");
@@ -36,6 +41,19 @@ export default function Dashboard() {
     const interval = setInterval(updateGreeting, 60000);
     return () => clearInterval(interval);
   }, [t]);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (plusRef.current && !plusRef.current.contains(e.target)) {
+        setPlusMenuOpen(false);
+        setToolsPanelOpen(false);
+      }
+    }
+    if (plusMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [plusMenuOpen]);
 
   return (
     <>
@@ -138,9 +156,27 @@ export default function Dashboard() {
             />
             <div className="flex items-center justify-between mt-1.5">
               <div className="relative flex items-center gap-2">
-                <button className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
-                  <Plus className="w-3.5 h-3.5" />
-                </button>
+                <div ref={plusRef} className="relative">
+                  <button
+                    onClick={() => {
+                      setPlusMenuOpen((v) => !v);
+                      setToolsPanelOpen(false);
+                    }}
+                    className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
+                      plusMenuOpen ? "bg-gray-100 text-gray-600" : "hover:bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                  <AnimatePresence>
+                    {plusMenuOpen && !toolsPanelOpen && (
+                      <PlusMenu onOpenTools={() => setToolsPanelOpen(true)} />
+                    )}
+                    {plusMenuOpen && toolsPanelOpen && (
+                      <ToolsPanel onBack={() => setToolsPanelOpen(false)} />
+                    )}
+                  </AnimatePresence>
+                </div>
                 <div className="relative">
                   <button
                     onClick={() => setModelOpen((v) => !v)}
