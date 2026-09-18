@@ -101,7 +101,7 @@ export default function RankingChart() {
       </div>
 
       {/* Top 3 */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-5">
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 self-start">
         <h3 className="text-base font-bold text-black">{t("ranking.top3")}</h3>
         <p className="text-xs text-gray-500 mt-0.5 mb-4">{t("ranking.top3Desc")}</p>
         <div className="space-y-2">
