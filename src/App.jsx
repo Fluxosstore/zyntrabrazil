@@ -20,6 +20,7 @@ import Settings from '@/pages/Settings';
 import Ranking from '@/pages/Ranking';
 import RankingQualidade from '@/pages/RankingQualidade';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import TrialGuard from '@/components/TrialGuard';
 import { Navigate } from 'react-router-dom';
 
 const AuthenticatedApp = () => {
@@ -57,12 +58,14 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Home />} />
       {/* Authenticated app */}
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/library" element={<Library />} />
-        <Route path="/automations" element={<Automations />} />
+        <Route element={<TrialGuard />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/automations" element={<Automations />} />
+          <Route path="/ranking" element={<Ranking />} />
+          <Route path="/ranking/qualidade" element={<RankingQualidade />} />
+        </Route>
         <Route path="/settings" element={<Settings />} />
-        <Route path="/ranking" element={<Ranking />} />
-        <Route path="/ranking/qualidade" element={<RankingQualidade />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
