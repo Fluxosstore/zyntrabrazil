@@ -20,9 +20,12 @@ const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
 
 export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect }) {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { t } = useLanguage();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
+
+  const navItemClass =
+    "w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-100 text-xs font-medium transition-colors";
 
   return (
     <AnimatePresence>
@@ -44,61 +47,59 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-            className="md:hidden fixed top-0 left-0 h-full w-[85%] max-w-xs bg-[#F1F3F5] flex flex-col z-50 shadow-2xl"
+            className="md:hidden fixed top-0 left-0 h-full w-[85%] max-w-xs bg-white flex flex-col z-50 shadow-2xl rounded-r-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-3 py-2.5">
+            <div className="flex items-center justify-between px-3 py-3">
               <Link to="/" className="flex items-center gap-2">
                 <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
                 <span className="text-base font-bold text-black">Zyntra</span>
               </Link>
               <button
                 onClick={onClose}
-                className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors"
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
               >
-                <PanelLeftClose className="w-3.5 h-3.5" />
+                <PanelLeftClose className="w-4 h-4" />
               </button>
             </div>
 
             {/* Nav */}
-            <div className="px-2.5 space-y-1">
-              <button onClick={onNewConversation} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
-                <MessageSquarePlus className="w-3.5 h-3.5 shrink-0" />
+            <div className="px-2 space-y-0.5">
+              <button onClick={onNewConversation} className={navItemClass}>
+                <MessageSquarePlus className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.newConversation")}
               </button>
-
-              <div className="relative">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                <input
-                  placeholder={t("dash.searchConversation")}
-                  className="w-full h-8 pl-8 pr-3 rounded-lg bg-white border border-gray-200 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
-                />
-              </div>
-
-              <Link to="/library" onClick={onClose} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
-                <BookOpen className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              <button className={navItemClass}>
+                <Search className="w-4 h-4 text-gray-600 shrink-0" />
+                {t("dash.searchConversation")}
+              </button>
+              <Link to="/library" onClick={onClose} className={navItemClass}>
+                <BookOpen className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.library")}
               </Link>
-              <Link to="/automations" onClick={onClose} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-200/60 text-xs font-medium transition-colors">
-                <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+              <Link to="/automations" onClick={onClose} className={navItemClass}>
+                <Workflow className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.automations")}
               </Link>
             </div>
 
-            <div className="h-px bg-gray-200 my-2 mx-2.5" />
+            <div className="h-px bg-gray-100 my-2 mx-2.5" />
 
             {/* Chats */}
             <div className="flex items-center justify-between px-4 pt-1 pb-1">
               <span className="text-[10px] font-semibold tracking-wider text-gray-400">
                 {t("dash.chats")}
               </span>
-              <button onClick={onNewConversation} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+              <button
+                onClick={onNewConversation}
+                className="w-6 h-6 flex items-center justify-center rounded-md bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors"
+              >
                 <Plus className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="flex-1 px-2.5 overflow-y-auto">
+            <div className="flex-1 px-2 overflow-y-auto">
               {conversations.length === 0 ? (
-                <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
+                <p className="px-2.5 text-xs text-gray-400">{t("dash.noChats")}</p>
               ) : (
                 <div className="space-y-0.5">
                   {conversations.map((conv) => (
@@ -118,10 +119,10 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             </div>
 
             {/* User footer */}
-            <div className="px-2.5 py-2 border-t border-gray-200">
+            <div className="px-2.5 py-2.5">
               <button
                 onClick={onClose}
-                className="w-full flex items-center gap-2.5 px-2 py-2 rounded-xl bg-[#f4f5f7] hover:bg-[#eceef0] transition-colors"
+                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl bg-[#f4f5f7] hover:bg-[#eceef0] transition-colors"
               >
                 <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
