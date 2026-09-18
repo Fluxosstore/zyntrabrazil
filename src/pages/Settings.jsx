@@ -77,7 +77,14 @@ function UsageContent() {
     return 0;
   });
   const formatTokens = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  const pct = (consumed, limit) => (limit > 0 ? Math.min(100, Math.round((consumed / limit) * 100)) : 0);
+  const pct = (consumed, limit) => {
+    if (limit <= 0) return 0;
+    const value = Math.min(100, (consumed / limit) * 100);
+    if (value === 0) return 0;
+    if (value < 1) return Math.round(value * 100) / 100;
+    return Math.round(value);
+  };
+  const rawPct = (consumed, limit) => (limit > 0 ? Math.min(100, (consumed / limit) * 100) : 0);
   const isPaid = plan && plan !== "free";
 
   const planModels = (MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
@@ -153,6 +160,7 @@ function UsageContent() {
               const limit = windowLimits[i];
               const consumed = windowConsumed[i];
               const percentage = pct(consumed, limit);
+              const barWidth = Math.max(rawPct(consumed, limit), consumed > 0 ? 1.5 : 0);
               return (
                 <div key={win.labelKey} className="rounded-2xl border border-gray-200 bg-white p-5">
                   <div className="flex items-center justify-between">
@@ -163,7 +171,10 @@ function UsageContent() {
                   </div>
                   <p className="text-lg font-bold text-black mt-1">{formatTokens(consumed)} / {win.value}</p>
                   <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                    <div className="h-full bg-black rounded-full transition-all" style={{ width: `${percentage}%` }} />
+                    <div
+                      className="h-full bg-black rounded-full transition-all duration-1000 ease-out"
+                      style={{ width: `${barWidth}%` }}
+                    />
                   </div>
                   <p className="text-[11px] text-gray-500 mt-2">{t(win.descKey)}</p>
                 </div>
