@@ -33,6 +33,16 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   const navigate = useNavigate();
   const handleNew = onNewConversation || (() => navigate("/dashboard"));
 
+  const [localConversations] = useState(() => {
+    try {
+      const saved = localStorage.getItem("zyntra_conversations");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const displayConversations = conversations.length > 0 ? conversations : localConversations;
+
   return (
     <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F4F4F6] flex flex-col rounded-r-2xl transition-all duration-200`}>
       <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
@@ -124,11 +134,11 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             </button>
           </div>
           <div className="flex-1 px-2.5 overflow-y-auto">
-            {conversations.length === 0 ? (
+            {displayConversations.length === 0 ? (
               <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
             ) : (
               <div className="space-y-0.5">
-                {conversations.map((conv) => (
+                {displayConversations.map((conv) => (
                   <ChatListItem
                     key={conv.id}
                     conv={conv}
