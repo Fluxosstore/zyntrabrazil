@@ -31,7 +31,7 @@ export default function SkillsContent() {
                     {t("settings.premiumFeature")}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1 max-w-md">{t("settings.skillsPremiumDesc")}</p>
+                <p className="text-xs text-gray-500 mt-1 whitespace-nowrap">{t("settings.skillsPremiumDesc")}</p>
               </div>
             </div>
             <button className="px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0">
