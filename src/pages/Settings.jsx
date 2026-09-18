@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { BarChart3, Search, Menu } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BarChart3, Search, ChevronLeft } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import SettingsNav from "@/components/ayzen/SettingsNav";
-import MobileSidebar from "@/components/ayzen/MobileSidebar";
+import MobileSettingsTabs from "@/components/ayzen/MobileSettingsTabs";
 import { MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 import ModelUsageRow from "@/components/ayzen/ModelUsageRow";
 import PlanContent from "@/components/ayzen/settings/PlanContent";
@@ -150,7 +150,7 @@ function UsageContent() {
 export default function Settings() {
   const { t } = useLanguage();
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(location.state?.section || "usage");
 
   const renderContent = () => {
@@ -185,21 +185,19 @@ export default function Settings() {
 
       {/* Mobile */}
       <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+        <div className="flex items-center px-4 py-3 border-b border-gray-100">
           <button
-            onClick={() => setSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
+            onClick={() => navigate(-1)}
+            className="w-8 h-8 flex items-center justify-center -ml-1 text-gray-700 active:bg-gray-100 rounded-lg"
           >
-            <Menu className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="text-sm font-semibold text-black">{t("settings.title")}</span>
-          <div className="w-9" />
+          <span className="ml-0.5 text-base font-bold text-black">{t("settings.title")}</span>
         </div>
-        <div className="flex flex-1 overflow-hidden">
-          <SettingsNav active={activeSection} onSelect={setActiveSection} />
+        <MobileSettingsTabs active={activeSection} onSelect={setActiveSection} />
+        <div className="flex-1 overflow-y-auto">
           {renderContent()}
         </div>
-        <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
     </>
   );
