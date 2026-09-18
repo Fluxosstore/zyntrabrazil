@@ -35,6 +35,7 @@ export default function MobileDashboard({
   onTogglePin, onToggleSelect,
   onEditMessage, onReprocess,
   tempMode, setTempMode,
+  setModel,
   useWebSearch, setUseWebSearch,
   saveMemories, setSaveMemories,
   useMemories, setUseMemories,
@@ -97,34 +98,36 @@ export default function MobileDashboard({
 
       {/* Top nav */}
       <div className="flex items-center justify-between px-4 py-3">
-        <button
-          onClick={() => setSidebarOpen(true)}
-          className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
-        >
-          <PanelLeft className="w-5 h-5" />
-        </button>
-        <div className="relative">
+        <div className="flex items-center gap-2">
           <button
-            onClick={() => setModelOpen(v => !v)}
-            className="flex items-center gap-1.5"
+            onClick={() => setSidebarOpen(true)}
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
           >
-            <img src={modelInfo.logo} alt={modelInfo.name} className="w-5 h-5 rounded object-contain" />
-            <span className="text-sm font-semibold text-black">{modelInfo.name}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+            <PanelLeft className="w-5 h-5" />
           </button>
-          {modelOpen && (
-            <ModelSelector
-              selected={model}
-              plan={plan}
-              placement="bottom"
-              onSelect={(id) => { setModelOpen(false); }}
-              onClose={() => setModelOpen(false)}
-            />
-          )}
+          <div className="relative">
+            <button
+              onClick={() => setModelOpen(v => !v)}
+              className="flex items-center gap-1.5"
+            >
+              <img src={modelInfo.logo} alt={modelInfo.name} className="w-5 h-5 rounded object-contain" />
+              <span className="text-sm font-semibold text-black">{modelInfo.name}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+            </button>
+            {modelOpen && (
+              <ModelSelector
+                selected={model}
+                plan={plan}
+                placement="bottom"
+                onSelect={(id) => { setModel(id); setModelOpen(false); }}
+                onClose={() => setModelOpen(false)}
+              />
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={() => setTempMode?.(v => !v)}
+            onClick={() => setTempMode(v => !v)}
             className={`w-9 h-9 flex items-center justify-center rounded-lg active:bg-gray-100 ${tempMode ? "text-[#7E57C2]" : "text-gray-700"}`}
           >
             <VenetianMask className="w-5 h-5" />
@@ -169,12 +172,25 @@ export default function MobileDashboard({
               className="relative w-20 h-20 object-contain drop-shadow-2xl"
             />
           </motion.div>
-          <p className="text-sm text-gray-500 mb-1">
-            {greeting()}, {firstName}
-          </p>
-          <h1 className="text-xl font-bold text-black text-center px-4">
-            {t("dash.headline")}
-          </h1>
+          {tempMode ? (
+            <>
+              <h1 className="text-xl font-bold text-black text-center mb-2">
+                {t("dash.tempTitle")}
+              </h1>
+              <p className="text-sm text-gray-500 text-center max-w-md">
+                {t("dash.tempDesc")}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-gray-500 mb-1">
+                {greeting()}, {firstName}
+              </p>
+              <h1 className="text-xl font-bold text-black text-center px-4">
+                {t("dash.headline")}
+              </h1>
+            </>
+          )}
         </div>
       )}
 

@@ -550,6 +550,7 @@ export default function Dashboard() {
       onReprocess={handleReprocess}
       tempMode={tempMode}
       setTempMode={setTempMode}
+      setModel={setModel}
       useWebSearch={useWebSearch}
       setUseWebSearch={setUseWebSearch}
       saveMemories={saveMemories}
