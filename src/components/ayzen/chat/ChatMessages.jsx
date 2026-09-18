@@ -31,7 +31,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
 
   return (
-    <div ref={scrollRef} className="flex-1 overflow-y-auto py-4 space-y-6">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto py-4 space-y-6 px-4 md:px-0">
       <AnimatePresence>
         {messages.map((msg, i) => (
           <motion.div
