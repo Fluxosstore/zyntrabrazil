@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronDown, Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
@@ -9,8 +10,8 @@ import RankingFilters from "@/components/ayzen/ranking/RankingFilters";
 
 export default function Ranking() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [view, setView] = useState("usage");
 
   return (
     <>
@@ -28,18 +29,13 @@ export default function Ranking() {
               {/* Toggle Uso/Qualidade */}
               <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
                 <button
-                  onClick={() => setView("usage")}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                    view === "usage" ? "bg-white text-black shadow-sm" : "text-gray-500 hover:text-gray-700"
-                  }`}
+                  className="px-4 py-1.5 rounded-full text-xs font-medium bg-white text-black shadow-sm"
                 >
                   {t("ranking.usage")}
                 </button>
                 <button
-                  onClick={() => setView("quality")}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                    view === "quality" ? "bg-white text-black shadow-sm" : "text-gray-500 hover:text-gray-700"
-                  }`}
+                  onClick={() => navigate("/ranking/qualidade")}
+                  className="px-4 py-1.5 rounded-full text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors"
                 >
                   {t("ranking.quality")}
                 </button>
@@ -85,14 +81,13 @@ export default function Ranking() {
           </div>
           <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 w-fit">
             <button
-              onClick={() => setView("usage")}
-              className={`px-3 py-1 rounded-full text-xs font-medium ${view === "usage" ? "bg-white text-black" : "text-gray-500"}`}
+              className="px-3 py-1 rounded-full text-xs font-medium bg-white text-black"
             >
               {t("ranking.usage")}
             </button>
             <button
-              onClick={() => setView("quality")}
-              className={`px-3 py-1 rounded-full text-xs font-medium ${view === "quality" ? "bg-white text-black" : "text-gray-500"}`}
+              onClick={() => navigate("/ranking/qualidade")}
+              className="px-3 py-1 rounded-full text-xs font-medium text-gray-500"
             >
               {t("ranking.quality")}
             </button>
