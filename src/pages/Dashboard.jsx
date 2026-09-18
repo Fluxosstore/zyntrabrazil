@@ -11,7 +11,6 @@ import {
   Paperclip,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
-import MobileDashboard from "@/components/ayzen/MobileDashboard";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
@@ -293,7 +292,7 @@ export default function Dashboard() {
 
   return (
     <>
-    <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
+    <div className="flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
       <DashboardSidebar
         activePage="dashboard"
         conversations={conversations}
@@ -528,29 +527,7 @@ export default function Dashboard() {
         </p>
       </main>
     </div>
-    <MobileDashboard
-      msg={msg}
-      setMsg={setMsg}
-      handleSend={handleSend}
-      messages={messages}
-      loading={loading}
-      model={model}
-      plan={plan}
-      attachedFile={attachedFile}
-      setAttachedFile={setAttachedFile}
-      conversations={conversations}
-      activeConversationId={activeConversationId}
-      onNewConversation={handleNewConversation}
-      onSelectConversation={handleSelectConversation}
-      onDeleteConversation={handleDeleteConversation}
-      onRenameConversation={handleRenameConversation}
-      onTogglePin={handleTogglePin}
-      onToggleSelect={handleToggleSelect}
-      onEditMessage={handleEditMessage}
-      onReprocess={handleReprocess}
-      tempMode={tempMode}
-      setTempMode={setTempMode}
-    />
+
     </>
   );
 }
