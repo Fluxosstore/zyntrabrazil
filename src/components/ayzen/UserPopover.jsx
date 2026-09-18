@@ -49,7 +49,7 @@ export default function UserPopover({ user, firstName, planLabel, onLogout, onCl
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 24 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      className={`absolute bottom-0 left-0 ${collapsed ? "w-60" : "right-0"} bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50`}
+      className={`absolute bottom-0 ${collapsed ? "left-0 w-60" : "left-2 right-2"} bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50`}
     >
       {/* Header */}
       <div className="flex items-center gap-2.5 px-3.5 py-3">
