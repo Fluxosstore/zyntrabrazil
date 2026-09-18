@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
 import {
@@ -30,6 +30,8 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   const [collapsed, setCollapsed] = useState(false);
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
+  const navigate = useNavigate();
+  const handleNew = onNewConversation || (() => navigate("/dashboard"));
 
   return (
     <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F4F4F6] flex flex-col rounded-r-2xl transition-all duration-200`}>
@@ -65,7 +67,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
               <Search className="w-4 h-4" />
             </button>
-            <button onClick={onNewConversation} className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+            <button onClick={handleNew} className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
               <ChatPlusIcon className="w-4 h-4" />
             </button>
             <Link to="/library" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "library" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
@@ -77,7 +79,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
           </>
         ) : (
           <>
-            <button onClick={onNewConversation} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
+            <button onClick={handleNew} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
               <Plus className="w-3.5 h-3.5 shrink-0" />
               {t("dash.newConversation")}
             </button>
@@ -117,7 +119,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             <span className="text-[10px] font-semibold tracking-wider text-gray-400">
               {t("dash.chats")}
             </span>
-            <button onClick={onNewConversation} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+            <button onClick={handleNew} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
               <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
