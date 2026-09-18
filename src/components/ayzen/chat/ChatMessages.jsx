@@ -27,7 +27,7 @@ export default function ChatMessages({ messages, loading }) {
   };
 
   return (
-    <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto py-4 space-y-6">
       <AnimatePresence>
         {messages.map((msg, i) => (
           <motion.div
