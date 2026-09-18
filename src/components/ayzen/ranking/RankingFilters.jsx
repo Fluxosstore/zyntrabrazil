@@ -50,7 +50,7 @@ export default function RankingFilters() {
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
         </button>
         {open === "modality" && (
-          <div className="absolute top-full left-0 mt-1.5 w-56 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
+          <div className="absolute top-full left-0 mt-1.5 w-56 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 p-1.5 z-50">
             {MODALITY_OPTIONS.map((opt) => {
               const Icon = opt.icon;
               const isSel = modality === opt.id;
@@ -58,8 +58,8 @@ export default function RankingFilters() {
                 <button
                   key={opt.id}
                   onClick={() => { setModality(opt.id); setOpen(null); }}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
-                    isSel ? "bg-[#f3f4f8] text-black" : "text-gray-700 hover:bg-gray-50"
+                  className={`w-full flex items-center gap-3 px-2.5 py-2 rounded-lg text-left transition-colors ${
+                    isSel ? "bg-[#f0f2f5] text-black" : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
                   <Icon className="w-4 h-4 text-gray-500 shrink-0" />
@@ -83,15 +83,15 @@ export default function RankingFilters() {
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
         </button>
         {open === "period" && (
-          <div className="absolute top-full left-0 mt-1.5 w-40 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
+          <div className="absolute top-full left-0 mt-1.5 w-40 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 p-1.5 z-50">
             {PERIOD_OPTIONS.map((opt) => {
               const isSel = period === opt.id;
               return (
                 <button
                   key={opt.id}
                   onClick={() => { setPeriod(opt.id); setOpen(null); }}
-                  className={`w-full flex items-center px-3 py-2.5 text-left transition-colors ${
-                    isSel ? "bg-[#f3f4f8] text-black" : "text-gray-700 hover:bg-gray-50"
+                  className={`w-full flex items-center px-2.5 py-2 rounded-lg text-left transition-colors ${
+                    isSel ? "bg-[#f0f2f5] text-black" : "text-gray-700 hover:bg-gray-50"
                   }`}
                 >
                   <span className="flex-1 text-xs font-medium">{t(opt.labelKey)}</span>
