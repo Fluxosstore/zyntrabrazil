@@ -369,8 +369,10 @@ export default function Dashboard() {
                   <Mic className="w-3.5 h-3.5" />
                 </button>
                 <button
+                  onClick={handleSend}
+                  disabled={!msg.trim() && !attachedFile}
                   className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
-                    msg ? "bg-[#1D1D1F] text-white" : "bg-gray-200 text-gray-400"
+                    msg || attachedFile ? "bg-[#1D1D1F] text-white" : "bg-gray-200 text-gray-400"
                   }`}
                 >
                   <ArrowUpIcon className="w-3.5 h-3.5" />
