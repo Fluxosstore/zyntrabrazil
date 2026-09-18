@@ -11,6 +11,7 @@ import PlanContent from "@/components/ayzen/settings/PlanContent";
 import InvoicesContent from "@/components/ayzen/settings/InvoicesContent";
 import SkillsContent from "@/components/ayzen/settings/SkillsContent";
 import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
+import AccountContent from "@/components/ayzen/settings/AccountContent";
 
 function UsageContent() {
   const { t } = useLanguage();
@@ -153,6 +154,8 @@ export default function Settings() {
     switch (activeSection) {
       case "plan":
         return <PlanContent />;
+      case "account":
+        return <AccountContent />;
       case "invoices":
         return <InvoicesContent />;
       case "skills":
