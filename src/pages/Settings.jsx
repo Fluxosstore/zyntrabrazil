@@ -149,6 +149,7 @@ function UsageContent() {
 
 export default function Settings() {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(location.state?.section || "usage");
@@ -160,7 +161,7 @@ export default function Settings() {
       case "account":
         return <AccountContent />;
       case "invoices":
-        return <InvoicesContent />;
+        return <InvoicesContent plan={user?.plan || "free"} />;
       case "memories":
         return <MemoriesContent />;
       case "skills":
