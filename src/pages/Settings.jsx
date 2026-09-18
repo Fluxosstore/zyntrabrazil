@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BarChart3, Search, ChevronLeft } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -15,6 +15,8 @@ import SkillFormContent from "@/components/ayzen/settings/SkillFormContent";
 import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
 import AccountContent from "@/components/ayzen/settings/AccountContent";
 import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
+import MediaQuotasContent from "@/components/ayzen/settings/MediaQuotasContent";
+import { base44 } from "@/api/base44Client";
 
 const PLAN_TOKEN_WINDOWS = {
   free: [
@@ -48,6 +50,39 @@ function UsageContent() {
   const { user } = useAuth();
   const plan = user?.plan || "free";
   const [query, setQuery] = useState("");
+  const [usage, setUsage] = useState({ monthly: 0, daily: 0, weekly: 0 });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const records = await base44.entities.TokenUsage.filter(
+          { created_date: { $gte: monthStart.toISOString() } },
+          "-created_date",
+          500
+        );
+        const now = Date.now();
+        const dayAgo = now - 24 * 60 * 60 * 1000;
+        const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
+        const monthly = records.reduce((s, r) => s + (r.tokens || 0), 0);
+        const daily = records.filter((r) => new Date(r.created_date).getTime() >= dayAgo).reduce((s, r) => s + (r.tokens || 0), 0);
+        const weekly = records.filter((r) => new Date(r.created_date).getTime() >= weekAgo).reduce((s, r) => s + (r.tokens || 0), 0);
+        setUsage({ monthly, daily, weekly });
+      } catch (e) {}
+    })();
+  }, []);
+
+  const windows = PLAN_TOKEN_WINDOWS[plan] || PLAN_TOKEN_WINDOWS.free;
+  const windowLimits = windows.map((w) => parseInt(w.value.replace(/\./g, ""), 10));
+  const windowConsumed = windows.map((w) => {
+    if (w.labelKey === "settings.daily") return usage.daily;
+    if (w.labelKey === "settings.weekly") return usage.weekly;
+    if (w.labelKey === "settings.monthly") return usage.monthly;
+    return 0;
+  });
+  const formatTokens = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const pct = (consumed, limit) => (limit > 0 ? Math.min(100, Math.round((consumed / limit) * 100)) : 0);
+  const isPaid = plan && plan !== "free";
 
   const planModels = (MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
     name: m.name,
@@ -84,7 +119,7 @@ function UsageContent() {
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                   {t("settings.consumedMonth")}
                 </p>
-                <p className="text-lg font-bold text-black">{t("settings.tokens")}</p>
+                <p className="text-lg font-bold text-black">{formatTokens(usage.monthly)} {t("settings.tokensLabel")}</p>
                 <p className="text-xs text-gray-400">{t("settings.period")}</p>
               </div>
             </div>
@@ -97,17 +132,17 @@ function UsageContent() {
               </div>
               <div className="p-4 border-r border-gray-100">
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.daily")}
+                  {t(windows[0].labelKey)}
                 </p>
-                <p className="text-lg font-bold text-black mt-0.5">0%</p>
-                <p className="text-[10px] text-gray-400">{t("settings.dailyDesc")}</p>
+                <p className="text-lg font-bold text-black mt-0.5">{pct(windowConsumed[0], windowLimits[0])}%</p>
+                <p className="text-[10px] text-gray-400">{t(windows[0].descKey)}</p>
               </div>
               <div className="p-4">
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.weekly")}
+                  {t(windows[1].labelKey)}
                 </p>
-                <p className="text-lg font-bold text-black mt-0.5">0%</p>
-                <p className="text-[10px] text-gray-400">{t("settings.weeklyDesc")}</p>
+                <p className="text-lg font-bold text-black mt-0.5">{pct(windowConsumed[1], windowLimits[1])}%</p>
+                <p className="text-[10px] text-gray-400">{t(windows[1].descKey)}</p>
               </div>
             </div>
           </div>
@@ -118,21 +153,31 @@ function UsageContent() {
           <h2 className="text-base font-bold text-black mb-1">{t("settings.tokensPlan")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.tokensPlanDesc")}</p>
           <div className="grid grid-cols-2 gap-4">
-            {(PLAN_TOKEN_WINDOWS[plan] || PLAN_TOKEN_WINDOWS.free).map((win) => (
-              <div key={win.labelKey} className="rounded-2xl border border-gray-200 bg-white p-5">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t(win.labelKey)}
-                </p>
-                <p className="text-lg font-bold text-black mt-1">0 / {win.value}</p>
-                <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                  <div className="h-full w-0 bg-black rounded-full" />
+            {windows.map((win, i) => {
+              const limit = windowLimits[i];
+              const consumed = windowConsumed[i];
+              const percentage = pct(consumed, limit);
+              return (
+                <div key={win.labelKey} className="rounded-2xl border border-gray-200 bg-white p-5">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[10px] font-semibold tracking-wider text-gray-400">
+                      {t(win.labelKey)}
+                    </p>
+                    <span className="text-[10px] text-gray-400">● {percentage}%</span>
+                  </div>
+                  <p className="text-lg font-bold text-black mt-1">{formatTokens(consumed)} / {win.value}</p>
+                  <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                    <div className="h-full bg-black rounded-full transition-all" style={{ width: `${percentage}%` }} />
+                  </div>
+                  <p className="text-[11px] text-gray-500 mt-2">{t(win.descKey)}</p>
                 </div>
-                <p className="text-[10px] text-gray-400 mt-2">● 0%</p>
-                <p className="text-[11px] text-gray-500 mt-2">{t(win.descKey)}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
+
+        {/* Cotas de mídia - paid only */}
+        {isPaid && <MediaQuotasContent plan={plan} />}
 
         {/* Mensagens por IA */}
         <section>

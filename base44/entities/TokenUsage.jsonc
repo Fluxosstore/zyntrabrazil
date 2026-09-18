@@ -1,0 +1,17 @@
+{
+  "name": "TokenUsage",
+  "type": "object",
+  "properties": {
+    "tokens": {
+      "type": "number",
+      "description": "Quantidade de tokens consumidos neste registro"
+    },
+    "model": {
+      "type": "string",
+      "description": "Modelo de IA usado (ex: gpt, claude, gemini)"
+    }
+  },
+  "required": [
+    "tokens"
+  ]
+}
