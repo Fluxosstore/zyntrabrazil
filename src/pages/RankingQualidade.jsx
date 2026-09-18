@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -7,36 +7,12 @@ import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import QualityChart from "@/components/ayzen/ranking/QualityChart";
 import QualityTable from "@/components/ayzen/ranking/QualityTable";
 import QualityFilters from "@/components/ayzen/ranking/QualityFilters";
-import { QUALITY_MODELS, getLogoForVendor } from "@/components/ayzen/ranking/qualityData";
-import { fetchQualityRanking } from "@/lib/fetchQualityRanking";
 
 export default function RankingQualidade() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [metric, setMetric] = useState("intelligence");
-  const [models, setModels] = useState(QUALITY_MODELS);
-  const [loading, setLoading] = useState(true);
-  const [usingRealData, setUsingRealData] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      const real = await fetchQualityRanking();
-      if (cancelled) return;
-      if (real && real.length > 0) {
-        const mapped = real.map((m) => ({
-          ...m,
-          logo: getLogoForVendor(m.vendor),
-        }));
-        setModels(mapped);
-        setUsingRealData(true);
-      }
-      setLoading(false);
-    }
-    load();
-    return () => { cancelled = true; };
-  }, []);
 
   return (
     <>
@@ -71,24 +47,17 @@ export default function RankingQualidade() {
             <QualityFilters metric={metric} setMetric={setMetric} />
 
             {/* Chart + Top 3 */}
-            {loading && (
-              <div className="flex items-center justify-center py-20">
-                <div className="w-6 h-6 border-2 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
-              </div>
-            )}
-            {!loading && <QualityChart metric={metric} models={models} />}
+            <QualityChart metric={metric} />
 
             {/* Full ranking */}
             <div>
               <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
               <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.qualityFullRankingDesc")}</p>
-              <QualityTable models={models} />
+              <QualityTable />
             </div>
 
             {/* Footer */}
-            <p className="text-center text-[11px] text-gray-400 pb-2">
-              {usingRealData ? t("ranking.qualityFooter") : t("ranking.qualityFooter")}
-            </p>
+            <p className="text-center text-[11px] text-gray-400 pb-2">{t("ranking.qualityFooter")}</p>
           </div>
         </main>
       </div>
@@ -123,16 +92,11 @@ export default function RankingQualidade() {
             </button>
           </div>
           <QualityFilters metric={metric} setMetric={setMetric} />
-          {loading && (
-            <div className="flex items-center justify-center py-20">
-              <div className="w-6 h-6 border-2 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
-            </div>
-          )}
-          {!loading && <QualityChart metric={metric} models={models} />}
+          <QualityChart metric={metric} />
           <div>
             <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
             <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.qualityFullRankingDesc")}</p>
-            <QualityTable models={models} />
+            <QualityTable />
           </div>
           <p className="text-center text-[11px] text-gray-400">{t("ranking.qualityFooter")}</p>
         </div>

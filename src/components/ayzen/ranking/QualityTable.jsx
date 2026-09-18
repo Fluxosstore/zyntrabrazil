@@ -21,9 +21,8 @@ function fmt(v) {
   return v.toFixed(1).replace(".", ",");
 }
 
-export default function QualityTable({ models }) {
+export default function QualityTable() {
   const { t } = useLanguage();
-  const data = models && models.length > 0 ? models : QUALITY_MODELS;
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
@@ -38,8 +37,8 @@ export default function QualityTable({ models }) {
 
       {/* Table rows */}
       <div className="divide-y divide-gray-50">
-        {data.map((m, i) => (
-          <div key={m.rank || i} className="flex items-center px-5 py-2.5 hover:bg-gray-50/50 transition-colors">
+        {QUALITY_MODELS.map((m) => (
+          <div key={m.rank} className="flex items-center px-5 py-2.5 hover:bg-gray-50/50 transition-colors">
             <span className="w-10 text-xs text-gray-400">{m.rank}</span>
             <div className="flex-1 flex items-center gap-2.5 min-w-0">
               <ModelLogo logo={m.logo} />
