@@ -30,7 +30,7 @@ function UsageContent() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="max-w-3xl mx-auto px-8 py-8 space-y-8">
+      <div className="px-10 py-8 space-y-8">
         {/* Header */}
         <div>
           <p className="text-xs text-gray-400">{t("settings.title")}</p>

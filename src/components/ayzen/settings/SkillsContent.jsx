@@ -7,7 +7,7 @@ export default function SkillsContent() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="max-w-3xl mx-auto px-8 py-8 space-y-8">
+      <div className="px-10 py-8 space-y-8">
         <div>
           <p className="text-xs text-gray-400">{t("settings.title")}</p>
           <h1 className="text-2xl font-bold text-black mt-0.5">{t("settings.skills")}</h1>
