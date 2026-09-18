@@ -168,3 +168,41 @@ export const METRIC_OPTIONS = [
 export const SOURCE_OPTIONS = [
   { id: "artificial_analysis", label: "Artificial Analysis" },
 ];
+
+/**
+ * Maps a vendor name (as returned by the Artificial Analysis API/LLM)
+ * to the appropriate logo URL or circle object.
+ */
+export function getLogoForVendor(vendor) {
+  if (!vendor) return circle("?", "#9ca3af");
+  const v = vendor.toLowerCase();
+  const map = {
+    openai: GPT,
+    anthropic: CLAUDE,
+    google: GEMINI,
+    deepseek: DEEPSEEK,
+    "google deepmind": GEMINI,
+    xai: GROK,
+    alibaba: QWEN,
+    qwen: QWEN,
+    meta: META,
+    mistral: MISTRAL,
+    microsoft: MICROSOFT,
+    nvidia: NVIDIA,
+    cohere: COHERE,
+    tencent: TENCENT,
+    minimax: MINIMAX,
+    moonshot: KIMI,
+    "moonshot ai": KIMI,
+    "moonshotai": KIMI,
+    xiaomi: XIAOMI,
+    zhipu: ZAI,
+    "z.ai": ZAI,
+    zai: ZAI,
+    "base44.com": ZAI,
+    "01.ai": ZEROONE,
+    "databricks": DBRX,
+    upstage: UPSTAGE,
+  };
+  return map[v] || circle(v.charAt(0).toUpperCase(), "#9ca3af");
+}
