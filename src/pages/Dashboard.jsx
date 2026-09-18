@@ -402,6 +402,7 @@ export default function Dashboard() {
                 onEdit={handleEditMessage}
                 onReprocess={handleReprocess}
                 plan={plan}
+                model={model}
               />
             </div>
           )}

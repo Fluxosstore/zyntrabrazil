@@ -150,6 +150,7 @@ export default function MobileDashboard({
             onEdit={onEditMessage}
             onReprocess={onReprocess}
             plan={plan}
+            model={model}
           />
         </div>
       ) : (

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, Star, Pencil, RefreshCw } from "lucide-react";
 import { Image } from "@/components/ui/image";
-import { MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
+import { MODELS_BY_PLAN, getModelInfo } from "@/components/ayzen/ModelSelector";
 
-export default function ChatMessages({ messages, loading, onEdit, onReprocess, plan = "free" }) {
+export default function ChatMessages({ messages, loading, onEdit, onReprocess, plan = "free", model = "auto" }) {
   const scrollRef = useRef(null);
   const [copiedIdx, setCopiedIdx] = useState(null);
   const [favIdx, setFavIdx] = useState([]);
@@ -29,6 +29,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
   };
 
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
+  const loadingModel = getModelInfo(model, plan);
 
   return (
     <div ref={scrollRef} className="flex-1 overflow-y-auto py-4 space-y-6 px-4 md:px-0">
@@ -174,11 +175,11 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
         <div className="flex justify-start">
           <div className="flex items-center gap-2 mb-1.5">
             <img
-              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png"
-              alt="Zyntra"
+              src={loadingModel.logo}
+              alt={loadingModel.name}
               className="w-5 h-5 rounded object-contain"
             />
-            <span className="text-sm font-bold text-black">Zyntra</span>
+            <span className="text-sm font-bold text-black">{loadingModel.name}</span>
           </div>
           <div className="bg-gray-100 rounded-2xl px-4 py-3 ml-7">
             <div className="flex gap-1">
