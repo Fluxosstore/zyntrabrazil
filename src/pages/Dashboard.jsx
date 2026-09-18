@@ -20,6 +20,7 @@ import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 import ChatMessages from "@/components/ayzen/chat/ChatMessages";
 import { isImageGenerationIntent, getRealModel, messagesToPrompt } from "@/lib/chatUtils";
+import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
 
 export default function Dashboard() {
@@ -38,23 +39,33 @@ export default function Dashboard() {
   const [attachedFile, setAttachedFile] = useState(null);
   const plusRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [messages, setMessages] = useState(() => {
+  const [messages, setMessages] = useState([]);
+  const [conversations, setConversations] = useState(() => {
     try {
-      const saved = localStorage.getItem("zyntra_chat_messages");
+      const saved = localStorage.getItem("zyntra_conversations");
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
     }
   });
+  const [activeConversationId, setActiveConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     try {
-      localStorage.setItem("zyntra_chat_messages", JSON.stringify(messages));
+      localStorage.setItem("zyntra_conversations", JSON.stringify(conversations));
     } catch (err) {
-      console.error("Erro ao salvar histórico:", err);
+      console.error("Erro ao salvar conversas:", err);
     }
-  }, [messages]);
+  }, [conversations]);
+
+  useEffect(() => {
+    if (activeConversationId) {
+      setConversations(prev => prev.map(c =>
+        c.id === activeConversationId ? { ...c, messages } : c
+      ));
+    }
+  }, [messages, activeConversationId]);
   const [useWebSearch, setUseWebSearch] = useState(false);
   const [saveMemories, setSaveMemories] = useState(false);
   const [useMemories, setUseMemories] = useState(false);
@@ -149,6 +160,14 @@ export default function Dashboard() {
 
     const isImageRequest = isImageGenerationIntent(msg);
     const newMessages = [...messages, userMessage];
+
+    if (!activeConversationId) {
+      const convId = `conv_${Date.now()}`;
+      const title = getConversationTitle(msg || userMessage.content);
+      setConversations(prev => [{ id: convId, title, messages: [], pinned: false, selected: false, created_date: new Date().toISOString() }, ...prev]);
+      setActiveConversationId(convId);
+    }
+
     setMessages(newMessages);
     setMsg("");
     setAttachedFile(null);
@@ -236,10 +255,56 @@ export default function Dashboard() {
     }
   };
 
+  const handleNewConversation = () => {
+    setActiveConversationId(null);
+    setMessages([]);
+  };
+
+  const handleSelectConversation = (convId) => {
+    const conv = conversations.find(c => c.id === convId);
+    if (conv) {
+      setActiveConversationId(convId);
+      setMessages(conv.messages || []);
+    }
+  };
+
+  const handleDeleteConversation = (convId) => {
+    setConversations(prev => prev.filter(c => c.id !== convId));
+    if (activeConversationId === convId) {
+      setActiveConversationId(null);
+      setMessages([]);
+    }
+  };
+
+  const handleRenameConversation = (convId, newTitle) => {
+    setConversations(prev => prev.map(c => c.id === convId ? { ...c, title: newTitle } : c));
+  };
+
+  const handleTogglePin = (convId) => {
+    setConversations(prev => {
+      const updated = prev.map(c => c.id === convId ? { ...c, pinned: !c.pinned } : c);
+      return [...updated].sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+    });
+  };
+
+  const handleToggleSelect = (convId) => {
+    setConversations(prev => prev.map(c => c.id === convId ? { ...c, selected: !c.selected } : c));
+  };
+
   return (
     <>
     <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
-      <DashboardSidebar activePage="dashboard" />
+      <DashboardSidebar
+        activePage="dashboard"
+        conversations={conversations}
+        activeConversationId={activeConversationId}
+        onNewConversation={handleNewConversation}
+        onSelectConversation={handleSelectConversation}
+        onDeleteConversation={handleDeleteConversation}
+        onRenameConversation={handleRenameConversation}
+        onTogglePin={handleTogglePin}
+        onToggleSelect={handleToggleSelect}
+      />
 
       {/* Main */}
       <main className="flex-1 flex flex-col relative bg-white rounded-2xl overflow-hidden">

@@ -17,11 +17,12 @@ import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 import { ChatPlusIcon, BooksIcon, IntegrationIcon } from "@/components/ayzen/SidebarIcons";
+import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
-export default function DashboardSidebar({ activePage = "dashboard" }) {
+export default function DashboardSidebar({ activePage = "dashboard", conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect }) {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
@@ -64,9 +65,9 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
             <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
               <Search className="w-4 h-4" />
             </button>
-            <Link to="/dashboard" className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
+            <button onClick={onNewConversation} className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
               <ChatPlusIcon className="w-4 h-4" />
-            </Link>
+            </button>
             <Link to="/library" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "library" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
               <BooksIcon className="w-4 h-4" />
             </Link>
@@ -76,10 +77,10 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
           </>
         ) : (
           <>
-            <Link to="/dashboard" className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
+            <button onClick={onNewConversation} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#1D1D1F] text-white text-xs font-medium">
               <Plus className="w-3.5 h-3.5 shrink-0" />
               {t("dash.newConversation")}
-            </Link>
+            </button>
 
             <div className="relative">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
@@ -112,13 +113,33 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
 
       {!collapsed && (
         <>
-          <div className="px-4 pt-3 pb-1">
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
             <span className="text-[10px] font-semibold tracking-wider text-gray-400">
               {t("dash.chats")}
             </span>
+            <button onClick={onNewConversation} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+              <Plus className="w-3.5 h-3.5" />
+            </button>
           </div>
-          <div className="flex-1 px-2.5">
-            <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
+          <div className="flex-1 px-2.5 overflow-y-auto">
+            {conversations.length === 0 ? (
+              <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
+            ) : (
+              <div className="space-y-0.5">
+                {conversations.map((conv) => (
+                  <ChatListItem
+                    key={conv.id}
+                    conv={conv}
+                    active={conv.id === activeConversationId}
+                    onSelect={onSelectConversation}
+                    onPin={onTogglePin}
+                    onRenameCommit={onRenameConversation}
+                    onSelectToggle={onToggleSelect}
+                    onDelete={onDeleteConversation}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </>
       )}
