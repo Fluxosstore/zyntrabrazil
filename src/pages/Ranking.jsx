@@ -5,6 +5,7 @@ import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import RankingChart from "@/components/ayzen/ranking/RankingChart";
 import RankingTable from "@/components/ayzen/ranking/RankingTable";
+import RankingFilters from "@/components/ayzen/ranking/RankingFilters";
 
 export default function Ranking() {
   const { t } = useLanguage();
@@ -46,19 +47,7 @@ export default function Ranking() {
             </div>
 
             {/* Filters */}
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-medium text-gray-400">{t("ranking.filters")}</span>
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 text-xs text-gray-700 hover:bg-gray-50">
-                <span className="text-[10px] font-semibold tracking-wider text-gray-400">{t("ranking.modality")}</span>
-                <span>{t("ranking.text")}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-              </button>
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 text-xs text-gray-700 hover:bg-gray-50">
-                <span className="text-[10px] font-semibold tracking-wider text-gray-400">{t("ranking.period")}</span>
-                <span>{t("ranking.30days")}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-              </button>
-            </div>
+            <RankingFilters />
 
             {/* Chart + Top 3 */}
             <RankingChart />
