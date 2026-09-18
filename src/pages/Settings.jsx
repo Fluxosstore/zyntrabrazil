@@ -172,7 +172,7 @@ export default function Settings() {
       case "skills":
         return <SkillsContent plan={user?.plan || "free"} onCreateSkill={() => setSkillFormOpen(true)} />;
       case "connectors":
-        return <ConnectorsContent />;
+        return <ConnectorsContent plan={user?.plan || "free"} />;
       default:
         return <UsageContent />;
     }
