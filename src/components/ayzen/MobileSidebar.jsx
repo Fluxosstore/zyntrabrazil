@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   MessageSquarePlus,
@@ -24,10 +24,17 @@ const LOGO =
 export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect }) {
   const { user, logout } = useAuth();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
   const [popoverOpen, setPopoverOpen] = useState(false);
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
+
+  const handleNewConversation = () => {
+    if (onNewConversation) onNewConversation();
+    else navigate("/dashboard");
+    onClose();
+  };
 
   const navItemClass =
     "w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-100 text-xs font-medium transition-colors";
@@ -71,19 +78,16 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             {/* Nav */}
             <div className="px-2 space-y-0.5">
               <button
-                onClick={() => { onNewConversation(); onClose(); }}
+                onClick={handleNewConversation}
                 className={navItemClass}
               >
                 <MessageSquarePlus className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.newConversation")}
               </button>
-              <button
-                onClick={onClose}
-                className={navItemClass}
-              >
+              <Link to="/dashboard" onClick={onClose} className={navItemClass}>
                 <Search className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.searchConversation")}
-              </button>
+              </Link>
               <Link to="/library" onClick={onClose} className={navItemClass}>
                 <BookOpen className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.library")}
@@ -102,7 +106,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                 {t("dash.chats")}
               </span>
               <button
-                onClick={onNewConversation}
+                onClick={handleNewConversation}
                 className="w-6 h-6 flex items-center justify-center rounded-md bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
