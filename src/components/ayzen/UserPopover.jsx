@@ -148,7 +148,7 @@ export default function UserPopover({ user, firstName, planLabel, onLogout, onCl
             {t("dash.popoverSettings")}
           </span>
         </Link>
-        <button className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-50 text-left">
+        <Link to="/ranking" onClick={onClose} className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-50 text-left">
           <BarChart3 className="w-3.5 h-3.5 text-gray-600" />
           <span className="text-xs font-medium text-black">
             {t("dash.popoverRanking")}
@@ -156,7 +156,7 @@ export default function UserPopover({ user, firstName, planLabel, onLogout, onCl
           <span className="ml-auto text-[9px] font-bold text-[#16a34a] bg-[#dcfce7] rounded-full px-1.5 py-0.5">
             {t("dash.popoverNew")}
           </span>
-        </button>
+        </Link>
         <button className="w-full flex items-center gap-2.5 px-1.5 py-1.5 rounded-lg hover:bg-gray-50 text-left">
           <Bell className="w-3.5 h-3.5 text-gray-600" />
           <span className="text-xs font-medium text-black">

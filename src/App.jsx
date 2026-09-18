@@ -17,6 +17,7 @@ import Dashboard from '@/pages/Dashboard';
 import Library from '@/pages/Library';
 import Automations from '@/pages/Automations';
 import Settings from '@/pages/Settings';
+import Ranking from '@/pages/Ranking';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { Navigate } from 'react-router-dom';
 
@@ -59,6 +60,7 @@ const AuthenticatedApp = () => {
         <Route path="/library" element={<Library />} />
         <Route path="/automations" element={<Automations />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/ranking" element={<Ranking />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
