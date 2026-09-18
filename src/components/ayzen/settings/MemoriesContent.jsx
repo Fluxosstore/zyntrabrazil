@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sparkles, HelpCircle, Plus } from "lucide-react";
+import { Sparkles, HelpCircle, Plus, X, Save } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useLanguage } from "@/lib/LanguageContext";
 
@@ -7,6 +7,8 @@ export default function MemoriesContent() {
   const { t } = useLanguage();
   const [autoExtraction, setAutoExtraction] = useState(false);
   const [useMemories, setUseMemories] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [memoryText, setMemoryText] = useState("");
   const count = 0;
 
   return (
@@ -99,11 +101,46 @@ export default function MemoriesContent() {
             <p className="text-sm font-bold text-black">{t("settings.noMemoriesTitle")}</p>
             <p className="text-xs text-gray-500 mt-1 max-w-sm">{t("settings.noMemoriesDesc")}</p>
           </div>
-          <div className="mt-4">
-            <button className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors">
+          <div className="mt-4 space-y-3">
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+            >
               <Plus className="w-4 h-4" />
               {t("settings.addMemory")}
             </button>
+
+            {showAddForm && (
+              <div className="rounded-xl border border-gray-300 bg-white p-4">
+                <textarea
+                  autoFocus
+                  value={memoryText}
+                  onChange={(e) => setMemoryText(e.target.value)}
+                  placeholder={t("settings.addMemoryPlaceholder")}
+                  rows={3}
+                  className="w-full text-sm text-black placeholder:text-gray-500 focus:outline-none resize-none bg-transparent"
+                />
+                <div className="flex items-center justify-end gap-3 mt-2">
+                  <button
+                    onClick={() => {
+                      setShowAddForm(false);
+                      setMemoryText("");
+                    }}
+                    className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    {t("settings.cancel")}
+                  </button>
+                  <button
+                    disabled={!memoryText.trim()}
+                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gray-400 text-white text-sm font-medium hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    {t("settings.save")}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </div>

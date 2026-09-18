@@ -224,6 +224,9 @@ export const translations = {
     "settings.noMemoriesTitle": "Nenhuma memória salva ainda",
     "settings.noMemoriesDesc": "A IA vai guardar aqui o que aprender sobre você nas conversas.",
     "settings.addMemory": "Adicionar memória",
+    "settings.addMemoryPlaceholder": "O que você quer que a IA lembre? (Ex: Prefiro respostas curtas e diretas)",
+    "settings.cancel": "Cancelar",
+    "settings.save": "Salvar",
 
     // Library
     "library.title": "Biblioteca",
@@ -751,6 +754,9 @@ export const translations = {
     "settings.noMemoriesTitle": "No memories saved yet",
     "settings.noMemoriesDesc": "The AI will save here what it learns about you in conversations.",
     "settings.addMemory": "Add memory",
+    "settings.addMemoryPlaceholder": "What do you want the AI to remember? (Ex: I prefer short, direct responses)",
+    "settings.cancel": "Cancel",
+    "settings.save": "Save",
 
     // Library
     "library.title": "Library",
@@ -1278,6 +1284,9 @@ export const translations = {
     "settings.noMemoriesTitle": "Ningún recuerdo guardado todavía",
     "settings.noMemoriesDesc": "La IA guardará aquí lo que aprenda sobre ti en las conversaciones.",
     "settings.addMemory": "Añadir recuerdo",
+    "settings.addMemoryPlaceholder": "¿Qué quieres que la IA recuerde? (Ej: Prefiero respuestas cortas y directas)",
+    "settings.cancel": "Cancelar",
+    "settings.save": "Guardar",
 
     // Library
     "library.title": "Biblioteca",
