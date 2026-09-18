@@ -17,11 +17,9 @@ const PERIOD_OPTIONS = [
   { id: "12m", labelKey: "ranking.12months" },
 ];
 
-export default function RankingFilters() {
+export default function RankingFilters({ modality, period, onModalityChange, onPeriodChange }) {
   const { t } = useLanguage();
   const [open, setOpen] = useState(null);
-  const [modality, setModality] = useState("text");
-  const [period, setPeriod] = useState("30d");
   const ref = useRef(null);
 
   useEffect(() => {
@@ -57,7 +55,7 @@ export default function RankingFilters() {
               return (
                 <button
                   key={opt.id}
-                  onClick={() => { setModality(opt.id); setOpen(null); }}
+                  onClick={() => { onModalityChange(opt.id); setOpen(null); }}
                   className={`w-full flex items-center gap-3 px-2.5 py-2 rounded-lg text-left transition-colors ${
                     isSel ? "bg-[#f0f2f5] text-black" : "text-gray-700 hover:bg-gray-50"
                   }`}
@@ -89,7 +87,7 @@ export default function RankingFilters() {
               return (
                 <button
                   key={opt.id}
-                  onClick={() => { setPeriod(opt.id); setOpen(null); }}
+                  onClick={() => { onPeriodChange(opt.id); setOpen(null); }}
                   className={`w-full flex items-center px-2.5 py-2 rounded-lg text-left transition-colors ${
                     isSel ? "bg-[#f0f2f5] text-black" : "text-gray-700 hover:bg-gray-50"
                   }`}

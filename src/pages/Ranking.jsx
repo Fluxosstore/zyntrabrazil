@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import RankingChart from "@/components/ayzen/ranking/RankingChart";
 import RankingTable from "@/components/ayzen/ranking/RankingTable";
 import RankingFilters from "@/components/ayzen/ranking/RankingFilters";
+import { getModalityData } from "@/components/ayzen/ranking/rankingData";
 
 export default function Ranking() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [modality, setModality] = useState("text");
+  const [period, setPeriod] = useState("30d");
+
+  const data = useMemo(() => getModalityData(modality, period), [modality, period]);
 
   return (
     <>
@@ -43,16 +48,25 @@ export default function Ranking() {
             </div>
 
             {/* Filters */}
-            <RankingFilters />
+            <RankingFilters
+              modality={modality}
+              period={period}
+              onModalityChange={setModality}
+              onPeriodChange={setPeriod}
+            />
 
             {/* Chart + Top 3 */}
-            <RankingChart />
+            <RankingChart
+              chartSeries={data.chartSeries}
+              chartData={data.chartData}
+              top3={data.top3}
+            />
 
             {/* Full ranking */}
             <div>
               <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
               <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
-              <RankingTable />
+              <RankingTable models={data.models} />
             </div>
 
             {/* Footer */}
@@ -92,11 +106,21 @@ export default function Ranking() {
               {t("ranking.quality")}
             </button>
           </div>
-          <RankingChart />
+          <RankingFilters
+            modality={modality}
+            period={period}
+            onModalityChange={setModality}
+            onPeriodChange={setPeriod}
+          />
+          <RankingChart
+            chartSeries={data.chartSeries}
+            chartData={data.chartData}
+            top3={data.top3}
+          />
           <div>
             <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
             <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
-            <RankingTable />
+            <RankingTable models={data.models} />
           </div>
           <p className="text-center text-[11px] text-gray-400">{t("ranking.footer")}</p>
         </div>

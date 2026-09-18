@@ -149,3 +149,182 @@ function genChart() {
 export const CHART_DATA = genChart();
 
 export const TOP3 = RANKING_MODELS.slice(0, 3);
+
+// ===== Modality-specific data =====
+
+export const VISION_MODELS = [
+  { rank: 1, name: "GPT-5.6 Sol Vision", vendor: "OpenAI", logo: GPT, tokens: "32,4 T", tokensNum: 32.4, share: 15.2 },
+  { rank: 2, name: "Gemini 3.8 Flash", vendor: "Google", logo: GEMINI, tokens: "28,7 T", tokensNum: 28.7, share: 13.5 },
+  { rank: 3, name: "Claude Opus 5 Vision", vendor: "Anthropic", logo: CLAUDE, tokens: "22,1 T", tokensNum: 22.1, share: 10.4 },
+  { rank: 4, name: "Qwen 3 VL Max", vendor: "Alibaba", logo: QWEN, tokens: "18,9 T", tokensNum: 18.9, share: 8.9 },
+  { rank: 5, name: "Llama 4 Vision", vendor: "Meta", logo: META, tokens: "15,3 T", tokensNum: 15.3, share: 7.2 },
+  { rank: 6, name: "DeepSeek V4.1 Flash Vision", vendor: "DeepSeek", logo: DEEPSEEK, tokens: "12,7 T", tokensNum: 12.7, share: 6.0 },
+  { rank: 7, name: "GLM 5.3 Vision", vendor: "Z.ai", logo: ZAI, tokens: "10,2 T", tokensNum: 10.2, share: 4.8 },
+  { rank: 8, name: "MiniMax M3 Vision", vendor: "MiniMax", logo: MINIMAX, tokens: "8,4 T", tokensNum: 8.4, share: 3.9 },
+  { rank: 9, name: "Kimi K3 Vision", vendor: "MoonshotAI", logo: KIMI, tokens: "7,1 T", tokensNum: 7.1, share: 3.3 },
+  { rank: 10, name: "Mistral Large 2 Vision", vendor: "Mistral", logo: MISTRAL, tokens: "5,8 T", tokensNum: 5.8, share: 2.7 },
+  { rank: 11, name: "GPT-4o Vision", vendor: "OpenAI", logo: GPT, tokens: "4,3 T", tokensNum: 4.3, share: 2.0 },
+  { rank: 12, name: "Gemini 3.1 Flash Vision", vendor: "Google", logo: GEMINI, tokens: "3,7 T", tokensNum: 3.7, share: 1.7 },
+  { rank: 13, name: "Claude Sonnet 5 Vision", vendor: "Anthropic", logo: CLAUDE, tokens: "3,1 T", tokensNum: 3.1, share: 1.5 },
+  { rank: 14, name: "Qwen 2.5 VL", vendor: "Alibaba", logo: QWEN, tokens: "2,4 T", tokensNum: 2.4, share: 1.1 },
+  { rank: 15, name: "Llama 3.2 Vision", vendor: "Meta", logo: META, tokens: "1,8 T", tokensNum: 1.8, share: 0.8 },
+  { rank: 16, name: "DeepSeek V4 Vision", vendor: "DeepSeek", logo: DEEPSEEK, tokens: "1,3 T", tokensNum: 1.3, share: 0.6 },
+  { rank: 17, name: "GLM 4.6 Vision", vendor: "Z.ai", logo: ZAI, tokens: "0,9 T", tokensNum: 0.9, share: 0.4 },
+  { rank: 18, name: "Phi-4 Vision", vendor: "Microsoft", logo: MICROSOFT, tokens: "0,6 T", tokensNum: 0.6, share: 0.3 },
+  { rank: 19, name: "Grok 4 Vision", vendor: "xAI", logo: GROK, tokens: "0,4 T", tokensNum: 0.4, share: 0.2 },
+  { rank: 20, name: "Command A Vision", vendor: "Cohere", logo: COHERE, tokens: "287,2 B", tokensNum: 0.287, share: 0.1 },
+];
+
+export const IMAGE_MODELS = [
+  { rank: 1, name: "FLUX 1.1 Pro", vendor: "Black Forest Labs", logo: circle("F", "#8B5CF6"), tokens: "45,2 T", tokensNum: 45.2, share: 22.1 },
+  { rank: 2, name: "Midjourney v6.1", vendor: "Midjourney", logo: circle("M", "#4A5568"), tokens: "38,9 T", tokensNum: 38.9, share: 19.0 },
+  { rank: 3, name: "GPT Image 1", vendor: "OpenAI", logo: GPT, tokens: "31,7 T", tokensNum: 31.7, share: 15.5 },
+  { rank: 4, name: "Imagen 4", vendor: "Google", logo: GEMINI, tokens: "24,3 T", tokensNum: 24.3, share: 11.9 },
+  { rank: 5, name: "Stable Diffusion 3.5", vendor: "Stability AI", logo: circle("S", "#10B981"), tokens: "18,6 T", tokensNum: 18.6, share: 9.1 },
+  { rank: 6, name: "Ideogram 2.0", vendor: "Ideogram", logo: circle("I", "#EC4899"), tokens: "14,2 T", tokensNum: 14.2, share: 7.0 },
+  { rank: 7, name: "DALL-E 3", vendor: "OpenAI", logo: GPT, tokens: "10,8 T", tokensNum: 10.8, share: 5.3 },
+  { rank: 8, name: "FLUX 1 Schnell", vendor: "Black Forest Labs", logo: circle("F", "#8B5CF6"), tokens: "8,1 T", tokensNum: 8.1, share: 4.0 },
+  { rank: 9, name: "Recraft V3", vendor: "Recraft", logo: circle("R", "#F59E0B"), tokens: "6,4 T", tokensNum: 6.4, share: 3.1 },
+  { rank: 10, name: "PixArt Sigma", vendor: "Huawei", logo: circle("P", "#0066CC"), tokens: "4,7 T", tokensNum: 4.7, share: 2.3 },
+  { rank: 11, name: "Imagen 3", vendor: "Google", logo: GEMINI, tokens: "3,5 T", tokensNum: 3.5, share: 1.7 },
+  { rank: 12, name: "Stable Diffusion XL", vendor: "Stability AI", logo: circle("S", "#10B981"), tokens: "2,8 T", tokensNum: 2.8, share: 1.4 },
+  { rank: 13, name: "DALL-E 2", vendor: "OpenAI", logo: GPT, tokens: "1,9 T", tokensNum: 1.9, share: 0.9 },
+  { rank: 14, name: "Midjourney v5", vendor: "Midjourney", logo: circle("M", "#4A5568"), tokens: "1,4 T", tokensNum: 1.4, share: 0.7 },
+  { rank: 15, name: "FLUX Dev", vendor: "Black Forest Labs", logo: circle("F", "#8B5CF6"), tokens: "1,0 T", tokensNum: 1.0, share: 0.5 },
+  { rank: 16, name: "Ideogram 1", vendor: "Ideogram", logo: circle("I", "#EC4899"), tokens: "0,7 T", tokensNum: 0.7, share: 0.3 },
+  { rank: 17, name: "PixArt Alpha", vendor: "Huawei", logo: circle("P", "#0066CC"), tokens: "0,5 T", tokensNum: 0.5, share: 0.2 },
+  { rank: 18, name: "Recraft 20B", vendor: "Recraft", logo: circle("R", "#F59E0B"), tokens: "0,3 T", tokensNum: 0.3, share: 0.2 },
+  { rank: 19, name: "Stable Diffusion 1.5", vendor: "Stability AI", logo: circle("S", "#10B981"), tokens: "0,2 T", tokensNum: 0.2, share: 0.1 },
+  { rank: 20, name: "DeepFloyd IF", vendor: "Stability AI", logo: circle("D", "#10B981"), tokens: "143,2 B", tokensNum: 0.143, share: 0.1 },
+];
+
+export const AUDIO_MODELS = [
+  { rank: 1, name: "Whisper v3 Turbo", vendor: "OpenAI", logo: GPT, tokens: "52,1 T", tokensNum: 52.1, share: 24.5 },
+  { rank: 2, name: "ElevenLabs Multilingual v2", vendor: "ElevenLabs", logo: circle("E", "#000000"), tokens: "41,3 T", tokensNum: 41.3, share: 19.4 },
+  { rank: 3, name: "Suno v4", vendor: "Suno", logo: circle("S", "#F59E0B"), tokens: "32,8 T", tokensNum: 32.8, share: 15.4 },
+  { rank: 4, name: "Gemini 3.8 Audio", vendor: "Google", logo: GEMINI, tokens: "24,6 T", tokensNum: 24.6, share: 11.6 },
+  { rank: 5, name: "GPT-4o Audio", vendor: "OpenAI", logo: GPT, tokens: "18,2 T", tokensNum: 18.2, share: 8.6 },
+  { rank: 6, name: "Claude Audio", vendor: "Anthropic", logo: CLAUDE, tokens: "13,7 T", tokensNum: 13.7, share: 6.4 },
+  { rank: 7, name: "Bark", vendor: "Meta", logo: META, tokens: "9,4 T", tokensNum: 9.4, share: 4.4 },
+  { rank: 8, name: "AudioLDM 2", vendor: "Meta", logo: META, tokens: "6,8 T", tokensNum: 6.8, share: 3.2 },
+  { rank: 9, name: "Tortoise TTS", vendor: "Independent", logo: circle("T", "#10B981"), tokens: "4,3 T", tokensNum: 4.3, share: 2.0 },
+  { rank: 10, name: "PlayHT 3.0", vendor: "PlayHT", logo: circle("P", "#EC4899"), tokens: "3,1 T", tokensNum: 3.1, share: 1.5 },
+  { rank: 11, name: "Whisper v2", vendor: "OpenAI", logo: GPT, tokens: "2,4 T", tokensNum: 2.4, share: 1.1 },
+  { rank: 12, name: "ElevenLabs Turbo", vendor: "ElevenLabs", logo: circle("E", "#000000"), tokens: "1,7 T", tokensNum: 1.7, share: 0.8 },
+  { rank: 13, name: "Suno v3", vendor: "Suno", logo: circle("S", "#F59E0B"), tokens: "1,2 T", tokensNum: 1.2, share: 0.6 },
+  { rank: 14, name: "Gemini Audio Lite", vendor: "Google", logo: GEMINI, tokens: "0,8 T", tokensNum: 0.8, share: 0.4 },
+  { rank: 15, name: "Mistral Audio", vendor: "Mistral", logo: MISTRAL, tokens: "0,5 T", tokensNum: 0.5, share: 0.2 },
+  { rank: 16, name: "Bark Voice Clone", vendor: "Meta", logo: META, tokens: "0,3 T", tokensNum: 0.3, share: 0.1 },
+  { rank: 17, name: "AudioCraft", vendor: "Meta", logo: META, tokens: "0,2 T", tokensNum: 0.2, share: 0.1 },
+  { rank: 18, name: "Coqui TTS", vendor: "Coqui", logo: circle("C", "#8B5CF6"), tokens: "156,3 B", tokensNum: 0.156, share: 0.1 },
+  { rank: 19, name: "Piper TTS", vendor: "Independent", logo: circle("P", "#10B981"), tokens: "98,7 B", tokensNum: 0.099, share: 0.0 },
+  { rank: 20, name: "VALL-E", vendor: "Microsoft", logo: MICROSOFT, tokens: "67,1 B", tokensNum: 0.067, share: 0.0 },
+];
+
+export const TOOLS_MODELS = [
+  { rank: 1, name: "GPT-5.6 Sol (tools)", vendor: "OpenAI", logo: GPT, tokens: "38,9 T", tokensNum: 38.9, share: 17.1 },
+  { rank: 2, name: "Claude Sonnet 5 (tools)", vendor: "Anthropic", logo: CLAUDE, tokens: "34,2 T", tokensNum: 34.2, share: 15.0 },
+  { rank: 3, name: "Gemini 3.8 Flash (tools)", vendor: "Google", logo: GEMINI, tokens: "29,7 T", tokensNum: 29.7, share: 13.1 },
+  { rank: 4, name: "DeepSeek V4.1 Flash (tools)", vendor: "DeepSeek", logo: DEEPSEEK, tokens: "24,3 T", tokensNum: 24.3, share: 10.7 },
+  { rank: 5, name: "Qwen 3 Max (tools)", vendor: "Alibaba", logo: QWEN, tokens: "19,8 T", tokensNum: 19.8, share: 8.7 },
+  { rank: 6, name: "GLM 5.3 (tools)", vendor: "Z.ai", logo: ZAI, tokens: "16,1 T", tokensNum: 16.1, share: 7.1 },
+  { rank: 7, name: "MiniMax M3 (tools)", vendor: "MiniMax", logo: MINIMAX, tokens: "12,4 T", tokensNum: 12.4, share: 5.5 },
+  { rank: 8, name: "Kimi K3 (tools)", vendor: "MoonshotAI", logo: KIMI, tokens: "9,7 T", tokensNum: 9.7, share: 4.3 },
+  { rank: 9, name: "Llama 4 (tools)", vendor: "Meta", logo: META, tokens: "7,2 T", tokensNum: 7.2, share: 3.2 },
+  { rank: 10, name: "Mistral Large 2 (tools)", vendor: "Mistral", logo: MISTRAL, tokens: "5,4 T", tokensNum: 5.4, share: 2.4 },
+  { rank: 11, name: "GPT-5.4 Mini (tools)", vendor: "OpenAI", logo: GPT, tokens: "4,1 T", tokensNum: 4.1, share: 1.8 },
+  { rank: 12, name: "Claude 4.6 Sonnet (tools)", vendor: "Anthropic", logo: CLAUDE, tokens: "3,3 T", tokensNum: 3.3, share: 1.5 },
+  { rank: 13, name: "Gemini 3.1 Flash (tools)", vendor: "Google", logo: GEMINI, tokens: "2,7 T", tokensNum: 2.7, share: 1.2 },
+  { rank: 14, name: "DeepSeek V4 Pro (tools)", vendor: "DeepSeek", logo: DEEPSEEK, tokens: "2,1 T", tokensNum: 2.1, share: 0.9 },
+  { rank: 15, name: "Qwen 2.5 (tools)", vendor: "Alibaba", logo: QWEN, tokens: "1,6 T", tokensNum: 1.6, share: 0.7 },
+  { rank: 16, name: "GLM 4.6 (tools)", vendor: "Z.ai", logo: ZAI, tokens: "1,2 T", tokensNum: 1.2, share: 0.5 },
+  { rank: 17, name: "Grok 4 (tools)", vendor: "xAI", logo: GROK, tokens: "0,9 T", tokensNum: 0.9, share: 0.4 },
+  { rank: 18, name: "Cohere Command R+ (tools)", vendor: "Cohere", logo: COHERE, tokens: "0,6 T", tokensNum: 0.6, share: 0.3 },
+  { rank: 19, name: "Phi-4 (tools)", vendor: "Microsoft", logo: MICROSOFT, tokens: "0,4 T", tokensNum: 0.4, share: 0.2 },
+  { rank: 20, name: "DBRX (tools)", vendor: "Databricks", logo: DBRX, tokens: "287,1 B", tokensNum: 0.287, share: 0.1 },
+];
+
+const MODALITY_MAP = {
+  text: RANKING_MODELS,
+  vision: VISION_MODELS,
+  image: IMAGE_MODELS,
+  audio: AUDIO_MODELS,
+  tools: TOOLS_MODELS,
+};
+
+const MODALITY_SERIES = {
+  text: CHART_SERIES,
+  vision: [
+    { key: "gpt_sol", name: "GPT-5.6 Sol Vision", color: CHART_COLORS[0] },
+    { key: "gemini", name: "Gemini 3.8 Flash", color: CHART_COLORS[1] },
+    { key: "claude", name: "Claude Opus 5 Vision", color: CHART_COLORS[2] },
+    { key: "qwen", name: "Qwen 3 VL Max", color: CHART_COLORS[3] },
+    { key: "outros", name: "Outros", color: CHART_COLORS[5] },
+  ],
+  image: [
+    { key: "flux", name: "FLUX 1.1 Pro", color: "#8B5CF6" },
+    { key: "midjourney", name: "Midjourney v6.1", color: "#4A5568" },
+    { key: "gpt_image", name: "GPT Image 1", color: CHART_COLORS[0] },
+    { key: "imagen", name: "Imagen 4", color: CHART_COLORS[1] },
+    { key: "outros", name: "Outros", color: CHART_COLORS[5] },
+  ],
+  audio: [
+    { key: "whisper", name: "Whisper v3 Turbo", color: CHART_COLORS[0] },
+    { key: "eleven", name: "ElevenLabs v2", color: "#000000" },
+    { key: "suno", name: "Suno v4", color: "#F59E0B" },
+    { key: "gemini_audio", name: "Gemini 3.8 Audio", color: CHART_COLORS[1] },
+    { key: "outros", name: "Outros", color: CHART_COLORS[5] },
+  ],
+  tools: [
+    { key: "gpt_tools", name: "GPT-5.6 Sol (tools)", color: CHART_COLORS[0] },
+    { key: "claude_tools", name: "Claude Sonnet 5 (tools)", color: CHART_COLORS[2] },
+    { key: "gemini_tools", name: "Gemini 3.8 (tools)", color: CHART_COLORS[1] },
+    { key: "deepseek_tools", name: "DeepSeek V4.1 (tools)", color: CHART_COLORS[3] },
+    { key: "outros", name: "Outros", color: CHART_COLORS[5] },
+  ],
+};
+
+const PERIOD_SCALE = { "7d": 0.23, "30d": 1.0, "90d": 3.0, "12m": 12.0 };
+
+function formatTokens(num) {
+  if (num >= 1.0) return `${num.toFixed(1).replace(".", ",")} T`;
+  if (num >= 0.001) return `${(num * 1000).toFixed(1).replace(".", ",")} B`;
+  return `${Math.round(num * 1000000)} M`;
+}
+
+function genChartData(series) {
+  const data = [];
+  for (let i = 0; i < CHART_LABELS.length; i++) {
+    const row = { date: CHART_LABELS[i] };
+    series.forEach((s, idx) => {
+      const base = [15, 12, 8, 6, 10][idx] || 4;
+      const wave = Math.sin(i * 0.4 + idx) * 2;
+      row[s.key] = Math.max(0, base + wave + (Math.random() - 0.5) * 1.5);
+    });
+    data.push(row);
+  }
+  return data;
+}
+
+export function getModalityData(modality, period = "30d") {
+  const baseModels = MODALITY_MAP[modality] || RANKING_MODELS;
+  const scale = PERIOD_SCALE[period] || 1.0;
+  const series = MODALITY_SERIES[modality] || CHART_SERIES;
+
+  const models = baseModels.map((m, i) => {
+    const scaled = m.tokensNum * scale;
+    return {
+      ...m,
+      rank: i + 1,
+      tokensNum: +scaled.toFixed(3),
+      tokens: formatTokens(scaled),
+    };
+  });
+
+  return {
+    models,
+    top3: models.slice(0, 3),
+    chartSeries: series,
+    chartData: genChartData(series),
+  };
+}

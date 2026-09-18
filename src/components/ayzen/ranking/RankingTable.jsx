@@ -1,9 +1,8 @@
 import React from "react";
 import { useLanguage } from "@/lib/LanguageContext";
-import { RANKING_MODELS } from "./rankingData";
 
 function ModelLogo({ logo, size = 22 }) {
-  if (logo.type === "circle") {
+  if (logo?.type === "circle") {
     return (
       <div
         style={{ width: size, height: size, backgroundColor: logo.color }}
@@ -16,9 +15,10 @@ function ModelLogo({ logo, size = 22 }) {
   return <img src={logo} alt="" className="w-5 h-5 rounded-full object-contain shrink-0" />;
 }
 
-export default function RankingTable() {
+export default function RankingTable({ models }) {
   const { t } = useLanguage();
-  const maxShare = RANKING_MODELS[0].share;
+  const list = models || [];
+  const maxShare = list[0]?.share || 1;
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
@@ -32,7 +32,7 @@ export default function RankingTable() {
 
       {/* Table rows */}
       <div className="divide-y divide-gray-50">
-        {RANKING_MODELS.map((m) => (
+        {list.map((m) => (
           <div key={m.rank} className="flex items-center px-5 py-2.5 hover:bg-gray-50/50 transition-colors">
             <span className="w-10 text-xs text-gray-400">{m.rank}</span>
             <div className="flex-1 flex items-center gap-2.5 min-w-0">

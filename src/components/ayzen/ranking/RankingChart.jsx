@@ -1,10 +1,9 @@
 import React from "react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useLanguage } from "@/lib/LanguageContext";
-import { CHART_DATA, CHART_SERIES, TOP3 } from "./rankingData";
 
 function ModelLogo({ logo, size = 20 }) {
-  if (logo.type === "circle") {
+  if (logo?.type === "circle") {
     return (
       <div
         style={{ width: size, height: size, backgroundColor: logo.color }}
@@ -39,8 +38,11 @@ function CustomTooltip({ active, payload, label }) {
   );
 }
 
-export default function RankingChart() {
+export default function RankingChart({ chartSeries, chartData, top3 }) {
   const { t } = useLanguage();
+  const series = chartSeries || [];
+  const data = chartData || [];
+  const top = top3 || [];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -50,9 +52,9 @@ export default function RankingChart() {
         <p className="text-xs text-gray-500 mt-0.5 mb-4">{t("ranking.evolutionDesc")}</p>
         <div className="h-[200px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={CHART_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+            <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
               <defs>
-                {CHART_SERIES.map((s) => (
+                {series.map((s) => (
                   <linearGradient key={s.key} id={`grad-${s.key}`} x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor={s.color} stopOpacity={0.15} />
                     <stop offset="100%" stopColor={s.color} stopOpacity={0} />
@@ -74,7 +76,7 @@ export default function RankingChart() {
                 tickFormatter={(v) => `${v.toFixed(1)}T`}
               />
               <Tooltip content={<CustomTooltip />} />
-              {CHART_SERIES.map((s) => (
+              {series.map((s) => (
                 <Area
                   key={s.key}
                   type="monotone"
@@ -91,7 +93,7 @@ export default function RankingChart() {
         </div>
         {/* Legend */}
         <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-4 border-t border-gray-100">
-          {CHART_SERIES.map((s) => (
+          {series.map((s) => (
             <div key={s.key} className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
               <span className="text-[11px] text-gray-600">{s.name}</span>
@@ -105,7 +107,7 @@ export default function RankingChart() {
         <h3 className="text-base font-bold text-black">{t("ranking.top3")}</h3>
         <p className="text-xs text-gray-500 mt-0.5 mb-4">{t("ranking.top3Desc")}</p>
         <div className="space-y-2">
-          {TOP3.map((m, i) => {
+          {top.map((m, i) => {
             const badge = [
               { bg: "bg-[#FDF2CC]", text: "text-[#D97706]" },
               { bg: "bg-[#F3F4F6]", text: "text-[#9CA3AF]" },
