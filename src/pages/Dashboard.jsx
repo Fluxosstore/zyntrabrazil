@@ -550,6 +550,12 @@ export default function Dashboard() {
       onReprocess={handleReprocess}
       tempMode={tempMode}
       setTempMode={setTempMode}
+      useWebSearch={useWebSearch}
+      setUseWebSearch={setUseWebSearch}
+      saveMemories={saveMemories}
+      setSaveMemories={setSaveMemories}
+      useMemories={useMemories}
+      setUseMemories={setUseMemories}
     />
     </>
   );

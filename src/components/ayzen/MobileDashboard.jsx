@@ -1,4 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   PanelLeft,
   ChevronDown,
@@ -15,6 +17,9 @@ import { useAuth } from "@/lib/AuthContext";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import ChatMessages from "@/components/ayzen/chat/ChatMessages";
 import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
+import PlusMenu from "@/components/ayzen/chat/PlusMenu";
+import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
+import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
@@ -30,12 +35,20 @@ export default function MobileDashboard({
   onTogglePin, onToggleSelect,
   onEditMessage, onReprocess,
   tempMode, setTempMode,
+  useWebSearch, setUseWebSearch,
+  saveMemories, setSaveMemories,
+  useMemories, setUseMemories,
 }) {
   const { user } = useAuth();
   const { t } = useLanguage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
+  const [plusMenuOpen, setPlusMenuOpen] = useState(false);
+  const [toolsPanelOpen, setToolsPanelOpen] = useState(false);
+  const [connectorsPanelOpen, setConnectorsPanelOpen] = useState(false);
   const fileInputRef = useRef(null);
+  const plusRef = useRef(null);
+  const navigate = useNavigate();
 
   function greeting() {
     const h = new Date().getHours();
@@ -50,11 +63,27 @@ export default function MobileDashboard({
     const file = e.target.files?.[0];
     if (file) {
       setAttachedFile(file);
-      setModelOpen(false);
+      setPlusMenuOpen(false);
+      setToolsPanelOpen(false);
+      setConnectorsPanelOpen(false);
     }
   };
 
   const closeSidebar = () => setSidebarOpen(false);
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (plusRef.current && !plusRef.current.contains(e.target)) {
+        setPlusMenuOpen(false);
+        setToolsPanelOpen(false);
+        setConnectorsPanelOpen(false);
+      }
+    }
+    if (plusMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [plusMenuOpen]);
 
   return (
     <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
@@ -122,15 +151,29 @@ export default function MobileDashboard({
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center px-6">
-          <div className="relative w-20 h-20 mb-6">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#C084FC] via-[#9D75FF] to-[#DBC5FF] blur-xl opacity-60" />
-            <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-[#DBC5FF] via-[#9D75FF] to-[#C084FC] shadow-2xl" />
-          </div>
+          <motion.div
+            className="relative w-20 h-20 mb-6"
+            animate={{
+              scale: [1, 1.08, 0.96, 1.05, 1],
+              rotate: [0, 6, -4, 3, 0],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <img
+              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
+              alt="Zyntra"
+              className="relative w-20 h-20 object-contain drop-shadow-2xl"
+            />
+          </motion.div>
           <p className="text-sm text-gray-500 mb-1">
             {greeting()}, {firstName}
           </p>
           <h1 className="text-xl font-bold text-black text-center px-4">
-            {t("dash.mobileHeadline")}
+            {t("dash.headline")}
           </h1>
         </div>
       )}
@@ -158,12 +201,48 @@ export default function MobileDashboard({
             className="w-full resize-none text-sm text-black placeholder:text-gray-400 focus:outline-none bg-transparent"
           />
           <div className="flex items-center justify-between mt-2">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 text-gray-600"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
+            <div ref={plusRef} className="relative">
+              <button
+                onClick={() => {
+                  setPlusMenuOpen(v => !v);
+                  setToolsPanelOpen(false);
+                  setConnectorsPanelOpen(false);
+                }}
+                className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 text-gray-600"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+              <AnimatePresence>
+                {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && (
+                  <PlusMenu
+                    onOpenTools={() => setToolsPanelOpen(true)}
+                    onOpenConnectors={() => setConnectorsPanelOpen(true)}
+                    onAttachFile={() => fileInputRef.current?.click()}
+                  />
+                )}
+                {plusMenuOpen && toolsPanelOpen && (
+                  <ToolsPanel
+                    onBack={() => setToolsPanelOpen(false)}
+                    useWebSearch={useWebSearch}
+                    setUseWebSearch={setUseWebSearch}
+                    saveMemories={saveMemories}
+                    setSaveMemories={setSaveMemories}
+                    useMemories={useMemories}
+                    setUseMemories={setUseMemories}
+                  />
+                )}
+                {plusMenuOpen && connectorsPanelOpen && (
+                  <ConnectorsPanel
+                    onBack={() => setConnectorsPanelOpen(false)}
+                    onConnectApps={() => {
+                      setPlusMenuOpen(false);
+                      setConnectorsPanelOpen(false);
+                      navigate("/settings", { state: { section: "connectors" } });
+                    }}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
             <div className="flex items-center gap-2">
               <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600">
                 <Mic className="w-4 h-4" />
