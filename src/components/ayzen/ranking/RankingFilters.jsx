@@ -50,28 +50,24 @@ export default function RankingFilters() {
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
         </button>
         {open === "modality" && (
-          <div className="absolute top-full left-0 mt-1.5 w-56 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 p-2 z-50">
-            <div className="flex flex-wrap gap-2">
-              {MODALITY_OPTIONS.map((opt) => {
-                const Icon = opt.icon;
-                const isSel = modality === opt.id;
-                return (
-                  <button
-                    key={opt.id}
-                    onClick={() => { setModality(opt.id); setOpen(null); }}
-                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-medium transition-colors ${
-                      isSel
-                        ? "bg-gray-100 border-gray-300 text-black"
-                        : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
-                    }`}
-                  >
-                    <Icon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-                    {t(opt.labelKey)}
-                    {isSel && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="absolute top-full left-0 mt-1.5 w-56 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
+            {MODALITY_OPTIONS.map((opt) => {
+              const Icon = opt.icon;
+              const isSel = modality === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  onClick={() => { setModality(opt.id); setOpen(null); }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
+                    isSel ? "bg-[#f3f4f8] text-black" : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  <Icon className="w-4 h-4 text-gray-500 shrink-0" />
+                  <span className="flex-1 text-xs font-medium">{t(opt.labelKey)}</span>
+                  {isSel && <Check className="w-4 h-4 text-black shrink-0" />}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
@@ -87,26 +83,22 @@ export default function RankingFilters() {
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
         </button>
         {open === "period" && (
-          <div className="absolute top-full left-0 mt-1.5 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 p-2 z-50">
-            <div className="flex flex-wrap gap-2">
-              {PERIOD_OPTIONS.map((opt) => {
-                const isSel = period === opt.id;
-                return (
-                  <button
-                    key={opt.id}
-                    onClick={() => { setPeriod(opt.id); setOpen(null); }}
-                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-medium transition-colors ${
-                      isSel
-                        ? "bg-gray-100 border-gray-300 text-black"
-                        : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
-                    }`}
-                  >
-                    {t(opt.labelKey)}
-                    {isSel && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="absolute top-full left-0 mt-1.5 w-40 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
+            {PERIOD_OPTIONS.map((opt) => {
+              const isSel = period === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  onClick={() => { setPeriod(opt.id); setOpen(null); }}
+                  className={`w-full flex items-center px-3 py-2.5 text-left transition-colors ${
+                    isSel ? "bg-[#f3f4f8] text-black" : "text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  <span className="flex-1 text-xs font-medium">{t(opt.labelKey)}</span>
+                  {isSel && <Check className="w-4 h-4 text-black shrink-0" />}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
