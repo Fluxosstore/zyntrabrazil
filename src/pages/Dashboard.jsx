@@ -163,6 +163,7 @@ export default function Dashboard() {
             role: "assistant",
             content: "Aqui está a imagem gerada:",
             image: result.url,
+            model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo },
           },
         ]);
       } else {
@@ -179,6 +180,7 @@ export default function Dashboard() {
           {
             role: "assistant",
             content: typeof result === "string" ? result : result.content || "Sem resposta",
+            model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo },
           },
         ]);
       }
@@ -188,6 +190,7 @@ export default function Dashboard() {
         {
           role: "assistant",
           content: `Erro: ${err.message || "Falha na requisição"}`,
+          model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo },
         },
       ]);
     } finally {
