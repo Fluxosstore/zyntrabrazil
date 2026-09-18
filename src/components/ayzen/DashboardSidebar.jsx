@@ -148,7 +148,7 @@ export default function DashboardSidebar({ activePage = "dashboard" }) {
         </AnimatePresence>
         <button
           onClick={() => setPopoverOpen((v) => !v)}
-          className={`w-full flex items-center ${collapsed ? "justify-center aspect-square rounded-lg hover:bg-gray-200/60" : "gap-2.5 px-2 rounded-2xl bg-[#f4f5f7] border border-gray-200/70 hover:bg-[#eceef0]"} transition-colors`}
+          className={`w-full flex items-center ${collapsed ? "justify-center aspect-square rounded-lg hover:bg-gray-200/60" : "gap-2.5 px-2.5 py-2 rounded-xl bg-[#eceef0] border border-gray-300/70 hover:bg-[#e2e4e8]"} transition-colors`}
         >
           <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
