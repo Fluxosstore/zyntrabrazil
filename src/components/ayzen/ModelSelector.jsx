@@ -76,7 +76,7 @@ function SignalIndicator({ level }) {
   return <SignalLow className="w-3.5 h-3.5 text-[#2E7D32]" />;
 }
 
-export default function ModelSelector({ selected, onSelect, onClose, plan = "free" }) {
+export default function ModelSelector({ selected, onSelect, onClose, plan = "free", placement = "top" }) {
   const [query, setQuery] = useState("");
   const ref = useRef(null);
 
@@ -103,11 +103,11 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+      initial={{ opacity: 0, y: placement === "bottom" ? 8 : -8, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+      exit={{ opacity: 0, y: placement === "bottom" ? 8 : -8, scale: 0.98 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
-      className="absolute bottom-full left-0 mb-2 w-72 bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50">
+      className={`absolute ${placement === "bottom" ? "top-full left-0 mt-2" : "bottom-full left-0 mb-2"} w-72 bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50`}>
       
       {/* Search header */}
       <div className="flex items-center gap-2 px-3.5 py-3 border-b border-gray-100">

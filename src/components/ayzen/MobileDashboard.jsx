@@ -87,6 +87,7 @@ export default function MobileDashboard({
             <ModelSelector
               selected={model}
               plan={plan}
+              placement="bottom"
               onSelect={(id) => { setModelOpen(false); }}
               onClose={() => setModelOpen(false)}
             />
