@@ -198,6 +198,44 @@ export default function Dashboard() {
     }
   };
 
+  const handleEditMessage = (text, index) => {
+    setMessages((prev) => prev.slice(0, index));
+    setMsg(text);
+  };
+
+  const handleReprocess = async (text, modelId, index) => {
+    const baseMessages = messages.slice(0, index + 1);
+    setMessages(baseMessages);
+    setLoading(true);
+    try {
+      const realModel = getRealModel(modelId, false);
+      const prompt = messagesToPrompt(baseMessages);
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt,
+        model: realModel,
+      });
+      setMessages([
+        ...baseMessages,
+        {
+          role: "assistant",
+          content: typeof result === "string" ? result : result.content || "Sem resposta",
+          model: { name: getModelInfo(modelId, plan).name, logo: getModelInfo(modelId, plan).logo },
+        },
+      ]);
+    } catch (err) {
+      setMessages([
+        ...baseMessages,
+        {
+          role: "assistant",
+          content: `Erro: ${err.message || "Falha na requisição"}`,
+          model: { name: getModelInfo(modelId, plan).name, logo: getModelInfo(modelId, plan).logo },
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
     <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
@@ -293,7 +331,13 @@ export default function Dashboard() {
           )}
           {messages.length > 0 && (
             <div className="w-full max-w-3xl mx-auto flex-1 flex flex-col min-h-0">
-              <ChatMessages messages={messages} loading={loading} />
+              <ChatMessages
+                messages={messages}
+                loading={loading}
+                onEdit={handleEditMessage}
+                onReprocess={handleReprocess}
+                plan={plan}
+              />
             </div>
           )}
 
