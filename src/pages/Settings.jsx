@@ -11,6 +11,7 @@ import ModelUsageRow from "@/components/ayzen/ModelUsageRow";
 import PlanContent from "@/components/ayzen/settings/PlanContent";
 import InvoicesContent from "@/components/ayzen/settings/InvoicesContent";
 import SkillsContent from "@/components/ayzen/settings/SkillsContent";
+import SkillFormContent from "@/components/ayzen/settings/SkillFormContent";
 import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
 import AccountContent from "@/components/ayzen/settings/AccountContent";
 import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
@@ -153,8 +154,12 @@ export default function Settings() {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(location.state?.section || "usage");
+  const [skillFormOpen, setSkillFormOpen] = useState(false);
 
   const renderContent = () => {
+    if (activeSection === "skills" && skillFormOpen) {
+      return <SkillFormContent onBack={() => setSkillFormOpen(false)} />;
+    }
     switch (activeSection) {
       case "plan":
         return <PlanContent />;
@@ -165,7 +170,7 @@ export default function Settings() {
       case "memories":
         return <MemoriesContent />;
       case "skills":
-        return <SkillsContent />;
+        return <SkillsContent plan={user?.plan || "free"} onCreateSkill={() => setSkillFormOpen(true)} />;
       case "connectors":
         return <ConnectorsContent />;
       default:
