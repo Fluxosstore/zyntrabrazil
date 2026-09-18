@@ -55,16 +55,12 @@ function UsageContent() {
   useEffect(() => {
     (async () => {
       try {
-        const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-        const records = await base44.entities.TokenUsage.filter(
-          { created_date: { $gte: monthStart.toISOString() } },
-          "-created_date",
-          500
-        );
+        const records = await base44.entities.TokenUsage.list("-created_date", 500);
         const now = Date.now();
         const dayAgo = now - 24 * 60 * 60 * 1000;
         const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
-        const monthly = records.reduce((s, r) => s + (r.tokens || 0), 0);
+        const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+        const monthly = records.filter((r) => new Date(r.created_date).getTime() >= monthStart).reduce((s, r) => s + (r.tokens || 0), 0);
         const daily = records.filter((r) => new Date(r.created_date).getTime() >= dayAgo).reduce((s, r) => s + (r.tokens || 0), 0);
         const weekly = records.filter((r) => new Date(r.created_date).getTime() >= weekAgo).reduce((s, r) => s + (r.tokens || 0), 0);
         setUsage({ monthly, daily, weekly });
