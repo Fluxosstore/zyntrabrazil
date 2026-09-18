@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import {
-  Menu,
+  PanelLeft,
   ChevronDown,
   MessageSquarePlus,
   Plus,
@@ -8,6 +8,7 @@ import {
   ArrowUp,
   Paperclip,
   X,
+  VenetianMask,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -28,6 +29,7 @@ export default function MobileDashboard({
   onDeleteConversation, onRenameConversation,
   onTogglePin, onToggleSelect,
   onEditMessage, onReprocess,
+  tempMode, setTempMode,
 }) {
   const { user } = useAuth();
   const { t } = useLanguage();
@@ -65,12 +67,12 @@ export default function MobileDashboard({
       />
 
       {/* Top nav */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+      <div className="flex items-center justify-between px-4 py-3">
         <button
           onClick={() => setSidebarOpen(true)}
           className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
         >
-          <Menu className="w-5 h-5" />
+          <PanelLeft className="w-5 h-5" />
         </button>
         <div className="relative">
           <button
@@ -92,10 +94,10 @@ export default function MobileDashboard({
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={() => fileInputRef.current?.click()}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
+            onClick={() => setTempMode?.(v => !v)}
+            className={`w-9 h-9 flex items-center justify-center rounded-lg active:bg-gray-100 ${tempMode ? "text-[#7E57C2]" : "text-gray-700"}`}
           >
-            <Plus className="w-5 h-5" />
+            <VenetianMask className="w-5 h-5" />
           </button>
           <button
             onClick={() => { onNewConversation(); }}

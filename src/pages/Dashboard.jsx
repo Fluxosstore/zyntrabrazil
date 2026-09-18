@@ -548,6 +548,8 @@ export default function Dashboard() {
       onToggleSelect={handleToggleSelect}
       onEditMessage={handleEditMessage}
       onReprocess={handleReprocess}
+      tempMode={tempMode}
+      setTempMode={setTempMode}
     />
     </>
   );
