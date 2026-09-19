@@ -10,7 +10,7 @@ export default function AuthShell({ children }) {
   const { t } = useLanguage();
 
   return (
-    <div className="h-screen flex flex-col bg-white overflow-hidden relative">
+    <div className="h-[100dvh] lg:h-screen flex flex-col bg-white overflow-hidden relative">
       {/* top-right controls - at top of page on mobile, top-right of content on desktop */}
       <div className="absolute top-4 right-4 lg:top-6 lg:right-8 flex items-center gap-2 lg:gap-3 z-20">
         <LanguageSwitcher variant="pill" />
