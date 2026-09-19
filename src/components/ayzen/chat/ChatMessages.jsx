@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, Star, Pencil, RefreshCw, Download, Link2 } from "lucide-react";
-import { Image } from "@/components/ui/image";
 import { MODELS_BY_PLAN, getModelInfo } from "@/components/ayzen/ModelSelector";
 import ImaginingCard from "@/components/ayzen/chat/ImaginingCard";
 
@@ -143,11 +142,10 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                     {msg.content && (
                       <p className="text-sm text-black whitespace-pre-wrap">{msg.content}</p>
                     )}
-                    <Image
+                    <img
                       src={msg.image}
                       alt="Imagem gerada"
-                      className="rounded-2xl w-full"
-                      fittingType="fit"
+                      className="rounded-2xl w-full object-contain"
                     />
                     <div className="flex items-center gap-1">
                       <button

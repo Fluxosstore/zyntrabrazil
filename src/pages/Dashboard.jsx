@@ -177,9 +177,19 @@ export default function Dashboard() {
 
     try {
       if (isImageRequest) {
-        const result = await base44.integrations.Core.GenerateImage({ prompt: msg });
-        base44.entities.TokenUsage.create({ tokens: 500, model: "image_generation" }).catch(() => {});
         const modelInfo = getModelInfo(model, plan);
+        const imageStyleByModel = {
+          "gpt-image": "estilo fotorrealista cinematográfico, iluminação dramática, alta qualidade",
+          "gemini-image": "estilo vibrante e colorido, composição dinâmica, detalhes nítidos",
+          "claude-image": "estilo artístico refinado, equilíbrio harmônico, estética elegante",
+        };
+        const styleHint = imageStyleByModel[model] || "";
+        const enhancedPrompt = styleHint ? `${msg}. ${styleHint}` : msg;
+        const result = await base44.integrations.Core.GenerateImage({
+          prompt: enhancedPrompt,
+          existing_image_urls: fileUrlsForLLM.length > 0 ? fileUrlsForLLM : undefined,
+        });
+        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
