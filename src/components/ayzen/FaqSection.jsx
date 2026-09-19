@@ -42,9 +42,14 @@ export default function FaqSection() {
               <p className="mt-5 text-sm text-[#6B6B6B] leading-relaxed max-w-sm">
                 {t("faq.desc")}
               </p>
-              <button className="mt-6 inline-flex items-center gap-2 bg-transparent border border-[#E0E0E0] rounded-full px-5 py-2.5 text-sm font-semibold text-black hover:bg-gray-50 transition-colors">
+              <a
+                href="https://wa.me/message/BYSDMLHYTA6EA1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 bg-transparent border border-[#E0E0E0] rounded-full px-5 py-2.5 text-sm font-semibold text-black hover:bg-gray-50 transition-colors"
+              >
                 {t("faq.talkToTeam")}
-              </button>
+              </a>
             </div>
           </div>
 
