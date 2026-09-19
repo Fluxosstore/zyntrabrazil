@@ -10,7 +10,16 @@ export default function AuthShell({ children }) {
   const { t } = useLanguage();
 
   return (
-    <div className="h-screen flex flex-col bg-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-white overflow-hidden relative">
+      {/* top-right controls - at top of page on mobile, top-right of content on desktop */}
+      <div className="absolute top-4 right-4 lg:top-6 lg:right-8 flex items-center gap-2 lg:gap-3 z-20">
+        <LanguageSwitcher variant="pill" />
+
+        <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#4A4A4A] hover:bg-gray-100 transition-colors">
+          <Sun className="w-4 h-4" />
+        </button>
+      </div>
+
       {/* Mobile hero image on top */}
       <div className="lg:hidden relative h-[32vh] shrink-0">
         <img
@@ -47,15 +56,6 @@ export default function AuthShell({ children }) {
 
         {/* Right content */}
         <div className="flex-1 relative flex flex-col min-h-0">
-          {/* top-right controls */}
-          <div className="absolute top-4 right-4 lg:top-6 lg:right-8 flex items-center gap-2 lg:gap-3 z-10">
-            <LanguageSwitcher variant="pill" />
-
-            <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#4A4A4A] hover:bg-gray-100 transition-colors">
-              <Sun className="w-4 h-4" />
-            </button>
-          </div>
-
           {/* centered content */}
           <div className="flex-1 flex items-center justify-center px-6 py-4 min-h-0 overflow-y-auto">
             <div className="w-full max-w-sm">{children}</div>
