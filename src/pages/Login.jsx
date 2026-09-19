@@ -40,7 +40,7 @@ export default function Login() {
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </div>
-        <h1 className="text-base font-bold text-black mb-0.5 text-center lg:text-left">{t("login.title")}</h1>
+        <h1 className="hidden lg:block text-base font-bold text-black mb-0.5 text-left">{t("login.title")}</h1>
         <p className="text-xs text-[#757575] text-center lg:text-left">
           {t("login.subtitle")}
         </p>
