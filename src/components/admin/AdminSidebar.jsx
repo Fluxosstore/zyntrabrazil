@@ -33,7 +33,7 @@ export default function AdminSidebar({ active, onSelect }) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#1a1a1a] flex flex-col transition-all duration-200 shrink-0`}>
+    <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#3a3a3a] flex flex-col transition-all duration-200 shrink-0`}>
       {/* Header */}
       <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-3 border-b border-white/5`}>
         {!collapsed && (
