@@ -25,6 +25,22 @@ const IMAGE_INTENT_KEYWORDS = [
   "criar uma foto",
   "gerar ilustração",
   "criar ilustração",
+  "crie imagem",
+  "crie uma imagem",
+  "crie uma foto",
+  "crie para mim a imagem",
+  "crie a imagem",
+  "gere imagem",
+  "gere uma imagem",
+  "gere uma foto",
+  "gere a imagem",
+  "gera imagem",
+  "gera uma imagem",
+  "fazer uma foto",
+  "fazer foto",
+  "desenhe",
+  "desenhe um",
+  "desenhe uma",
 ];
 
 export function isImageGenerationIntent(text) {

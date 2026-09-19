@@ -1,0 +1,37 @@
+{
+  "name": "LibraryItem",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "T\u00edtulo do item (prompt truncado ou nome)"
+    },
+    "type": {
+      "type": "string",
+      "description": "Tipo do item da biblioteca",
+      "enum": [
+        "image",
+        "file",
+        "doc",
+        "response"
+      ],
+      "default": "image"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL da imagem ou arquivo gerado"
+    },
+    "model": {
+      "type": "string",
+      "description": "Nome do modelo de IA usado"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Prompt original usado para gerar o item"
+    }
+  },
+  "required": [
+    "title",
+    "type"
+  ]
+}

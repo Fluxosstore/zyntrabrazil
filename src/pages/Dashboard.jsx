@@ -50,6 +50,7 @@ export default function Dashboard() {
   });
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imagining, setImagining] = useState(false);
 
   useEffect(() => {
     try {
@@ -172,18 +173,28 @@ export default function Dashboard() {
     setMsg("");
     setAttachedFile(null);
     setLoading(true);
+    if (isImageRequest) setImagining(true);
 
     try {
       if (isImageRequest) {
         const result = await base44.integrations.Core.GenerateImage({ prompt: msg });
         base44.entities.TokenUsage.create({ tokens: 500, model: "image_generation" }).catch(() => {});
+        const modelInfo = getModelInfo(model, plan);
+        // Salva na biblioteca
+        base44.entities.LibraryItem.create({
+          title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
+          type: "image",
+          url: result.url,
+          model: modelInfo.name,
+          prompt: msg,
+        }).catch(() => {});
         setMessages([
           ...newMessages,
           {
             role: "assistant",
             content: "Aqui está a imagem gerada:",
             image: result.url,
-            model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo },
+            model: { name: modelInfo.name, logo: modelInfo.logo },
           },
         ]);
       } else {
@@ -217,6 +228,7 @@ export default function Dashboard() {
       ]);
     } finally {
       setLoading(false);
+      setImagining(false);
     }
   };
 
@@ -404,6 +416,7 @@ export default function Dashboard() {
               <ChatMessages
                 messages={messages}
                 loading={loading}
+                imagining={imagining}
                 onEdit={handleEditMessage}
                 onReprocess={handleReprocess}
                 plan={plan}

@@ -16,6 +16,7 @@ import {
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
+import LibraryItems from "@/components/ayzen/LibraryItems";
 
 const TABS = [
   { id: "all", icon: Folder },
@@ -155,27 +156,33 @@ export default function LibraryPage() {
             </div>
           )}
 
-          {/* Empty state */}
-          <div className="flex-1 px-8 pb-8">
-            <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
-              {showNoResults ? (
-                <>
-                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                    <Search className="w-5 h-5 text-gray-400" />
-                  </div>
-                  <p className="mt-4 text-sm font-semibold text-gray-700">{t("library.noResultsTitle")}</p>
-                  <p className="mt-1.5 text-sm text-gray-400 text-center max-w-sm">{t("library.noResultsDesc")}</p>
-                </>
-              ) : (
-                <>
-                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                    <EmptyIcon className="w-5 h-5 text-gray-400" />
-                  </div>
-                  <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
-                  <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
-                </>
-              )}
-            </div>
+          {/* Items / Empty state */}
+          <div className="flex-1 px-8 pb-8 overflow-y-auto">
+            <LibraryItems
+              activeTab={activeTab}
+              view={view}
+              emptyState={
+                <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
+                  {showNoResults ? (
+                    <>
+                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                        <Search className="w-5 h-5 text-gray-400" />
+                      </div>
+                      <p className="mt-4 text-sm font-semibold text-gray-700">{t("library.noResultsTitle")}</p>
+                      <p className="mt-1.5 text-sm text-gray-400 text-center max-w-sm">{t("library.noResultsDesc")}</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                        <EmptyIcon className="w-5 h-5 text-gray-400" />
+                      </div>
+                      <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
+                      <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
+                    </>
+                  )}
+                </div>
+              }
+            />
           </div>
         </main>
       </div>
@@ -231,15 +238,21 @@ export default function LibraryPage() {
           </div>
         )}
 
-        {/* Empty state */}
-        <div className="flex-1 px-4 pb-4">
-          <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
-            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-              <EmptyIcon className="w-5 h-5 text-gray-400" />
-            </div>
-            <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
-            <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
-          </div>
+        {/* Items / Empty state */}
+        <div className="flex-1 px-4 pb-4 overflow-y-auto">
+          <LibraryItems
+            activeTab={activeTab}
+            view="list"
+            emptyState={
+              <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                  <EmptyIcon className="w-5 h-5 text-gray-400" />
+                </div>
+                <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
+                <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
+              </div>
+            }
+          />
         </div>
 
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />

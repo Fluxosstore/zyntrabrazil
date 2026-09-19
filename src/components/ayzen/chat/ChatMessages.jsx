@@ -1,14 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Copy, Check, Star, Pencil, RefreshCw } from "lucide-react";
+import { Copy, Check, Star, Pencil, RefreshCw, Download, Link2 } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { MODELS_BY_PLAN, getModelInfo } from "@/components/ayzen/ModelSelector";
+import ImaginingCard from "@/components/ayzen/chat/ImaginingCard";
 
-export default function ChatMessages({ messages, loading, onEdit, onReprocess, plan = "free", model = "auto" }) {
+export default function ChatMessages({ messages, loading, onEdit, onReprocess, plan = "free", model = "auto", imagining = false }) {
   const scrollRef = useRef(null);
   const [copiedIdx, setCopiedIdx] = useState(null);
   const [favIdx, setFavIdx] = useState([]);
   const [reprocessOpen, setReprocessOpen] = useState(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const handleDownload = (url) => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "imagem-zyntra.png";
+    a.target = "_blank";
+    a.click();
+  };
+
+  const handleCopyLink = (url) => {
+    navigator.clipboard?.writeText(url);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 1500);
+  };
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -130,9 +146,29 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                     <Image
                       src={msg.image}
                       alt="Imagem gerada"
-                      className="rounded-lg w-full"
+                      className="rounded-2xl w-full"
                       fittingType="fit"
                     />
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleDownload(msg.image)}
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                        title="Baixar"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleCopyLink(msg.image)}
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                        title="Copiar link"
+                      >
+                        {linkCopied ? (
+                          <Check className="w-3.5 h-3.5 text-green-600" />
+                        ) : (
+                          <Link2 className="w-3.5 h-3.5" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <p className="text-sm text-black whitespace-pre-wrap">{msg.content}</p>
@@ -172,32 +208,38 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
         ))}
       </AnimatePresence>
       {loading && (
-        <div className="flex justify-start">
-          <div className="flex items-center gap-2 mb-1.5">
-            <img
-              src={loadingModel.logo}
-              alt={loadingModel.name}
-              className="w-5 h-5 rounded object-contain"
-            />
-            <span className="text-sm font-bold text-black">{loadingModel.name}</span>
+        imagining ? (
+          <div className="flex justify-start">
+            <ImaginingCard modelName={loadingModel.name} />
           </div>
-          <div className="bg-gray-100 rounded-2xl px-4 py-3 ml-7">
-            <div className="flex gap-1">
-              <span
-                className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                style={{ animationDelay: "0ms" }}
+        ) : (
+          <div className="flex justify-start">
+            <div className="flex items-center gap-2 mb-1.5">
+              <img
+                src={loadingModel.logo}
+                alt={loadingModel.name}
+                className="w-5 h-5 rounded object-contain"
               />
-              <span
-                className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                style={{ animationDelay: "150ms" }}
-              />
-              <span
-                className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                style={{ animationDelay: "300ms" }}
-              />
+              <span className="text-sm font-bold text-black">{loadingModel.name}</span>
+            </div>
+            <div className="bg-gray-100 rounded-2xl px-4 py-3 ml-7">
+              <div className="flex gap-1">
+                <span
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "0ms" }}
+                />
+                <span
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "150ms" }}
+                />
+                <span
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "300ms" }}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )
       )}
     </div>
   );
