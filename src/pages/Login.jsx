@@ -36,10 +36,10 @@ export default function Login() {
   return (
     <AuthShell>
       <div className="mb-3 lg:mb-5">
-        <div className="flex items-center justify-center lg:justify-start gap-2 mb-2 lg:mb-4">
+        <Link to="/" className="flex items-center justify-center lg:justify-start gap-2 mb-2 lg:mb-4">
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
-        </div>
+        </Link>
         <h1 className="hidden lg:block text-base font-bold text-black mb-0.5 text-left">{t("login.title")}</h1>
         <p className="text-xs text-[#757575] text-center lg:text-left">
           {t("login.subtitle")}
