@@ -13,7 +13,7 @@ import {
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
-import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
+import ModelSelector, { getModelInfo, IMAGE_MODELS } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
@@ -158,7 +158,7 @@ export default function Dashboard() {
       }
     }
 
-    const isImageRequest = isImageGenerationIntent(msg);
+    const isImageRequest = isImageGenerationIntent(msg) || IMAGE_MODELS.some((m) => m.id === model);
     const newMessages = [...messages, userMessage];
 
     if (!activeConversationId) {
