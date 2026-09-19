@@ -35,8 +35,8 @@ export default function Login() {
 
   return (
     <AuthShell>
-      <div className="mb-5">
-        <div className="flex items-center gap-2 mb-4">
+      <div className="mb-3 lg:mb-5">
+        <div className="flex items-center gap-2 mb-2 lg:mb-4">
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </div>
@@ -47,12 +47,12 @@ export default function Login() {
       </div>
 
       {error && (
-        <div className="mb-3 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
+        <div className="mb-2 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-2.5">
         <div className="space-y-1">
           <label className="text-xs font-medium text-[#333]">{t("login.email")}</label>
           <div className="relative">
@@ -64,7 +64,7 @@ export default function Login() {
               placeholder={t("login.emailPlaceholder")}
               required
               autoFocus
-              className="w-full h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-9 lg:h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("login.pwdPlaceholder")}
               required
-              className="w-full h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+              className="w-full h-9 lg:h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
             />
             <button
               type="button"
@@ -93,13 +93,13 @@ export default function Login() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-10 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
+          className="w-full h-9 lg:h-10 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("login.submit")}
         </button>
       </form>
 
-      <div className="relative my-4">
+      <div className="relative my-3 lg:my-4">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-[#E5E5E5]" />
         </div>
@@ -108,12 +108,12 @@ export default function Login() {
         </div>
       </div>
 
-      <button className="w-full h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+      <button className="w-full h-9 lg:h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
         <Fingerprint className="w-3.5 h-3.5 text-[#7E57C2]" />
         {t("login.passkey")}
       </button>
 
-      <div className="mt-4 flex flex-col gap-1.5 text-center">
+      <div className="mt-3 lg:mt-4 flex flex-col gap-1 text-center">
         <Link
           to="/forgot-password"
           className="text-xs font-medium text-[#7E57C2] hover:underline"
