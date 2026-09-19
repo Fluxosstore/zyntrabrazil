@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import FloatingDots from "@/components/ayzen/FloatingDots";
@@ -80,13 +81,13 @@ export default function Hero() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <a
-                href="#planos"
+              <Link
+                to="/register"
                 className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-base font-semibold px-7 py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
                 
                 {t("hero.cta1")}
                 <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
               <a
                 href="#planos"
                 className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-base font-semibold px-7 py-3.5 rounded-full border border-gray-200 transition-all">
