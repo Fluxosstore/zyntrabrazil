@@ -28,6 +28,8 @@ export default function AdminUsers() {
   const [query, setQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [balanceDelta, setBalanceDelta] = useState("");
+  const [planChange, setPlanChange] = useState(null);
+  const [savingPlan, setSavingPlan] = useState(false);
 
   const [usageByUser, setUsageByUser] = useState({});
 
@@ -85,6 +87,26 @@ export default function AdminUsers() {
     }
   };
 
+  const openManage = (user) => {
+    setSelectedUser(user);
+    setPlanChange(null);
+  };
+
+  const handlePlanChange = async () => {
+    if (!selectedUser || !planChange) return;
+    setSavingPlan(true);
+    try {
+      await base44.entities.User.update(selectedUser.id, { plan: planChange });
+      const updated = { ...selectedUser, plan: planChange };
+      setSelectedUser(updated);
+      setPlanChange(null);
+      fetchUsers();
+    } catch (e) {
+      alert("Erro ao alterar plano: " + (e.message || ""));
+    }
+    setSavingPlan(false);
+  };
+
   const handleZeroBalance = async (user) => {
     if (!confirm(`Zerar o saldo de ${user.full_name || user.email}?`)) return;
     try {
@@ -105,7 +127,7 @@ export default function AdminUsers() {
       <div className="px-6 lg:px-8 py-6 space-y-6">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Usuários</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Gerencie usuários, saldos e bloqueios</p>
+          <p className="text-sm text-gray-500 mt-0.5">Gerencie usuários, planos, saldos e bloqueios</p>
         </div>
 
         {/* Stats */}
@@ -204,7 +226,7 @@ export default function AdminUsers() {
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-1">
                           <button
-                            onClick={() => setSelectedUser(u)}
+                            onClick={() => openManage(u)}
                             className="px-2.5 py-1 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                           >
                             Gerenciar
@@ -258,6 +280,34 @@ export default function AdminUsers() {
                 <p className="text-2xl font-bold text-violet-600 mt-1">{formatTokens(usageByUser[selectedUser.id] || 0)}</p>
                 <p className="text-xs text-gray-500">tokens</p>
               </div>
+            </div>
+
+            {/* Plan Selector */}
+            <div>
+              <label className="text-xs font-medium text-gray-700">Plano da conta</label>
+              <div className="flex gap-2 mt-1.5">
+                <select
+                  value={planChange || selectedUser.plan || "free"}
+                  onChange={e => setPlanChange(e.target.value)}
+                  className="flex-1 h-10 px-3 rounded-xl bg-gray-50 border border-gray-200 text-sm focus:outline-none focus:border-gray-300"
+                >
+                  {Object.entries(PLAN_LABELS).map(([key, label]) => (
+                    <option key={key} value={key}>{label}</option>
+                  ))}
+                </select>
+                <button
+                  onClick={handlePlanChange}
+                  disabled={!planChange || planChange === selectedUser.plan || savingPlan}
+                  className="px-4 h-10 rounded-xl bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  {savingPlan ? "Salvando..." : "Aplicar"}
+                </button>
+              </div>
+              {planChange && planChange !== selectedUser.plan && (
+                <p className="text-xs text-violet-600 mt-1.5">
+                  Upgrade para <strong>{PLAN_LABELS[planChange]}</strong> — {formatTokens(PLAN_WEEKLY_TOKENS[planChange] || 0)} tokens/sem
+                </p>
+              )}
             </div>
 
             {/* Balance Controls */}
