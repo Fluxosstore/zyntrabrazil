@@ -1,5 +1,6 @@
 import React from "react";
-import { Shield, Key, Plus } from "lucide-react";
+import { Shield, Key, Plus, LayoutDashboard } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
@@ -139,6 +140,31 @@ export default function AccountContent() {
             </div>
           </div>
         </section>
+
+        {/* Painel de Administração - apenas admin */}
+        {user?.role === "admin" && (
+          <section>
+            <h2 className="text-base font-bold text-black mb-1">Administração</h2>
+            <p className="text-xs text-gray-500 mb-3">Acesso restrito ao painel de gerenciamento</p>
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 flex items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-violet-50 flex items-center justify-center shrink-0">
+                  <LayoutDashboard className="w-5 h-5 text-violet-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-black">Painel de Administração</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Gerencie pedidos, usuários, cupons e configurações</p>
+                </div>
+              </div>
+              <Link
+                to="/admin"
+                className="px-4 py-2 rounded-xl bg-[#1D1D1F] text-white text-sm font-medium hover:bg-black transition-colors shrink-0"
+              >
+                Acessar painel
+              </Link>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
