@@ -96,7 +96,7 @@ export default function Footer() {
             {/* Link columns */}
             {footerCols.map((col) =>
             <div key={col.title}>
-                <h4 className="text-sm font-semibold text-white mb-4">
+                <h4 className="text-sm font-semibold text-black mb-4">
                   {col.title}
                 </h4>
                 <ul className="space-y-2.5">
