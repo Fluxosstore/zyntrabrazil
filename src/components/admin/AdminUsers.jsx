@@ -20,8 +20,11 @@ export default function AdminUsers() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [balanceDelta, setBalanceDelta] = useState("");
 
+  const [usageByUser, setUsageByUser] = useState({});
+
   useEffect(() => {
     fetchUsers();
+    fetchUsage();
   }, []);
 
   const fetchUsers = async () => {
@@ -30,6 +33,19 @@ export default function AdminUsers() {
       setUsers(data);
     } catch (e) {}
     setLoading(false);
+  };
+
+  const fetchUsage = async () => {
+    try {
+      const records = await base44.entities.TokenUsage.list("-created_date", 1000);
+      const map = {};
+      records.forEach(r => {
+        const uid = r.created_by_id;
+        if (!uid) return;
+        map[uid] = (map[uid] || 0) + (r.tokens || 0);
+      });
+      setUsageByUser(map);
+    } catch (e) {}
   };
 
   const handleBlock = async (user) => {
@@ -135,6 +151,7 @@ export default function AdminUsers() {
                     <th className="text-left text-[10px] font-semibold tracking-wider text-gray-500 px-4 py-3">USUÁRIO</th>
                     <th className="text-left text-[10px] font-semibold tracking-wider text-gray-500 px-4 py-3">PLANO</th>
                     <th className="text-left text-[10px] font-semibold tracking-wider text-gray-500 px-4 py-3">SALDO</th>
+                    <th className="text-left text-[10px] font-semibold tracking-wider text-gray-500 px-4 py-3">USADOS</th>
                     <th className="text-left text-[10px] font-semibold tracking-wider text-gray-500 px-4 py-3">STATUS</th>
                     <th className="text-right text-[10px] font-semibold tracking-wider text-gray-500 px-4 py-3">AÇÕES</th>
                   </tr>
@@ -158,6 +175,10 @@ export default function AdminUsers() {
                       </td>
                       <td className="px-4 py-3">
                         <span className="text-sm font-semibold text-gray-900">{formatTokens(u.balance || 0)}</span>
+                        <span className="text-xs text-gray-500 ml-1">tokens</span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className="text-sm font-semibold text-violet-600">{formatTokens(usageByUser[u.id] || 0)}</span>
                         <span className="text-xs text-gray-500 ml-1">tokens</span>
                       </td>
                       <td className="px-4 py-3">
@@ -216,10 +237,18 @@ export default function AdminUsers() {
               </button>
             </div>
 
-            {/* Current Balance */}
-            <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-              <p className="text-xs text-gray-500">Saldo atual</p>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{formatTokens(selectedUser.balance || 0)} <span className="text-sm font-normal text-gray-500">tokens</span></p>
+            {/* Current Balance & Usage */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
+                <p className="text-xs text-gray-500">Saldo do plano</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{formatTokens(selectedUser.balance || 0)}</p>
+                <p className="text-xs text-gray-500">tokens</p>
+              </div>
+              <div className="p-4 rounded-xl bg-violet-50 border border-violet-100">
+                <p className="text-xs text-gray-500">Tokens usados</p>
+                <p className="text-2xl font-bold text-violet-600 mt-1">{formatTokens(usageByUser[selectedUser.id] || 0)}</p>
+                <p className="text-xs text-gray-500">tokens</p>
+              </div>
             </div>
 
             {/* Balance Controls */}
