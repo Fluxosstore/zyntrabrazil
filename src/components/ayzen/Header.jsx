@@ -145,7 +145,7 @@ export default function Header() {
               </a>
             ))}
             <a
-              href="#"
+              href="/login"
               onClick={() => setMobileOpen(false)}
               className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50"
             >
