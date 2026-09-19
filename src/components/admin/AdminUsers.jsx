@@ -11,6 +11,15 @@ const PLAN_LABELS = {
   enterprise: "Empresarial Enterprise",
 };
 
+const PLAN_WEEKLY_TOKENS = {
+  free: 30000,
+  starter: 900000,
+  premium: 500000,
+  team: 10000000,
+  startup: 15000000,
+  enterprise: 25000000,
+};
+
 const formatTokens = (n) => Math.round(n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 export default function AdminUsers() {
@@ -174,8 +183,8 @@ export default function AdminUsers() {
                         <span className="text-sm text-gray-700">{PLAN_LABELS[u.plan] || u.plan || "—"}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="text-sm font-semibold text-gray-900">{formatTokens(u.balance || 0)}</span>
-                        <span className="text-xs text-gray-500 ml-1">tokens</span>
+                        <span className="text-sm font-semibold text-gray-900">{formatTokens(PLAN_WEEKLY_TOKENS[u.plan] || 0)}</span>
+                        <span className="text-xs text-gray-500 ml-1">tokens/sem</span>
                       </td>
                       <td className="px-4 py-3">
                         <span className="text-sm font-semibold text-violet-600">{formatTokens(usageByUser[u.id] || 0)}</span>
@@ -240,8 +249,8 @@ export default function AdminUsers() {
             {/* Current Balance & Usage */}
             <div className="grid grid-cols-2 gap-3">
               <div className="p-4 rounded-xl bg-gray-50 border border-gray-100">
-                <p className="text-xs text-gray-500">Saldo do plano</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{formatTokens(selectedUser.balance || 0)}</p>
+                <p className="text-xs text-gray-500">Saldo do plano (semanal)</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{formatTokens(PLAN_WEEKLY_TOKENS[selectedUser.plan] || 0)}</p>
                 <p className="text-xs text-gray-500">tokens</p>
               </div>
               <div className="p-4 rounded-xl bg-violet-50 border border-violet-100">
