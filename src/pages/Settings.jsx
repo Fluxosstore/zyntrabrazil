@@ -51,6 +51,7 @@ function UsageContent() {
   const plan = user?.plan || "free";
   const [query, setQuery] = useState("");
   const [usage, setUsage] = useState({ monthly: 0, daily: 0, weekly: 0 });
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -64,6 +65,7 @@ function UsageContent() {
         const daily = records.filter((r) => new Date(r.created_date).getTime() >= dayAgo).reduce((s, r) => s + (r.tokens || 0), 0);
         const weekly = records.filter((r) => new Date(r.created_date).getTime() >= weekAgo).reduce((s, r) => s + (r.tokens || 0), 0);
         setUsage({ monthly, daily, weekly });
+        requestAnimationFrame(() => setAnimated(true));
       } catch (e) {}
     })();
   }, []);
@@ -160,7 +162,8 @@ function UsageContent() {
               const limit = windowLimits[i];
               const consumed = windowConsumed[i];
               const percentage = pct(consumed, limit);
-              const barWidth = Math.max(rawPct(consumed, limit), consumed > 0 ? 1.5 : 0);
+              const targetWidth = Math.max(rawPct(consumed, limit), consumed > 0 ? 1.5 : 0);
+              const barWidth = animated ? targetWidth : 0;
               return (
                 <div key={win.labelKey} className="rounded-2xl border border-gray-200 bg-white p-5">
                   <div className="flex items-center justify-between">
@@ -172,7 +175,7 @@ function UsageContent() {
                   <p className="text-lg font-bold text-black mt-1">{formatTokens(consumed)} / {win.value}</p>
                   <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
                     <div
-                      className="h-full bg-black rounded-full transition-all duration-1000 ease-out"
+                      className="h-full bg-black rounded-full transition-all duration-[1200ms] ease-out"
                       style={{ width: `${barWidth}%` }}
                     />
                   </div>
