@@ -1,0 +1,58 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "E-mail do cliente que fez o pedido"
+    },
+    "user_name": {
+      "type": "string",
+      "description": "Nome do cliente"
+    },
+    "plan": {
+      "type": "string",
+      "description": "Plano contratado",
+      "enum": [
+        "starter",
+        "premium",
+        "team",
+        "startup",
+        "enterprise"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "description": "Valor do pedido em reais"
+    },
+    "cycle": {
+      "type": "string",
+      "description": "Ciclo de cobran\u00e7a",
+      "enum": [
+        "mensal",
+        "anual"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Status do pedido",
+      "enum": [
+        "pending",
+        "paid",
+        "cancelled",
+        "refunded"
+      ],
+      "default": "pending"
+    },
+    "coupon_code": {
+      "type": "string",
+      "description": "Cupom aplicado, se houver"
+    }
+  },
+  "required": [
+    "user_email",
+    "plan",
+    "amount",
+    "status"
+  ]
+}

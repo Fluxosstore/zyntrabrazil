@@ -1,4 +1,6 @@
 {
+  "name": "User",
+  "type": "object",
   "properties": {
     "role": {
       "type": "string",
@@ -20,11 +22,19 @@
         "enterprise"
       ],
       "default": "free"
+    },
+    "balance": {
+      "type": "number",
+      "description": "Saldo de tokens do usu\u00e1rio",
+      "default": 0
+    },
+    "blocked": {
+      "type": "boolean",
+      "description": "Se o usu\u00e1rio est\u00e1 bloqueado",
+      "default": false
     }
   },
   "required": [
     "role"
-  ],
-  "name": "User",
-  "type": "object"
+  ]
 }

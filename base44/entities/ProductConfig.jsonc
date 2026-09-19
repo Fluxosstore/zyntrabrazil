@@ -1,0 +1,53 @@
+{
+  "name": "ProductConfig",
+  "type": "object",
+  "properties": {
+    "product_name": {
+      "type": "string",
+      "description": "Nome do produto",
+      "default": "Zyntra"
+    },
+    "product_description": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o do produto"
+    },
+    "product_tagline": {
+      "type": "string",
+      "description": "Tagline / slogan do produto"
+    },
+    "available_models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "description": "Modelos de IA dispon\u00edveis no produto"
+    },
+    "support_email": {
+      "type": "string",
+      "description": "E-mail de suporte"
+    },
+    "primary_color": {
+      "type": "string",
+      "description": "Cor prim\u00e1ria da marca",
+      "default": "#7E57C2"
+    }
+  },
+  "required": [
+    "product_name"
+  ]
+}

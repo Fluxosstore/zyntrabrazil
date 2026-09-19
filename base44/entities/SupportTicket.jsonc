@@ -1,0 +1,54 @@
+{
+  "name": "SupportTicket",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "E-mail do usu\u00e1rio que abriu o chamado"
+    },
+    "user_name": {
+      "type": "string",
+      "description": "Nome do usu\u00e1rio"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Assunto do chamado"
+    },
+    "message": {
+      "type": "string",
+      "description": "Mensagem do usu\u00e1rio"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status do chamado",
+      "enum": [
+        "open",
+        "in_progress",
+        "resolved",
+        "closed"
+      ],
+      "default": "open"
+    },
+    "priority": {
+      "type": "string",
+      "description": "Prioridade do chamado",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "reply": {
+      "type": "string",
+      "description": "Resposta do suporte"
+    }
+  },
+  "required": [
+    "user_email",
+    "subject",
+    "message",
+    "status"
+  ]
+}

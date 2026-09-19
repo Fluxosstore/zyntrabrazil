@@ -21,6 +21,8 @@ import Ranking from '@/pages/Ranking';
 import RankingQualidade from '@/pages/RankingQualidade';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import TrialGuard from '@/components/TrialGuard';
+import AdminRoute from '@/components/AdminRoute';
+import Admin from '@/pages/Admin';
 import { Navigate } from 'react-router-dom';
 
 const AuthenticatedApp = () => {
@@ -66,6 +68,9 @@ const AuthenticatedApp = () => {
           <Route path="/ranking/qualidade" element={<RankingQualidade />} />
         </Route>
         <Route path="/settings" element={<Settings />} />
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<Admin />} />
+        </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
