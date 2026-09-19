@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, Users, Ban, CircleDollarSign, Plus, Minus, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 
 const PLAN_LABELS = {
   free: "Zyntra Free",
@@ -23,6 +24,7 @@ const PLAN_WEEKLY_TOKENS = {
 const formatTokens = (n) => Math.round(n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 export default function AdminUsers() {
+  const { user: currentUser, checkUserAuth } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
@@ -101,6 +103,11 @@ export default function AdminUsers() {
       setSelectedUser(updated);
       setPlanChange(null);
       fetchUsers();
+      // Se o plano alterado é do próprio admin logado, atualiza o contexto
+      // para refletir em dashboard, configurações e sidebar imediatamente.
+      if (currentUser?.id === selectedUser.id) {
+        await checkUserAuth();
+      }
     } catch (e) {
       alert("Erro ao alterar plano: " + (e.message || ""));
     }
