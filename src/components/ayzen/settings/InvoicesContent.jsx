@@ -32,6 +32,7 @@ export default function InvoicesContent({ plan = "free" }) {
 
   const [openMenuId, setOpenMenuId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [menuPos, setMenuPos] = useState(null);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -41,6 +42,16 @@ export default function InvoicesContent({ plan = "free" }) {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  const openMenu = (inv, btn) => {
+    if (openMenuId === inv.id) {
+      setOpenMenuId(null);
+      return;
+    }
+    const r = btn.getBoundingClientRect();
+    setMenuPos({ top: r.bottom + 4, right: window.innerWidth - r.right });
+    setOpenMenuId(inv.id);
+  };
 
   if (!isPaid) {
     return (
@@ -128,9 +139,9 @@ export default function InvoicesContent({ plan = "free" }) {
         <section>
           <h2 className="text-base font-bold text-black mb-1">{t("settings.invoicesHistory")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.noInvoicesDesc")}</p>
-          <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+          <div className="rounded-2xl border border-gray-200 bg-white">
             {/* Table header */}
-            <div className="grid grid-cols-[1fr_1fr_1.2fr_1fr_48px] gap-2 px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <div className="grid grid-cols-[1fr_1fr_1.2fr_1fr_48px] gap-2 px-5 py-3 border-b border-gray-100 bg-gray-50 rounded-t-2xl">
               <span className="text-[10px] font-semibold tracking-wider text-gray-400">
                 {t("settings.invoicesValue")}
               </span>
@@ -169,15 +180,18 @@ export default function InvoicesContent({ plan = "free" }) {
                 <span className="text-sm text-black">{inv.method}</span>
                 <div className="relative justify-self-end" ref={openMenuId === inv.id ? menuRef : null}>
                   <button
-                    onClick={() => setOpenMenuId(openMenuId === inv.id ? null : inv.id)}
+                    onClick={(e) => openMenu(inv, e.currentTarget)}
                     className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
                       openMenuId === inv.id ? "bg-[#F5F5F5] text-gray-700" : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                     }`}
                   >
                     <MoreHorizontal className="w-4 h-4" />
                   </button>
-                  {openMenuId === inv.id && (
-                    <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20">
+                  {openMenuId === inv.id && menuPos && (
+                    <div
+                      className="fixed w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50"
+                      style={{ top: menuPos.top, right: menuPos.right }}
+                    >
                       <button
                         onClick={() => {
                           setOpenMenuId(null);
