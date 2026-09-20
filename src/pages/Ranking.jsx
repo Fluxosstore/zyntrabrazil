@@ -31,6 +31,7 @@ const ZEROONE = `${LOBE}/zeroone-color.png`;
 const DBRX = `${LOBE}/dbrx-color.png`;
 const UPSTAGE = `${LOBE}/upstage-color.png`;
 const POOLSIDE = `${LOBE}/poolside-color.png`;
+const OPENROUTER = `${LOBE}/openrouter-color.png`;
 
 const VENDOR_LOGOS = {
   openai: GPT,
@@ -58,6 +59,7 @@ const VENDOR_LOGOS = {
   databricks: DBRX,
   upstage: UPSTAGE,
   poolside: POOLSIDE,
+  openrouter: OPENROUTER,
 };
 
 function getLogo(vendor) {
