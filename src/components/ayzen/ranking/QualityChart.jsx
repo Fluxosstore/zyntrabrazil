@@ -39,7 +39,7 @@ function CustomTooltip({ active, payload }) {
     <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-2.5">
       <p className="text-[11px] font-semibold text-black">{data.name}</p>
       {data.subtitle && <p className="text-[10px] text-gray-400">{data.subtitle}</p>}
-      <p className="text-sm font-bold text-black mt-1">{data.intelligence.toFixed(1).replace(".", ",")}</p>
+      <p className="text-sm font-bold text-black mt-1">{(data.value ?? 0).toFixed(1).replace(".", ",")}</p>
     </div>
   );
 }
