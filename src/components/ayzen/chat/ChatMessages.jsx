@@ -133,7 +133,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                 </div>
               </div>
             ) : (
-              <div className="max-w-[80%]">
+              <div className="max-w-[80%] ml-2">
                 {/* Header com logo + nome do modelo */}
                 <div className="flex items-center gap-2 mb-1.5">
                   <img
