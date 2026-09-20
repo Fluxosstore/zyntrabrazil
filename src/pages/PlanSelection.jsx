@@ -100,19 +100,17 @@ export default function PlanSelection() {
   return (
     <div className="min-h-screen bg-[#F7F8FA]">
       {/* Header */}
-      <header className="px-6 lg:px-10 py-2">
-        <div className="max-w-[1280px] mx-auto flex items-center justify-end gap-2">
-          <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
-            <Sun className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => navigate("/settings", { state: { section: "plan" } })}
-            className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-black transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {t("planSelection.back")}
-          </button>
-        </div>
+      <header className="max-w-[1280px] mx-auto px-6 lg:px-10 py-2 flex items-center justify-end gap-2">
+        <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
+          <Sun className="w-4 h-4" />
+        </button>
+        <button
+          onClick={() => navigate("/settings", { state: { section: "plan" } })}
+          className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-black transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          {t("planSelection.back")}
+        </button>
       </header>
 
       {/* Title section */}
