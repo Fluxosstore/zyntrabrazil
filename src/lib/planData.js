@@ -31,6 +31,21 @@ export function formatBRL(value) {
   }).format(value || 0);
 }
 
+export function getFreeTimeLabel(planId, t) {
+  const prices = PLAN_NUMERIC_PRICES[planId];
+  if (!prices || prices.mensal <= 0) return "";
+  const monthlyYearTotal = prices.mensal * 12;
+  const annualTotal = prices.anual * 12;
+  const discount = monthlyYearTotal - annualTotal;
+  if (discount <= 0) return "";
+  const freeMonths = discount / prices.mensal;
+  const wholeMonths = Math.floor(freeMonths);
+  if (wholeMonths >= 2) return t("pricing.monthsFree", { n: wholeMonths });
+  if (wholeMonths === 1) return t("pricing.oneMonthFree");
+  const days = Math.max(1, Math.round(freeMonths * 30));
+  return t("pricing.daysFree", { n: days });
+}
+
 export function buildPersonalPlans(t) {
   return [
     {

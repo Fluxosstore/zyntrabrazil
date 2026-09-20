@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Star } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { getFreeTimeLabel } from "@/lib/planData";
 
 const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
 const DEEPSEEK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
@@ -217,7 +218,7 @@ export default function PricingSection() {
               {t("pricing.annual")}
             </span>
             <span className="text-xs font-semibold text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full">
-              {t("pricing.twoMonthsFree")}
+              {getFreeTimeLabel(tab === "pessoal" ? "starter" : "team", t)}
             </span>
           </div>
         </div>

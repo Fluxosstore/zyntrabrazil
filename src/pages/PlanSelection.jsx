@@ -10,6 +10,7 @@ import {
   PLAN_IDS,
   PLAN_NUMERIC_PRICES,
   formatBRL,
+  getFreeTimeLabel,
 } from "@/lib/planData";
 
 const MONTHS_PT = [
@@ -162,7 +163,7 @@ export default function PlanSelection() {
             {t("pricing.annual")}
           </span>
           <span className="text-xs font-semibold text-violet-600 bg-violet-50 px-2.5 py-1 rounded-full">
-            {t("pricing.twoMonthsFree")}
+            {getFreeTimeLabel(tab === "pessoal" ? "starter" : "team", t)}
           </span>
         </div>
       </div>
