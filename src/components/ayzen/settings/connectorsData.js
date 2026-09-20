@@ -14,7 +14,7 @@ const WM = "https://upload.wikimedia.org/wikipedia/commons";
 
 // Map catalog connector IDs → registered workspace connector IDs (for OAuth)
 export const WORKSPACE_CONNECTOR_MAP = {
-  gmail: "6aafb4130290983a5537e0ee",
+  gmail: "6aafbf447ca5a501d1b60f69",
   gcalendar: "6aafb41e8e6cf43ae36c519d",
   gcontacts: "6aafb4259c31d3a1619b5ef6",
   gtasks: "6aafb428590567e4c76bcf98",

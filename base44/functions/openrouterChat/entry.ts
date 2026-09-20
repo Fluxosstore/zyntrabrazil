@@ -3,7 +3,7 @@ import { secrets } from 'base44:runtime';
 
 // Map catalog connector IDs → workspace connector IDs (for getCurrentAppUserConnection)
 const CONNECTOR_MAP: Record<string, string> = {
-  gmail: "6aafb4130290983a5537e0ee",
+  gmail: "6aafbf447ca5a501d1b60f69",
   gcalendar: "6aafb41e8e6cf43ae36c519d",
   gcontacts: "6aafb4259c31d3a1619b5ef6",
   gtasks: "6aafb428590567e4c76bcf98",
@@ -22,7 +22,6 @@ async function fetchConnectorData(base44: any, connectorId: string): Promise<str
     const { accessToken } = await base44.asServiceRole.connectors.getCurrentAppUserConnection(wsId);
     if (!accessToken) return null;
     const auth = { Authorization: `Bearer ${accessToken}` };
-    console.log(`[connector:${connectorId}] token obtained, length=${accessToken.length}`);
 
     if (connectorId === "gmail") {
       const res = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=5", { headers: auth });
@@ -154,16 +153,14 @@ export default async function(req) {
 
     // Buscar dados dos conectores ativos
     let connectorContext = "";
-    let _connectorErrors: string[] = [];
     if (activeConnectorIds && activeConnectorIds.length > 0) {
       const connectorData: string[] = [];
       for (const connId of activeConnectorIds) {
         try {
           const data = await fetchConnectorData(base44, connId);
           if (data) connectorData.push(`[${connId}]\n${data}`);
-          else _connectorErrors.push(`${connId}: returned null`);
-        } catch (e: any) {
-          _connectorErrors.push(`${connId}: ${e.message}`);
+        } catch (e) {
+          // Ignora erros de conectores individuais
         }
       }
       if (connectorData.length > 0) {
@@ -494,7 +491,7 @@ Assistente: ${content}`;
       }
     }
 
-    return Response.json({ content, model: openrouterModel, _debug: { activeConnectorIds, connectorContext: connectorContext?.substring(0, 200) || "", _connectorErrors } });
+    return Response.json({ content, model: openrouterModel });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
