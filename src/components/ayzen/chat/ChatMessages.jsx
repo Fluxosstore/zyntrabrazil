@@ -11,12 +11,21 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
   const [reprocessOpen, setReprocessOpen] = useState(null);
   const [linkCopied, setLinkCopied] = useState(false);
 
-  const handleDownload = (url) => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "imagem-zyntra.png";
-    a.target = "_blank";
-    a.click();
+  const handleDownload = async (url) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = "imagem-zyntra.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(blobUrl);
+    } catch {
+      window.open(url, "_blank");
+    }
   };
 
   const handleCopyLink = (url) => {

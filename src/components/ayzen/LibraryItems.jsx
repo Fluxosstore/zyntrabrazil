@@ -34,12 +34,21 @@ export default function LibraryItems({ activeTab, view = "list", emptyState = nu
     } catch (e) {}
   };
 
-  const handleDownload = (url) => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "imagem-zyntra.png";
-    a.target = "_blank";
-    a.click();
+  const handleDownload = async (url) => {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = "imagem-zyntra.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(blobUrl);
+    } catch {
+      window.open(url, "_blank");
+    }
   };
 
   const filtered = items.filter((i) => {
