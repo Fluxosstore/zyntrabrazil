@@ -139,10 +139,10 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: placement === "bottom" ? 8 : -8, scale: 0.98 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
-      className={`absolute ${placement === "bottom" ? "top-full left-0 mt-2" : "bottom-full left-0 mb-2"} w-72 bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50`}>
-      
+      className={`absolute ${placement === "bottom" ? "top-full left-0 mt-2" : "bottom-full left-0 mb-2"} w-72 max-h-[420px] bg-white rounded-2xl shadow-xl shadow-black/15 border border-gray-100 overflow-hidden z-50 flex flex-col`}>
+
       {/* Search header */}
-      <div className="flex items-center gap-2 px-3.5 py-3 border-b border-gray-100">
+      <div className="flex items-center gap-2 px-3.5 py-3 border-b border-gray-100 shrink-0">
         <Search className="w-3.5 h-3.5 text-[#9E9E9E] shrink-0" />
         <input
           autoFocus
@@ -150,47 +150,76 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar modelo"
           className="flex-1 text-xs text-[#212121] placeholder:text-[#9E9E9E] focus:outline-none bg-transparent" />
-        
       </div>
 
-      {/* Ayzen Auto */}
-      <div className="px-1.5 pt-2 pb-1">
-        <button
-          onClick={() => onSelect?.("auto")}
-          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-          selected === "auto" ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
-          }>
-          
-          <div className="w-6 h-6 flex items-center justify-center shrink-0">
-            <img src={LOGO} alt="Ayzen Auto" className="w-5 h-5 rounded-md object-cover" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-[#212121]">Zyntra Auto</p>
-            <p className="text-[10px] text-[#757575] truncate">
-              Escolhe automaticamente entre texto e imagem
-            </p>
-          </div>
-          {selected === "auto" && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
-        </button>
-      </div>
+      {/* Scrollable list */}
+      <div className="flex-1 overflow-y-auto model-selector-scroll">
+        {/* Ayzen Auto */}
+        <div className="px-1.5 pt-2 pb-1">
+          <button
+            onClick={() => onSelect?.("auto")}
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+            selected === "auto" ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            }>
+            <div className="w-6 h-6 flex items-center justify-center shrink-0">
+              <img src={LOGO} alt="Ayzen Auto" className="w-5 h-5 rounded-md object-cover" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-[#212121]">Zyntra Auto</p>
+              <p className="text-[10px] text-[#757575] truncate">
+                Escolhe automaticamente entre texto e imagem
+              </p>
+            </div>
+            {selected === "auto" && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+          </button>
+        </div>
 
-      <div className="h-px bg-gray-100" />
+        <div className="h-px bg-gray-100" />
 
-      {/* Category label */}
-      <div className="px-3.5 pt-2.5 pb-1">
-        <span className="text-[10px] font-bold tracking-wider text-[#757575]">TEXTO</span>
-      </div>
+        {/* Category label */}
+        <div className="px-3.5 pt-2.5 pb-1">
+          <span className="text-[10px] font-bold tracking-wider text-[#757575]">TEXTO</span>
+        </div>
 
-      {/* Model list */}
-      <div className="px-1.5 pb-2 space-y-0.5">
-        {filtered.map((m) =>
-        <button
-          key={m.id}
-          onClick={() => onSelect?.(m.id)}
-          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-          selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
-          }>
-          
+        {/* Model list */}
+        <div className="px-1.5 pb-2 space-y-0.5">
+          {filtered.map((m) =>
+          <button
+            key={m.id}
+            onClick={() => onSelect?.(m.id)}
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+            selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            }>
+              <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
+              </div>
+              <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
+              <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
+                {m.ms}
+                <SignalIndicator level={m.level} />
+              </span>
+              {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+            </button>
+          )}
+          {filtered.length === 0 && filteredImages.length === 0 && filteredAudios.length === 0 &&
+          <p className="px-2.5 py-3 text-xs text-[#9E9E9E]">Nenhum modelo encontrado.</p>
+          }
+        </div>
+
+        <div className="h-px bg-gray-100" />
+
+        {/* Image models section */}
+        <div className="px-3.5 pt-2.5 pb-1">
+          <span className="text-[10px] font-bold tracking-wider text-[#757575]">IMAGEM</span>
+        </div>
+        <div className="px-1.5 pb-2 space-y-0.5">
+          {filteredImages.map((m) =>
+          <button
+            key={m.id}
+            onClick={() => onSelect?.(m.id)}
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+            selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            }>
             <div className="w-6 h-6 flex items-center justify-center shrink-0">
               <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
             </div>
@@ -201,65 +230,36 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
             </span>
             {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
           </button>
-        )}
-        {filtered.length === 0 && filteredImages.length === 0 && filteredAudios.length === 0 &&
-        <p className="px-2.5 py-3 text-xs text-[#9E9E9E]">Nenhum modelo encontrado.</p>
-        }
-      </div>
+          )}
+        </div>
 
-      <div className="h-px bg-gray-100" />
+        <div className="h-px bg-gray-100" />
 
-      {/* Image models section */}
-      <div className="px-3.5 pt-2.5 pb-1">
-        <span className="text-[10px] font-bold tracking-wider text-[#757575]">IMAGEM</span>
+        {/* Audio models section */}
+        <div className="px-3.5 pt-2.5 pb-1">
+          <span className="text-[10px] font-bold tracking-wider text-[#757575]">ÁUDIO</span>
+        </div>
+        <div className="px-1.5 pb-2 space-y-0.5">
+          {filteredAudios.map((m) =>
+          <button
+            key={m.id}
+            onClick={() => onSelect?.(m.id)}
+            className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+            selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            }>
+            <div className="w-6 h-6 flex items-center justify-center shrink-0">
+              <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
+            </div>
+            <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
+            <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
+              {m.ms}
+              <SignalIndicator level={m.level} />
+            </span>
+            {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+          </button>
+          )}
+        </div>
       </div>
-      <div className="px-1.5 pb-2 space-y-0.5">
-        {filteredImages.map((m) =>
-        <button
-          key={m.id}
-          onClick={() => onSelect?.(m.id)}
-          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-          selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
-          }>
-          <div className="w-6 h-6 flex items-center justify-center shrink-0">
-            <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
-          </div>
-          <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
-          <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
-            {m.ms}
-            <SignalIndicator level={m.level} />
-          </span>
-          {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
-        </button>
-        )}
-      </div>
-
-      <div className="h-px bg-gray-100" />
-
-      {/* Audio models section */}
-      <div className="px-3.5 pt-2.5 pb-1">
-        <span className="text-[10px] font-bold tracking-wider text-[#757575]">ÁUDIO</span>
-      </div>
-      <div className="px-1.5 pb-2 space-y-0.5">
-        {filteredAudios.map((m) =>
-        <button
-          key={m.id}
-          onClick={() => onSelect?.(m.id)}
-          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-          selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
-          }>
-          <div className="w-6 h-6 flex items-center justify-center shrink-0">
-            <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
-          </div>
-          <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
-          <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
-            {m.ms}
-            <SignalIndicator level={m.level} />
-          </span>
-          {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
-        </button>
-        )}
-      </div>
-    </motion.div>);
-
+    </motion.div>
+  );
 }
