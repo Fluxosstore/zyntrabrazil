@@ -5,6 +5,7 @@ import { Mail, Lock, Eye, EyeOff, Loader2, Fingerprint } from "lucide-react";
 import AuthShell from "@/components/ayzen/AuthShell";
 import { safeReturnTo } from "@/lib/authReturnTo";
 import { useLanguage } from "@/lib/LanguageContext";
+import { isWebAuthnSupported, authenticatePasskey } from "@/lib/webauthnUtils";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
@@ -18,6 +19,49 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const returnTo = safeReturnTo();
   const dest = returnTo === "/" ? "/dashboard" : returnTo;
+  const [passkeyLoading, setPasskeyLoading] = useState(false);
+  const [passkeyVerified, setPasskeyVerified] = useState(false);
+
+  const handlePasskeyLogin = async () => {
+    if (!isWebAuthnSupported()) {
+      setError("Seu dispositivo não suporta passkeys.");
+      return;
+    }
+    setPasskeyLoading(true);
+    setError("");
+    try {
+      const startRes = await base44.functions.invoke("passkeyAuth", { action: "startAuth" });
+      const startData = startRes.data || startRes;
+      const rpId = window.location.hostname;
+      const assertion = await authenticatePasskey({
+        challenge: startData.challenge,
+        rpId,
+        allowCredentials: startData.allowCredentials || [],
+      });
+      const finishRes = await base44.functions.invoke("passkeyAuth", {
+        action: "finishAuth",
+        credentialId: assertion.credentialId,
+        authenticatorData: assertion.authenticatorData,
+        clientDataJSON: assertion.clientDataJSON,
+        signature: assertion.signature,
+        challenge: startData.challenge,
+        challengeSignature: startData.challengeSignature,
+      });
+      const finishData = finishRes.data || finishRes;
+      if (finishData.success && finishData.email) {
+        setEmail(finishData.email);
+        setPasskeyVerified(true);
+      } else {
+        setError("Falha na verificação da passkey.");
+      }
+    } catch (e) {
+      if (e.name !== "NotAllowedError") {
+        setError("Não foi possível autenticar com passkey.");
+      }
+    } finally {
+      setPasskeyLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,10 +152,21 @@ export default function Login() {
         </div>
       </div>
 
-      <button className="w-full h-9 lg:h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
-        <Fingerprint className="w-3.5 h-3.5 text-[#7E57C2]" />
-        {t("login.passkey")}
+      <button
+        onClick={handlePasskeyLogin}
+        disabled={passkeyLoading}
+        className="w-full h-9 lg:h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors disabled:opacity-60"
+      >
+        {passkeyLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#7E57C2]" /> : <Fingerprint className="w-3.5 h-3.5 text-[#7E57C2]" />}
+        {passkeyLoading ? "Verificando..." : t("login.passkey")}
       </button>
+
+      {passkeyVerified && (
+        <div className="mt-2 p-2.5 rounded-lg bg-green-50 text-green-700 text-xs flex items-center gap-1.5">
+          <Fingerprint className="w-3.5 h-3.5 shrink-0" />
+          Identidade verificada por biometria. Digite sua senha para entrar.
+        </div>
+      )}
 
       <div className="mt-3 lg:mt-4 flex flex-col gap-1 text-center">
         <Link

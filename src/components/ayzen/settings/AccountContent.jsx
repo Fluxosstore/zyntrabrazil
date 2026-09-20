@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Shield, Key, Plus, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -6,6 +6,8 @@ import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
+import { base44 } from "@/api/base44Client";
+import { isWebAuthnSupported, createPasskey, detectDeviceName } from "@/lib/webauthnUtils";
 
 const MONTHS = {
   pt: ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],
@@ -26,6 +28,67 @@ export default function AccountContent() {
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
   const memberSince = user?.created_date ? formatDate(user.created_date, lang) : "—";
+  const [passkeys, setPasskeys] = useState([]);
+  const [passkeyLoading, setPasskeyLoading] = useState(false);
+  const [passkeyAdding, setPasskeyAdding] = useState(false);
+
+  useEffect(() => {
+    loadPasskeys();
+  }, []);
+
+  const loadPasskeys = async () => {
+    setPasskeyLoading(true);
+    try {
+      const res = await base44.functions.invoke("passkeyAuth", { action: "list" });
+      const data = res.data || res;
+      setPasskeys(data.passkeys || []);
+    } catch (e) {} finally {
+      setPasskeyLoading(false);
+    }
+  };
+
+  const handleAddPasskey = async () => {
+    if (!isWebAuthnSupported()) {
+      alert("Seu dispositivo não suporta passkeys.");
+      return;
+    }
+    setPasskeyAdding(true);
+    try {
+      const startRes = await base44.functions.invoke("passkeyAuth", { action: "startRegistration" });
+      const startData = startRes.data || startRes;
+      const rpId = window.location.hostname;
+      const credential = await createPasskey({
+        challenge: startData.challenge,
+        rpId,
+        rpName: "Zyntra",
+        userId: startData.userId,
+        userEmail: startData.userEmail,
+      });
+      await base44.functions.invoke("passkeyAuth", {
+        action: "finishRegistration",
+        credentialId: credential.credentialId,
+        publicKey: credential.publicKey,
+        algorithm: credential.algorithm,
+        challenge: startData.challenge,
+        challengeSignature: startData.challengeSignature,
+        deviceName: detectDeviceName(),
+      });
+      await loadPasskeys();
+    } catch (e) {
+      if (e.name !== "NotAllowedError") {
+        alert("Não foi possível cadastrar a passkey.");
+      }
+    } finally {
+      setPasskeyAdding(false);
+    }
+  };
+
+  const handleDeletePasskey = async (id) => {
+    try {
+      await base44.functions.invoke("passkeyAuth", { action: "delete", id });
+      await loadPasskeys();
+    } catch (e) {}
+  };
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -129,12 +192,48 @@ export default function AccountContent() {
                 </div>
               </div>
 
-              <p className="text-xs text-gray-400 text-center mt-5">{t("settings.noPasskey")}</p>
+              {passkeyLoading ? (
+                <div className="mt-5 flex items-center justify-center py-3">
+                  <div className="w-5 h-5 border-2 border-gray-200 border-t-gray-400 rounded-full animate-spin" />
+                </div>
+              ) : passkeys.length === 0 ? (
+                <p className="text-xs text-gray-400 text-center mt-5">{t("settings.noPasskey")}</p>
+              ) : (
+                <div className="mt-4 space-y-2">
+                  {passkeys.map((pk) => (
+                    <div key={pk.id} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0">
+                          <Key className="w-4 h-4 text-gray-500" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-semibold text-black truncate">{pk.device_name || "Dispositivo"}</p>
+                          <p className="text-[10px] text-gray-400">Cadastrada em {new Date(pk.created_date).toLocaleDateString("pt-BR")}</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleDeletePasskey(pk.id)}
+                        className="text-xs text-gray-400 hover:text-red-500 transition-colors shrink-0"
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-4 pt-4 border-t border-dashed border-gray-200">
-                <button className="w-full flex items-center justify-center gap-1.5 py-2 text-sm font-medium text-black hover:bg-gray-50 rounded-lg transition-colors">
-                  <Plus className="w-4 h-4" />
-                  {t("settings.addPasskey")}
+                <button
+                  onClick={handleAddPasskey}
+                  disabled={passkeyAdding}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 text-sm font-medium text-black hover:bg-gray-50 rounded-lg transition-colors disabled:opacity-50"
+                >
+                  {passkeyAdding ? (
+                    <div className="w-4 h-4 border-2 border-gray-200 border-t-gray-400 rounded-full animate-spin" />
+                  ) : (
+                    <Plus className="w-4 h-4" />
+                  )}
+                  {passkeyAdding ? "Cadastrando..." : t("settings.addPasskey")}
                 </button>
               </div>
             </div>

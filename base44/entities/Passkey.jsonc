@@ -1,0 +1,33 @@
+{
+  "name": "Passkey",
+  "type": "object",
+  "properties": {
+    "credential_id": {
+      "type": "string",
+      "description": "ID da credencial WebAuthn (base64url)"
+    },
+    "public_key": {
+      "type": "string",
+      "description": "Chave p\u00fablica SPKI (base64url)"
+    },
+    "algorithm": {
+      "type": "number",
+      "description": "Algoritmo COSE da chave (-7 ES256, -257 RS256)"
+    },
+    "device_name": {
+      "type": "string",
+      "description": "Nome do dispositivo",
+      "default": "Dispositivo"
+    },
+    "counter": {
+      "type": "number",
+      "description": "Contador de uso da credencial",
+      "default": 0
+    }
+  },
+  "required": [
+    "credential_id",
+    "public_key",
+    "algorithm"
+  ]
+}
