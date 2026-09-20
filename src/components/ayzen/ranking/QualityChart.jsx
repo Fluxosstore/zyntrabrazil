@@ -17,9 +17,8 @@ function ModelLogo({ logo, size = 16 }) {
   return <img src={logo} alt="" style={{ width: size, height: size }} className="rounded object-contain shrink-0" />;
 }
 
-function CustomYTick({ x, y, payload, index }) {
-  const model = QUALITY_TOP10[index];
-  const logo = model?.logo;
+function CustomYTick({ x, y, payload }) {
+  const logo = payload?.payload?.logo;
   return (
     <g transform={`translate(${x},${y})`}>
       {logo?.type === "circle" ? (
@@ -53,6 +52,7 @@ export default function QualityChart({ metric = "intelligence" }) {
     subtitle: m.subtitle,
     value: m[metric] ?? 0,
     color: getBrandColor(m.logo),
+    logo: m.logo,
   }));
 
   const top3Badges = [
@@ -67,7 +67,7 @@ export default function QualityChart({ metric = "intelligence" }) {
       <div className="lg:col-span-2 rounded-2xl border border-gray-200 bg-white p-5">
         <h3 className="text-base font-bold text-black">{t("ranking.performance")}</h3>
         <p className="text-xs text-gray-500 mt-0.5 mb-4">{t("ranking.performanceDesc")}</p>
-        <div className="h-[280px]">
+        <div className="h-[360px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ top: 0, right: 20, left: 8, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" horizontal={false} />
@@ -85,6 +85,8 @@ export default function QualityChart({ metric = "intelligence" }) {
                 width={150}
                 axisLine={false}
                 tickLine={false}
+                interval={0}
+                reversed
               />
               <Tooltip content={<CustomTooltip />} cursor={{ fill: "#f9fafb" }} />
               <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={16}>
