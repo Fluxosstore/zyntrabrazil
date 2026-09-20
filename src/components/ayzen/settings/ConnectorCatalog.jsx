@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
 import { CONNECTORS, CONNECTOR_CATEGORIES, WORKSPACE_CONNECTOR_MAP } from "./connectorsData";
 
 function ConnectorLogo({ connector }) {
@@ -25,7 +26,7 @@ function ConnectorLogo({ connector }) {
   );
 }
 
-function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect }) {
+function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect, isAdmin }) {
   const [connecting, setConnecting] = useState(false);
   const hasOAuth = !!WORKSPACE_CONNECTOR_MAP[connector.id];
 
@@ -39,7 +40,7 @@ function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect }
     }
   };
 
-  if (!hasOAuth && !isConnected) {
+  if ((!hasOAuth || !isAdmin) && !isConnected) {
     return (
       <div className="rounded-2xl border border-gray-200 bg-white p-4 flex flex-col gap-3">
         <div className="flex items-start gap-3">
@@ -85,6 +86,8 @@ function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect }
 
 export default function ConnectorCatalog({ connectedIds, onConnect, onDisconnect }) {
   const { lang } = useLanguage();
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   const categories = Object.entries(CONNECTOR_CATEGORIES)
     .sort(([, a], [, b]) => a.order - b.order)
@@ -114,6 +117,7 @@ export default function ConnectorCatalog({ connectedIds, onConnect, onDisconnect
                   isConnected={connectedIds.has(connector.id)}
                   onConnect={onConnect}
                   onDisconnect={onDisconnect}
+                  isAdmin={isAdmin}
                 />
               ))}
             </div>
