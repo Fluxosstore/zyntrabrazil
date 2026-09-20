@@ -596,7 +596,7 @@ export default function Dashboard() {
                       onClick={() => setModelOpen((v) => !v)}
                       className="flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-gray-100 text-xs font-medium text-gray-700 transition-colors">
                       
-                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg" alt={getModelInfo(model, plan).name} className="w-4 h-4 rounded object-contain" />
+                    <img src={getModelInfo(model, plan).logo} alt={getModelInfo(model, plan).name} className="w-4 h-4 rounded object-contain" />
                     {getModelInfo(model, plan).name}
                     <ChevronDown className="w-3 h-3 text-gray-500" />
                   </button>
