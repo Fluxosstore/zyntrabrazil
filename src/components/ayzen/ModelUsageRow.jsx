@@ -1,10 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
-export default function ModelUsageRow({ model, isLast }) {
+const TAG_TO_CAT = {
+  Texto: "text",
+  Imagem: "image",
+  Áudio: "audio",
+  Audio: "audio"
+};
+
+export default function ModelUsageRow({ model, isLast, plan = "free" }) {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [usage, setUsage] = useState({ month: 0, total: 0 });
+
+  const cat = model.tags?.map((tag) => TAG_TO_CAT[tag]).find(Boolean) || "text";
+  const quotas = QUOTAS_BY_PLAN[plan] || QUOTAS_BY_PLAN.free;
+  const categoryQuota = quotas[cat];
+  const isUnlimited = categoryQuota === "unlimited";
+  const monthLimit = !isUnlimited && categoryQuota ? categoryQuota.month : 0;
+
+  useEffect(() => {
+    (async () => {
+      const counts = await getUsageCounts();
+      const u = counts[model.name] || { month: 0, total: 0 };
+      setUsage({ month: u.month, total: u.total });
+    })();
+  }, [model.name]);
+
+  const pct = monthLimit > 0 ? Math.min(100, Math.round((usage.month / monthLimit) * 100)) : 0;
 
   return (
     <div className={isLast ? "" : "border-b border-gray-100"}>
@@ -31,7 +56,7 @@ export default function ModelUsageRow({ model, isLast }) {
         </div>
         <span className="flex items-center gap-1.5 text-[11px] font-medium text-gray-600 bg-gray-100 rounded-full px-2.5 py-1">
           <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
-          {t("settings.unlimited")}
+          {isUnlimited ? t("settings.unlimited") : `${usage.month} / ${monthLimit}`}
         </span>
         {open ? (
           <ChevronUp className="w-4 h-4 text-gray-400 shrink-0" />
@@ -43,31 +68,32 @@ export default function ModelUsageRow({ model, isLast }) {
       {/* Expanded usage card */}
       {open && (
         <div className="bg-[#f8f9fa] border-t border-gray-100">
-          <div className="grid grid-cols-3">
-            <div className="p-4 border-r border-gray-100">
-              <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                {t("settings.day")}
-              </p>
-              <p className="text-sm font-medium text-gray-700 mt-1">
-                {t("settings.unlimited")}
-              </p>
-            </div>
-            <div className="p-4 border-r border-gray-100">
-              <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                {t("settings.week")}
-              </p>
-              <p className="text-sm font-medium text-gray-700 mt-1">
-                {t("settings.unlimited")}
-              </p>
-            </div>
-            <div className="p-4">
-              <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                {t("settings.month")}
-              </p>
-              <p className="text-sm font-medium text-gray-700 mt-1">
-                {t("settings.unlimited")}
-              </p>
-            </div>
+          <div className="p-4">
+            {isUnlimited ? (
+              <>
+                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
+                  {t("settings.month")}
+                </p>
+                <p className="text-sm font-medium text-gray-700 mt-1">
+                  {t("settings.unlimited")}
+                </p>
+                <p className="text-[11px] text-gray-500 mt-1">
+                  {t("settings.mediaGenerated", { n: usage.total })}
+                </p>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-medium text-gray-400 w-12 shrink-0">
+                  {t("settings.mediaMonth")}
+                </span>
+                <span className="text-[11px] font-semibold text-gray-600 shrink-0 tabular-nums">
+                  {usage.month} / {monthLimit}
+                </span>
+                <div className="flex-1 h-1 rounded-full bg-gray-100 overflow-hidden">
+                  <div className="h-full bg-black rounded-full" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

@@ -216,7 +216,7 @@ function UsageContent() {
           </div>
           <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
             {filtered.map((m, i) =>
-            <ModelUsageRow key={m.name} model={m} isLast={i === filtered.length - 1} />
+            <ModelUsageRow key={m.name} model={m} isLast={i === filtered.length - 1} plan={plan} />
             )}
             {filtered.length === 0 &&
             <p className="px-4 py-6 text-sm text-gray-400 text-center">
