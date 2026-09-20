@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Volume2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { base44 } from "@/api/base44Client";
-import { MODELS_BY_PLAN, IMAGE_MODELS, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
+import { MODELS_BY_PLAN, IMAGE_MODELS_BY_PLAN, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
 const CAT_KEYS = {
@@ -14,7 +14,7 @@ const CAT_KEYS = {
 function buildModelItems(plan) {
   const quotas = QUOTAS_BY_PLAN[plan] || QUOTAS_BY_PLAN.free;
   const textModels = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
-  const imageModels = IMAGE_MODELS;
+  const imageModels = IMAGE_MODELS_BY_PLAN[plan] || IMAGE_MODELS_BY_PLAN.free;
   const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
 
   const items = [];

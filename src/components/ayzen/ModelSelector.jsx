@@ -27,7 +27,8 @@ export const PLAN_LABELS = {
 
 export const MODELS_BY_PLAN = {
   free: [
-  { id: "deepseek", name: "DeepSeek V3", logo: DEEPSEEK, ms: "180 ms", level: "high" }],
+  { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
+  { id: "gpt", name: "GPT-4", logo: GPT, ms: "220 ms", level: "medium" }],
 
   starter: [
   { id: "gemini", name: "Gemini 2.5 Pro", logo: GEMINI, ms: "150 ms", level: "high" },
@@ -64,12 +65,22 @@ export const MODELS_BY_PLAN = {
 
 };
 
-// Modelos capazes de gerar imagem (disponíveis para todos os planos)
+// Modelos capazes de gerar imagem
 export const IMAGE_MODELS = [
   { id: "gpt-image", name: "GPT-5", logo: GPT, ms: "~1.5 s", level: "medium", type: "image" },
   { id: "gemini-image", name: "Gemini 3.5 Flash", logo: GEMINI, ms: "~1.3 s", level: "high", type: "image" },
   { id: "claude-image", name: "Claude Sonnet 4.6", logo: CLAUDE, ms: "~900 ms", level: "medium", type: "image" }
 ];
+
+// Modelos de imagem disponíveis por plano
+export const IMAGE_MODELS_BY_PLAN = {
+  free: [IMAGE_MODELS[0], IMAGE_MODELS[1]],
+  starter: IMAGE_MODELS,
+  premium: IMAGE_MODELS,
+  team: IMAGE_MODELS,
+  startup: IMAGE_MODELS,
+  enterprise: IMAGE_MODELS
+};
 
 // Modelos de áudio (TTS) disponíveis no OpenRouter
 const FISH_AUDIO = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://fish.audio/&size=256";
@@ -91,7 +102,7 @@ export const AUDIO_MODELS = [
 
 // Modelos de áudio disponíveis por plano (progressivo: 1, 2, 4, 6, 8)
 export const AUDIO_MODELS_BY_PLAN = {
-  free: [],
+  free: AUDIO_MODELS.slice(0, 3),
   starter: AUDIO_MODELS.slice(0, 1),
   premium: AUDIO_MODELS.slice(0, 2),
   team: AUDIO_MODELS.slice(0, 4),
@@ -103,7 +114,8 @@ export function getModelInfo(id, plan = "free") {
   if (id === "auto") return { id: "auto", name: "Zyntra Auto", logo: LOGO };
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
   const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
-  const found = models.find((m) => m.id === id) || IMAGE_MODELS.find((m) => m.id === id) || audioModels.find((m) => m.id === id) || AUDIO_MODELS.find((m) => m.id === id);
+  const imageModels = IMAGE_MODELS_BY_PLAN[plan] || IMAGE_MODELS;
+  const found = models.find((m) => m.id === id) || imageModels.find((m) => m.id === id) || audioModels.find((m) => m.id === id) || AUDIO_MODELS.find((m) => m.id === id);
   return found || { id: "auto", name: "Zyntra Auto", logo: LOGO };
 }
 
@@ -136,7 +148,8 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
   const filtered = models.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
   );
-  const filteredImages = IMAGE_MODELS.filter((m) =>
+  const planImages = IMAGE_MODELS_BY_PLAN[plan] || IMAGE_MODELS;
+  const filteredImages = planImages.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
   );
   const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
