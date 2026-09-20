@@ -71,22 +71,22 @@ export const IMAGE_MODELS = [
   { id: "claude-image", name: "Claude Sonnet 4.6", logo: CLAUDE, ms: "~900 ms", level: "medium", type: "image" }
 ];
 
-// Modelos de áudio (TTS) da OpenRouter
-const KOKORO = "https://openrouter.ai/images/icons/Hexgrad.png";
+// Modelos de áudio (TTS) disponíveis no OpenRouter
 const FISH_AUDIO = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://fish.audio/&size=256";
 const MINIMAX = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://minimaxi.com/&size=256";
 const QWEN_LOGO = "https://openrouter.ai/images/icons/Qwen.png";
-const MISTRAL = "https://openrouter.ai/images/icons/Mistral.png";
+const DEEPGRAM = "https://openrouter.ai/images/icons/Deepgram.svg";
+const MICROSOFT = "https://openrouter.ai/images/icons/MAI.png";
 
 export const AUDIO_MODELS = [
-  { id: "gemini-tts", name: "Gemini 3.1 Flash TTS", logo: GEMINI, ms: "~1.2 s", level: "high", type: "audio" },
-  { id: "gpt-tts", name: "GPT-4o Mini TTS", logo: GPT, ms: "~1.0 s", level: "high", type: "audio" },
-  { id: "grok-tts", name: "Grok Voice TTS 1.0", logo: GROK, ms: "~1.5 s", level: "medium", type: "audio" },
-  { id: "kokoro-tts", name: "Kokoro 82M", logo: KOKORO, ms: "~800 ms", level: "high", type: "audio" },
   { id: "fish-tts", name: "Fish Audio S2.1 Pro", logo: FISH_AUDIO, ms: "~1.3 s", level: "medium", type: "audio" },
   { id: "minimax-tts", name: "MiniMax Speech 2.8 HD", logo: MINIMAX, ms: "~1.8 s", level: "medium", type: "audio" },
-  { id: "qwen-tts", name: "Qwen-Audio 3.0 TTS Plus", logo: QWEN_LOGO, ms: "~1.4 s", level: "medium", type: "audio" },
-  { id: "voxtral-tts", name: "Voxtral Mini TTS", logo: MISTRAL, ms: "~1.2 s", level: "medium", type: "audio" }
+  { id: "qwen-tts", name: "Qwen Audio 3.0 TTS Plus", logo: QWEN_LOGO, ms: "~1.4 s", level: "medium", type: "audio" },
+  { id: "qwen-flash-tts", name: "Qwen Audio 3.0 TTS Flash", logo: QWEN_LOGO, ms: "~1.0 s", level: "high", type: "audio" },
+  { id: "deepgram-aura-tts", name: "Deepgram Aura-2", logo: DEEPGRAM, ms: "~900 ms", level: "high", type: "audio" },
+  { id: "deepgram-flux-tts", name: "Deepgram Flux TTS", logo: DEEPGRAM, ms: "~800 ms", level: "high", type: "audio" },
+  { id: "microsoft-tts", name: "Microsoft MAI Voice 2", logo: MICROSOFT, ms: "~1.2 s", level: "medium", type: "audio" },
+  { id: "fish-s2-pro-tts", name: "Fish Audio S2 Pro", logo: FISH_AUDIO, ms: "~1.5 s", level: "medium", type: "audio" }
 ];
 
 export function getModelInfo(id, plan = "free") {

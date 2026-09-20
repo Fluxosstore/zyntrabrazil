@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Copy, Check, Star, Pencil, RefreshCw, Download, Link2 } from "lucide-react";
+import { Copy, Check, Star, Pencil, RefreshCw, Download, Link2, Volume2 } from "lucide-react";
 import { MODELS_BY_PLAN, getModelInfo } from "@/components/ayzen/ModelSelector";
 import ImaginingCard from "@/components/ayzen/chat/ImaginingCard";
 import { base44 } from "@/api/base44Client";
@@ -12,14 +12,14 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
   const [reprocessOpen, setReprocessOpen] = useState(null);
   const [linkCopied, setLinkCopied] = useState(false);
 
-  const handleDownload = async (url) => {
+  const handleDownload = async (url, filename = "imagem-zyntra.png") => {
     try {
       const res = await fetch(url);
       const blob = await res.blob();
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = "imagem-zyntra.png";
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -189,6 +189,36 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                       </button>
                       <button
                         onClick={() => handleCopyLink(msg.image)}
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                        title="Copiar link"
+                      >
+                        {linkCopied ? (
+                          <Check className="w-3.5 h-3.5 text-green-600" />
+                        ) : (
+                          <Link2 className="w-3.5 h-3.5" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                ) : msg.audio ? (
+                  <div className="space-y-2">
+                    {msg.content && (
+                      <p className="text-sm text-black whitespace-pre-wrap">{msg.content}</p>
+                    )}
+                    <div className="flex items-center gap-3 bg-gray-50 rounded-2xl px-4 py-3">
+                      <Volume2 className="w-5 h-5 text-[#7E57C2] shrink-0" />
+                      <audio controls className="flex-1 h-9" src={msg.audio} />
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleDownload(msg.audio, "audio-zyntra.mp3")}
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                        title="Baixar áudio"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleCopyLink(msg.audio)}
                         className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
                         title="Copiar link"
                       >

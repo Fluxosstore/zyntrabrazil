@@ -13,7 +13,7 @@ import {
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileDashboard from "@/components/ayzen/MobileDashboard";
-import ModelSelector, { getModelInfo, IMAGE_MODELS } from "@/components/ayzen/ModelSelector";
+import ModelSelector, { getModelInfo, IMAGE_MODELS, AUDIO_MODELS } from "@/components/ayzen/ModelSelector";
 import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
@@ -196,6 +196,7 @@ export default function Dashboard() {
     }
 
     const isImageRequest = isImageGenerationIntent(msg) || IMAGE_MODELS.some((m) => m.id === model);
+    const isAudioRequest = AUDIO_MODELS.some((m) => m.id === model);
     const newMessages = [...messages, userMessage];
 
     if (!activeConversationId) {
@@ -210,9 +211,35 @@ export default function Dashboard() {
     setAttachedFile(null);
     setLoading(true);
     if (isImageRequest) setImagining(true);
+    if (isAudioRequest) setImagining(true);
 
     try {
-      if (isImageRequest) {
+      if (isAudioRequest) {
+        const modelInfo = getModelInfo(model, plan);
+        const result = await base44.functions.invoke("openrouterAudio", {
+          prompt: msg,
+          model,
+        });
+        const audioUrl = result.data?.url;
+        if (!audioUrl) throw new Error("Nenhum áudio retornado");
+        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).catch(() => {});
+        base44.entities.LibraryItem.create({
+          title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
+          type: "file",
+          url: audioUrl,
+          model: modelInfo.name,
+          prompt: msg
+        }).catch(() => {});
+        setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: "Aqui está o áudio gerado:",
+          audio: audioUrl,
+          model: { name: modelInfo.name, logo: modelInfo.logo }
+        }]
+        );
+      } else if (isImageRequest) {
         const modelInfo = getModelInfo(model, plan);
         const imageStyleByModel = {
           "gpt-image": "estilo fotorrealista cinematográfico, iluminação dramática, alta qualidade",
