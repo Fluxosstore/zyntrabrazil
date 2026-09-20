@@ -40,6 +40,7 @@ export default function MobileDashboard({
   useWebSearch, setUseWebSearch,
   saveMemories, setSaveMemories,
   useMemories, setUseMemories,
+  reasoning, setReasoning,
 }) {
   const { user } = useAuth();
   const { t } = useLanguage();
@@ -254,6 +255,8 @@ export default function MobileDashboard({
                     setSaveMemories={setSaveMemories}
                     useMemories={useMemories}
                     setUseMemories={setUseMemories}
+                    reasoning={reasoning}
+                    setReasoning={setReasoning}
                   />
                 )}
                 {plusMenuOpen && connectorsPanelOpen && (

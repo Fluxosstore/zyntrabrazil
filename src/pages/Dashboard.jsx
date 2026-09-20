@@ -95,6 +95,7 @@ export default function Dashboard() {
   const [useWebSearch, setUseWebSearch] = useState(false);
   const [saveMemories, setSaveMemories] = useState(false);
   const [useMemories, setUseMemories] = useState(false);
+  const [reasoning, setReasoning] = useState(50);
   const [referenceImage, setReferenceImage] = useState(null);
   const plan = user?.plan || "free";
 
@@ -235,6 +236,9 @@ export default function Dashboard() {
           prompt,
           model,
           useWebSearch,
+          reasoning,
+          saveMemories,
+          useMemories,
         });
         const _respText = result.data?.content || "";
         base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name }).catch(() => {});
@@ -277,6 +281,9 @@ export default function Dashboard() {
         prompt,
         model: modelId,
         useWebSearch: false,
+        reasoning,
+        saveMemories: false,
+        useMemories,
       });
       const _respText = result.data?.content || "";
       base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name }).catch(() => {});
@@ -524,6 +531,8 @@ export default function Dashboard() {
                         setSaveMemories={setSaveMemories}
                         useMemories={useMemories}
                         setUseMemories={setUseMemories}
+                        reasoning={reasoning}
+                        setReasoning={setReasoning}
                       />
                     )}
                     {plusMenuOpen && connectorsPanelOpen && (
@@ -620,6 +629,8 @@ export default function Dashboard() {
       setSaveMemories={setSaveMemories}
       useMemories={useMemories}
       setUseMemories={setUseMemories}
+      reasoning={reasoning}
+      setReasoning={setReasoning}
     />
     </>
   );

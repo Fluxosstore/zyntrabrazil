@@ -1,0 +1,13 @@
+{
+  "name": "Memory",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "Conte\u00fado da mem\u00f3ria salva sobre o usu\u00e1rio"
+    }
+  },
+  "required": [
+    "content"
+  ]
+}

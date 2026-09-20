@@ -19,7 +19,15 @@ export default async function(req) {
     if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    const { prompt, model = "auto", useWebSearch = false, fileUrls = [] } = body;
+    const {
+      prompt,
+      model = "auto",
+      useWebSearch = false,
+      fileUrls = [],
+      reasoning = 50,
+      saveMemories = false,
+      useMemories = false,
+    } = body;
 
     if (!prompt) return Response.json({ error: "Prompt é obrigatório" }, { status: 400 });
 
@@ -33,6 +41,20 @@ export default async function(req) {
     const apiKey = secrets.get("OPENROUTER_API_KEY");
     if (!apiKey) return Response.json({ error: "OPENROUTER_API_KEY não configurada" }, { status: 500 });
 
+    // Buscar memórias do usuário se useMemories estiver ativo
+    let contextPrompt = prompt;
+    if (useMemories) {
+      try {
+        const memories = await base44.entities.Memory.list();
+        if (memories && memories.length > 0) {
+          const memoryText = memories.map((m) => `- ${m.content}`).join("\n");
+          contextPrompt = `Memórias sobre o usuário:\n${memoryText}\n\n${prompt}`;
+        }
+      } catch (e) {
+        // Ignora erros de memória
+      }
+    }
+
     // Constrói conteúdo multimodal se houver imagens
     let messageContent;
     const imageUrls = (fileUrls || []).filter((u) =>
@@ -41,14 +63,27 @@ export default async function(req) {
 
     if (imageUrls.length > 0) {
       messageContent = [
-        { type: "text", text: prompt },
+        { type: "text", text: contextPrompt },
         ...imageUrls.map((url) => ({
           type: "image_url",
           image_url: { url },
         })),
       ];
     } else {
-      messageContent = prompt;
+      messageContent = contextPrompt;
+    }
+
+    // Mapear reasoning (0-100) para effort
+    const reasoningEffort = reasoning < 34 ? "low" : reasoning < 67 ? "medium" : "high";
+
+    const requestBody = {
+      model: openrouterModel,
+      messages: [{ role: "user", content: messageContent }],
+    };
+
+    // Só adiciona reasoning se for > 0
+    if (reasoning > 0) {
+      requestBody.reasoning = { effort: reasoningEffort };
     }
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -57,10 +92,7 @@ export default async function(req) {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model: openrouterModel,
-        messages: [{ role: "user", content: messageContent }],
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
@@ -70,6 +102,42 @@ export default async function(req) {
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
+
+    // Salvar memórias se saveMemories estiver ativo
+    if (saveMemories && content) {
+      try {
+        const memoryPrompt = `Analise a seguinte conversa e extraia fatos, preferências ou informações importantes sobre o usuário que valham a pena lembrar para conversas futuras. Responda apenas com os fatos extraídos, um por linha, sem numeração e sem prefixos. Se não houver nada relevante, responda apenas "NADA".
+
+Conversa:
+Usuário: ${prompt}
+Assistente: ${content}`;
+
+        const memResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: MODEL_MAP.auto,
+            messages: [{ role: "user", content: memoryPrompt }],
+          }),
+        });
+
+        if (memResponse.ok) {
+          const memData = await memResponse.json();
+          const memContent = memData.choices?.[0]?.message?.content || "";
+          if (memContent && memContent.trim() !== "NADA") {
+            const memoryLines = memContent.trim().split("\n").filter((line) => line.trim());
+            for (const mem of memoryLines) {
+              await base44.entities.Memory.create({ content: mem.trim() });
+            }
+          }
+        }
+      } catch (e) {
+        // Ignora erros ao salvar memórias
+      }
+    }
 
     return Response.json({ content, model: openrouterModel });
   } catch (error) {
