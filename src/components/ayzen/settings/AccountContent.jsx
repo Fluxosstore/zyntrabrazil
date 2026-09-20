@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Shield, Key, Plus, LayoutDashboard } from "lucide-react";
+import { Shield, Key, Plus, LayoutDashboard, Lock, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -31,6 +31,9 @@ export default function AccountContent() {
   const [passkeys, setPasskeys] = useState([]);
   const [passkeyLoading, setPasskeyLoading] = useState(false);
   const [passkeyAdding, setPasskeyAdding] = useState(false);
+  const [showPwdModal, setShowPwdModal] = useState(false);
+  const [pwdInput, setPwdInput] = useState("");
+  const [pwdError, setPwdError] = useState("");
 
   useEffect(() => {
     loadPasskeys();
@@ -47,11 +50,22 @@ export default function AccountContent() {
     }
   };
 
-  const handleAddPasskey = async () => {
+  const handleAddPasskeyClick = () => {
     if (!isWebAuthnSupported()) {
       alert("Seu dispositivo não suporta passkeys.");
       return;
     }
+    setPwdInput("");
+    setPwdError("");
+    setShowPwdModal(true);
+  };
+
+  const handleAddPasskey = async () => {
+    if (!pwdInput) {
+      setPwdError("Digite sua senha para confirmar.");
+      return;
+    }
+    setShowPwdModal(false);
     setPasskeyAdding(true);
     try {
       const startRes = await base44.functions.invoke("passkeyAuth", { action: "startRegistration" });
@@ -72,7 +86,9 @@ export default function AccountContent() {
         challenge: startData.challenge,
         challengeSignature: startData.challengeSignature,
         deviceName: detectDeviceName(),
+        password: pwdInput,
       });
+      setPwdInput("");
       await loadPasskeys();
     } catch (e) {
       if (e.name !== "NotAllowedError") {
@@ -224,7 +240,7 @@ export default function AccountContent() {
 
               <div className="mt-4 pt-4 border-t border-dashed border-gray-200">
                 <button
-                  onClick={handleAddPasskey}
+                  onClick={handleAddPasskeyClick}
                   disabled={passkeyAdding}
                   className="w-full flex items-center justify-center gap-1.5 py-2 text-sm font-medium text-black hover:bg-gray-50 rounded-lg transition-colors disabled:opacity-50"
                 >
@@ -265,6 +281,44 @@ export default function AccountContent() {
           </section>
         )}
       </div>
+
+      {/* Modal de senha para confirmar cadastro de passkey */}
+      {showPwdModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowPwdModal(false)}>
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 rounded-full bg-violet-50 flex items-center justify-center">
+                  <Lock className="w-4 h-4 text-violet-600" />
+                </div>
+                <h3 className="text-sm font-bold text-black">Confirmar senha</h3>
+              </div>
+              <button onClick={() => setShowPwdModal(false)} className="text-gray-400 hover:text-gray-600">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mb-3">
+              Digite sua senha para vincular a passkey. Ela será usada para entrar automaticamente com biometria.
+            </p>
+            <input
+              type="password"
+              value={pwdInput}
+              onChange={(e) => { setPwdInput(e.target.value); setPwdError(""); }}
+              onKeyDown={(e) => { if (e.key === "Enter") handleAddPasskey(); }}
+              autoFocus
+              placeholder="Sua senha"
+              className="w-full h-10 px-3 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
+            />
+            {pwdError && <p className="mt-2 text-xs text-red-500">{pwdError}</p>}
+            <button
+              onClick={handleAddPasskey}
+              className="w-full mt-4 h-10 rounded-lg bg-[#1D1D1F] text-white text-sm font-semibold hover:bg-black transition-colors"
+            >
+              Confirmar e cadastrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

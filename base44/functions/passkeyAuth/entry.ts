@@ -49,6 +49,43 @@ async function verifyChallenge(challenge: string, signature: string): Promise<bo
   return await crypto.subtle.verify('HMAC', key, base64urlToBuffer(signature), new TextEncoder().encode(challenge));
 }
 
+async function deriveAesKey(): Promise<CryptoKey> {
+  const keyMaterial = secrets.get("OPENROUTER_API_KEY") || "zyntra-passkey-fallback";
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(keyMaterial), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: enc.encode('zyntra-passkey-salt-v1'), iterations: 100000, hash: 'SHA-256' },
+    baseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
+}
+
+async function encryptPassword(password: string): Promise<string> {
+  const key = await deriveAesKey();
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const enc = new TextEncoder();
+  const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(password));
+  const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+  combined.set(iv, 0);
+  combined.set(new Uint8Array(ciphertext), iv.length);
+  return bufferToBase64url(combined.buffer);
+}
+
+async function decryptPassword(encrypted: string): Promise<string | null> {
+  try {
+    const key = await deriveAesKey();
+    const combined = new Uint8Array(base64urlToBuffer(encrypted));
+    const iv = combined.slice(0, 12);
+    const ciphertext = combined.slice(12);
+    const dec = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+    return new TextDecoder().decode(dec);
+  } catch (e) {
+    return null;
+  }
+}
+
 function getKeyImportParams(alg: number): { name: string; namedCurve?: string } {
   if (alg === -7) return { name: 'ECDSA', namedCurve: 'P-256' };
   if (alg === -35) return { name: 'ECDSA', namedCurve: 'P-384' };
@@ -90,7 +127,7 @@ export default async function(req: Request): Promise<Response> {
       const user = await base44.auth.me();
       if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-      const { credentialId, publicKey, algorithm, challenge, challengeSignature, deviceName } = body;
+      const { credentialId, publicKey, algorithm, challenge, challengeSignature, deviceName, password } = body;
 
       const valid = await verifyChallenge(challenge, challengeSignature);
       if (!valid) return Response.json({ error: "Invalid challenge" }, { status: 400 });
@@ -101,12 +138,18 @@ export default async function(req: Request): Promise<Response> {
         return Response.json({ error: "Credential already exists" }, { status: 400 });
       }
 
+      let encryptedPassword: string | null = null;
+      if (password) {
+        encryptedPassword = await encryptPassword(password);
+      }
+
       await base44.entities.Passkey.create({
         credential_id: credentialId,
         public_key: publicKey,
         algorithm: algorithm,
         device_name: deviceName || "Dispositivo",
         counter: 0,
+        encrypted_password: encryptedPassword,
       });
 
       return Response.json({ success: true });
@@ -212,7 +255,13 @@ export default async function(req: Request): Promise<Response> {
         // ignore
       }
 
-      return Response.json({ success: true, email: userEmail });
+      // Decrypt stored password for auto-login
+      let decryptedPassword: string | null = null;
+      if (passkey.encrypted_password) {
+        decryptedPassword = await decryptPassword(passkey.encrypted_password);
+      }
+
+      return Response.json({ success: true, email: userEmail, password: decryptedPassword });
     }
 
     return Response.json({ error: "Unknown action" }, { status: 400 });

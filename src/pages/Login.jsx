@@ -49,8 +49,21 @@ export default function Login() {
       });
       const finishData = finishRes.data || finishRes;
       if (finishData.success && finishData.email) {
-        setEmail(finishData.email);
-        setPasskeyVerified(true);
+        if (finishData.password) {
+          // Auto-login: preenche email + senha e entra automaticamente
+          setEmail(finishData.email);
+          setPassword(finishData.password);
+          try {
+            await base44.auth.loginViaEmailPassword(finishData.email, finishData.password);
+            window.location.href = dest;
+          } catch (err) {
+            setError("Falha no login automático. Digite sua senha manualmente.");
+            setPasskeyVerified(true);
+          }
+        } else {
+          setEmail(finishData.email);
+          setPasskeyVerified(true);
+        }
       } else {
         setError("Falha na verificação da passkey.");
       }

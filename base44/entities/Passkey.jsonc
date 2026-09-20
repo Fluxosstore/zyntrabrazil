@@ -23,6 +23,10 @@
       "type": "number",
       "description": "Contador de uso da credencial",
       "default": 0
+    },
+    "encrypted_password": {
+      "type": "string",
+      "description": "Senha criptografada (AES-GCM) para login autom\u00e1tico via passkey"
     }
   },
   "required": [
