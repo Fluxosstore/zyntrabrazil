@@ -43,7 +43,7 @@ export default function PlanSelection() {
   return (
     <div className="min-h-screen bg-[#F7F8FA]">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 lg:px-10 py-5">
+      <header className="flex items-center justify-between px-6 lg:px-10 py-2">
         <button
           onClick={() => navigate("/settings", { state: { section: "plan" } })}
           className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-black transition-colors"
@@ -64,16 +64,16 @@ export default function PlanSelection() {
             {t("planSelection.badge")}
           </span>
         </div>
-        <h1 className="text-2xl lg:text-3xl font-bold text-black tracking-tight">
+        <h1 className="text-xl lg:text-2xl font-bold text-black tracking-tight">
           {t("planSelection.title")}
         </h1>
-        <p className="text-sm text-gray-500 mt-2 max-w-xl">
+        <p className="text-sm text-gray-500 mt-1.5 max-w-xl">
           {t("planSelection.subtitle")}
         </p>
       </div>
 
       {/* Tabs + Cycle toggle */}
-      <div className="px-6 lg:px-10 max-w-[1280px] mx-auto mt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="px-6 lg:px-10 max-w-[1280px] mx-auto mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="inline-flex bg-gray-100 rounded-full p-1">
           {["pessoal", "empresarial"].map((tabKey) => (
             <button
@@ -112,14 +112,14 @@ export default function PlanSelection() {
       </div>
 
       {/* Cards */}
-      <div className="px-6 lg:px-10 max-w-[1280px] mx-auto mt-8 pb-16">
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
+      <div className="px-6 lg:px-10 max-w-[1280px] mx-auto mt-4 pb-6">
+        <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-start">
           {plans.map((plan) => {
             const isCurrent = plan.id === currentPlan;
             return (
               <div
                 key={plan.id}
-                className="relative bg-white border border-[#e5e5e5] rounded-3xl p-8 flex flex-col"
+                className="relative bg-white border border-[#e5e5e5] rounded-2xl p-4 flex flex-col"
               >
                 {plan.tag && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 bg-violet-600 text-white text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">
@@ -132,34 +132,34 @@ export default function PlanSelection() {
                     {t("planSelection.current")}
                   </span>
                 )}
-                <h3 className="text-lg font-bold text-[#111111]">{plan.name}</h3>
-                <p className="text-sm text-[#666666] mt-1.5 leading-relaxed">{plan.desc}</p>
-                <hr className="my-6 border-[#e5e5e5]" />
+                <h3 className="text-base font-bold text-[#111111]">{plan.name}</h3>
+                <p className="text-xs text-[#666666] mt-1 leading-relaxed">{plan.desc}</p>
+                <hr className="my-3 border-[#e5e5e5]" />
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold text-[#111111]">{plan.price[cycle]}</span>
-                  {plan.period && <span className="text-sm text-[#666666]">{plan.period}</span>}
+                  <span className="text-3xl font-bold text-[#111111]">{plan.price[cycle]}</span>
+                  {plan.period && <span className="text-xs text-[#666666]">{plan.period}</span>}
                 </div>
-                <ul className="mt-6 space-y-3">
-                  <li className="flex items-center gap-2.5 text-sm font-medium text-[#111111]">
+                <ul className="mt-3 space-y-1.5">
+                  <li className="flex items-center gap-2 text-sm font-medium text-[#111111]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
                     {plan.highlightFeature}
                   </li>
                 </ul>
-                <hr className="my-6 border-[#e5e5e5]" />
-                <ul className="space-y-3">
+                <hr className="my-3 border-[#e5e5e5]" />
+                <ul className="space-y-1.5">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 text-sm text-[#666666]">
+                    <li key={f} className="flex items-center gap-2 text-xs text-[#666666]">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#d1d5db]" />
                       {f}
                     </li>
                   ))}
                 </ul>
-                <hr className="my-6 border-[#e5e5e5]" />
+                <hr className="my-3 border-[#e5e5e5]" />
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-[#666666]">{t("pricing.iasIncluded")}</span>
                   <span className="text-xs font-semibold text-[#111111]">{plan.modelsCount}</span>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-1.5">
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {plan.models.map((m, i) =>
                     m.more ? (
                       <span
@@ -182,14 +182,14 @@ export default function PlanSelection() {
                 {isCurrent ? (
                   <button
                     disabled
-                    className="mt-6 w-full py-3 rounded-full text-sm font-semibold text-gray-400 bg-gray-100 border border-[#e5e5e5] cursor-default"
+                    className="mt-4 w-full py-2.5 rounded-full text-sm font-semibold text-gray-400 bg-gray-100 border border-[#e5e5e5] cursor-default"
                   >
                     {t("planSelection.currentPlan")}
                   </button>
                 ) : (
                   <button
                     onClick={() => setConfirmPlan(plan)}
-                    className="mt-6 w-full py-3 rounded-full text-sm font-semibold text-black bg-white border border-[#D1D1D1] hover:border-violet-300 hover:bg-gray-50 transition-colors"
+                    className="mt-4 w-full py-2.5 rounded-full text-sm font-semibold text-black bg-white border border-[#D1D1D1] hover:border-violet-300 hover:bg-gray-50 transition-colors"
                   >
                     {t("planSelection.select")} →
                   </button>
