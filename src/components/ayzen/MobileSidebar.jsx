@@ -27,6 +27,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
   const navigate = useNavigate();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
 
@@ -35,6 +36,12 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
     else navigate("/dashboard");
     onClose();
   };
+
+  const filteredConversations = searchQuery.trim()
+    ? conversations.filter((c) =>
+        (c.title || "").toLowerCase().includes(searchQuery.trim().toLowerCase())
+      )
+    : conversations;
 
   const handleSelect = onSelectConversation || ((convId) => {
     try {
@@ -108,6 +115,19 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
             <div className="h-px bg-gray-100 my-2 mx-2.5" />
 
+            {/* Search */}
+            <div className="px-2 pb-1">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={t("dash.searchConversation")}
+                  className="w-full h-8 pl-8 pr-3 rounded-lg bg-gray-50 border border-gray-200 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+                />
+              </div>
+            </div>
+
             {/* Chats */}
             <div className="flex items-center justify-between px-4 pt-1 pb-1">
               <span className="text-[10px] font-semibold tracking-wider text-gray-400">
@@ -121,11 +141,11 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
               </button>
             </div>
             <div className="flex-1 px-2 overflow-y-auto">
-              {conversations.length === 0 ? (
+              {filteredConversations.length === 0 ? (
                 <p className="px-2.5 text-xs text-gray-400">{t("dash.noChats")}</p>
               ) : (
                 <div className="space-y-0.5">
-                  {conversations.map((conv) => (
+                  {filteredConversations.map((conv) => (
                     <ChatListItem
                       key={conv.id}
                       conv={conv}
