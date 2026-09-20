@@ -32,6 +32,11 @@
       ],
       "default": "mensal"
     },
+    "plan_subscribed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data em que o plano atual foi assinado"
+    },
     "plan_expires": {
       "type": "string",
       "format": "date",

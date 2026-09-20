@@ -41,6 +41,14 @@ function formatExpiryDate(dateStr) {
   }
 }
 
+// Calcula a data de expiração: assinatura + 30 dias (ajusta para o último dia do mês se necessário)
+function calcExpiryFromSubscription(subscribedAt) {
+  const start = new Date(subscribedAt);
+  const expiry = new Date(start);
+  expiry.setDate(expiry.getDate() + 30);
+  return expiry.toISOString().split("T")[0];
+}
+
 export default function PlanContent() {
   const { t } = useLanguage();
   const { user } = useAuth();
@@ -51,7 +59,9 @@ export default function PlanContent() {
   const isFree = plan === "free";
 
   const price = PLAN_PRICES[plan]?.[cycle] || "R$ 0,00";
-  const expiryDate = formatExpiryDate(user?.plan_expires);
+  // Se plan_expires estiver definido, usa; senão calcula a partir da data de assinatura + 30 dias
+  const planExpires = user?.plan_expires || (!isFree ? calcExpiryFromSubscription(user?.plan_subscribed_at || new Date().toISOString()) : null);
+  const expiryDate = formatExpiryDate(planExpires);
   const descKey = PLAN_DESC_KEYS[plan] || "settings.planFreeDesc";
 
   return (
