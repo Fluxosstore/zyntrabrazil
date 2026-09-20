@@ -24,11 +24,24 @@ async function fetchConnectorData(base44: any, connectorId: string): Promise<str
     const auth = { Authorization: `Bearer ${accessToken}` };
 
     if (connectorId === "gmail") {
-      const res = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=5", { headers: auth });
-      if (!res.ok) return null;
-      const data = await res.json();
+      // Conta e-mails não lidos
+      const unreadRes = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread&maxResults=1", { headers: auth });
+      let unreadCount = 0;
+      if (unreadRes.ok) {
+        const unreadData = await unreadRes.json();
+        unreadCount = unreadData.resultSizeEstimate || 0;
+      }
+
+      // Busca até 5 e-mails não lidos com metadados
+      const listRes = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread&maxResults=5", { headers: auth });
+      if (!listRes.ok) {
+        const errText = await listRes.text();
+        console.error(`[gmail] API error ${listRes.status}: ${errText}`);
+        return null;
+      }
+      const listData = await listRes.json();
       const msgs: string[] = [];
-      for (const m of (data.messages || []).slice(0, 5)) {
+      for (const m of (listData.messages || []).slice(0, 5)) {
         const mr = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date`, { headers: auth });
         if (!mr.ok) continue;
         const md = await mr.json();
@@ -37,7 +50,8 @@ async function fetchConnectorData(base44: any, connectorId: string): Promise<str
         const from = h.find((x: any) => x.name === "From")?.value || "";
         msgs.push(`De: ${from} | Assunto: ${subject}`);
       }
-      return msgs.length ? `E-mails recentes:\n${msgs.map((m, i) => `${i + 1}. ${m}`).join("\n")}` : null;
+      const unreadList = msgs.length ? `\nNão lidos recentes:\n${msgs.map((m, i) => `${i + 1}. ${m}`).join("\n")}` : "";
+      return `Total de e-mails não lidos: ${unreadCount}${unreadList}`;
     }
 
     if (connectorId === "gcalendar") {
