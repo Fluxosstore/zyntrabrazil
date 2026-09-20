@@ -1,8 +1,9 @@
-import React from "react";
-import { DollarSign, MoreHorizontal } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { DollarSign, MoreHorizontal, Eye, Download } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { PLAN_NUMERIC_PRICES, formatBRL } from "@/lib/planData";
+import ReceiptModal from "@/components/ayzen/settings/ReceiptModal";
 
 function formatPtDate(dateStr) {
   if (!dateStr) return "—";
@@ -28,6 +29,18 @@ export default function InvoicesContent({ plan = "free" }) {
   const price = PLAN_NUMERIC_PRICES[effectivePlan]?.[cycle] || 0;
   const value = formatBRL(price);
   const date = formatPtDate(user?.plan_subscribed_at);
+
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setOpenMenuId(null);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   if (!isPaid) {
     return (
@@ -154,14 +167,54 @@ export default function InvoicesContent({ plan = "free" }) {
                   <p className="text-sm text-black">{inv.date}</p>
                 </div>
                 <span className="text-sm text-black">{inv.method}</span>
-                <button className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors justify-self-end">
-                  <MoreHorizontal className="w-4 h-4" />
-                </button>
+                <div className="relative justify-self-end" ref={openMenuId === inv.id ? menuRef : null}>
+                  <button
+                    onClick={() => setOpenMenuId(openMenuId === inv.id ? null : inv.id)}
+                    className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
+                      openMenuId === inv.id ? "bg-[#F5F5F5] text-gray-700" : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                    }`}
+                  >
+                    <MoreHorizontal className="w-4 h-4" />
+                  </button>
+                  {openMenuId === inv.id && (
+                    <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20">
+                      <button
+                        onClick={() => {
+                          setOpenMenuId(null);
+                          setModalOpen(true);
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left"
+                      >
+                        <Eye className="w-4 h-4 text-gray-500" />
+                        Visualizar
+                      </button>
+                      <button
+                        onClick={() => {
+                          setOpenMenuId(null);
+                          window.print();
+                        }}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left"
+                      >
+                        <Download className="w-4 h-4 text-gray-500" />
+                        Comprovante
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
         </section>
       </div>
+
+      <ReceiptModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        value={value}
+        date={user?.plan_subscribed_at}
+        userEmail={user?.email}
+        userName={user?.full_name}
+      />
     </div>
   );
 }
