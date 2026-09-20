@@ -159,9 +159,9 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
 
   return (
     <>
-      <div>
+      <div className="border border-gray-200 rounded-2xl overflow-hidden">
         {/* Header row */}
-        <div className="grid grid-cols-[1fr_120px_80px_120px] gap-4 px-4 py-2 border-b border-gray-100">
+        <div className="grid grid-cols-[1fr_120px_80px_120px] gap-4 px-4 py-2 border-b border-gray-100 bg-gray-50/50">
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">NOME</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">TIPO</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">TAMANHO</span>
