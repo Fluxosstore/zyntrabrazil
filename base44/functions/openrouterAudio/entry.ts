@@ -13,16 +13,23 @@ const AUDIO_MODEL_MAP = {
   "fish-s2-pro-tts": "fish-audio/s2-pro",
 };
 
-// Vozes padrão por modelo (quando aplicável)
+// Vozes padrão por modelo — vozes naturais e humanas, priorizando português
 const DEFAULT_VOICES = {
   "deepgram/flux-tts:free": "flux-alexis-en",
-  "deepgram/aura-2": "aura-2-angus-en",
-  "microsoft/mai-voice-2-flash": "en-US-AriaNeural",
+  "deepgram/aura-2": "aura-2-luna-en",
+  "microsoft/mai-voice-2-flash": "pt-BR-FranciscaNeural",
   "qwen/qwen-audio-3.0-tts-plus": "longanlingxin",
   "qwen/qwen-audio-3.0-tts-flash": "longanlingxin",
-  "minimax/speech-2.8-hd": "English_expressive_narrator",
-  "minimax/speech-2.8-turbo": "English_expressive_narrator",
+  "minimax/speech-2.8-hd": "Portuguese_CaptivatingStoryteller",
+  "minimax/speech-2.8-turbo": "Portuguese_CaptivatingStoryteller",
 };
+
+// Modelos multilíngues que não usam o campo "voice" (usam voz padrão natural)
+const NO_VOICE_MODELS = new Set([
+  "fish-audio/s2.1-pro",
+  "fish-audio/s2-pro",
+  "fish-audio/s1",
+]);
 
 export default async function(req) {
   try {
@@ -39,7 +46,8 @@ export default async function(req) {
     if (!apiKey) return Response.json({ error: "OPENROUTER_API_KEY não configurada" }, { status: 500 });
 
     const ttsModel = AUDIO_MODEL_MAP[model] || AUDIO_MODEL_MAP["fish-tts"];
-    const voice = DEFAULT_VOICES[ttsModel] || "alloy";
+    const noVoice = NO_VOICE_MODELS.has(ttsModel);
+    const voice = noVoice ? null : (DEFAULT_VOICES[ttsModel] || "alloy");
 
     const requestBody = {
       model: ttsModel,
