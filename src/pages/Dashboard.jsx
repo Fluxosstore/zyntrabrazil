@@ -470,6 +470,12 @@ export default function Dashboard() {
             <textarea
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  if (msg.trim() || attachedFile) handleSend();
+                }
+              }}
               placeholder={t("dash.placeholder")}
               rows={2}
               className="w-full resize-none text-sm text-black placeholder:text-gray-400 focus:outline-none bg-transparent"

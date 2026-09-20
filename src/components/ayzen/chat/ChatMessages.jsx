@@ -222,28 +222,30 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
           </div>
         ) : (
           <div className="flex justify-start">
-            <div className="flex items-center gap-2 mb-1.5">
-              <img
-                src={loadingModel.logo}
-                alt={loadingModel.name}
-                className="w-5 h-5 rounded object-contain"
-              />
-              <span className="text-sm font-bold text-black">{loadingModel.name}</span>
-            </div>
-            <div className="bg-gray-100 rounded-2xl px-4 py-3 ml-7">
-              <div className="flex gap-1">
-                <span
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "0ms" }}
+            <div className="max-w-[80%]">
+              <div className="flex items-center gap-2 mb-1.5">
+                <img
+                  src={loadingModel.logo}
+                  alt={loadingModel.name}
+                  className="w-5 h-5 rounded object-contain"
                 />
-                <span
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "150ms" }}
-                />
-                <span
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "300ms" }}
-                />
+                <span className="text-sm font-bold text-black">{loadingModel.name}</span>
+              </div>
+              <div className="bg-gray-100 rounded-2xl px-4 py-3">
+                <div className="flex gap-1">
+                  <span
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: "0ms" }}
+                  />
+                  <span
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: "150ms" }}
+                  />
+                  <span
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: "300ms" }}
+                  />
+                </div>
               </div>
             </div>
           </div>
