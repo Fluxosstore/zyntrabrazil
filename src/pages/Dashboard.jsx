@@ -209,18 +209,19 @@ export default function Dashboard() {
         };
         const styleHint = imageStyleByModel[model] || "";
         const enhancedPrompt = styleHint ? `${msg}. ${styleHint}` : msg;
-        const existingUrls = [...fileUrlsForLLM];
-        if (referenceImage) existingUrls.push(referenceImage);
-        const result = await base44.integrations.Core.GenerateImage({
+        const result = await base44.functions.invoke("openrouterImage", {
           prompt: enhancedPrompt,
-          existing_image_urls: existingUrls.length > 0 ? existingUrls : undefined,
+          model,
+          referenceImage: referenceImage || undefined,
         });
+        const imageUrl = result.data?.url;
+        if (!imageUrl) throw new Error("Nenhuma imagem retornada");
         base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
           type: "image",
-          url: result.url,
+          url: imageUrl,
           model: modelInfo.name,
           prompt: msg,
         }).catch(() => {});
@@ -229,7 +230,7 @@ export default function Dashboard() {
           {
             role: "assistant",
             content: "Aqui está a imagem gerada:",
-            image: result.url,
+            image: imageUrl,
             model: { name: modelInfo.name, logo: modelInfo.logo },
           },
         ]);
