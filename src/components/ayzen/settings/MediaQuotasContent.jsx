@@ -22,9 +22,9 @@ function buildMediaItems(plan) {
   return [
     { id: "gpt-audio", name: "GPT Audio", catKey: "settings.mediaAudios", limit: limits.audio, logo: GPT, status: audioStatus },
     { id: "gemini-flash-image", name: "Gemini Flash Image", catKey: "settings.mediaImages", limit: limits.image, logo: GEMINI, status: imageStatus },
-    { id: "whisper", name: "Whisper Large v3", catKey: "settings.mediaTranscriptions", limit: 15, logo: GPT, status: "limited" },
-    { id: "nano-banana", name: "Nano Banana", catKey: "settings.mediaImages", limit: 0, logo: GEMINI, status: "notincluded" },
-    { id: "elevenlabs", name: "Voz ElevenLabs", catKey: "settings.mediaAudios", limit: 0, logo: null, status: "unlimited" },
+    { id: "whisper", name: "Whisper Large v3", catKey: "settings.mediaTranscriptions", limit: limits.audio, logo: GPT, status: audioStatus },
+    { id: "nano-banana", name: "Nano Banana", catKey: "settings.mediaImages", limit: limits.image, logo: GEMINI, status: imageStatus },
+    { id: "elevenlabs", name: "Voz ElevenLabs", catKey: "settings.mediaAudios", limit: limits.audio, logo: null, status: audioStatus },
     { id: "empty", name: "", catKey: "", limit: 0, logo: null, status: "empty" }
   ];
 }
