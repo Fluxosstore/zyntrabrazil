@@ -306,21 +306,31 @@ export default async function(req: Request): Promise<Response> {
         debug.step = "trying_der";
         try {
           const derSig = new Uint8Array(sigBuffer);
+          // DER: 0x30 <totalLen> 0x02 <rLen> <r> 0x02 <sLen> <s>
           if (derSig[0] === 0x30) {
-            let offset = 2;
+            let offset = 2; // skip SEQUENCE tag + total length
+            // Parse r
+            if (derSig[offset] !== 0x02) throw new Error(`expected INTEGER tag for r, got 0x${derSig[offset].toString(16)}`);
+            offset++; // skip 0x02 tag
             const rLen = derSig[offset];
             offset++;
             let r = derSig.slice(offset, offset + rLen);
             offset += rLen;
+            // Parse s
+            if (derSig[offset] !== 0x02) throw new Error(`expected INTEGER tag for s, got 0x${derSig[offset].toString(16)}`);
+            offset++; // skip 0x02 tag
             const sLen = derSig[offset];
             offset++;
             let s = derSig.slice(offset, offset + sLen);
 
-            // Remove leading zero padding (DER adds 0x00 to positive numbers starting with 0x80+)
+            debug.derRLen = r.length;
+            debug.derSLen = s.length;
+
+            // Remove leading zero padding (DER adds 0x00 when high bit is set)
             if (r.length > 1 && r[0] === 0) r = r.slice(1);
             if (s.length > 1 && s[0] === 0) s = s.slice(1);
 
-            // Pad to 32 bytes
+            // Pad to 32 bytes (left-pad with zeros)
             const rPadded = new Uint8Array(32);
             const sPadded = new Uint8Array(32);
             rPadded.set(r, Math.max(0, 32 - r.length));
@@ -332,6 +342,8 @@ export default async function(req: Request): Promise<Response> {
 
             verified = await crypto.subtle.verify(verifyParams, publicKey, rawSig.buffer, signedData);
             debug.derVerifyResult = verified;
+          } else {
+            debug.derError = `first byte not 0x30, got 0x${derSig[0].toString(16)}`;
           }
         } catch (derErr) {
           debug.derError = derErr.message;
