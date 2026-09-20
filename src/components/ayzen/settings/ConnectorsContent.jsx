@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 import { base44 } from "@/api/base44Client";
 import ConnectorCatalog from "./ConnectorCatalog";
-import { CONNECTORS } from "./connectorsData";
+import { CONNECTORS, WORKSPACE_CONNECTOR_MAP } from "./connectorsData";
 
 const CONNECTOR_SLOTS_BY_PLAN = {
   free: 0,
@@ -50,16 +50,44 @@ export default function ConnectorsContent({ plan = "free" }) {
 
   const handleConnect = async (connector) => {
     if (available <= 0) return;
+    const wsConnectorId = WORKSPACE_CONNECTOR_MAP[connector.id];
+
     try {
-      await base44.entities.UserConnector.create({
-        connector_id: connector.id,
-        name: connector.name,
-        type: "prebuilt",
-        category: connector.category,
-        logo: connector.logo,
-        active: true,
-      });
-      await loadConnectors();
+      if (wsConnectorId) {
+        // Real OAuth flow: get URL → open popup → poll for close → refresh
+        const url = await base44.connectors.connectAppUser(wsConnectorId);
+        const popup = window.open(url, "_blank", "width=600,height=700");
+
+        // Save record immediately so UI reflects pending connection
+        await base44.entities.UserConnector.create({
+          connector_id: connector.id,
+          name: connector.name,
+          type: "prebuilt",
+          category: connector.category,
+          logo: connector.logo,
+          active: true,
+        });
+        await loadConnectors();
+
+        // Poll for popup close, then refresh to pick up OAuth result
+        const timer = setInterval(async () => {
+          if (!popup || popup.closed) {
+            clearInterval(timer);
+            await loadConnectors();
+          }
+        }, 800);
+      } else {
+        // No workspace connector registered yet — save as pending
+        await base44.entities.UserConnector.create({
+          connector_id: connector.id,
+          name: connector.name,
+          type: "prebuilt",
+          category: connector.category,
+          logo: connector.logo,
+          active: true,
+        });
+        await loadConnectors();
+      }
     } catch (err) {
       console.error("Erro ao conectar:", err);
     }
@@ -68,7 +96,12 @@ export default function ConnectorsContent({ plan = "free" }) {
   const handleDisconnect = async (connector) => {
     const record = connectors.find((c) => c.connector_id === connector.id);
     if (!record) return;
+    const wsConnectorId = WORKSPACE_CONNECTOR_MAP[connector.id];
+
     try {
+      if (wsConnectorId) {
+        await base44.connectors.disconnectAppUser(wsConnectorId);
+      }
       await base44.entities.UserConnector.delete(record.id);
       await loadConnectors();
     } catch (err) {

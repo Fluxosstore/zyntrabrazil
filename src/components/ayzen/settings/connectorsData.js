@@ -11,6 +11,15 @@ export const CONNECTOR_CATEGORIES = {
 
 const G = "https://upload.wikimedia.org/wikipedia/commons";
 
+// Map catalog connector IDs → registered workspace connector IDs (for OAuth)
+export const WORKSPACE_CONNECTOR_MAP = {
+  gmail: "6aafb4130290983a5537e0ee",
+  gcalendar: "6aafb41e8e6cf43ae36c519d",
+  gcontacts: "6aafb4259c31d3a1619b5ef6",
+  gtasks: "6aafb428590567e4c76bcf98",
+  gdrive: "6aafb42265da4d497f1b1801",
+};
+
 export const CONNECTORS = [
   // Google
   { id: "gmail", name: "Gmail", category: "google", logo: `${G}/7/7e/Gmail_icon_%282020%29.svg`, desc: { pt: "Resuma, redija e responda e-mails", en: "Summarize, draft and reply to emails", es: "Resume, redacta y responde correos" } },
