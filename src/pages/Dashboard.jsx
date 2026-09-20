@@ -454,7 +454,7 @@ export default function Dashboard() {
           )}
 
           {/* input */}
-          <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl border border-gray-200 p-4 mb-6">
+          <div className="w-full max-w-5xl mx-auto bg-white rounded-2xl border border-gray-200 p-4 mb-6">
             {attachedFile && (
               <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-gray-50 rounded-lg w-fit">
                 <Paperclip className="w-3 h-3 text-gray-500 shrink-0" />
