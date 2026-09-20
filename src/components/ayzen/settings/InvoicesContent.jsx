@@ -189,7 +189,7 @@ export default function InvoicesContent({ plan = "free" }) {
                   </button>
                   {openMenuId === inv.id && menuPos && (
                     <div
-                      className="fixed w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50"
+                      className="fixed w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 px-1 z-50"
                       style={{ top: menuPos.top, right: menuPos.right }}
                     >
                       <button
