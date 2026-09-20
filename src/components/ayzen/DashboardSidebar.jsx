@@ -34,24 +34,15 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   const navigate = useNavigate();
   const handleNew = onNewConversation || (() => navigate("/dashboard"));
 
-  const [localConversations] = useState(() => {
-    try {
-      const saved = localStorage.getItem("zyntra_conversations");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-  const displayConversations = conversations.length > 0 ? conversations : localConversations;
   const filteredConversations = searchQuery.trim()
-    ? displayConversations.filter((c) =>
+    ? conversations.filter((c) =>
         (c.title || "").toLowerCase().includes(searchQuery.trim().toLowerCase())
       )
-    : displayConversations;
+    : conversations;
 
   const handleSelect = onSelectConversation || ((convId) => {
     try {
-      localStorage.setItem("zyntra_open_conversation", convId);
+      localStorage.setItem(`zyntra_open_conversation_${user?.id || 'guest'}`, convId);
     } catch {}
     navigate("/dashboard");
   });

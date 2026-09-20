@@ -31,6 +31,9 @@ export default function Dashboard() {
   const { t } = useLanguage();
 
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
+  const storageKey = `zyntra_conversations_${user?.id || 'guest'}`;
+  const openConvKey = `zyntra_open_conversation_${user?.id || 'guest'}`;
+  const editImageKey = `zyntra_edit_image_${user?.id || 'guest'}`;
   const toggleConnector = (id) =>
     setActiveConnectorIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
@@ -50,7 +53,7 @@ export default function Dashboard() {
   const [messages, setMessages] = useState([]);
   const [conversations, setConversations] = useState(() => {
     try {
-      const saved = localStorage.getItem("zyntra_conversations");
+      const saved = localStorage.getItem(storageKey);
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -63,7 +66,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     try {
-      localStorage.setItem("zyntra_conversations", JSON.stringify(conversations));
+      localStorage.setItem(storageKey, JSON.stringify(conversations));
     } catch (err) {
       console.error("Erro ao salvar conversas:", err);
     }
@@ -71,9 +74,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     try {
-      const openId = localStorage.getItem("zyntra_open_conversation");
+      const openId = localStorage.getItem(openConvKey);
       if (openId) {
-        localStorage.removeItem("zyntra_open_conversation");
+        localStorage.removeItem(openConvKey);
         const conv = conversations.find((c) => c.id === openId);
         if (conv) {
           setActiveConversationId(openId);
@@ -88,10 +91,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     try {
-      const editData = localStorage.getItem("zyntra_edit_image");
+      const editData = localStorage.getItem(editImageKey);
       if (editData) {
         const { url, prompt, model } = JSON.parse(editData);
-        localStorage.removeItem("zyntra_edit_image");
+        localStorage.removeItem(editImageKey);
         setReferenceImage(url);
         setModel("gpt-image");
         const convId = `conv_${Date.now()}`;

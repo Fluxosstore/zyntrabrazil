@@ -45,7 +45,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
   const handleSelect = onSelectConversation || ((convId) => {
     try {
-      localStorage.setItem("zyntra_open_conversation", convId);
+      localStorage.setItem(`zyntra_open_conversation_${user?.id || 'guest'}`, convId);
     } catch {}
     navigate("/dashboard");
     onClose();

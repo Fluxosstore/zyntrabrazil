@@ -105,7 +105,16 @@ export const AuthProvider = ({ children }) => {
   const logout = (shouldRedirect = true) => {
     setUser(null);
     setIsAuthenticated(false);
-    
+
+    // Limpa dados locais do usuário (conversas, etc.) para evitar mistura entre contas
+    try {
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith('zyntra_')) localStorage.removeItem(key);
+      });
+    } catch (e) {
+      console.error('Erro ao limpar localStorage:', e);
+    }
+
     if (shouldRedirect) {
       // Use the SDK's logout method which handles token cleanup and redirect
       base44.auth.logout(window.location.href);

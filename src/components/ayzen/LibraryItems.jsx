@@ -3,6 +3,7 @@ import { Download, Trash2, MessageSquarePlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
 import LibraryImageModal from "@/components/ayzen/LibraryImageModal";
 
 function formatDate(dateStr) {
@@ -46,6 +47,7 @@ const SUB_TYPE_MAP = {
 
 export default function LibraryItems({ activeTab, subFilter = "all", view = "list", emptyState = null }) {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -96,7 +98,7 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
   };
 
   const handleEditImage = (item) => {
-    localStorage.setItem("zyntra_edit_image", JSON.stringify({
+    localStorage.setItem(`zyntra_edit_image_${user?.id || 'guest'}`, JSON.stringify({
       url: item.url,
       prompt: item.prompt || item.title,
       model: item.model,
