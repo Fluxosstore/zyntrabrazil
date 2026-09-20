@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Check, SignalHigh, SignalMedium, SignalLow } from "lucide-react";
+import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -127,6 +128,7 @@ function SignalIndicator({ level }) {
 
 export default function ModelSelector({ selected, onSelect, onClose, plan = "free", placement = "top" }) {
   const [query, setQuery] = useState("");
+  const [usageCounts, setUsageCounts] = useState({});
   const ref = useRef(null);
 
   useEffect(() => {
@@ -143,6 +145,22 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
       document.removeEventListener("keydown", handleEscape);
     };
   }, [onClose]);
+
+  useEffect(() => {
+    (async () => {
+      const counts = await getUsageCounts();
+      setUsageCounts(counts);
+    })();
+  }, []);
+
+  function isExhausted(model, category) {
+    const quotas = QUOTAS_BY_PLAN[plan] || QUOTAS_BY_PLAN.free;
+    const categoryQuota = quotas[category];
+    if (!categoryQuota || categoryQuota === "unlimited") return false;
+    if (categoryQuota.month === 0) return false;
+    const usage = usageCounts[model.name] || { month: 0 };
+    return usage.month >= categoryQuota.month;
+  }
 
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
   const filtered = models.filter((m) =>
@@ -208,24 +226,32 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
 
         {/* Model list */}
         <div className="px-1.5 pb-2 space-y-0.5">
-          {filtered.map((m) =>
+          {filtered.map((m) => {
+          const exhausted = isExhausted(m, "text");
+          return (
           <button
             key={m.id}
-            onClick={() => onSelect?.(m.id)}
+            onClick={() => !exhausted && onSelect?.(m.id)}
+            disabled={exhausted}
             className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-            selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            exhausted ? "opacity-40 cursor-not-allowed" : selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
             }>
               <div className="w-6 h-6 flex items-center justify-center shrink-0">
                 <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
               </div>
               <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
-              <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
-                {m.ms}
-                <SignalIndicator level={m.level} />
-              </span>
-              {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+              {exhausted ? (
+                <span className="text-[10px] font-semibold text-red-500">Esgotado</span>
+              ) : (
+                <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
+                  {m.ms}
+                  <SignalIndicator level={m.level} />
+                </span>
+              )}
+              {selected === m.id && !exhausted && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
             </button>
-          )}
+          );
+          })}
           {filtered.length === 0 && filteredImages.length === 0 && filteredAudios.length === 0 &&
           <p className="px-2.5 py-3 text-xs text-[#9E9E9E]">Nenhum modelo encontrado.</p>
           }
@@ -238,24 +264,32 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
           <span className="text-[10px] font-bold tracking-wider text-[#757575]">IMAGEM</span>
         </div>
         <div className="px-1.5 pb-2 space-y-0.5">
-          {filteredImages.map((m) =>
+          {filteredImages.map((m) => {
+          const exhausted = isExhausted(m, "image");
+          return (
           <button
             key={m.id}
-            onClick={() => onSelect?.(m.id)}
+            onClick={() => !exhausted && onSelect?.(m.id)}
+            disabled={exhausted}
             className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-            selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            exhausted ? "opacity-40 cursor-not-allowed" : selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
             }>
             <div className="w-6 h-6 flex items-center justify-center shrink-0">
               <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
             </div>
             <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
-            <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
-              {m.ms}
-              <SignalIndicator level={m.level} />
-            </span>
-            {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+            {exhausted ? (
+              <span className="text-[10px] font-semibold text-red-500">Esgotado</span>
+            ) : (
+              <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
+                {m.ms}
+                <SignalIndicator level={m.level} />
+              </span>
+            )}
+            {selected === m.id && !exhausted && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
           </button>
-          )}
+          );
+          })}
         </div>
 
         {filteredAudios.length > 0 && <>
@@ -266,24 +300,32 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
           <span className="text-[10px] font-bold tracking-wider text-[#757575]">ÁUDIO</span>
         </div>
         <div className="px-1.5 pb-2 space-y-0.5">
-          {filteredAudios.map((m) =>
+          {filteredAudios.map((m) => {
+          const exhausted = isExhausted(m, "audio");
+          return (
           <button
             key={m.id}
-            onClick={() => onSelect?.(m.id)}
+            onClick={() => !exhausted && onSelect?.(m.id)}
+            disabled={exhausted}
             className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
-            selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+            exhausted ? "opacity-40 cursor-not-allowed" : selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
             }>
             <div className="w-6 h-6 flex items-center justify-center shrink-0">
               <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
             </div>
             <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
-            <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
-              {m.ms}
-              <SignalIndicator level={m.level} />
-            </span>
-            {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+            {exhausted ? (
+              <span className="text-[10px] font-semibold text-red-500">Esgotado</span>
+            ) : (
+              <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
+                {m.ms}
+                <SignalIndicator level={m.level} />
+              </span>
+            )}
+            {selected === m.id && !exhausted && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
           </button>
-          )}
+          );
+          })}
         </div>
         </>}
       </div>
