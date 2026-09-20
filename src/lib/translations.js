@@ -568,6 +568,9 @@ export const translations = {
     "pricing.enterpriseF6": "5 modelos + outros 9",
     "pricing.enterpriseModels": "14 modelos",
     "pricing.enterpriseCta": "Assinar Enterprise",
+    "pricing.featureImageGen": "Geração de imagem",
+    "pricing.featureAudioGen": "Geração de áudio",
+    "pricing.featureVideoGen": "Geração de vídeo",
 
     // TestimonialsSection
     "testimonials.badge": "Quem já usa",
@@ -1240,6 +1243,9 @@ export const translations = {
     "pricing.enterpriseF6": "5 models + 9 others",
     "pricing.enterpriseModels": "14 models",
     "pricing.enterpriseCta": "Subscribe to Enterprise",
+    "pricing.featureImageGen": "Image generation",
+    "pricing.featureAudioGen": "Audio generation",
+    "pricing.featureVideoGen": "Video generation",
 
     // TestimonialsSection
     "testimonials.badge": "Who already uses it",
@@ -1912,6 +1918,9 @@ export const translations = {
     "pricing.enterpriseF6": "5 modelos + otros 9",
     "pricing.enterpriseModels": "14 modelos",
     "pricing.enterpriseCta": "Suscribirse a Enterprise",
+    "pricing.featureImageGen": "Generación de imagen",
+    "pricing.featureAudioGen": "Generación de audio",
+    "pricing.featureVideoGen": "Generación de video",
 
     // TestimonialsSection
     "testimonials.badge": "Quien ya lo usa",
