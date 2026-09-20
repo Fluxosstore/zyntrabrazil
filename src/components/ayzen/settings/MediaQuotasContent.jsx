@@ -5,24 +5,40 @@ import { useLanguage } from "@/lib/LanguageContext";
 const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
 const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
 
-const MEDIA_ITEMS = [
-  { id: "gpt-audio", name: "GPT Audio", catKey: "settings.mediaAudios", limit: 80, logo: GPT, status: "limited" },
-  { id: "gemini-flash-image", name: "Gemini Flash Image", catKey: "settings.mediaImages", limit: 100, logo: GEMINI, status: "limited" },
-  { id: "whisper", name: "Whisper Large v3", catKey: "settings.mediaTranscriptions", limit: 15, logo: GPT, status: "limited" },
-  { id: "nano-banana", name: "Nano Banana", catKey: "settings.mediaImages", limit: 0, logo: GEMINI, status: "notincluded" },
-  { id: "elevenlabs", name: "Voz ElevenLabs", catKey: "settings.mediaAudios", limit: 0, logo: null, status: "unlimited" },
-  { id: "empty", name: "", catKey: "", limit: 0, logo: null, status: "empty" }
-];
+const PLAN_LIMITS = {
+  free: { audio: 0, image: 0 },
+  starter: { audio: 15, image: 30 },
+  premium: { audio: 25, image: 50 },
+  team: { audio: 40, image: 100 },
+  startup: { audio: 60, image: 150 },
+  enterprise: { audio: "unlimited", image: "unlimited" }
+};
+
+function buildMediaItems(plan) {
+  const limits = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
+  const audioStatus = limits.audio === "unlimited" ? "unlimited" : "limited";
+  const imageStatus = limits.image === "unlimited" ? "unlimited" : "limited";
+
+  return [
+    { id: "gpt-audio", name: "GPT Audio", catKey: "settings.mediaAudios", limit: limits.audio, logo: GPT, status: audioStatus },
+    { id: "gemini-flash-image", name: "Gemini Flash Image", catKey: "settings.mediaImages", limit: limits.image, logo: GEMINI, status: imageStatus },
+    { id: "whisper", name: "Whisper Large v3", catKey: "settings.mediaTranscriptions", limit: 15, logo: GPT, status: "limited" },
+    { id: "nano-banana", name: "Nano Banana", catKey: "settings.mediaImages", limit: 0, logo: GEMINI, status: "notincluded" },
+    { id: "elevenlabs", name: "Voz ElevenLabs", catKey: "settings.mediaAudios", limit: 0, logo: null, status: "unlimited" },
+    { id: "empty", name: "", catKey: "", limit: 0, logo: null, status: "empty" }
+  ];
+}
 
 export default function MediaQuotasContent({ plan }) {
   const { t } = useLanguage();
+  const mediaItems = buildMediaItems(plan);
 
   return (
     <section>
       <h2 className="text-base font-bold text-black mb-1">{t("settings.mediaQuotas")}</h2>
       <p className="text-xs text-gray-500 mb-3">{t("settings.mediaQuotasDesc")}</p>
       <div className="grid grid-cols-2 gap-4">
-        {MEDIA_ITEMS.map((item) => {
+        {mediaItems.map((item) => {
           if (item.status === "empty") {
             return <div key={item.id} className="rounded-2xl border border-gray-200 bg-gray-50/60" />;
           }
