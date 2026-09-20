@@ -155,6 +155,32 @@ const TAIL_ROWS = [
   { rank: 100, name: "Gemma 3 27B Instruct", subtitle: "", logo: GEMINI_CIRCLE, intelligence: 4.9, programming: 10.1, agentic: 0.1 },
 ];
 
+const BRAND_COLORS = {
+  [CLAUDE]: "#D97757",
+  [QWEN]: "#615CED",
+  [GPT]: "#10A37F",
+  [GROK]: "#2D2D2D",
+  [GEMINI]: "#4285F4",
+  [DEEPSEEK]: "#4D6BFA",
+  [ZAI]: "#3B5BFE",
+  [KIMI]: "#0B0B0B",
+  [META]: "#0866FF",
+  [MISTRAL]: "#FA520F",
+  [COHERE]: "#39594D",
+  [MICROSOFT]: "#00A4EF",
+  [NVIDIA]: "#76B900",
+  [DBRX]: "#FF3621",
+  [UPSTAGE]: "#003D7A",
+  [ZEROONE]: "#1A1A1A",
+  [TENCENT]: "#0052D9",
+  [XIAOMI]: "#FF6900",
+};
+
+export function getBrandColor(logo) {
+  if (logo?.type === "circle") return logo.color;
+  return BRAND_COLORS[logo] || "#4a4a4a";
+}
+
 export const QUALITY_MODELS = [...KNOWN_ROWS, ...MIDDLE_ROWS, ...TAIL_ROWS];
 export const QUALITY_TOP10 = QUALITY_MODELS.slice(0, 10);
 export const QUALITY_TOP3 = QUALITY_MODELS.slice(0, 3);

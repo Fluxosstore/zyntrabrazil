@@ -1,7 +1,7 @@
 import React from "react";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useLanguage } from "@/lib/LanguageContext";
-import { QUALITY_TOP10, QUALITY_TOP3 } from "./qualityData";
+import { QUALITY_TOP10, QUALITY_TOP3, getBrandColor } from "./qualityData";
 
 function ModelLogo({ logo, size = 16 }) {
   if (logo?.type === "circle") {
@@ -52,6 +52,7 @@ export default function QualityChart({ metric = "intelligence" }) {
     fullName: m.name,
     subtitle: m.subtitle,
     value: m[metric] ?? 0,
+    color: getBrandColor(m.logo),
   }));
 
   const top3Badges = [
@@ -86,7 +87,11 @@ export default function QualityChart({ metric = "intelligence" }) {
                 tickLine={false}
               />
               <Tooltip content={<CustomTooltip />} cursor={{ fill: "#f9fafb" }} />
-              <Bar dataKey="value" fill="#4a4a4a" radius={[0, 4, 4, 0]} barSize={16} />
+              <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={16}>
+                {chartData.map((entry, index) => (
+                  <Cell key={index} fill={entry.color} />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
