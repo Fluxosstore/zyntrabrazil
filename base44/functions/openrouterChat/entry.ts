@@ -19,7 +19,7 @@ export default async function(req) {
     if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    const { prompt, model = "auto", useWebSearch = false } = body;
+    const { prompt, model = "auto", useWebSearch = false, fileUrls = [] } = body;
 
     if (!prompt) return Response.json({ error: "Prompt é obrigatório" }, { status: 400 });
 
@@ -33,6 +33,24 @@ export default async function(req) {
     const apiKey = secrets.get("OPENROUTER_API_KEY");
     if (!apiKey) return Response.json({ error: "OPENROUTER_API_KEY não configurada" }, { status: 500 });
 
+    // Constrói conteúdo multimodal se houver imagens
+    let messageContent;
+    const imageUrls = (fileUrls || []).filter((u) =>
+      u.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i)
+    );
+
+    if (imageUrls.length > 0) {
+      messageContent = [
+        { type: "text", text: prompt },
+        ...imageUrls.map((url) => ({
+          type: "image_url",
+          image_url: { url },
+        })),
+      ];
+    } else {
+      messageContent = prompt;
+    }
+
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -41,7 +59,7 @@ export default async function(req) {
       },
       body: JSON.stringify({
         model: openrouterModel,
-        messages: [{ role: "user", content: prompt }],
+        messages: [{ role: "user", content: messageContent }],
       }),
     });
 

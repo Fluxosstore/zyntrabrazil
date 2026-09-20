@@ -139,28 +139,20 @@ export default function Dashboard() {
     let fileUrl = null;
     let fileContent = null;
 
-    // Processa arquivo anexado usando integrações nativas
+    // Processa arquivo anexado
     if (attachedFile) {
       try {
-        const uploadResult = await base44.integrations.Core.UploadPublicFile({
-          file: attachedFile,
-        });
-        fileUrl = uploadResult.file_url;
-
         if (attachedFile.type?.startsWith("image/")) {
+          // Imagens: faz upload para obter URL pública (storage, não consome créditos de IA)
+          const uploadResult = await base44.integrations.Core.UploadPublicFile({
+            file: attachedFile,
+          });
+          fileUrl = uploadResult.file_url;
           fileContent = { type: "image", content: fileUrl };
         } else {
-          const extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
-            file_url: fileUrl,
-            json_schema: {
-              type: "object",
-              properties: {
-                text: { type: "string", description: "Conteúdo de texto completo extraído do arquivo" },
-              },
-              required: ["text"],
-            },
-          });
-          fileContent = { type: "text", content: extractResult.output?.text || "" };
+          // Textos/PDFs: lê o conteúdo diretamente no navegador (sem gastar créditos de IA)
+          const text = await attachedFile.text();
+          fileContent = { type: "text", content: text };
         }
       } catch (err) {
         console.error("Erro ao processar arquivo:", err);
