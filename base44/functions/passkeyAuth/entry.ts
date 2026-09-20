@@ -86,11 +86,14 @@ async function decryptPassword(encrypted: string): Promise<string | null> {
   }
 }
 
-function getKeyImportParams(alg: number): { name: string; namedCurve?: string } {
+function getKeyImportParams(alg: number): { name: string; namedCurve?: string; hash?: string } {
   if (alg === -7) return { name: 'ECDSA', namedCurve: 'P-256' };
   if (alg === -35) return { name: 'ECDSA', namedCurve: 'P-384' };
   if (alg === -36) return { name: 'ECDSA', namedCurve: 'P-521' };
-  return { name: 'RSASSA-PKCS1-v1_5' };
+  if (alg === -257) return { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' };
+  if (alg === -258) return { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-384' };
+  if (alg === -259) return { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-512' };
+  return { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' };
 }
 
 function getVerifyParams(alg: number): { name: string; hash?: string } {
@@ -194,37 +197,57 @@ export default async function(req: Request): Promise<Response> {
     if (action === "finishAuth") {
       const { credentialId, authenticatorData, clientDataJSON, signature: clientSig, challenge, challengeSignature } = body;
 
+      console.log("[finishAuth] credentialId:", credentialId);
+      console.log("[finishAuth] challenge:", challenge);
+
       const valid = await verifyChallenge(challenge, challengeSignature);
-      if (!valid) return Response.json({ error: "Invalid challenge" }, { status: 400 });
+      if (!valid) {
+        console.log("[finishAuth] Challenge signature invalid");
+        return Response.json({ error: "Invalid challenge" }, { status: 400 });
+      }
 
       // Find the passkey by credential ID using service role
       const passkeys = await base44.asServiceRole.entities.Passkey.filter({ credential_id: credentialId });
       if (!passkeys || passkeys.length === 0) {
+        console.log("[finishAuth] Passkey not found for credentialId:", credentialId);
         return Response.json({ error: "Credential not found" }, { status: 404 });
       }
 
       const passkey = passkeys[0];
+      console.log("[finishAuth] Passkey found, algorithm:", passkey.algorithm, "device:", passkey.device_name);
 
       // Parse clientDataJSON
       const clientData = JSON.parse(new TextDecoder().decode(base64urlToBuffer(clientDataJSON)));
+      console.log("[finishAuth] clientData type:", clientData.type, "origin:", clientData.origin);
       if (clientData.type !== "webauthn.get") {
         return Response.json({ error: "Invalid assertion type" }, { status: 400 });
       }
 
-      // Verify challenge matches
-      if (clientData.challenge !== challenge) {
+      // Verify challenge matches (compare base64url without padding)
+      const normalizeB64url = (s: string) => s.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+      if (normalizeB64url(clientData.challenge) !== normalizeB64url(challenge)) {
+        console.log("[finishAuth] Challenge mismatch:", clientData.challenge, "vs", challenge);
         return Response.json({ error: "Challenge mismatch" }, { status: 400 });
       }
 
       // Verify the signature
       const importParams = getKeyImportParams(passkey.algorithm);
-      const publicKey = await crypto.subtle.importKey(
-        'spki',
-        base64urlToBuffer(passkey.public_key),
-        importParams,
-        false,
-        ['verify']
-      );
+      console.log("[finishAuth] importParams:", JSON.stringify(importParams));
+
+      let publicKey;
+      try {
+        publicKey = await crypto.subtle.importKey(
+          'spki',
+          base64urlToBuffer(passkey.public_key),
+          importParams,
+          false,
+          ['verify']
+        );
+        console.log("[finishAuth] Public key imported successfully");
+      } catch (importErr) {
+        console.log("[finishAuth] Public key import failed:", importErr.message);
+        return Response.json({ error: "Key import failed: " + importErr.message }, { status: 500 });
+      }
 
       const authData = new Uint8Array(base64urlToBuffer(authenticatorData));
       const clientDataHash = new Uint8Array(await crypto.subtle.digest('SHA-256', base64urlToBuffer(clientDataJSON)));
@@ -232,15 +255,61 @@ export default async function(req: Request): Promise<Response> {
       signedData.set(authData, 0);
       signedData.set(clientDataHash, authData.length);
 
+      console.log("[finishAuth] authData length:", authData.length, "clientDataHash length:", clientDataHash.length, "signedData length:", signedData.length);
+      console.log("[finishAuth] signature length:", base64urlToBuffer(clientSig).byteLength);
+
       const verifyParams = getVerifyParams(passkey.algorithm);
-      const verified = await crypto.subtle.verify(
+      console.log("[finishAuth] verifyParams:", JSON.stringify(verifyParams));
+
+      const sigBuffer = base64urlToBuffer(clientSig);
+
+      // Try raw signature verification
+      let verified = await crypto.subtle.verify(
         verifyParams,
         publicKey,
-        base64urlToBuffer(clientSig),
+        sigBuffer,
         signedData
       );
+      console.log("[finishAuth] Raw signature verify result:", verified);
+
+      // If raw verification fails and algorithm is ECDSA, try DER format
+      if (!verified && passkey.algorithm === -7) {
+        console.log("[finishAuth] Raw verify failed, trying DER to raw conversion");
+        try {
+          const derSig = new Uint8Array(sigBuffer);
+          // DER format: 0x30 <len> 0x02 <rlen> <r> 0x02 <slen> <s>
+          if (derSig[0] === 0x30) {
+            let offset = 2;
+            const rLen = derSig[offset];
+            offset++;
+            const r = derSig.slice(offset, offset + rLen);
+            offset += rLen;
+            const sLen = derSig[offset];
+            offset++;
+            const s = derSig.slice(offset, offset + sLen);
+
+            // Remove leading zeros and pad to 32 bytes
+            const rPadded = new Uint8Array(32);
+            const sPadded = new Uint8Array(32);
+            const rStart = Math.max(0, 32 - r.length);
+            const sStart = Math.max(0, 32 - s.length);
+            rPadded.set(r, rStart);
+            sPadded.set(s, sStart);
+
+            const rawSig = new Uint8Array(64);
+            rawSig.set(rPadded, 0);
+            rawSig.set(sPadded, 32);
+
+            verified = await crypto.subtle.verify(verifyParams, publicKey, rawSig.buffer, signedData);
+            console.log("[finishAuth] DER-converted verify result:", verified);
+          }
+        } catch (derErr) {
+          console.log("[finishAuth] DER conversion failed:", derErr.message);
+        }
+      }
 
       if (!verified) {
+        console.log("[finishAuth] Signature verification failed");
         return Response.json({ error: "Signature verification failed" }, { status: 401 });
       }
 
