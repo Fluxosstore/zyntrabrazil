@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Crown, Plug, X, Plus, Lock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 
 export default function ConnectorsContent({ plan = "free" }) {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const isPaid = plan && plan !== "free";
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -37,7 +39,10 @@ export default function ConnectorsContent({ plan = "free" }) {
                   <p className="text-xs text-gray-500 mt-1 md:whitespace-nowrap">{t("settings.connectorsPremiumDesc")}</p>
                 </div>
               </div>
-              <button className="px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0">
+              <button
+                onClick={() => navigate("/plan-selection")}
+                className="px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0"
+              >
                 {t("settings.seePlans")}
               </button>
             </div>

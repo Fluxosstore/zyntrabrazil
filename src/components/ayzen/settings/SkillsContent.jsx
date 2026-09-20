@@ -1,9 +1,11 @@
 import React from "react";
 import { Crown, Wand2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 
 export default function SkillsContent({ plan = "free", onCreateSkill }) {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const isPaid = plan && plan !== "free";
 
   if (!isPaid) {
@@ -36,7 +38,10 @@ export default function SkillsContent({ plan = "free", onCreateSkill }) {
                   <p className="text-xs text-gray-500 mt-1 md:whitespace-nowrap">{t("settings.skillsPremiumDesc")}</p>
                 </div>
               </div>
-              <button className="px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0">
+              <button
+                onClick={() => navigate("/plan-selection")}
+                className="px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0"
+              >
                 {t("settings.seePlans")}
               </button>
             </div>
