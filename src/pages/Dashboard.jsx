@@ -357,12 +357,15 @@ export default function Dashboard() {
       <main className="flex-1 flex flex-col relative bg-white rounded-2xl overflow-hidden">
         {/* top bar */}
         <div className="h-9 flex items-center justify-between px-5 border-b border-gray-100">
-          <div className="flex items-center gap-2 text-xs text-gray-500">
+          <button
+            onClick={() => navigate("/ranking")}
+            className="flex items-center gap-2 text-xs text-gray-500 hover:opacity-80 transition-opacity"
+          >
             <span className="w-1.5 h-1.5 rounded-full bg-[#7E57C2]" />
             <span className="font-medium">{t("dash.topBar")}</span>
             <span className="text-[#7E57C2] font-medium">{t("dash.weekChange")}</span>
             <span className="text-gray-400">›</span>
-          </div>
+          </button>
           <div className="relative group">
             <button
               onClick={() => setTempMode((v) => !v)}
