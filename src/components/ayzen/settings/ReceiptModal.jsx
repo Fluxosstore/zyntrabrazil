@@ -49,9 +49,11 @@ export default function ReceiptModal({ open, onClose, value, date, userEmail, us
           >
             {/* Brand */}
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white text-sm font-bold">
-                Z
-              </div>
+              <img
+                src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/114395417_589397f87_ChatGPTImage16desetde202623_41_31.webp"
+                alt="Zyntra"
+                className="w-7 h-7 rounded-lg object-cover"
+              />
               <span className="text-sm font-bold text-gray-800">Zyntra</span>
             </div>
             <p className="text-sm font-semibold text-gray-700">Comprovante de pagamento</p>
