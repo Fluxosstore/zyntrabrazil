@@ -81,7 +81,11 @@ export default function PixPaymentModal({ open, onClose, qrCodeBase64, pixCode, 
 
           <div className="flex justify-center">
             {qrCodeBase64 ? (
-              <img src={qrCodeBase64} alt="QR Code PIX" className="w-48 h-48 rounded-lg" />
+              <img
+                src={qrCodeBase64.startsWith('data:') ? qrCodeBase64 : `data:image/png;base64,${qrCodeBase64}`}
+                alt="QR Code PIX"
+                className="w-48 h-48 rounded-lg"
+              />
             ) : (
               <div className="w-48 h-48 bg-gray-100 rounded-lg flex items-center justify-center">
                 <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
