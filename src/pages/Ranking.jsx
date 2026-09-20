@@ -15,6 +15,23 @@ const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698
 const CLAUDE = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
 const GROK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
 
+const LOBE = "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/light";
+const TENCENT = `${LOBE}/tencent-color.png`;
+const ZAI = `${LOBE}/zai.png`;
+const XIAOMI = `${LOBE}/xiaomimimo.png`;
+const NVIDIA = `${LOBE}/nvidia-color.png`;
+const MINIMAX = `${LOBE}/minimax-color.png`;
+const KIMI = `${LOBE}/kimi-color.png`;
+const META = `${LOBE}/meta-color.png`;
+const MISTRAL = `${LOBE}/mistral-color.png`;
+const COHERE = `${LOBE}/cohere-color.png`;
+const QWEN = `${LOBE}/qwen-color.png`;
+const MICROSOFT = `${LOBE}/microsoft-color.png`;
+const ZEROONE = `${LOBE}/zeroone-color.png`;
+const DBRX = `${LOBE}/dbrx-color.png`;
+const UPSTAGE = `${LOBE}/upstage-color.png`;
+const POOLSIDE = `${LOBE}/poolside-color.png`;
+
 const VENDOR_LOGOS = {
   openai: GPT,
   anthropic: CLAUDE,
@@ -22,12 +39,37 @@ const VENDOR_LOGOS = {
   deepseek: DEEPSEEK,
   "x-ai": GROK,
   xai: GROK,
+  tencent: TENCENT,
+  "z.ai": ZAI,
+  zai: ZAI,
+  xiaomi: XIAOMI,
+  nvidia: NVIDIA,
+  minimax: MINIMAX,
+  moonshotai: KIMI,
+  moonshot: KIMI,
+  meta: META,
+  mistral: MISTRAL,
+  cohere: COHERE,
+  alibaba: QWEN,
+  qwen: QWEN,
+  microsoft: MICROSOFT,
+  "01.ai": ZEROONE,
+  "01ai": ZEROONE,
+  databricks: DBRX,
+  upstage: UPSTAGE,
+  poolside: POOLSIDE,
 };
 
 function getLogo(vendor) {
-  const key = (vendor || "").toLowerCase();
+  let key = (vendor || "").toLowerCase().trim();
+  // Remove common prefixes/suffixes from API vendor names
+  key = key.replace(/^~+/, "").replace(/^meta-llama$/, "meta").replace(/^z-ai$/, "z.ai");
   if (VENDOR_LOGOS[key]) return VENDOR_LOGOS[key];
-  const letter = (vendor || "?").charAt(0).toUpperCase();
+  // Try partial match: if any key is contained in the vendor name
+  for (const k of Object.keys(VENDOR_LOGOS)) {
+    if (key.includes(k) || k.includes(key)) return VENDOR_LOGOS[k];
+  }
+  const letter = (vendor || "?").replace(/^~+/, "").charAt(0).toUpperCase();
   const colors = ["#7E57C2", "#EC4899", "#F59E0B", "#10B981", "#3B82F6", "#EF4444"];
   const color = colors[letter.charCodeAt(0) % colors.length];
   return { type: "circle", letter, color };
