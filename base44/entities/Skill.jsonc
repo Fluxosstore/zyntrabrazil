@@ -1,0 +1,28 @@
+{
+  "name": "Skill",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome da habilidade (vira o comando /nome no chat)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Quando usar esta habilidade"
+    },
+    "instructions": {
+      "type": "string",
+      "description": "Instru\u00e7\u00f5es que a IA segue quando a habilidade est\u00e1 ativa"
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Se a habilidade est\u00e1 ativa",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "instructions",
+    "active"
+  ]
+}

@@ -240,10 +240,15 @@ export default function Settings() {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(location.state?.section || "usage");
   const [skillFormOpen, setSkillFormOpen] = useState(false);
+  const [editSkill, setEditSkill] = useState(null);
 
   const renderContent = () => {
     if (activeSection === "skills" && skillFormOpen) {
-      return <SkillFormContent onBack={() => setSkillFormOpen(false)} />;
+      return <SkillFormContent
+        onBack={() => { setSkillFormOpen(false); setEditSkill(null); }}
+        editSkill={editSkill}
+        onSaved={() => { setSkillFormOpen(false); setEditSkill(null); }}
+      />;
     }
     switch (activeSection) {
       case "plan":
@@ -255,7 +260,11 @@ export default function Settings() {
       case "memories":
         return <MemoriesContent />;
       case "skills":
-        return <SkillsContent plan={user?.plan || "free"} onCreateSkill={() => setSkillFormOpen(true)} />;
+        return <SkillsContent
+          plan={user?.plan || "free"}
+          onCreateSkill={() => { setEditSkill(null); setSkillFormOpen(true); }}
+          onEditSkill={(skill) => { setEditSkill(skill); setSkillFormOpen(true); }}
+        />;
       case "connectors":
         return <ConnectorsContent plan={user?.plan || "free"} />;
       default:

@@ -1,12 +1,69 @@
-import React, { useState } from "react";
-import { ChevronLeft, Save } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ChevronLeft, Save, Loader2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { base44 } from "@/api/base44Client";
 
-export default function SkillFormContent({ onBack }) {
+const MAX_SKILLS = 20;
+
+export default function SkillFormContent({ onBack, editSkill, onSaved }) {
   const { t } = useLanguage();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (editSkill) {
+      setName(editSkill.name || "");
+      setDescription(editSkill.description || "");
+      setInstructions(editSkill.instructions || "");
+    }
+  }, [editSkill]);
+
+  const isNameValid = /^[a-z0-9-]+$/.test(name);
+
+  const handleSave = async () => {
+    setError("");
+
+    if (!name.trim() || !instructions.trim()) {
+      setError(t("settings.skillRequired"));
+      return;
+    }
+
+    if (!isNameValid) {
+      setError(t("settings.skillNameError"));
+      return;
+    }
+
+    setSaving(true);
+    try {
+      if (editSkill) {
+        await base44.entities.Skill.update(editSkill.id, {
+          name: name.trim(),
+          description: description.trim(),
+          instructions: instructions.trim(),
+        });
+      } else {
+        const existing = await base44.entities.Skill.list();
+        if (existing.length >= MAX_SKILLS) {
+          setError(t("settings.skillLimitReached"));
+          setSaving(false);
+          return;
+        }
+        await base44.entities.Skill.create({
+          name: name.trim(),
+          description: description.trim(),
+          instructions: instructions.trim(),
+          active: true,
+        });
+      }
+      onSaved?.();
+    } catch (err) {
+      setError(err.message || t("settings.skillSaveError"));
+    }
+    setSaving(false);
+  };
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -14,7 +71,9 @@ export default function SkillFormContent({ onBack }) {
         {/* Header */}
         <div>
           <p className="text-xs text-gray-400">{t("settings.title")}</p>
-          <h1 className="text-2xl font-bold text-black mt-0.5">{t("settings.skills")}</h1>
+          <h1 className="text-2xl font-bold text-black mt-0.5">
+            {editSkill ? t("settings.editSkill") : t("settings.newSkill")}
+          </h1>
           <p className="text-sm text-gray-500 mt-1">{t("settings.skillsSubtitle")}</p>
         </div>
 
@@ -29,7 +88,9 @@ export default function SkillFormContent({ onBack }) {
 
         {/* Form */}
         <div className="rounded-2xl border border-gray-200 bg-white p-6 space-y-6 max-w-3xl">
-          <h2 className="text-lg font-bold text-black">{t("settings.newSkill")}</h2>
+          <h2 className="text-lg font-bold text-black">
+            {editSkill ? t("settings.editSkill") : t("settings.newSkill")}
+          </h2>
 
           {/* Nome */}
           <div className="space-y-1.5">
@@ -75,6 +136,11 @@ export default function SkillFormContent({ onBack }) {
             />
           </div>
 
+          {/* Error */}
+          {error && (
+            <p className="text-sm text-red-500">{error}</p>
+          )}
+
           {/* Footer actions */}
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
@@ -84,11 +150,16 @@ export default function SkillFormContent({ onBack }) {
               {t("settings.cancel")}
             </button>
             <button
-              onClick={onBack}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B5563] text-white text-sm font-medium hover:bg-gray-700 transition-colors"
+              onClick={handleSave}
+              disabled={saving}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4B5563] text-white text-sm font-medium hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
-              <Save className="w-4 h-4" />
-              {t("settings.save")}
+              {saving ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
+              {saving ? t("settings.skillSaving") : t("settings.save")}
             </button>
           </div>
         </div>

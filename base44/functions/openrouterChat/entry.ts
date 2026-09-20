@@ -41,19 +41,39 @@ export default async function(req) {
     const apiKey = secrets.get("OPENROUTER_API_KEY");
     if (!apiKey) return Response.json({ error: "OPENROUTER_API_KEY não configurada" }, { status: 500 });
 
+    // Detectar e processar comandos de habilidade (/skill-name)
+    let skillInstructions = "";
+    let userMessage = prompt;
+    const skillMatch = prompt.match(/^\/([a-z0-9-]+)\s*/);
+    if (skillMatch) {
+      const skillName = skillMatch[1];
+      try {
+        const skills = await base44.entities.Skill.filter({ name: skillName, active: true });
+        if (skills && skills.length > 0) {
+          const skill = skills[0];
+          skillInstructions = `Instruções da habilidade "${skill.name}":\n${skill.instructions}\n\n`;
+          userMessage = prompt.replace(skillMatch[0], "").trim() || skill.description || "Execute according to the skill instructions.";
+        }
+      } catch (e) {
+        // Ignora erros de skill
+      }
+    }
+
     // Buscar memórias do usuário se useMemories estiver ativo
-    let contextPrompt = prompt;
+    let memoryContext = "";
     if (useMemories) {
       try {
         const memories = await base44.entities.Memory.list();
         if (memories && memories.length > 0) {
           const memoryText = memories.map((m) => `- ${m.content}`).join("\n");
-          contextPrompt = `Memórias sobre o usuário:\n${memoryText}\n\n${prompt}`;
+          memoryContext = `Memórias sobre o usuário:\n${memoryText}\n\n`;
         }
       } catch (e) {
         // Ignora erros de memória
       }
     }
+
+    const contextPrompt = skillInstructions + memoryContext + userMessage;
 
     // Constrói conteúdo multimodal se houver imagens
     let messageContent;
