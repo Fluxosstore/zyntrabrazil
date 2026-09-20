@@ -8,26 +8,26 @@ export const QUOTAS_BY_PLAN = {
   },
   starter: {
     text: { day: 0, week: 0, month: 15000 },
-    image: { day: 2, week: 8, month: 30 },
-    audio: { day: 1, week: 4, month: 15 }
+    image: { day: 0, week: 0, month: 40 },
+    audio: { day: 0, week: 0, month: 40 }
   },
   premium: {
     text: { day: 0, week: 0, month: 20000 },
-    image: { day: 4, week: 15, month: 50 },
-    audio: { day: 2, week: 8, month: 25 }
+    image: { day: 0, week: 0, month: 70 },
+    audio: { day: 0, week: 0, month: 70 }
   },
   team: {
     text: { day: 0, week: 0, month: 25000 },
-    image: { day: 8, week: 30, month: 100 },
-    audio: { day: 4, week: 15, month: 40 }
+    image: { day: 0, week: 0, month: 120 },
+    audio: { day: 0, week: 0, month: 120 }
   },
   startup: {
     text: { day: 0, week: 0, month: 30000 },
-    image: { day: 12, week: 45, month: 150 },
-    audio: { day: 6, week: 22, month: 60 }
+    image: { day: 0, week: 0, month: 170 },
+    audio: { day: 0, week: 0, month: 170 }
   },
   enterprise: {
-    text: { day: 0, week: 0, month: 40000 },
+    text: "unlimited",
     image: "unlimited",
     audio: "unlimited"
   }
