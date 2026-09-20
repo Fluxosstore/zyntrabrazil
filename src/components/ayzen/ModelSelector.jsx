@@ -6,15 +6,15 @@ const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
 const GEMINI =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
+"https://upload.wikimedia.org/wikipedia/commons/1/1d/Google_Gemini_icon_2025.svg";
 const DEEPSEEK =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
+"https://upload.wikimedia.org/wikipedia/commons/b/ba/Deepseek-logo-icon.svg";
 const GPT =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
+"https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg";
 const CLAUDE =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
+"https://upload.wikimedia.org/wikipedia/commons/b/b0/Claude_AI_symbol.svg";
 const GROK =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
+"https://upload.wikimedia.org/wikipedia/commons/f/f4/Grok_logo_without_text.svg";
 
 export const PLAN_LABELS = {
   free: "Zyntra Free",
