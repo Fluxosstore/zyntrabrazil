@@ -71,10 +71,28 @@ export const IMAGE_MODELS = [
   { id: "claude-image", name: "Claude Sonnet 4.6", logo: CLAUDE, ms: "~900 ms", level: "medium", type: "image" }
 ];
 
+// Modelos de áudio (TTS) da OpenRouter
+const KOKORO = "https://openrouter.ai/images/icons/Hexgrad.png";
+const FISH_AUDIO = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://fish.audio/&size=256";
+const MINIMAX = "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://minimaxi.com/&size=256";
+const QWEN_LOGO = "https://openrouter.ai/images/icons/Qwen.png";
+const MISTRAL = "https://openrouter.ai/images/icons/Mistral.png";
+
+export const AUDIO_MODELS = [
+  { id: "gemini-tts", name: "Gemini 3.1 Flash TTS", logo: GEMINI, ms: "~1.2 s", level: "high", type: "audio" },
+  { id: "gpt-tts", name: "GPT-4o Mini TTS", logo: GPT, ms: "~1.0 s", level: "high", type: "audio" },
+  { id: "grok-tts", name: "Grok Voice TTS 1.0", logo: GROK, ms: "~1.5 s", level: "medium", type: "audio" },
+  { id: "kokoro-tts", name: "Kokoro 82M", logo: KOKORO, ms: "~800 ms", level: "high", type: "audio" },
+  { id: "fish-tts", name: "Fish Audio S2.1 Pro", logo: FISH_AUDIO, ms: "~1.3 s", level: "medium", type: "audio" },
+  { id: "minimax-tts", name: "MiniMax Speech 2.8 HD", logo: MINIMAX, ms: "~1.8 s", level: "medium", type: "audio" },
+  { id: "qwen-tts", name: "Qwen-Audio 3.0 TTS Plus", logo: QWEN_LOGO, ms: "~1.4 s", level: "medium", type: "audio" },
+  { id: "voxtral-tts", name: "Voxtral Mini TTS", logo: MISTRAL, ms: "~1.2 s", level: "medium", type: "audio" }
+];
+
 export function getModelInfo(id, plan = "free") {
   if (id === "auto") return { id: "auto", name: "Zyntra Auto", logo: LOGO };
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
-  const found = models.find((m) => m.id === id) || IMAGE_MODELS.find((m) => m.id === id);
+  const found = models.find((m) => m.id === id) || IMAGE_MODELS.find((m) => m.id === id) || AUDIO_MODELS.find((m) => m.id === id);
   return found || { id: "auto", name: "Zyntra Auto", logo: LOGO };
 }
 
@@ -108,6 +126,9 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
   m.name.toLowerCase().includes(query.toLowerCase())
   );
   const filteredImages = IMAGE_MODELS.filter((m) =>
+  m.name.toLowerCase().includes(query.toLowerCase())
+  );
+  const filteredAudios = AUDIO_MODELS.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -181,7 +202,7 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
             {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
           </button>
         )}
-        {filtered.length === 0 && filteredImages.length === 0 &&
+        {filtered.length === 0 && filteredImages.length === 0 && filteredAudios.length === 0 &&
         <p className="px-2.5 py-3 text-xs text-[#9E9E9E]">Nenhum modelo encontrado.</p>
         }
       </div>
@@ -194,6 +215,33 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
       </div>
       <div className="px-1.5 pb-2 space-y-0.5">
         {filteredImages.map((m) =>
+        <button
+          key={m.id}
+          onClick={() => onSelect?.(m.id)}
+          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors text-left ${
+          selected === m.id ? "bg-[#F0F2F5]" : "hover:bg-gray-100"}`
+          }>
+          <div className="w-6 h-6 flex items-center justify-center shrink-0">
+            <img src={m.logo} alt={m.name} className="w-5 h-5 object-contain" />
+          </div>
+          <span className="flex-1 text-xs font-medium text-[#212121]">{m.name}</span>
+          <span className="flex items-center gap-1 text-[10px] text-[#2E7D32] font-medium">
+            {m.ms}
+            <SignalIndicator level={m.level} />
+          </span>
+          {selected === m.id && <Check className="w-3.5 h-3.5 text-black shrink-0" />}
+        </button>
+        )}
+      </div>
+
+      <div className="h-px bg-gray-100" />
+
+      {/* Audio models section */}
+      <div className="px-3.5 pt-2.5 pb-1">
+        <span className="text-[10px] font-bold tracking-wider text-[#757575]">ÁUDIO</span>
+      </div>
+      <div className="px-1.5 pb-2 space-y-0.5">
+        {filteredAudios.map((m) =>
         <button
           key={m.id}
           onClick={() => onSelect?.(m.id)}
