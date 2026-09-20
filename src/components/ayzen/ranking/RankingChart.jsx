@@ -1,5 +1,5 @@
 import React from "react";
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useLanguage } from "@/lib/LanguageContext";
 
 function ModelLogo({ logo, size = 20 }) {
@@ -16,89 +16,60 @@ function ModelLogo({ logo, size = 20 }) {
   return <img src={logo} alt="" style={{ width: size, height: size }} className="rounded-md object-contain shrink-0" />;
 }
 
-function CustomTooltip({ active, payload, label }) {
+function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
+  const item = payload[0]?.payload;
+  if (!item) return null;
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-2.5 max-w-[200px]">
-      <p className="text-[10px] font-semibold text-gray-400 mb-1.5">{label}</p>
-      <div className="space-y-1">
-        {payload
-          .filter((p) => p.value > 0)
-          .sort((a, b) => b.value - a.value)
-          .slice(0, 5)
-          .map((p) => (
-            <div key={p.dataKey} className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
-              <span className="flex-1 text-gray-600 truncate">{p.name}</span>
-              <span className="font-semibold text-black">{p.value.toFixed(1)}T</span>
-            </div>
-          ))}
-      </div>
+    <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-2.5 max-w-[220px]">
+      <p className="text-[11px] font-semibold text-black truncate">{item.fullName}</p>
+      <p className="text-[10px] text-gray-500">{item.vendor}</p>
+      <p className="text-[11px] text-gray-700 mt-1">
+        {(item.contextLength / 1000).toFixed(0)}K tokens de contexto
+      </p>
     </div>
   );
 }
 
-export default function RankingChart({ chartSeries, chartData, top3 }) {
+export default function RankingChart({ models, top3 }) {
   const { t } = useLanguage();
-  const series = chartSeries || [];
-  const data = chartData || [];
   const top = top3 || [];
+  const chartData = (models || []).slice(0, 10).map((m) => ({
+    name: m.name.length > 22 ? m.name.slice(0, 22) + "…" : m.name,
+    fullName: m.name,
+    vendor: m.vendor,
+    contextLength: m.contextLength,
+  }));
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       {/* Chart */}
       <div className="lg:col-span-2 rounded-2xl border border-gray-200 bg-white p-5">
         <h3 className="text-base font-bold text-black">{t("ranking.evolution")}</h3>
-        <p className="text-xs text-gray-500 mt-0.5 mb-4">{t("ranking.evolutionDesc")}</p>
-        <div className="h-[200px]">
+        <p className="text-xs text-gray-500 mt-0.5 mb-4">Janela de contexto dos modelos mais capazes</p>
+        <div className="h-[220px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
-              <defs>
-                {series.map((s) => (
-                  <linearGradient key={s.key} id={`grad-${s.key}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={s.color} stopOpacity={0.15} />
-                    <stop offset="100%" stopColor={s.color} stopOpacity={0} />
-                  </linearGradient>
-                ))}
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+            <BarChart data={chartData} layout="vertical" margin={{ top: 0, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" horizontal={false} />
               <XAxis
-                dataKey="date"
+                type="number"
                 tick={{ fontSize: 10, fill: "#9ca3af" }}
                 axisLine={false}
                 tickLine={false}
-                interval={4}
+                tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`}
               />
               <YAxis
-                tick={{ fontSize: 10, fill: "#9ca3af" }}
+                type="category"
+                dataKey="name"
+                tick={{ fontSize: 9, fill: "#6b7280" }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => `${v.toFixed(1)}T`}
+                width={130}
               />
-              <Tooltip content={<CustomTooltip />} />
-              {series.map((s) => (
-                <Area
-                  key={s.key}
-                  type="monotone"
-                  dataKey={s.key}
-                  name={s.name}
-                  stroke={s.color}
-                  strokeWidth={1.5}
-                  fill={`url(#grad-${s.key})`}
-                  dot={false}
-                />
-              ))}
-            </AreaChart>
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "#f5f3ff" }} />
+              <Bar dataKey="contextLength" radius={[0, 4, 4, 0]} fill="#7E57C2" />
+            </BarChart>
           </ResponsiveContainer>
-        </div>
-        {/* Legend */}
-        <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-4 border-t border-gray-100">
-          {series.map((s) => (
-            <div key={s.key} className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
-              <span className="text-[11px] text-gray-600">{s.name}</span>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -125,8 +96,8 @@ export default function RankingChart({ chartSeries, chartData, top3 }) {
                   <ModelLogo logo={m.logo} size={20} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-black truncate">{m.vendor}: {m.name}</p>
-                  <p className="text-[10px] text-gray-500">{m.tokens}</p>
+                  <p className="text-xs font-semibold text-black truncate">{m.name}</p>
+                  <p className="text-[10px] text-gray-500">{m.tokens} de contexto</p>
                 </div>
                 <span className="text-base font-bold text-black shrink-0">
                   {m.share.toFixed(1).replace(".", ",")}%

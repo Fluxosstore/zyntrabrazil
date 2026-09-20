@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -7,7 +7,37 @@ import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import RankingChart from "@/components/ayzen/ranking/RankingChart";
 import RankingTable from "@/components/ayzen/ranking/RankingTable";
 import RankingFilters from "@/components/ayzen/ranking/RankingFilters";
-import { getModalityData } from "@/components/ayzen/ranking/rankingData";
+import { base44 } from "@/api/base44Client";
+
+const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
+const DEEPSEEK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
+const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
+const CLAUDE = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
+const GROK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
+
+const VENDOR_LOGOS = {
+  openai: GPT,
+  anthropic: CLAUDE,
+  google: GEMINI,
+  deepseek: DEEPSEEK,
+  "x-ai": GROK,
+  xai: GROK,
+};
+
+function getLogo(vendor) {
+  const key = (vendor || "").toLowerCase();
+  if (VENDOR_LOGOS[key]) return VENDOR_LOGOS[key];
+  const letter = (vendor || "?").charAt(0).toUpperCase();
+  const colors = ["#7E57C2", "#EC4899", "#F59E0B", "#10B981", "#3B82F6", "#EF4444"];
+  const color = colors[letter.charCodeAt(0) % colors.length];
+  return { type: "circle", letter, color };
+}
+
+function formatContext(len) {
+  if (len >= 1000000) return `${(len / 1000000).toFixed(1).replace(".", ",")}M`;
+  if (len >= 1000) return `${Math.round(len / 1000)}K`;
+  return `${len}`;
+}
 
 export default function Ranking() {
   const { t } = useLanguage();
@@ -15,8 +45,85 @@ export default function Ranking() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modality, setModality] = useState("text");
   const [period, setPeriod] = useState("30d");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [rawModels, setRawModels] = useState([]);
 
-  const data = useMemo(() => getModalityData(modality, period), [modality, period]);
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchRanking() {
+      setLoading(true);
+      setError(null);
+      try {
+        const result = await base44.functions.invoke("openrouterRanking", { modality });
+        if (cancelled) return;
+        if (result.data?.error) throw new Error(result.data.error);
+        setRawModels(result.data?.models || []);
+      } catch (err) {
+        if (!cancelled) setError(err.message || "Erro ao carregar ranking");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    fetchRanking();
+    return () => { cancelled = true; };
+  }, [modality]);
+
+  const data = useMemo(() => {
+    if (rawModels.length === 0) return { models: [], top3: [] };
+    const totalContext = rawModels.reduce((sum, m) => sum + (m.contextLength || 0), 0);
+    const models = rawModels.map((m) => ({
+      rank: m.rank,
+      name: m.name,
+      vendor: m.vendor,
+      logo: getLogo(m.vendor),
+      tokens: formatContext(m.contextLength),
+      tokensNum: m.contextLength / 1000,
+      share: totalContext > 0 ? (m.contextLength / totalContext) * 100 : 0,
+      contextLength: m.contextLength,
+    }));
+    return { models, top3: models.slice(0, 3) };
+  }, [rawModels]);
+
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center py-20">
+          <div className="w-8 h-8 border-4 border-gray-200 border-t-[#7E57C2] rounded-full animate-spin" />
+        </div>
+      );
+    }
+    if (error) {
+      return (
+        <div className="text-center py-20">
+          <p className="text-sm text-red-500">{error}</p>
+          <button
+            onClick={() => setModality((m) => m)}
+            className="mt-3 text-xs text-[#7E57C2] font-medium hover:underline"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      );
+    }
+    if (data.models.length === 0) {
+      return (
+        <div className="text-center py-20">
+          <p className="text-sm text-gray-500">Nenhum modelo encontrado para esta modalidade.</p>
+        </div>
+      );
+    }
+    return (
+      <>
+        <RankingChart models={data.models} top3={data.top3} />
+        <div>
+          <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
+          <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
+          <RankingTable models={data.models} />
+        </div>
+      </>
+    );
+  };
 
   return (
     <>
@@ -55,22 +162,12 @@ export default function Ranking() {
               onPeriodChange={setPeriod}
             />
 
-            {/* Chart + Top 3 */}
-            <RankingChart
-              chartSeries={data.chartSeries}
-              chartData={data.chartData}
-              top3={data.top3}
-            />
-
-            {/* Full ranking */}
-            <div>
-              <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
-              <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
-              <RankingTable models={data.models} />
-            </div>
+            {renderContent()}
 
             {/* Footer */}
-            <p className="text-center text-[11px] text-gray-400 pb-2">{t("ranking.footer")}</p>
+            <p className="text-center text-[11px] text-gray-400 pb-2">
+              Dados em tempo real via OpenRouter · Ordenado por janela de contexto
+            </p>
           </div>
         </main>
       </div>
@@ -112,17 +209,10 @@ export default function Ranking() {
             onModalityChange={setModality}
             onPeriodChange={setPeriod}
           />
-          <RankingChart
-            chartSeries={data.chartSeries}
-            chartData={data.chartData}
-            top3={data.top3}
-          />
-          <div>
-            <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
-            <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
-            <RankingTable models={data.models} />
-          </div>
-          <p className="text-center text-[11px] text-gray-400">{t("ranking.footer")}</p>
+          {renderContent()}
+          <p className="text-center text-[11px] text-gray-400">
+            Dados em tempo real via OpenRouter · Ordenado por janela de contexto
+          </p>
         </div>
 
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
