@@ -2,7 +2,7 @@ import { base44 } from "@/api/base44Client";
 
 export const QUOTAS_BY_PLAN = {
   free: {
-    text: { day: 0, week: 0, month: 3 },
+    text: { day: 0, week: 0, month: 300 },
     image: { day: 0, week: 0, month: 5 },
     audio: { day: 0, week: 0, month: 3 }
   },
