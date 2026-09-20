@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
-import { CONNECTORS, CONNECTOR_CATEGORIES } from "./connectorsData";
+import { CONNECTORS, CONNECTOR_CATEGORIES, WORKSPACE_CONNECTOR_MAP } from "./connectorsData";
 
 function ConnectorLogo({ connector }) {
   const [error, setError] = useState(false);
@@ -27,6 +27,7 @@ function ConnectorLogo({ connector }) {
 
 function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect }) {
   const [connecting, setConnecting] = useState(false);
+  const hasOAuth = !!WORKSPACE_CONNECTOR_MAP[connector.id];
 
   const handleClick = async () => {
     if (isConnected) {
@@ -37,6 +38,26 @@ function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect }
       setConnecting(false);
     }
   };
+
+  if (!hasOAuth && !isConnected) {
+    return (
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 flex flex-col gap-3">
+        <div className="flex items-start gap-3">
+          <ConnectorLogo connector={connector} />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-black">{connector.name}</p>
+            <p className="text-xs text-gray-500 mt-0.5 leading-snug">{connector.desc[lang]}</p>
+          </div>
+        </div>
+        <button
+          disabled
+          className="w-full h-9 rounded-xl text-sm font-medium bg-gray-50 text-gray-400 border border-gray-100 cursor-not-allowed"
+        >
+          Em breve
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4 flex flex-col gap-3">
