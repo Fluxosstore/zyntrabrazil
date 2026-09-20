@@ -231,7 +231,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                 />
                 <span className="text-sm font-bold text-black">{loadingModel.name}</span>
               </div>
-              <div className="bg-gray-100 rounded-2xl px-4 py-3">
+              <div className="w-fit bg-gray-100 rounded-2xl px-4 py-3">
                 <div className="flex gap-1">
                   <span
                     className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
