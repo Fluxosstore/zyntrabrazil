@@ -7,12 +7,14 @@ export default function PixPaymentModal({ open, onClose, qrCodeBase64, pixCode, 
   const [checking, setChecking] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(15 * 60);
   const [paid, setPaid] = useState(false);
+  const [notPaid, setNotPaid] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     setSecondsLeft(15 * 60);
     setPaid(false);
     setCopied(false);
+    setNotPaid(false);
   }, [open]);
 
   useEffect(() => {
@@ -59,6 +61,9 @@ export default function PixPaymentModal({ open, onClose, qrCodeBase64, pixCode, 
       if (order?.status === "paid") {
         setPaid(true);
         setTimeout(() => onPaid(), 1500);
+      } else {
+        setNotPaid(true);
+        setTimeout(() => setNotPaid(false), 2000);
       }
     } catch {}
     setChecking(false);
@@ -119,6 +124,13 @@ export default function PixPaymentModal({ open, onClose, qrCodeBase64, pixCode, 
             )}
             {paid ? "Pagamento confirmado!" : "Já paguei, verificar agora"}
           </button>
+
+          {notPaid && (
+            <div className="flex items-center justify-center gap-1.5 text-xs font-medium text-red-500">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+              Pagamento não efetuado
+            </div>
+          )}
 
           <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
