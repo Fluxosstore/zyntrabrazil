@@ -4,7 +4,7 @@ import { secrets } from 'base44:runtime';
 // Mapeia modelos visíveis do site para modelos do OpenRouter
 const MODEL_MAP = {
   auto: "openai/gpt-4o-mini",
-  deepseek: "deepseek/deepseek-chat-v3-0324:free",
+  deepseek: "deepseek/deepseek-chat-v3-0324",
   gemini: "google/gemini-2.5-pro",
   gpt: "openai/gpt-4o",
   gpt5: "openai/gpt-4o",
