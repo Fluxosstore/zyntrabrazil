@@ -72,7 +72,7 @@ export default function ReceiptModal({ open, onClose, value, date, userEmail, us
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">Instituição</span>
-                <span className="text-xs font-medium text-gray-700">QUICKWAY</span>
+                <span className="text-xs font-medium text-gray-700">Mercado Pago</span>
               </div>
             </div>
 
@@ -84,7 +84,7 @@ export default function ReceiptModal({ open, onClose, value, date, userEmail, us
             <div className="mt-2 space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-500">Forma de pagamento</span>
-                <span className="text-xs font-medium text-gray-700">QUICKWAY</span>
+                <span className="text-xs font-medium text-gray-700">Mercado Pago</span>
               </div>
             </div>
 

@@ -78,7 +78,7 @@ export default function InvoicesContent({ plan = "free" }) {
   }
 
   const invoices = [
-    { id: 1, value, status: "paid", date, method: "Quickway" },
+    { id: 1, value, status: "paid", date, method: "Mercado Pago" },
   ];
 
   const paidCount = invoices.filter((i) => i.status === "paid").length;
