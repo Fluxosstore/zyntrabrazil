@@ -97,9 +97,6 @@ export default function PlanContent() {
                       </span>
                     </div>
                     <p className="text-xs text-[#757575] mt-1 max-w-xs">{t(descKey)}</p>
-                    {expiryDate && (
-                      <p className="text-xs text-[#757575] mt-2">{t("settings.validUntil")} {expiryDate}</p>
-                    )}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
@@ -108,7 +105,10 @@ export default function PlanContent() {
                 </div>
               </div>
             </div>
-            <div className="bg-[#f5f5f5] px-5 py-3 flex justify-end">
+            <div className="bg-[#f5f5f5] px-5 py-3 flex items-center justify-between gap-4">
+              {expiryDate ? (
+                <p className="text-xs text-[#757575]">{t("settings.validUntil")} {expiryDate}</p>
+              ) : <span />}
               <button className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors">
                 {t("settings.changePlan")}
               </button>
