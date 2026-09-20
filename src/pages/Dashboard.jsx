@@ -23,6 +23,7 @@ import { isImageGenerationIntent, messagesToPrompt } from "@/lib/chatUtils";
 import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { checkModelQuota, invalidateUsageCache } from "@/lib/quotaUtils";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -214,15 +215,36 @@ export default function Dashboard() {
     if (isAudioRequest) setImagining(true);
 
     try {
+      // Verifica cota do modelo antes de gerar
+      const modelInfo = getModelInfo(model, plan);
+      const category = isAudioRequest ? "audio" : isImageRequest ? "image" : "text";
+      const quotaCheck = await checkModelQuota(plan, modelInfo.name, category);
+
+      if (quotaCheck.exceeded) {
+        const quotaMsg = quotaCheck.notIncluded
+          ? t("dash.quotaNotIncluded", { model: modelInfo.name })
+          : t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: modelInfo.name });
+        setMessages([
+          ...newMessages,
+          {
+            role: "assistant",
+            content: quotaMsg,
+            model: { name: modelInfo.name, logo: modelInfo.logo }
+          }
+        ]);
+        setLoading(false);
+        setImagining(false);
+        return;
+      }
+
       if (isAudioRequest) {
-        const modelInfo = getModelInfo(model, plan);
         const result = await base44.functions.invoke("openrouterAudio", {
           prompt: msg,
           model,
         });
         const audioUrl = result.data?.url;
         if (!audioUrl) throw new Error("Nenhum áudio retornado");
-        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).then(() => invalidateUsageCache()).catch(() => {});
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
           type: "file",
@@ -240,7 +262,6 @@ export default function Dashboard() {
         }]
         );
       } else if (isImageRequest) {
-        const modelInfo = getModelInfo(model, plan);
         const imageStyleByModel = {
           "gpt-image": "estilo fotorrealista cinematográfico, iluminação dramática, alta qualidade",
           "gemini-image": "estilo vibrante e colorido, composição dinâmica, detalhes nítidos",
@@ -255,7 +276,7 @@ export default function Dashboard() {
         });
         const imageUrl = result.data?.url;
         if (!imageUrl) throw new Error("Nenhuma imagem retornada");
-        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).then(() => invalidateUsageCache()).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
@@ -285,7 +306,7 @@ export default function Dashboard() {
           useMemories
         });
         const _respText = result.data?.content || "";
-        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name }).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name }).then(() => invalidateUsageCache()).catch(() => {});
         setMessages([
         ...newMessages,
         {
@@ -320,6 +341,23 @@ export default function Dashboard() {
     setMessages(baseMessages);
     setLoading(true);
     try {
+      const reprocModelInfo = getModelInfo(modelId, plan);
+      const quotaCheck = await checkModelQuota(plan, reprocModelInfo.name, "text");
+      if (quotaCheck.exceeded) {
+        const quotaMsg = quotaCheck.notIncluded
+          ? t("dash.quotaNotIncluded", { model: reprocModelInfo.name })
+          : t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: reprocModelInfo.name });
+        setMessages([
+          ...baseMessages,
+          {
+            role: "assistant",
+            content: quotaMsg,
+            model: { name: reprocModelInfo.name, logo: reprocModelInfo.logo }
+          }
+        ]);
+        setLoading(false);
+        return;
+      }
       const prompt = messagesToPrompt(baseMessages);
       const result = await base44.functions.invoke("openrouterChat", {
         prompt,
@@ -330,7 +368,7 @@ export default function Dashboard() {
         useMemories
       });
       const _respText = result.data?.content || "";
-      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name }).catch(() => {});
+      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name }).then(() => invalidateUsageCache()).catch(() => {});
       setMessages([
       ...baseMessages,
       {

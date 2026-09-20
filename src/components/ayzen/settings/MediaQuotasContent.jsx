@@ -3,39 +3,7 @@ import { Volume2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { base44 } from "@/api/base44Client";
 import { MODELS_BY_PLAN, IMAGE_MODELS, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
-
-const QUOTAS_BY_PLAN = {
-  free: {
-    text: { day: 5, week: 20, month: 50 },
-    image: { day: 0, week: 0, month: 0 },
-    audio: { day: 0, week: 0, month: 0 }
-  },
-  starter: {
-    text: { day: 20, week: 80, month: 300 },
-    image: { day: 2, week: 8, month: 30 },
-    audio: { day: 1, week: 4, month: 15 }
-  },
-  premium: {
-    text: { day: 40, week: 150, month: 600 },
-    image: { day: 4, week: 15, month: 50 },
-    audio: { day: 2, week: 8, month: 25 }
-  },
-  team: {
-    text: { day: 80, week: 300, month: 1200 },
-    image: { day: 8, week: 30, month: 100 },
-    audio: { day: 4, week: 15, month: 40 }
-  },
-  startup: {
-    text: { day: 150, week: 600, month: 2500 },
-    image: { day: 12, week: 45, month: 150 },
-    audio: { day: 6, week: 22, month: 60 }
-  },
-  enterprise: {
-    text: "unlimited",
-    image: "unlimited",
-    audio: "unlimited"
-  }
-};
+import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
 const CAT_KEYS = {
   text: "settings.mediaTextos",
@@ -104,26 +72,8 @@ export default function MediaQuotasContent({ plan }) {
 
   useEffect(() => {
     (async () => {
-      try {
-        const records = await base44.entities.TokenUsage.list();
-        const now = new Date();
-        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const counts = {};
-        records.forEach((r) => {
-          if (!r.model) return;
-          if (!counts[r.model]) counts[r.model] = { day: 0, week: 0, month: 0, total: 0 };
-          const d = new Date(r.created_date);
-          counts[r.model].total++;
-          if (d >= startOfDay) counts[r.model].day++;
-          if (d >= startOfWeek) counts[r.model].week++;
-          if (d >= startOfMonth) counts[r.model].month++;
-        });
-        setUsageCounts(counts);
-      } catch (err) {
-        console.error("Erro ao carregar uso:", err);
-      }
+      const counts = await getUsageCounts();
+      setUsageCounts(counts);
     })();
   }, []);
 
