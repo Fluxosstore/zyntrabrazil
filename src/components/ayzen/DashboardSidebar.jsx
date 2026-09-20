@@ -71,7 +71,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         )}
       </div>
 
-      <div className={`${collapsed ? "px-3" : "px-2.5"} space-y-1`}>
+      <div className={`${collapsed ? "px-3" : "px-3"} space-y-1`}>
         {collapsed ? (
           <>
             <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
@@ -125,7 +125,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
 
       {!collapsed && (
         <>
-          <div className="flex items-center justify-between px-4 pt-3 pb-1">
+          <div className="flex items-center justify-between px-3 pt-3 pb-1">
             <span className="text-[10px] font-semibold tracking-wider text-gray-400">
               {t("dash.chats")}
             </span>
@@ -133,7 +133,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
-          <div className="flex-1 px-2.5 overflow-y-auto">
+          <div className="flex-1 px-3 overflow-y-auto">
             {displayConversations.length === 0 ? (
               <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p>
             ) : (
@@ -165,7 +165,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       )}
 
       {/* user footer */}
-      <div className={`relative ${collapsed ? "px-3" : "px-2.5"} py-2`}>
+      <div className={`relative ${collapsed ? "px-3" : "px-3"} py-2`}>
         <AnimatePresence>
           {popoverOpen && (
             <UserPopover
