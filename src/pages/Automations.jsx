@@ -3,6 +3,7 @@ import { Clock, Send, Menu } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
+import AutomationCatalog from "@/components/ayzen/automations/AutomationCatalog";
 
 export default function Automations() {
   const { t } = useLanguage();
@@ -40,15 +41,13 @@ export default function Automations() {
             </div>
           </div>
 
-          {/* Empty state */}
-          <div className="flex-1 px-8 pb-8">
-            <div className="h-full border border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center">
-              <div className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-gray-400" />
-              </div>
-              <p className="mt-4 text-sm font-semibold text-black">{t("auto.emptyTitle")}</p>
-              <p className="mt-1.5 text-sm text-gray-500 text-center max-w-md">{t("auto.emptyDesc")}</p>
+          {/* Catalog */}
+          <div className="flex-1 px-8 pb-8 overflow-y-auto">
+            <div className="mb-5">
+              <h2 className="text-sm font-semibold text-black">Automações prontas</h2>
+              <p className="text-xs text-gray-500 mt-0.5">Ative um modelo para começar. Você pode desativar quando quiser.</p>
             </div>
+            <AutomationCatalog />
           </div>
         </main>
       </div>
@@ -89,14 +88,12 @@ export default function Automations() {
           </div>
         </div>
 
-        <div className="flex-1 px-4 pb-4">
-          <div className="h-full border border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center">
-            <div className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center">
-              <Clock className="w-5 h-5 text-gray-400" />
-            </div>
-            <p className="mt-4 text-sm font-semibold text-black">{t("auto.emptyTitle")}</p>
-            <p className="mt-1.5 text-sm text-gray-500 text-center max-w-xs">{t("auto.emptyDesc")}</p>
+        <div className="flex-1 px-4 pb-4 overflow-y-auto">
+          <div className="mb-4">
+            <h2 className="text-sm font-semibold text-black">Automações prontas</h2>
+            <p className="text-xs text-gray-500 mt-0.5">Ative um modelo para começar.</p>
           </div>
+          <AutomationCatalog />
         </div>
 
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
