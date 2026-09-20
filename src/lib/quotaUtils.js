@@ -7,27 +7,27 @@ export const QUOTAS_BY_PLAN = {
     audio: { day: 0, week: 0, month: 0 }
   },
   starter: {
-    text: "unlimited",
+    text: { day: 0, week: 0, month: 10000 },
     image: { day: 2, week: 8, month: 30 },
     audio: { day: 1, week: 4, month: 15 }
   },
   premium: {
-    text: "unlimited",
+    text: { day: 0, week: 0, month: 15000 },
     image: { day: 4, week: 15, month: 50 },
     audio: { day: 2, week: 8, month: 25 }
   },
   team: {
-    text: "unlimited",
+    text: { day: 0, week: 0, month: 20000 },
     image: { day: 8, week: 30, month: 100 },
     audio: { day: 4, week: 15, month: 40 }
   },
   startup: {
-    text: "unlimited",
+    text: { day: 0, week: 0, month: 25000 },
     image: { day: 12, week: 45, month: 150 },
     audio: { day: 6, week: 22, month: 60 }
   },
   enterprise: {
-    text: "unlimited",
+    text: { day: 0, week: 0, month: 40000 },
     image: "unlimited",
     audio: "unlimited"
   }
@@ -90,13 +90,13 @@ export async function checkModelQuota(plan, modelName, category) {
   const counts = await getUsageCounts();
   const usage = counts[modelName] || { day: 0, week: 0, month: 0 };
 
-  if (usage.day >= categoryQuota.day) {
+  if (categoryQuota.day > 0 && usage.day >= categoryQuota.day) {
     return { exceeded: true, period: "day", consumed: usage.day, limit: categoryQuota.day };
   }
-  if (usage.week >= categoryQuota.week) {
+  if (categoryQuota.week > 0 && usage.week >= categoryQuota.week) {
     return { exceeded: true, period: "week", consumed: usage.week, limit: categoryQuota.week };
   }
-  if (usage.month >= categoryQuota.month) {
+  if (categoryQuota.month > 0 && usage.month >= categoryQuota.month) {
     return { exceeded: true, period: "month", consumed: usage.month, limit: categoryQuota.month };
   }
 

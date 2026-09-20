@@ -114,9 +114,15 @@ export default function MediaQuotasContent({ plan }) {
                 <p className="text-sm text-gray-400 mt-1">{t("settings.mediaNotIncluded")}</p>
               ) : (
                 <div className="space-y-2">
-                  <QuotaRow label={t("settings.mediaDay")} consumed={modelUsage.day} limit={item.quotas.day} />
-                  <QuotaRow label={t("settings.mediaWeek")} consumed={modelUsage.week} limit={item.quotas.week} />
-                  <QuotaRow label={t("settings.mediaMonth")} consumed={modelUsage.month} limit={item.quotas.month} />
+                  {item.quotas.day > 0 && (
+                    <QuotaRow label={t("settings.mediaDay")} consumed={modelUsage.day} limit={item.quotas.day} />
+                  )}
+                  {item.quotas.week > 0 && (
+                    <QuotaRow label={t("settings.mediaWeek")} consumed={modelUsage.week} limit={item.quotas.week} />
+                  )}
+                  {item.quotas.month > 0 && (
+                    <QuotaRow label={t("settings.mediaMonth")} consumed={modelUsage.month} limit={item.quotas.month} />
+                  )}
                 </div>
               )}
             </div>
