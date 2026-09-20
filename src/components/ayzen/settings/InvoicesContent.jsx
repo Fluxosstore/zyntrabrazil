@@ -1,14 +1,33 @@
 import React from "react";
 import { DollarSign, MoreHorizontal } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
+import { PLAN_NUMERIC_PRICES, formatBRL } from "@/lib/planData";
 
-const PAID_INVOICES = [
-  { id: 1, value: "R$ 5,00", status: "paid", date: "17/09/2026", method: "Quickway" },
-];
+function formatPtDate(dateStr) {
+  if (!dateStr) return "—";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "—";
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  } catch {
+    return "—";
+  }
+}
 
 export default function InvoicesContent({ plan = "free" }) {
   const { t } = useLanguage();
-  const isPaid = plan !== "free";
+  const { user } = useAuth();
+  const effectivePlan = user?.plan || plan;
+  const cycle = user?.plan_cycle || "mensal";
+  const isPaid = effectivePlan !== "free";
+
+  const price = PLAN_NUMERIC_PRICES[effectivePlan]?.[cycle] || 0;
+  const value = formatBRL(price);
+  const date = formatPtDate(user?.plan_subscribed_at);
 
   if (!isPaid) {
     return (
@@ -34,9 +53,13 @@ export default function InvoicesContent({ plan = "free" }) {
     );
   }
 
-  const paidCount = PAID_INVOICES.filter((i) => i.status === "paid").length;
-  const pendingCount = PAID_INVOICES.filter((i) => i.status === "pending").length;
-  const lastDate = PAID_INVOICES[0]?.date || "—";
+  const invoices = [
+    { id: 1, value, status: "paid", date, method: "Quickway" },
+  ];
+
+  const paidCount = invoices.filter((i) => i.status === "paid").length;
+  const pendingCount = invoices.filter((i) => i.status === "pending").length;
+  const lastDate = invoices[0]?.date || "—";
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -61,7 +84,7 @@ export default function InvoicesContent({ plan = "free" }) {
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                   {t("settings.invoicesTotal")}
                 </p>
-                <p className="text-lg font-bold text-black">R$ 5,00</p>
+                <p className="text-lg font-bold text-black">{value}</p>
                 <p className="text-xs text-gray-500">{t("settings.invoicesSubtitle")}</p>
               </div>
             </div>
@@ -112,7 +135,7 @@ export default function InvoicesContent({ plan = "free" }) {
               </span>
             </div>
             {/* Table rows */}
-            {PAID_INVOICES.map((inv) => (
+            {invoices.map((inv) => (
               <div
                 key={inv.id}
                 className="grid grid-cols-[1fr_1fr_1.2fr_1fr_48px] gap-2 items-center px-5 py-4 border-b border-gray-100 last:border-b-0"
