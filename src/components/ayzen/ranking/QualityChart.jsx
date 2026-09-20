@@ -17,14 +17,18 @@ function ModelLogo({ logo, size = 16 }) {
   return <img src={logo} alt="" style={{ width: size, height: size }} className="rounded object-contain shrink-0" />;
 }
 
-function CustomYTick({ x, y, payload }) {
-  const logo = payload?.payload?.logo;
+function CustomYTick({ x, y, payload, index }) {
+  const logo = QUALITY_TOP10[index]?.logo;
   return (
     <g transform={`translate(${x},${y})`}>
       {logo?.type === "circle" ? (
         <circle cx={-138} cy={0} r={7} fill={logo.color} />
       ) : (
-        <image href={logo} x={-146} y={-8} width={16} height={16} preserveAspectRatio="xMidYMid meet" />
+        <foreignObject x={-148} y={-9} width={18} height={18}>
+          <div style={{ width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img src={logo} alt="" style={{ width: 16, height: 16, objectFit: "contain" }} />
+          </div>
+        </foreignObject>
       )}
       <text x={-126} y={4} fontSize={11} fill="#374151">{payload.value}</text>
     </g>
@@ -86,7 +90,6 @@ export default function QualityChart({ metric = "intelligence" }) {
                 axisLine={false}
                 tickLine={false}
                 interval={0}
-                reversed
               />
               <Tooltip content={<CustomTooltip />} cursor={{ fill: "#f9fafb" }} />
               <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={16}>
