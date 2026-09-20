@@ -1,50 +1,114 @@
 import React from "react";
 import { Volume2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { MODELS_BY_PLAN, IMAGE_MODELS, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 
-const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
-const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
-
-const PLAN_LIMITS = {
-  free: { audio: 0, image: 0 },
-  starter: { audio: 15, image: 30 },
-  premium: { audio: 25, image: 50 },
-  team: { audio: 40, image: 100 },
-  startup: { audio: 60, image: 150 },
-  enterprise: { audio: "unlimited", image: "unlimited" }
+const QUOTAS_BY_PLAN = {
+  free: {
+    text: { day: 5, week: 20, month: 50 },
+    image: { day: 0, week: 0, month: 0 },
+    audio: { day: 0, week: 0, month: 0 }
+  },
+  starter: {
+    text: { day: 20, week: 80, month: 300 },
+    image: { day: 2, week: 8, month: 30 },
+    audio: { day: 1, week: 4, month: 15 }
+  },
+  premium: {
+    text: { day: 40, week: 150, month: 600 },
+    image: { day: 4, week: 15, month: 50 },
+    audio: { day: 2, week: 8, month: 25 }
+  },
+  team: {
+    text: { day: 80, week: 300, month: 1200 },
+    image: { day: 8, week: 30, month: 100 },
+    audio: { day: 4, week: 15, month: 40 }
+  },
+  startup: {
+    text: { day: 150, week: 600, month: 2500 },
+    image: { day: 12, week: 45, month: 150 },
+    audio: { day: 6, week: 22, month: 60 }
+  },
+  enterprise: {
+    text: "unlimited",
+    image: "unlimited",
+    audio: "unlimited"
+  }
 };
 
-function buildMediaItems(plan) {
-  const limits = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
-  const audioStatus = limits.audio === "unlimited" ? "unlimited" : "limited";
-  const imageStatus = limits.image === "unlimited" ? "unlimited" : "limited";
+const CAT_KEYS = {
+  text: "settings.mediaTextos",
+  image: "settings.mediaImages",
+  audio: "settings.mediaAudios"
+};
 
-  return [
-    { id: "gpt-audio", name: "GPT Audio", catKey: "settings.mediaAudios", limit: limits.audio, logo: GPT, status: audioStatus },
-    { id: "gemini-flash-image", name: "Gemini Flash Image", catKey: "settings.mediaImages", limit: limits.image, logo: GEMINI, status: imageStatus },
-    { id: "whisper", name: "Whisper Large v3", catKey: "settings.mediaTranscriptions", limit: limits.audio, logo: GPT, status: audioStatus },
-    { id: "nano-banana", name: "Nano Banana", catKey: "settings.mediaImages", limit: limits.image, logo: GEMINI, status: imageStatus },
-    { id: "elevenlabs", name: "Voz ElevenLabs", catKey: "settings.mediaAudios", limit: limits.audio, logo: null, status: audioStatus },
-    { id: "empty", name: "", catKey: "", limit: 0, logo: null, status: "empty" }
-  ];
+function buildModelItems(plan) {
+  const quotas = QUOTAS_BY_PLAN[plan] || QUOTAS_BY_PLAN.free;
+  const textModels = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
+  const imageModels = IMAGE_MODELS;
+  const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
+
+  const items = [];
+
+  textModels.forEach((m) => {
+    items.push({
+      id: `text-${m.id}`,
+      name: m.name,
+      logo: m.logo,
+      catKey: CAT_KEYS.text,
+      quotas: quotas.text
+    });
+  });
+
+  imageModels.forEach((m) => {
+    items.push({
+      id: `image-${m.id}`,
+      name: m.name,
+      logo: m.logo,
+      catKey: CAT_KEYS.image,
+      quotas: quotas.image
+    });
+  });
+
+  audioModels.forEach((m) => {
+    items.push({
+      id: `audio-${m.id}`,
+      name: m.name,
+      logo: m.logo,
+      catKey: CAT_KEYS.audio,
+      quotas: quotas.audio
+    });
+  });
+
+  return items;
+}
+
+function QuotaRow({ label, consumed, limit }) {
+  const pct = limit > 0 ? Math.min(100, Math.round((consumed / limit) * 100)) : 0;
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-[10px] font-medium text-gray-400 w-12 shrink-0">{label}</span>
+      <span className="text-[11px] font-semibold text-gray-600 shrink-0 tabular-nums">{consumed} / {limit}</span>
+      <div className="flex-1 h-1 rounded-full bg-gray-100 overflow-hidden">
+        <div className="h-full bg-black rounded-full" style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  );
 }
 
 export default function MediaQuotasContent({ plan }) {
   const { t } = useLanguage();
-  const mediaItems = buildMediaItems(plan);
+  const items = buildModelItems(plan);
 
   return (
     <section>
       <h2 className="text-base font-bold text-black mb-1">{t("settings.mediaQuotas")}</h2>
       <p className="text-xs text-gray-500 mb-3">{t("settings.mediaQuotasDesc")}</p>
       <div className="grid grid-cols-2 gap-4">
-        {mediaItems.map((item) => {
-          if (item.status === "empty") {
-            return <div key={item.id} className="rounded-2xl border border-gray-200 bg-gray-50/60" />;
-          }
-
+        {items.map((item) => {
+          const isUnlimited = item.quotas === "unlimited";
+          const isNotIncluded = !isUnlimited && item.quotas.day === 0 && item.quotas.week === 0 && item.quotas.month === 0;
           const consumed = 0;
-          const pctVal = item.limit > 0 ? Math.min(100, Math.round((consumed / item.limit) * 100)) : 0;
 
           return (
             <div key={item.id} className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -62,30 +126,21 @@ export default function MediaQuotasContent({ plan }) {
                     <p className="text-[10px] font-semibold tracking-wider text-gray-400">{t(item.catKey)}</p>
                   </div>
                 </div>
-                {item.status === "limited" && (
-                  <span className="text-[10px] text-gray-400 shrink-0">● {pctVal}%</span>
-                )}
               </div>
 
-              {item.status === "limited" && (
-                <>
-                  <p className="text-lg font-bold text-black">{consumed} / {item.limit}</p>
-                  <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                    <div className="h-full bg-black rounded-full" style={{ width: `${pctVal}%` }} />
-                  </div>
-                  <p className="text-[11px] text-gray-500 mt-2">{t("settings.mediaRenews")}</p>
-                </>
-              )}
-
-              {item.status === "notincluded" && (
-                <p className="text-sm text-gray-400 mt-1">{t("settings.mediaNotIncluded")}</p>
-              )}
-
-              {item.status === "unlimited" && (
+              {isUnlimited ? (
                 <>
                   <p className="text-lg font-bold text-black">{t("settings.mediaUnlimited")}</p>
                   <p className="text-[11px] text-gray-500 mt-1">{t("settings.mediaGenerated", { n: 0 })}</p>
                 </>
+              ) : isNotIncluded ? (
+                <p className="text-sm text-gray-400 mt-1">{t("settings.mediaNotIncluded")}</p>
+              ) : (
+                <div className="space-y-2">
+                  <QuotaRow label={t("settings.mediaDay")} consumed={consumed} limit={item.quotas.day} />
+                  <QuotaRow label={t("settings.mediaWeek")} consumed={consumed} limit={item.quotas.week} />
+                  <QuotaRow label={t("settings.mediaMonth")} consumed={consumed} limit={item.quotas.month} />
+                </div>
               )}
             </div>
           );
