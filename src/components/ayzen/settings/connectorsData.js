@@ -21,6 +21,7 @@ export const WORKSPACE_CONNECTOR_MAP = {
   gdocs: "6aafb6297ac5b0557625e838",
   gsheets: "6aafb626d111421c4bad5174",
   gmeet: "6aafb623aef5c24738fbbc92",
+  github: "6aafb964b05c265a56e30631",
 };
 
 export const CONNECTORS = [
