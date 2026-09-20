@@ -23,6 +23,25 @@
       ],
       "default": "free"
     },
+    "plan_cycle": {
+      "type": "string",
+      "description": "Ciclo de cobran\u00e7a do plano",
+      "enum": [
+        "mensal",
+        "anual"
+      ],
+      "default": "mensal"
+    },
+    "plan_expires": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de expira\u00e7\u00e3o do plano atual"
+    },
+    "auto_renew": {
+      "type": "boolean",
+      "description": "Se a renova\u00e7\u00e3o autom\u00e1tica est\u00e1 ativa",
+      "default": true
+    },
     "balance": {
       "type": "number",
       "description": "Saldo de tokens do usu\u00e1rio",

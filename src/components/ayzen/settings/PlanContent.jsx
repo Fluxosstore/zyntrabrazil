@@ -1,14 +1,58 @@
 import React from "react";
-import { Crown, RefreshCw, AlertCircle } from "lucide-react";
+import { Crown, RefreshCw, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
+
+const PLAN_PRICES = {
+  free: { mensal: "R$ 0,00", anual: "R$ 0,00" },
+  starter: { mensal: "R$ 90,00", anual: "R$ 75,00" },
+  premium: { mensal: "R$ 149,90", anual: "R$ 124,90" },
+  team: { mensal: "R$ 399,90", anual: "R$ 333,25" },
+  startup: { mensal: "R$ 599,90", anual: "R$ 499,90" },
+  enterprise: { mensal: "R$ 999,90", anual: "R$ 833,25" }
+};
+
+const PLAN_DESC_KEYS = {
+  free: "settings.planFreeDesc",
+  starter: "settings.planStarterDesc",
+  premium: "settings.planPremiumDesc",
+  team: "settings.planTeamDesc",
+  startup: "settings.planStartupDesc",
+  enterprise: "settings.planEnterpriseDesc"
+};
+
+const MONTHS_PT = [
+  "jan", "fev", "mar", "abr", "mai", "jun",
+  "jul", "ago", "set", "out", "nov", "dez"
+];
+
+function formatExpiryDate(dateStr) {
+  if (!dateStr) return null;
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return null;
+    const day = d.getDate();
+    const month = MONTHS_PT[d.getMonth()];
+    const year = d.getFullYear();
+    return `${day} de ${month}. de ${year}`;
+  } catch {
+    return null;
+  }
+}
 
 export default function PlanContent() {
   const { t } = useLanguage();
   const { user } = useAuth();
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
+  const cycle = user?.plan_cycle || "mensal";
+  const autoRenew = user?.auto_renew !== false;
+  const isFree = plan === "free";
+
+  const price = PLAN_PRICES[plan]?.[cycle] || "R$ 0,00";
+  const expiryDate = formatExpiryDate(user?.plan_expires);
+  const descKey = PLAN_DESC_KEYS[plan] || "settings.planFreeDesc";
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -21,6 +65,7 @@ export default function PlanContent() {
 
         <div className="border-t border-gray-200" />
 
+        {/* Plano atual */}
         <section>
           <h2 className="text-base font-bold text-black mb-3">{t("settings.currentPlan")}</h2>
           <div className="rounded-2xl border border-gray-200 overflow-hidden">
@@ -41,11 +86,14 @@ export default function PlanContent() {
                         {t("settings.activeBadge")}
                       </span>
                     </div>
-                    <p className="text-xs text-[#757575] mt-1 whitespace-nowrap">{t("settings.planFreeDesc")}</p>
+                    <p className="text-xs text-[#757575] mt-1 max-w-xs">{t(descKey)}</p>
+                    {expiryDate && (
+                      <p className="text-xs text-[#757575] mt-2">{t("settings.validUntil")} {expiryDate}</p>
+                    )}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-2xl font-bold text-black">R$ 0,00</p>
+                  <p className="text-2xl font-bold text-black">{price}</p>
                   <p className="text-xs text-[#757575]">{t("settings.perMonth")}</p>
                 </div>
               </div>
@@ -58,20 +106,32 @@ export default function PlanContent() {
           </div>
         </section>
 
-        <section>
-          <h2 className="text-base font-bold text-black mb-1">{t("settings.manageSub")}</h2>
-          <p className="text-xs text-gray-500 mb-3">{t("settings.manageSubDesc")}</p>
-          <div className="rounded-2xl border border-gray-200 bg-white p-4 flex items-center justify-between gap-4">
-            <div className="flex items-start gap-2.5">
-              <AlertCircle className="w-4 h-4 text-gray-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-gray-600">{t("settings.renewalCancelled")}</p>
+        {/* Gerenciar assinatura */}
+        {!isFree && (
+          <section>
+            <h2 className="text-base font-bold text-black mb-1">{t("settings.manageSub")}</h2>
+            <p className="text-xs text-gray-500 mb-3">{t("settings.manageSubDesc")}</p>
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 flex items-center justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-black mb-1">{t("settings.autoRenewTitle")}</p>
+                <p className="text-xs text-gray-600">
+                  {autoRenew ? t("settings.autoRenewActiveDesc") : t("settings.renewalCancelled")}
+                </p>
+              </div>
+              {autoRenew ? (
+                <button className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#e63946] bg-white text-[#e63946] text-sm font-medium hover:bg-red-50 transition-colors shrink-0">
+                  <X className="w-3.5 h-3.5" />
+                  {t("settings.cancelAutoRenew")}
+                </button>
+              ) : (
+                <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0">
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  {t("settings.reactivate")}
+                </button>
+              )}
             </div>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0">
-              <RefreshCw className="w-3.5 h-3.5" />
-              {t("settings.reactivate")}
-            </button>
-          </div>
-        </section>
+          </section>
+        )}
       </div>
     </div>
   );
