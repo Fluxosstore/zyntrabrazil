@@ -1,12 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Download, Trash2, MessageSquare, Search } from "lucide-react";
+import { Download, Trash2, MessageSquare } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
+import LibraryImageModal from "@/components/ayzen/LibraryImageModal";
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
   const d = new Date(dateStr);
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function formatSize(bytes) {
+  if (!bytes) return "—";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+async function fetchSize(url) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    const len = res.headers.get("content-length");
+    return len ? parseInt(len) : null;
+  } catch {
+    return null;
+  }
 }
 
 const TAB_TYPE_MAP = {
@@ -30,11 +48,19 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
+  const [sizes, setSizes] = useState({});
+  const [modalItem, setModalItem] = useState(null);
 
   const fetchItems = async () => {
     try {
       const data = await base44.entities.LibraryItem.list("-created_date", 200);
       setItems(data);
+      data.forEach(async (item) => {
+        if (item.url) {
+          const size = await fetchSize(item.url);
+          if (size) setSizes((prev) => ({ ...prev, [item.id]: size }));
+        }
+      });
     } catch (e) {}
     setLoading(false);
   };
@@ -95,11 +121,14 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
 
   if (view === "grid") {
     return (
-      <div>
+      <>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {filtered.map((item) => (
             <div key={item.id} className="group rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-              <div className="aspect-square bg-gray-100 overflow-hidden">
+              <div
+                className="aspect-square bg-gray-100 overflow-hidden cursor-pointer"
+                onClick={() => item.url && item.type === "image" && setModalItem(item)}
+              >
                 {item.url ? (
                   <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
                 ) : (
@@ -123,52 +152,54 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
             </div>
           ))}
         </div>
-      </div>
+        <LibraryImageModal item={modalItem} onClose={() => setModalItem(null)} />
+      </>
     );
   }
 
   return (
-    <div>
-      {/* Header row */}
-      <div className="flex items-center px-4 py-2 border-b border-gray-100">
-        <span className="text-[10px] font-semibold tracking-wider text-gray-400">NOME</span>
-      </div>
-      {filtered.map((item) => (
-        <div key={item.id} className="group flex items-center gap-3 px-4 py-3 border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
-          {/* Thumbnail */}
-          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0">
-            {item.url ? (
-              <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-300 text-lg">📄</div>
-            )}
-          </div>
-          {/* Title + meta */}
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-black truncate">{item.title}</p>
-            <p className="text-xs text-gray-500 truncate">{item.model} • {formatDate(item.created_date)}</p>
-          </div>
-          {/* Model badge */}
-          {item.model && (
-            <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-50 text-violet-600 text-[10px] font-medium shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-              {item.model}
-            </span>
-          )}
-          {/* Actions */}
-          <div className="flex items-center gap-1 shrink-0">
-            <button className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors" title="Abrir conversa">
-              <MessageSquare className="w-3.5 h-3.5" />
-            </button>
-            <button onClick={() => handleDownload(item.url)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors" title="Baixar">
-              <Download className="w-3.5 h-3.5" />
-            </button>
-            <button onClick={() => handleDelete(item.id)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors" title="Excluir">
-              <Trash2 className="w-3.5 h-3.5" />
-            </button>
-          </div>
+    <>
+      <div>
+        {/* Header row */}
+        <div className="grid grid-cols-[1fr_120px_80px_120px] gap-4 px-4 py-2 border-b border-gray-100">
+          <span className="text-[10px] font-semibold tracking-wider text-gray-400">NOME</span>
+          <span className="text-[10px] font-semibold tracking-wider text-gray-400">TIPO</span>
+          <span className="text-[10px] font-semibold tracking-wider text-gray-400">TAMANHO</span>
+          <span className="text-[10px] font-semibold tracking-wider text-gray-400">MODIFICADO</span>
         </div>
-      ))}
-    </div>
+        {filtered.map((item) => (
+          <div key={item.id} className="group grid grid-cols-[1fr_120px_80px_120px] gap-4 items-center px-4 py-3 border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+            {/* Name + thumbnail */}
+            <div className="flex items-center gap-3 min-w-0">
+              <div
+                className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0 cursor-pointer"
+                onClick={() => item.url && item.type === "image" && setModalItem(item)}
+              >
+                {item.url ? (
+                  <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-300 text-lg">📄</div>
+                )}
+              </div>
+              <p className="text-sm font-medium text-black truncate">{item.title}</p>
+            </div>
+            {/* Type */}
+            <div className="flex items-center gap-1.5 min-w-0">
+              {item.model && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-50 text-violet-600 text-[10px] font-medium shrink-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+                  {item.model}
+                </span>
+              )}
+            </div>
+            {/* Size */}
+            <span className="text-xs text-gray-500">{formatSize(sizes[item.id])}</span>
+            {/* Modified */}
+            <span className="text-xs text-gray-500">{formatDate(item.created_date)}</span>
+          </div>
+        ))}
+      </div>
+      <LibraryImageModal item={modalItem} onClose={() => setModalItem(null)} />
+    </>
   );
 }
