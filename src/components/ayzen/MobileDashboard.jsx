@@ -20,6 +20,7 @@ import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
+import { CONNECTORS } from "@/components/ayzen/settings/connectorsData";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const LOGO =
@@ -202,6 +203,20 @@ export default function MobileDashboard({
       {/* Input area */}
       <div className="px-4 pb-2">
         <div className="w-full bg-[#F9F9F9] rounded-2xl border border-gray-200 p-3">
+          {activeConnectorIds && activeConnectorIds.length > 0 && (
+            <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+              {activeConnectorIds.map((id) => {
+                const meta = CONNECTORS.find((c) => c.id === id);
+                if (!meta) return null;
+                return (
+                  <span key={id} className="flex items-center gap-1 px-2 py-1 rounded-full bg-white text-[11px] font-medium text-gray-700">
+                    <img src={meta.logo} alt="" className="w-3 h-3 object-contain rounded-full" />
+                    {meta.name}
+                  </span>
+                );
+              })}
+            </div>
+          )}
           {attachedFile && (
             <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-white rounded-lg w-fit">
               <Paperclip className="w-3 h-3 text-gray-500 shrink-0" />

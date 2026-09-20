@@ -1,6 +1,98 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 import { secrets } from 'base44:runtime';
 
+// Map catalog connector IDs → workspace connector IDs (for getCurrentAppUserConnection)
+const CONNECTOR_MAP: Record<string, string> = {
+  gmail: "6aafb4130290983a5537e0ee",
+  gcalendar: "6aafb41e8e6cf43ae36c519d",
+  gcontacts: "6aafb4259c31d3a1619b5ef6",
+  gtasks: "6aafb428590567e4c76bcf98",
+  gdrive: "6aafb42265da4d497f1b1801",
+  gdocs: "6aafb6297ac5b0557625e838",
+  gsheets: "6aafb626d111421c4bad5174",
+  gmeet: "6aafb623aef5c24738fbbc92",
+  github: "6aafb964b05c265a56e30631",
+};
+
+async function fetchConnectorData(base44: any, connectorId: string): Promise<string | null> {
+  const wsId = CONNECTOR_MAP[connectorId];
+  if (!wsId) return null;
+
+  try {
+    const { accessToken } = await base44.asServiceRole.connectors.getCurrentAppUserConnection(wsId);
+    if (!accessToken) return null;
+    const auth = { Authorization: `Bearer ${accessToken}` };
+    console.log(`[connector:${connectorId}] token obtained, length=${accessToken.length}`);
+
+    if (connectorId === "gmail") {
+      const res = await fetch("https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=5", { headers: auth });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const msgs: string[] = [];
+      for (const m of (data.messages || []).slice(0, 5)) {
+        const mr = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date`, { headers: auth });
+        if (!mr.ok) continue;
+        const md = await mr.json();
+        const h = md.payload?.headers || [];
+        const subject = h.find((x: any) => x.name === "Subject")?.value || "(sem assunto)";
+        const from = h.find((x: any) => x.name === "From")?.value || "";
+        msgs.push(`De: ${from} | Assunto: ${subject}`);
+      }
+      return msgs.length ? `E-mails recentes:\n${msgs.map((m, i) => `${i + 1}. ${m}`).join("\n")}` : null;
+    }
+
+    if (connectorId === "gcalendar") {
+      const timeMin = new Date().toISOString();
+      const timeMax = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+      const res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?maxResults=5&timeMin=${timeMin}&timeMax=${timeMax}&orderBy=startTime&singleEvents=true`, { headers: auth });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const events = (data.items || []).map((e: any) => `${e.summary || "(sem título)"} — ${new Date(e.start?.dateTime || e.start?.date).toLocaleString("pt-BR")}`);
+      return events.length ? `Próximos eventos (7 dias):\n${events.map((e, i) => `${i + 1}. ${e}`).join("\n")}` : null;
+    }
+
+    if (connectorId === "gtasks") {
+      const res = await fetch("https://tasks.googleapis.com/tasks/v1/lists/@default/tasks?maxResults=10&showCompleted=false", { headers: auth });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const tasks = (data.items || []).map((t: any) => t.title);
+      return tasks.length ? `Tarefas pendentes:\n${tasks.map((t, i) => `${i + 1}. ${t}`).join("\n")}` : null;
+    }
+
+    if (connectorId === "gdrive") {
+      const res = await fetch("https://www.googleapis.com/drive/v3/files?pageSize=5&orderBy=modifiedTime desc&q=trashed=false&fields=files(name,mimeType)", { headers: auth });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const files = (data.files || []).map((f: any) => `${f.name} (${f.mimeType || "arquivo"})`);
+      return files.length ? `Arquivos recentes do Drive:\n${files.map((f, i) => `${i + 1}. ${f}`).join("\n")}` : null;
+    }
+
+    if (connectorId === "gcontacts") {
+      const res = await fetch("https://people.googleapis.com/v1/people/me/connections?pageSize=10&personFields=names,emailAddresses", { headers: auth });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const contacts = (data.connections || []).map((c: any) => {
+        const name = c.names?.[0]?.displayName || "";
+        const email = c.emailAddresses?.[0]?.value || "";
+        return `${name}${email ? ` (${email})` : ""}`;
+      });
+      return contacts.length ? `Contatos:\n${contacts.map((c, i) => `${i + 1}. ${c}`).join("\n")}` : null;
+    }
+
+    if (connectorId === "github") {
+      const res = await fetch("https://api.github.com/user/repos?sort=updated&per_page=5", { headers: { ...auth, Accept: "application/vnd.github+json" } });
+      if (!res.ok) return null;
+      const data = await res.json();
+      const repos = (data || []).map((r: any) => `${r.name} — ${r.description || "sem descrição"}`);
+      return repos.length ? `Repositórios recentes do GitHub:\n${repos.map((r, i) => `${i + 1}. ${r}`).join("\n")}` : null;
+    }
+
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // Mapeia modelos visíveis do site para modelos do OpenRouter
 const MODEL_MAP = {
   auto: "openai/gpt-4o-mini",
@@ -27,6 +119,7 @@ export default async function(req) {
       reasoning = 50,
       saveMemories = false,
       useMemories = false,
+      activeConnectorIds = [],
     } = body;
 
     if (!prompt) return Response.json({ error: "Prompt é obrigatório" }, { status: 400 });
@@ -59,6 +152,25 @@ export default async function(req) {
       }
     }
 
+    // Buscar dados dos conectores ativos
+    let connectorContext = "";
+    let _connectorErrors: string[] = [];
+    if (activeConnectorIds && activeConnectorIds.length > 0) {
+      const connectorData: string[] = [];
+      for (const connId of activeConnectorIds) {
+        try {
+          const data = await fetchConnectorData(base44, connId);
+          if (data) connectorData.push(`[${connId}]\n${data}`);
+          else _connectorErrors.push(`${connId}: returned null`);
+        } catch (e: any) {
+          _connectorErrors.push(`${connId}: ${e.message}`);
+        }
+      }
+      if (connectorData.length > 0) {
+        connectorContext = `Dados disponíveis dos conectores ativos do usuário (use estas informações quando relevante para a pergunta):\n\n${connectorData.join("\n\n")}\n\n`;
+      }
+    }
+
     // Buscar memórias do usuário se useMemories estiver ativo
     let memoryContext = "";
     if (useMemories) {
@@ -73,7 +185,7 @@ export default async function(req) {
       }
     }
 
-    const contextPrompt = skillInstructions + memoryContext + userMessage;
+    const contextPrompt = skillInstructions + connectorContext + memoryContext + userMessage;
 
     // Constrói conteúdo multimodal se houver imagens
     let messageContent;
@@ -382,7 +494,7 @@ Assistente: ${content}`;
       }
     }
 
-    return Response.json({ content, model: openrouterModel });
+    return Response.json({ content, model: openrouterModel, _debug: { activeConnectorIds, connectorContext: connectorContext?.substring(0, 200) || "", _connectorErrors } });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }

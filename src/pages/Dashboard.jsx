@@ -24,6 +24,7 @@ import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { checkModelQuota, invalidateUsageCache } from "@/lib/quotaUtils";
+import { CONNECTORS } from "@/components/ayzen/settings/connectorsData";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -315,7 +316,8 @@ export default function Dashboard() {
           useWebSearch,
           reasoning,
           saveMemories,
-          useMemories
+          useMemories,
+          activeConnectorIds
         });
         const _respText = result.data?.content || "";
         base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name }).then(() => invalidateUsageCache()).catch(() => {});
@@ -377,7 +379,8 @@ export default function Dashboard() {
         useWebSearch: false,
         reasoning,
         saveMemories: false,
-        useMemories
+        useMemories,
+        activeConnectorIds
       });
       const _respText = result.data?.content || "";
       base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name }).then(() => invalidateUsageCache()).catch(() => {});
@@ -561,6 +564,20 @@ export default function Dashboard() {
 
           {/* input */}
           <div className="w-full max-w-5xl mx-auto bg-white rounded-2xl border border-gray-200 p-4 mb-6">
+            {activeConnectorIds.length > 0 && (
+              <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+                {activeConnectorIds.map((id) => {
+                  const meta = CONNECTORS.find((c) => c.id === id);
+                  if (!meta) return null;
+                  return (
+                    <span key={id} className="flex items-center gap-1 px-2 py-1 rounded-full bg-gray-100 text-[11px] font-medium text-gray-700">
+                      <img src={meta.logo} alt="" className="w-3 h-3 object-contain rounded-full" />
+                      {meta.name}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
             {attachedFile &&
               <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-gray-50 rounded-lg w-fit">
                 <Paperclip className="w-3 h-3 text-gray-500 shrink-0" />
