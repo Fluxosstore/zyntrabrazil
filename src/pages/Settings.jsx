@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import SettingsNav from "@/components/ayzen/SettingsNav";
 import MobileSettingsTabs from "@/components/ayzen/MobileSettingsTabs";
-import { MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
+import { MODELS_BY_PLAN, IMAGE_MODELS, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 import ModelUsageRow from "@/components/ayzen/ModelUsageRow";
 import PlanContent from "@/components/ayzen/settings/PlanContent";
 import InvoicesContent from "@/components/ayzen/settings/InvoicesContent";
@@ -89,11 +89,23 @@ function UsageContent() {
   const rawPct = (consumed, limit) => (limit > 0 ? Math.min(100, (consumed / limit) * 100) : 0);
   const isPaid = plan && plan !== "free";
 
-  const planModels = (MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
-    name: m.name,
-    logo: m.logo,
-    tags: ["Texto"]
-  }));
+  const planModels = [
+    ...(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
+      name: m.name,
+      logo: m.logo,
+      tags: ["Texto"]
+    })),
+    ...IMAGE_MODELS.map((m) => ({
+      name: m.name,
+      logo: m.logo,
+      tags: ["Imagem"]
+    })),
+    ...(AUDIO_MODELS_BY_PLAN[plan] || []).map((m) => ({
+      name: m.name,
+      logo: m.logo,
+      tags: ["Áudio"]
+    }))
+  ];
 
   const filtered = planModels.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
