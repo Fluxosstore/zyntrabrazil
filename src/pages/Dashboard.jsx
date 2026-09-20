@@ -19,7 +19,7 @@ import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 import ChatMessages from "@/components/ayzen/chat/ChatMessages";
-import { isImageGenerationIntent, getRealModel, messagesToPrompt } from "@/lib/chatUtils";
+import { isImageGenerationIntent, messagesToPrompt } from "@/lib/chatUtils";
 import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
 
@@ -208,21 +208,19 @@ export default function Dashboard() {
           },
         ]);
       } else {
-        const realModel = getRealModel(model, useWebSearch);
         const prompt = messagesToPrompt(newMessages);
-        const result = await base44.integrations.Core.InvokeLLM({
+        const result = await base44.functions.invoke("openrouterChat", {
           prompt,
-          model: realModel,
-          add_context_from_internet: useWebSearch,
-          file_urls: fileUrlsForLLM.length > 0 ? fileUrlsForLLM : undefined,
+          model,
+          useWebSearch,
         });
-        const _respText = typeof result === "string" ? result : result.content || "";
-        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: realModel }).catch(() => {});
+        const _respText = result.data?.content || "";
+        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name }).catch(() => {});
         setMessages([
           ...newMessages,
           {
             role: "assistant",
-            content: typeof result === "string" ? result : result.content || "Sem resposta",
+            content: _respText || "Sem resposta",
             model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo },
           },
         ]);
@@ -252,19 +250,19 @@ export default function Dashboard() {
     setMessages(baseMessages);
     setLoading(true);
     try {
-      const realModel = getRealModel(modelId, false);
       const prompt = messagesToPrompt(baseMessages);
-      const result = await base44.integrations.Core.InvokeLLM({
+      const result = await base44.functions.invoke("openrouterChat", {
         prompt,
-        model: realModel,
+        model: modelId,
+        useWebSearch: false,
       });
-      const _respText = typeof result === "string" ? result : result.content || "";
-      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: realModel }).catch(() => {});
+      const _respText = result.data?.content || "";
+      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name }).catch(() => {});
       setMessages([
         ...baseMessages,
         {
           role: "assistant",
-          content: typeof result === "string" ? result : result.content || "Sem resposta",
+          content: _respText || "Sem resposta",
           model: { name: getModelInfo(modelId, plan).name, logo: getModelInfo(modelId, plan).logo },
         },
       ]);
