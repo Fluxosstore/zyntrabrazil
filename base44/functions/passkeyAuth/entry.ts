@@ -182,14 +182,12 @@ export default async function(req: Request): Promise<Response> {
       const challenge = generateChallenge();
       const challengeSignature = await signChallenge(challenge);
 
-      // Get all passkeys using service role (user is not authenticated yet)
-      const allPasskeys = await base44.asServiceRole.entities.Passkey.filter({});
-      const allowCredentials = allPasskeys.map((p: any) => p.credential_id);
-
+      // Use discoverable credentials — don't pass allowCredentials
+      // The browser will show all passkeys for this domain on the device
       return Response.json({
         challenge,
         challengeSignature,
-        allowCredentials,
+        allowCredentials: [],
       });
     }
 

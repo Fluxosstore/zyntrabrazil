@@ -72,17 +72,23 @@ export async function createPasskey({ challenge, rpId, rpName, userId, userEmail
 
 // Authentication: verifies identity with biometrics
 export async function authenticatePasskey({ challenge, rpId, allowCredentials }) {
+  const publicKeyOptions = {
+    challenge: base64urlToBuffer(challenge),
+    rpId: rpId,
+    userVerification: "preferred",
+    timeout: 60000,
+  };
+
+  // Only pass allowCredentials if non-empty — empty array causes failure on some browsers
+  if (allowCredentials && allowCredentials.length > 0) {
+    publicKeyOptions.allowCredentials = allowCredentials.map((c) => ({
+      type: "public-key",
+      id: base64urlToBuffer(c),
+    }));
+  }
+
   const assertion = await navigator.credentials.get({
-    publicKey: {
-      challenge: base64urlToBuffer(challenge),
-      rpId: rpId,
-      allowCredentials: (allowCredentials || []).map((c) => ({
-        type: "public-key",
-        id: base64urlToBuffer(c),
-      })),
-      userVerification: "preferred",
-      timeout: 60000,
-    },
+    publicKey: publicKeyOptions,
   });
 
   return {

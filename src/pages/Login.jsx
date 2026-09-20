@@ -69,7 +69,8 @@ export default function Login() {
       }
     } catch (e) {
       if (e.name !== "NotAllowedError") {
-        setError("Não foi possível autenticar com passkey.");
+        const msg = e?.message || e?.name || "erro desconhecido";
+        setError(`Não foi possível autenticar com passkey: ${msg}`);
       }
     } finally {
       setPasskeyLoading(false);
