@@ -117,6 +117,13 @@ export default function Dashboard() {
   const [referenceImage, setReferenceImage] = useState(null);
   const plan = user?.plan || "free";
 
+  useEffect(() => {
+    if (user) {
+      setSaveMemories(!!user.auto_extraction);
+      setUseMemories(!!user.use_memories);
+    }
+  }, [user]);
+
   const [greetingText, setGreetingText] = useState("");
   useEffect(() => {
     function updateGreeting() {

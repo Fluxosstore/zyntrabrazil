@@ -1,15 +1,93 @@
-import React, { useState } from "react";
-import { Sparkles, HelpCircle, Plus, X, Save } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Sparkles, HelpCircle, Plus, X, Save, Trash2, Loader2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
+import { base44 } from "@/api/base44Client";
 
 export default function MemoriesContent() {
   const { t } = useLanguage();
+  const { user, refreshUser } = useAuth();
   const [autoExtraction, setAutoExtraction] = useState(false);
   const [useMemories, setUseMemories] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [memoryText, setMemoryText] = useState("");
-  const count = 0;
+  const [memories, setMemories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [savingMemory, setSavingMemory] = useState(false);
+  const [toggling, setToggling] = useState(null);
+
+  useEffect(() => {
+    setAutoExtraction(!!user?.auto_extraction);
+    setUseMemories(!!user?.use_memories);
+  }, [user]);
+
+  useEffect(() => {
+    loadMemories();
+  }, []);
+
+  const loadMemories = async () => {
+    try {
+      const list = await base44.entities.Memory.list("-created_date", 100);
+      setMemories(list || []);
+    } catch (e) {
+      console.error("Erro ao carregar memórias:", e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleToggleAutoExtraction = async (checked) => {
+    setAutoExtraction(checked);
+    setToggling("auto");
+    try {
+      await base44.auth.updateMe({ auto_extraction: checked });
+      await refreshUser();
+    } catch (e) {
+      setAutoExtraction(!checked);
+    } finally {
+      setToggling(null);
+    }
+  };
+
+  const handleToggleUseMemories = async (checked) => {
+    setUseMemories(checked);
+    setToggling("use");
+    try {
+      await base44.auth.updateMe({ use_memories: checked });
+      await refreshUser();
+    } catch (e) {
+      setUseMemories(!checked);
+    } finally {
+      setToggling(null);
+    }
+  };
+
+  const handleSaveMemory = async () => {
+    if (!memoryText.trim()) return;
+    setSavingMemory(true);
+    try {
+      await base44.entities.Memory.create({ content: memoryText.trim() });
+      setMemoryText("");
+      setShowAddForm(false);
+      await loadMemories();
+    } catch (e) {
+      console.error("Erro ao salvar memória:", e);
+    } finally {
+      setSavingMemory(false);
+    }
+  };
+
+  const handleDeleteMemory = async (id) => {
+    try {
+      await base44.entities.Memory.delete(id);
+      setMemories((prev) => prev.filter((m) => m.id !== id));
+    } catch (e) {
+      console.error("Erro ao deletar memória:", e);
+    }
+  };
+
+  const count = memories.length;
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -52,13 +130,17 @@ export default function MemoriesContent() {
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                   {t("settings.autoExtraction")}
                 </p>
-                <p className="text-sm font-bold text-black mt-1">{t("settings.disabled")}</p>
+                <p className={`text-sm font-bold mt-1 ${autoExtraction ? "text-green-600" : "text-black"}`}>
+                  {autoExtraction ? t("settings.enabled") : t("settings.disabled")}
+                </p>
               </div>
               <div className="p-4">
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                   {t("settings.useMemoriesConvo")}
                 </p>
-                <p className="text-sm font-bold text-black mt-1">{t("settings.disabled")}</p>
+                <p className={`text-sm font-bold mt-1 ${useMemories ? "text-green-600" : "text-black"}`}>
+                  {useMemories ? t("settings.enabled") : t("settings.disabled")}
+                </p>
               </div>
             </div>
           </div>
@@ -74,14 +156,22 @@ export default function MemoriesContent() {
                 <p className="text-sm font-bold text-black">{t("settings.autoExtractionToggle")}</p>
                 <p className="text-xs text-gray-500 mt-0.5">{t("settings.autoExtractionToggleDesc")}</p>
               </div>
-              <Switch checked={autoExtraction} onCheckedChange={setAutoExtraction} />
+              <Switch
+                checked={autoExtraction}
+                onCheckedChange={handleToggleAutoExtraction}
+                disabled={toggling === "auto"}
+              />
             </div>
             <div className="flex items-center justify-between gap-4 p-5">
               <div className="flex-1">
                 <p className="text-sm font-bold text-black">{t("settings.useMemoriesToggle")}</p>
                 <p className="text-xs text-gray-500 mt-0.5">{t("settings.useMemoriesToggleDesc")}</p>
               </div>
-              <Switch checked={useMemories} onCheckedChange={setUseMemories} />
+              <Switch
+                checked={useMemories}
+                onCheckedChange={handleToggleUseMemories}
+                disabled={toggling === "use"}
+              />
             </div>
           </div>
         </section>
@@ -94,13 +184,35 @@ export default function MemoriesContent() {
               {count}
             </span>
           </div>
-          <div className="rounded-2xl border border-gray-200 bg-white p-10 flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-              <Sparkles className="w-6 h-6 text-gray-400" />
+
+          {loading ? (
+            <div className="rounded-2xl border border-gray-200 bg-white p-10 flex flex-col items-center text-center">
+              <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
             </div>
-            <p className="text-sm font-bold text-black">{t("settings.noMemoriesTitle")}</p>
-            <p className="text-xs text-gray-500 mt-1 max-w-sm">{t("settings.noMemoriesDesc")}</p>
-          </div>
+          ) : count === 0 ? (
+            <div className="rounded-2xl border border-gray-200 bg-white p-10 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                <Sparkles className="w-6 h-6 text-gray-400" />
+              </div>
+              <p className="text-sm font-bold text-black">{t("settings.noMemoriesTitle")}</p>
+              <p className="text-xs text-gray-500 mt-1 max-w-sm">{t("settings.noMemoriesDesc")}</p>
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-gray-200 bg-white divide-y divide-gray-100">
+              {memories.map((m) => (
+                <div key={m.id} className="flex items-start justify-between gap-3 p-4 group">
+                  <p className="text-sm text-black flex-1 break-words">{m.content}</p>
+                  <button
+                    onClick={() => handleDeleteMemory(m.id)}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="mt-4 space-y-3">
             <button
               onClick={() => setShowAddForm(true)}
@@ -132,10 +244,15 @@ export default function MemoriesContent() {
                     {t("settings.cancel")}
                   </button>
                   <button
-                    disabled={!memoryText.trim()}
-                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gray-400 text-white text-sm font-medium hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    onClick={handleSaveMemory}
+                    disabled={!memoryText.trim() || savingMemory}
+                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-black text-white text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    <Save className="w-3.5 h-3.5" />
+                    {savingMemory ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Save className="w-3.5 h-3.5" />
+                    )}
                     {t("settings.save")}
                   </button>
                 </div>
