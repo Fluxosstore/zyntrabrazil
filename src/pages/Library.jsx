@@ -46,7 +46,7 @@ export default function LibraryPage() {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState("all");
   const [subFilter, setSubFilter] = useState("all");
-  const [view, setView] = useState("grid");
+  const [view, setView] = useState("list");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const showNoResults = activeTab === "files" && subFilter !== "all";
