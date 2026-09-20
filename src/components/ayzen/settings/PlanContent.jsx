@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Crown, RefreshCw, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -52,6 +53,7 @@ function calcExpiryFromSubscription(subscribedAt) {
 export default function PlanContent() {
   const { t } = useLanguage();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
   const cycle = user?.plan_cycle || "mensal";
@@ -109,7 +111,10 @@ export default function PlanContent() {
               {expiryDate ? (
                 <p className="text-xs text-[#757575]">{t("settings.validUntil")} {expiryDate}</p>
               ) : <span />}
-              <button className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors">
+              <button
+                onClick={() => navigate("/plan-selection")}
+                className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+              >
                 {t("settings.changePlan")}
               </button>
             </div>

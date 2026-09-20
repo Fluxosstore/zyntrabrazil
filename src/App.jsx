@@ -17,6 +17,7 @@ import Dashboard from '@/pages/Dashboard';
 import Library from '@/pages/Library';
 import Automations from '@/pages/Automations';
 import Settings from '@/pages/Settings';
+import PlanSelection from '@/pages/PlanSelection';
 import Ranking from '@/pages/Ranking';
 import RankingQualidade from '@/pages/RankingQualidade';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -68,6 +69,7 @@ const AuthenticatedApp = () => {
           <Route path="/ranking/qualidade" element={<RankingQualidade />} />
         </Route>
         <Route path="/settings" element={<Settings />} />
+        <Route path="/plan-selection" element={<PlanSelection />} />
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<Admin />} />
         </Route>

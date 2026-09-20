@@ -1,0 +1,82 @@
+const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
+const DEEPSEEK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/d6d9b4c6f_deepseek.svg";
+const GPT = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/698f8c822_chatgpt.svg";
+const CLAUDE = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c0a57947c_claude.svg";
+const GROK = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
+
+export const PLAN_IDS = ["free", "starter", "premium", "team", "startup", "enterprise"];
+
+export const PLAN_PRICES = {
+  free: { mensal: "R$ 0,00", anual: "R$ 0,00" },
+  starter: { mensal: "R$ 90,00", anual: "R$ 75,00" },
+  premium: { mensal: "R$ 149,90", anual: "R$ 124,90" },
+  team: { mensal: "R$ 399,90", anual: "R$ 333,25" },
+  startup: { mensal: "R$ 599,90", anual: "R$ 499,90" },
+  enterprise: { mensal: "R$ 999,90", anual: "R$ 833,25" }
+};
+
+export function buildPersonalPlans(t) {
+  return [
+    {
+      id: "free",
+      name: "Zyntra Free",
+      desc: t("pricing.freeDesc"),
+      price: { mensal: "R$ 0,00", anual: "R$ 0,00" },
+      period: null,
+      features: [t("pricing.freeF1"), t("pricing.freeF2"), t("pricing.freeF3")],
+      cta: t("pricing.freeCta"),
+    },
+    {
+      id: "starter",
+      name: "Starter",
+      desc: t("pricing.starterDesc"),
+      price: { mensal: "R$ 90,00", anual: "R$ 75,00" },
+      period: t("pricing.perMonth"),
+      features: [t("pricing.starterF1"), t("pricing.starterF2"), t("pricing.starterF3"), t("pricing.starterF4")],
+      cta: t("pricing.starterCta"),
+      tag: t("pricing.mostPopular"),
+    },
+    {
+      id: "premium",
+      name: "Pessoal Premium",
+      desc: t("pricing.premiumDesc"),
+      price: { mensal: "R$ 149,90", anual: "R$ 124,90" },
+      period: t("pricing.perMonth"),
+      features: [t("pricing.premiumF1"), t("pricing.premiumF2"), t("pricing.premiumF3"), t("pricing.premiumF4")],
+      cta: t("pricing.premiumCta"),
+    },
+  ];
+}
+
+export function buildBusinessPlans(t) {
+  return [
+    {
+      id: "team",
+      name: "Empresarial Team",
+      desc: t("pricing.teamDesc"),
+      price: { mensal: "R$ 399,90", anual: "R$ 333,25" },
+      period: t("pricing.perMonth"),
+      features: [t("pricing.teamF1"), t("pricing.teamF2"), t("pricing.teamF3"), t("pricing.teamF4")],
+      cta: t("pricing.teamCta"),
+    },
+    {
+      id: "startup",
+      name: "Empresarial Startup",
+      desc: t("pricing.startupDesc"),
+      price: { mensal: "R$ 599,90", anual: "R$ 499,90" },
+      period: t("pricing.perMonth"),
+      features: [t("pricing.startupF1"), t("pricing.startupF2"), t("pricing.startupF3"), t("pricing.startupF4"), t("pricing.startupF5")],
+      cta: t("pricing.startupCta"),
+      tag: t("pricing.mostPopular"),
+    },
+    {
+      id: "enterprise",
+      name: "Empresarial Enterprise",
+      desc: t("pricing.enterpriseDesc"),
+      price: { mensal: "R$ 999,90", anual: "R$ 833,25" },
+      period: t("pricing.perMonth"),
+      features: [t("pricing.enterpriseF1"), t("pricing.enterpriseF2"), t("pricing.enterpriseF3"), t("pricing.enterpriseF4"), t("pricing.enterpriseF5"), t("pricing.enterpriseF6")],
+      cta: t("pricing.enterpriseCta"),
+    },
+  ];
+}
