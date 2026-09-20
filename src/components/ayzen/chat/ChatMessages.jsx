@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Copy, Check, Star, Pencil, RefreshCw, Download, Link2 } from "lucide-react";
 import { MODELS_BY_PLAN, getModelInfo } from "@/components/ayzen/ModelSelector";
 import ImaginingCard from "@/components/ayzen/chat/ImaginingCard";
+import { base44 } from "@/api/base44Client";
 
 export default function ChatMessages({ messages, loading, onEdit, onReprocess, plan = "free", model = "auto", imagining = false }) {
   const scrollRef = useRef(null);
   const [copiedIdx, setCopiedIdx] = useState(null);
-  const [favIdx, setFavIdx] = useState([]);
+  const [favMap, setFavMap] = useState({});
   const [reprocessOpen, setReprocessOpen] = useState(null);
   const [linkCopied, setLinkCopied] = useState(false);
 
@@ -46,10 +47,31 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
     setTimeout(() => setCopiedIdx(null), 1500);
   };
 
-  const toggleFav = (idx) => {
-    setFavIdx((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
-    );
+  const toggleFav = async (idx, msg) => {
+    if (favMap[idx]) {
+      try {
+        await base44.entities.LibraryItem.delete(favMap[idx]);
+      } catch (e) {}
+      setFavMap((prev) => {
+        const next = { ...prev };
+        delete next[idx];
+        return next;
+      });
+    } else {
+      try {
+        const content = msg.content || "";
+        const item = await base44.entities.LibraryItem.create({
+          title: content.length > 40 ? content.slice(0, 40) + "..." : content,
+          type: "response",
+          url: msg.image || "",
+          model: msg.model?.name || "",
+          prompt: content,
+        });
+        setFavMap((prev) => ({ ...prev, [idx]: item.id }));
+      } catch (e) {
+        console.error("Erro ao salvar resposta:", e);
+      }
+    }
   };
 
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
@@ -196,9 +218,9 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                     )}
                   </button>
                   <button
-                    onClick={() => toggleFav(i)}
+                    onClick={() => toggleFav(i, msg)}
                     className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${
-                      favIdx.includes(i)
+                      favMap[i]
                         ? "text-yellow-500 hover:bg-yellow-50"
                         : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                     }`}
@@ -206,7 +228,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                   >
                     <Star
                       className="w-3.5 h-3.5"
-                      fill={favIdx.includes(i) ? "currentColor" : "none"}
+                      fill={favMap[i] ? "currentColor" : "none"}
                     />
                   </button>
                 </div>
