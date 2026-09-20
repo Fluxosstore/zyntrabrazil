@@ -422,7 +422,7 @@ export default function Dashboard() {
           </div>
           )}
           {messages.length > 0 && (
-            <div className="w-full max-w-3xl mx-auto flex-1 flex flex-col min-h-0">
+            <div className="w-full flex-1 flex flex-col min-h-0">
               <ChatMessages
                 messages={messages}
                 loading={loading}
