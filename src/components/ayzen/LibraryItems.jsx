@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Download, Trash2, MessageSquare } from "lucide-react";
+import { Download, Trash2, MessageSquarePlus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
 import LibraryImageModal from "@/components/ayzen/LibraryImageModal";
@@ -45,6 +46,7 @@ const SUB_TYPE_MAP = {
 
 export default function LibraryItems({ activeTab, subFilter = "all", view = "list", emptyState = null }) {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
@@ -91,6 +93,15 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
     } catch {
       window.open(url, "_blank");
     }
+  };
+
+  const handleEditImage = (item) => {
+    localStorage.setItem("zyntra_edit_image", JSON.stringify({
+      url: item.url,
+      prompt: item.prompt || item.title,
+      model: item.model,
+    }));
+    navigate("/dashboard");
   };
 
   const filtered = items.filter((i) => {
@@ -161,14 +172,15 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
     <>
       <div className="border border-gray-200 rounded-2xl overflow-hidden">
         {/* Header row */}
-        <div className="grid grid-cols-[1fr_120px_80px_120px] gap-4 px-4 py-2 border-b border-gray-100 bg-gray-50/50">
+        <div className="grid grid-cols-[300px_100px_70px_110px_1fr] gap-4 px-4 py-2 border-b border-gray-100 bg-gray-50/50">
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">NOME</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">TIPO</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">TAMANHO</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">MODIFICADO</span>
+          <span></span>
         </div>
         {filtered.map((item) => (
-          <div key={item.id} className="group grid grid-cols-[1fr_120px_80px_120px] gap-4 items-center px-4 py-3 border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+          <div key={item.id} className="group grid grid-cols-[300px_100px_70px_110px_1fr] gap-4 items-center px-4 py-3 border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
             {/* Name + thumbnail */}
             <div className="flex items-center gap-3 min-w-0">
               <div
@@ -196,6 +208,18 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
             <span className="text-xs text-gray-500">{formatSize(sizes[item.id])}</span>
             {/* Modified */}
             <span className="text-xs text-gray-500">{formatDate(item.created_date)}</span>
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button onClick={() => handleEditImage(item)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors" title="Editar no chat">
+                <MessageSquarePlus className="w-3.5 h-3.5" />
+              </button>
+              <button onClick={() => handleDownload(item.url)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors" title="Baixar">
+                <Download className="w-3.5 h-3.5" />
+              </button>
+              <button onClick={() => handleDelete(item.id)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors" title="Excluir">
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
         ))}
       </div>

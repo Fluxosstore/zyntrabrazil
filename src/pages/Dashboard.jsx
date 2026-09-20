@@ -61,6 +61,29 @@ export default function Dashboard() {
   }, [conversations]);
 
   useEffect(() => {
+    try {
+      const editData = localStorage.getItem("zyntra_edit_image");
+      if (editData) {
+        const { url, prompt, model } = JSON.parse(editData);
+        localStorage.removeItem("zyntra_edit_image");
+        setReferenceImage(url);
+        setModel("gpt-image");
+        const convId = `conv_${Date.now()}`;
+        setConversations(prev => [{ id: convId, title: "Editar imagem", messages: [], pinned: false, selected: false, created_date: new Date().toISOString() }, ...prev]);
+        setActiveConversationId(convId);
+        setMessages([{
+          role: "assistant",
+          content: "Aqui está a imagem selecionada para edição. Descreva as modificações que deseja:",
+          image: url,
+          model: { name: model || "Zyntra Auto", logo: getModelInfo("auto").logo },
+        }]);
+      }
+    } catch (err) {
+      console.error("Erro ao carregar imagem para edição:", err);
+    }
+  }, []);
+
+  useEffect(() => {
     if (activeConversationId) {
       setConversations(prev => prev.map(c =>
         c.id === activeConversationId ? { ...c, messages } : c
@@ -70,6 +93,7 @@ export default function Dashboard() {
   const [useWebSearch, setUseWebSearch] = useState(false);
   const [saveMemories, setSaveMemories] = useState(false);
   const [useMemories, setUseMemories] = useState(false);
+  const [referenceImage, setReferenceImage] = useState(null);
   const plan = user?.plan || "free";
 
   const [greetingText, setGreetingText] = useState("");
@@ -185,9 +209,11 @@ export default function Dashboard() {
         };
         const styleHint = imageStyleByModel[model] || "";
         const enhancedPrompt = styleHint ? `${msg}. ${styleHint}` : msg;
+        const existingUrls = [...fileUrlsForLLM];
+        if (referenceImage) existingUrls.push(referenceImage);
         const result = await base44.integrations.Core.GenerateImage({
           prompt: enhancedPrompt,
-          existing_image_urls: fileUrlsForLLM.length > 0 ? fileUrlsForLLM : undefined,
+          existing_image_urls: existingUrls.length > 0 ? existingUrls : undefined,
         });
         base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).catch(() => {});
         // Salva na biblioteca
@@ -207,6 +233,7 @@ export default function Dashboard() {
             model: { name: modelInfo.name, logo: modelInfo.logo },
           },
         ]);
+        setReferenceImage(null);
       } else {
         const prompt = messagesToPrompt(newMessages);
         const result = await base44.functions.invoke("openrouterChat", {
