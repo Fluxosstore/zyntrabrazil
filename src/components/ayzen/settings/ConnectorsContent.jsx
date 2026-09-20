@@ -3,11 +3,21 @@ import { Crown, Plug, X, Plus, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 
+const CONNECTOR_SLOTS_BY_PLAN = {
+  free: 0,
+  starter: 7,
+  premium: 12,
+  team: 18,
+  startup: 21,
+  enterprise: 30,
+};
+
 export default function ConnectorsContent({ plan = "free" }) {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const isPaid = plan && plan !== "free";
   const [modalOpen, setModalOpen] = useState(false);
+  const maxSlots = CONNECTOR_SLOTS_BY_PLAN[plan] || 0;
 
   if (!isPaid) {
     return (
@@ -93,7 +103,7 @@ export default function ConnectorsContent({ plan = "free" }) {
                 <p className="text-[10px] font-semibold tracking-wider text-gray-400">
                   {t("settings.connectorsAvailable")}
                 </p>
-                <p className="text-lg font-bold text-black mt-0.5">5</p>
+                <p className="text-lg font-bold text-black mt-0.5">{maxSlots}</p>
               </div>
             </div>
           </div>
