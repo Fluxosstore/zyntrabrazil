@@ -9,7 +9,23 @@ function formatDate(dateStr) {
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-export default function LibraryItems({ activeTab, view = "list", emptyState = null }) {
+const TAB_TYPE_MAP = {
+  all: null,
+  images: "image",
+  files: null,
+  docs: "doc",
+  responses: "response",
+};
+
+const SUB_TYPE_MAP = {
+  all: null,
+  docs: "doc",
+  images: "image",
+  audio: "audio",
+  video: "video",
+};
+
+export default function LibraryItems({ activeTab, subFilter = "all", view = "list", emptyState = null }) {
   const { t } = useLanguage();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +68,15 @@ export default function LibraryItems({ activeTab, view = "list", emptyState = nu
   };
 
   const filtered = items.filter((i) => {
-    const matchesTab = activeTab === "all" || i.type === activeTab;
+    let matchesTab;
+    if (activeTab === "files") {
+      matchesTab = i.type !== "response";
+      const subType = SUB_TYPE_MAP[subFilter];
+      if (subType) matchesTab = matchesTab && i.type === subType;
+    } else {
+      const targetType = TAB_TYPE_MAP[activeTab];
+      matchesTab = !targetType || i.type === targetType;
+    }
     const matchesQuery = !query || (i.title || "").toLowerCase().includes(query.toLowerCase());
     return matchesTab && matchesQuery;
   });

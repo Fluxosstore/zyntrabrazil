@@ -160,6 +160,7 @@ export default function LibraryPage() {
           <div className="flex-1 px-8 pb-8 overflow-y-auto">
             <LibraryItems
               activeTab={activeTab}
+              subFilter={subFilter}
               view={view}
               emptyState={
                 <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
@@ -242,6 +243,7 @@ export default function LibraryPage() {
         <div className="flex-1 px-4 pb-4 overflow-y-auto">
           <LibraryItems
             activeTab={activeTab}
+            subFilter={subFilter}
             view="list"
             emptyState={
               <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
