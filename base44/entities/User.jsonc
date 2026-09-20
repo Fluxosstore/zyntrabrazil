@@ -47,6 +47,11 @@
       "description": "Se a renova\u00e7\u00e3o autom\u00e1tica est\u00e1 ativa",
       "default": true
     },
+    "last_downgrade_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data do \u00faltimo downgrade de plano (limite de 1 a cada 2 meses)"
+    },
     "balance": {
       "type": "number",
       "description": "Saldo de tokens do usu\u00e1rio",

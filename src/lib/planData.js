@@ -15,6 +15,22 @@ export const PLAN_PRICES = {
   enterprise: { mensal: "R$ 999,90", anual: "R$ 833,25" }
 };
 
+export const PLAN_NUMERIC_PRICES = {
+  free: { mensal: 0, anual: 0 },
+  starter: { mensal: 90.0, anual: 75.0 },
+  premium: { mensal: 149.9, anual: 124.9 },
+  team: { mensal: 399.9, anual: 333.25 },
+  startup: { mensal: 599.9, anual: 499.9 },
+  enterprise: { mensal: 999.9, anual: 833.25 }
+};
+
+export function formatBRL(value) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value || 0);
+}
+
 export function buildPersonalPlans(t) {
   return [
     {

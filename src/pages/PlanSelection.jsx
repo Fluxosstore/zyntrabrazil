@@ -1,10 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Sun, Star, Loader2 } from "lucide-react";
+import { ArrowLeft, Sun, Star, Loader2, AlertCircle, X } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
-import { buildPersonalPlans, buildBusinessPlans } from "@/lib/planData";
+import {
+  buildPersonalPlans,
+  buildBusinessPlans,
+  PLAN_IDS,
+  PLAN_NUMERIC_PRICES,
+  formatBRL,
+} from "@/lib/planData";
+
+const MONTHS_PT = [
+  "jan", "fev", "mar", "abr", "mai", "jun",
+  "jul", "ago", "set", "out", "nov", "dez",
+];
+
+function formatPtDate(dateStr) {
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "";
+    return `${d.getDate()} de ${MONTHS_PT[d.getMonth()]}. de ${d.getFullYear()}`;
+  } catch {
+    return "";
+  }
+}
 
 export default function PlanSelection() {
   const { t } = useLanguage();
@@ -13,23 +34,58 @@ export default function PlanSelection() {
   const [tab, setTab] = useState("pessoal");
   const [cycle, setCycle] = useState(user?.plan_cycle || "mensal");
   const [confirmPlan, setConfirmPlan] = useState(null);
+  const [blockedDowngrade, setBlockedDowngrade] = useState(null);
   const [processing, setProcessing] = useState(false);
 
   const currentPlan = user?.plan || "free";
+  const currentCycle = user?.plan_cycle || "mensal";
   const personalPlans = buildPersonalPlans(t);
   const businessPlans = buildBusinessPlans(t);
   const plans = tab === "pessoal" ? personalPlans : businessPlans;
 
+  const currentPlanIndex = PLAN_IDS.indexOf(currentPlan);
+
+  const getChangeInfo = (plan, selectedCycle = cycle) => {
+    const newPlanIndex = PLAN_IDS.indexOf(plan.id);
+    const alreadyPaid = PLAN_NUMERIC_PRICES[currentPlan]?.[currentCycle] || 0;
+    const newPrice = PLAN_NUMERIC_PRICES[plan.id]?.[selectedCycle] || 0;
+    const isUpgrade = newPlanIndex > currentPlanIndex;
+    const isDowngrade = newPlanIndex < currentPlanIndex;
+    const amountToPay = isUpgrade ? Math.max(0, newPrice - alreadyPaid) : 0;
+    return { alreadyPaid, newPrice, isUpgrade, isDowngrade, amountToPay };
+  };
+
+  const handleSelectPlan = (plan) => {
+    const info = getChangeInfo(plan);
+    if (info.isDowngrade) {
+      const lastDowngradeAt = user?.last_downgrade_at ? new Date(user.last_downgrade_at) : null;
+      const twoMonthsAgo = new Date();
+      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+      if (lastDowngradeAt && lastDowngradeAt > twoMonthsAgo) {
+        const nextAvailable = new Date(lastDowngradeAt);
+        nextAvailable.setMonth(nextAvailable.getMonth() + 2);
+        setBlockedDowngrade({ plan, lastDowngradeAt, nextAvailable });
+        return;
+      }
+    }
+    setConfirmPlan(plan);
+  };
+
   const handleConfirm = async () => {
     if (!confirmPlan) return;
+    const info = getChangeInfo(confirmPlan);
     setProcessing(true);
     try {
-      await base44.auth.updateMe({
+      const updateData = {
         plan: confirmPlan.id,
         plan_cycle: cycle,
         plan_subscribed_at: new Date().toISOString(),
         auto_renew: true,
-      });
+      };
+      if (info.isDowngrade) {
+        updateData.last_downgrade_at = new Date().toISOString();
+      }
+      await base44.auth.updateMe(updateData);
       await checkUserAuth();
       setConfirmPlan(null);
       navigate("/settings", { state: { section: "plan" } });
@@ -58,7 +114,7 @@ export default function PlanSelection() {
 
       {/* Title section */}
       <div className="px-6 lg:px-10 max-w-[1280px] mx-auto">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 mb-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6]" />
           <span className="text-xs font-semibold tracking-widest text-[#8B5CF6] uppercase">
             {t("planSelection.badge")}
@@ -116,6 +172,7 @@ export default function PlanSelection() {
         <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-start">
           {plans.map((plan) => {
             const isCurrent = plan.id === currentPlan;
+            const info = getChangeInfo(plan);
             return (
               <div
                 key={plan.id}
@@ -128,7 +185,7 @@ export default function PlanSelection() {
                   </div>
                 )}
                 {isCurrent && (
-                  <span className="absolute top-6 right-6 inline-flex items-center px-2.5 py-1 rounded-full bg-violet-600 text-white text-[10px] font-bold tracking-wider">
+                  <span className="absolute top-4 right-4 inline-flex items-center px-2.5 py-1 rounded-full bg-violet-600 text-white text-[10px] font-bold tracking-wider">
                     {t("planSelection.current")}
                   </span>
                 )}
@@ -188,7 +245,7 @@ export default function PlanSelection() {
                   </button>
                 ) : (
                   <button
-                    onClick={() => setConfirmPlan(plan)}
+                    onClick={() => handleSelectPlan(plan)}
                     className="mt-4 w-full py-2.5 rounded-full text-sm font-semibold text-black bg-white border border-[#D1D1D1] hover:border-violet-300 hover:bg-gray-50 transition-colors"
                   >
                     {t("planSelection.select")} →
@@ -201,30 +258,82 @@ export default function PlanSelection() {
       </div>
 
       {/* Confirmation modal */}
-      {confirmPlan && (
+      {confirmPlan && (() => {
+        const info = getChangeInfo(confirmPlan);
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
+            <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
+              {info.isUpgrade ? (
+                <>
+                  <h2 className="text-lg font-bold text-black">{t("planSelection.upgradeTitle")}</h2>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {t("planSelection.upgradeDesc", {
+                      plan: confirmPlan.name,
+                      paid: formatBRL(info.alreadyPaid),
+                      amount: formatBRL(info.amountToPay),
+                    })}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-lg font-bold text-black">{t("planSelection.downgradeTitle")}</h2>
+                  <p className="text-sm text-gray-500 mt-2">
+                    {t("planSelection.downgradeDesc", { plan: confirmPlan.name })}
+                  </p>
+                </>
+              )}
+              <div className="flex gap-3 mt-6">
+                <button
+                  onClick={() => setConfirmPlan(null)}
+                  disabled={processing}
+                  className="flex-1 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                >
+                  {t("planSelection.cancel")}
+                </button>
+                <button
+                  onClick={handleConfirm}
+                  disabled={processing}
+                  className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                >
+                  {processing && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {t("planSelection.confirm")}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Blocked downgrade modal */}
+      {blockedDowngrade && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl">
-            <h2 className="text-lg font-bold text-black">{t("planSelection.confirmTitle")}</h2>
-            <p className="text-sm text-gray-500 mt-2">
-              {t("planSelection.confirmDesc", { plan: confirmPlan.name, price: confirmPlan.price[cycle] })}
-            </p>
-            <div className="flex gap-3 mt-6">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center shrink-0">
+                <AlertCircle className="w-5 h-5 text-amber-500" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-bold text-black">{t("planSelection.downgradeBlockedTitle")}</h2>
+                <p className="text-sm text-gray-500 mt-2">
+                  {t("planSelection.downgradeBlockedDesc", {
+                    plan: blockedDowngrade.plan.name,
+                    date: formatPtDate(blockedDowngrade.nextAvailable),
+                  })}
+                </p>
+              </div>
               <button
-                onClick={() => setConfirmPlan(null)}
-                disabled={processing}
-                className="flex-1 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                onClick={() => setBlockedDowngrade(null)}
+                className="text-gray-400 hover:text-black transition-colors shrink-0"
               >
-                {t("planSelection.cancel")}
-              </button>
-              <button
-                onClick={handleConfirm}
-                disabled={processing}
-                className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] text-white text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-              >
-                {processing && <Loader2 className="w-4 h-4 animate-spin" />}
-                {t("planSelection.confirm")}
+                <X className="w-5 h-5" />
               </button>
             </div>
+            <button
+              onClick={() => setBlockedDowngrade(null)}
+              className="mt-6 w-full py-2.5 rounded-xl bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-colors"
+            >
+              {t("planSelection.understood")}
+            </button>
           </div>
         </div>
       )}
