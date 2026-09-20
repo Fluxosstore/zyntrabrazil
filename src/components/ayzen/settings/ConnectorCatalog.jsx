@@ -25,7 +25,19 @@ function ConnectorLogo({ connector }) {
   );
 }
 
-function ConnectorCard({ connector, lang, connected, onToggle }) {
+function ConnectorCard({ connector, lang, isConnected, onConnect, onDisconnect }) {
+  const [connecting, setConnecting] = useState(false);
+
+  const handleClick = async () => {
+    if (isConnected) {
+      onDisconnect(connector);
+    } else {
+      setConnecting(true);
+      await onConnect(connector);
+      setConnecting(false);
+    }
+  };
+
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4 flex flex-col gap-3">
       <div className="flex items-start gap-3">
@@ -36,26 +48,22 @@ function ConnectorCard({ connector, lang, connected, onToggle }) {
         </div>
       </div>
       <button
-        onClick={() => onToggle(connector.id)}
-        className={`w-full h-9 rounded-xl text-sm font-medium transition-colors ${
-          connected
-            ? "bg-green-50 text-green-600 border border-green-200"
+        onClick={handleClick}
+        disabled={connecting}
+        className={`w-full h-9 rounded-xl text-sm font-medium transition-colors disabled:opacity-50 ${
+          isConnected
+            ? "bg-green-50 text-green-600 border border-green-200 hover:bg-green-100"
             : "bg-[#F5F5F5] text-black border border-gray-200 hover:bg-gray-100"
         }`}
       >
-        {connected ? "✓ Conectado" : "Conectar"}
+        {connecting ? "Conectando..." : isConnected ? "✓ Conectado" : "Conectar"}
       </button>
     </div>
   );
 }
 
-export default function ConnectorCatalog() {
-  const { t, lang } = useLanguage();
-  const [connected, setConnected] = useState({});
-
-  const handleToggle = (id) => {
-    setConnected((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+export default function ConnectorCatalog({ connectedIds, onConnect, onDisconnect }) {
+  const { lang } = useLanguage();
 
   const categories = Object.entries(CONNECTOR_CATEGORIES)
     .sort(([, a], [, b]) => a.order - b.order)
@@ -82,8 +90,9 @@ export default function ConnectorCatalog() {
                   key={connector.id}
                   connector={connector}
                   lang={lang}
-                  connected={connected[connector.id]}
-                  onToggle={handleToggle}
+                  isConnected={connectedIds.has(connector.id)}
+                  onConnect={onConnect}
+                  onDisconnect={onDisconnect}
                 />
               ))}
             </div>

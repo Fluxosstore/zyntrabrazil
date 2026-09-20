@@ -1,0 +1,65 @@
+{
+  "name": "UserConnector",
+  "type": "object",
+  "properties": {
+    "connector_id": {
+      "type": "string",
+      "description": "ID do conector (ex: gmail, slack, ou mcp-<timestamp>)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nome de exibi\u00e7\u00e3o do conector"
+    },
+    "type": {
+      "type": "string",
+      "description": "Tipo do conector",
+      "enum": [
+        "prebuilt",
+        "mcp"
+      ],
+      "default": "prebuilt"
+    },
+    "category": {
+      "type": "string",
+      "description": "Categoria do conector (google, comunicacao, etc)"
+    },
+    "logo": {
+      "type": "string",
+      "description": "URL do logo do conector"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL do servidor MCP (para tipo mcp)"
+    },
+    "token": {
+      "type": "string",
+      "description": "Token de acesso (para tipo mcp)"
+    },
+    "headers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Cabe\u00e7alhos extras (para tipo mcp)"
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Se o conector est\u00e1 ativo",
+      "default": true
+    }
+  },
+  "required": [
+    "connector_id",
+    "name",
+    "type",
+    "active"
+  ]
+}
