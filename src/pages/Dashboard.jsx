@@ -361,7 +361,7 @@ export default function Dashboard() {
         </div>
 
         {/* center stage */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
           {messages.length === 0 && (
           <div className="flex-1 flex flex-col items-center justify-end px-6 pb-24 -mt-6">
           {tempMode ? (
