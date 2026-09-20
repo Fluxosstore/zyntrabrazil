@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Volume2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { base44 } from "@/api/base44Client";
 import { MODELS_BY_PLAN, IMAGE_MODELS, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 
 const QUOTAS_BY_PLAN = {
@@ -99,6 +100,32 @@ function QuotaRow({ label, consumed, limit }) {
 export default function MediaQuotasContent({ plan }) {
   const { t } = useLanguage();
   const items = buildModelItems(plan);
+  const [usageCounts, setUsageCounts] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const records = await base44.entities.TokenUsage.list();
+        const now = new Date();
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const counts = {};
+        records.forEach((r) => {
+          if (!r.model) return;
+          if (!counts[r.model]) counts[r.model] = { day: 0, week: 0, month: 0, total: 0 };
+          const d = new Date(r.created_date);
+          counts[r.model].total++;
+          if (d >= startOfDay) counts[r.model].day++;
+          if (d >= startOfWeek) counts[r.model].week++;
+          if (d >= startOfMonth) counts[r.model].month++;
+        });
+        setUsageCounts(counts);
+      } catch (err) {
+        console.error("Erro ao carregar uso:", err);
+      }
+    })();
+  }, []);
 
   return (
     <section>
@@ -108,7 +135,7 @@ export default function MediaQuotasContent({ plan }) {
         {items.map((item) => {
           const isUnlimited = item.quotas === "unlimited";
           const isNotIncluded = !isUnlimited && item.quotas.day === 0 && item.quotas.week === 0 && item.quotas.month === 0;
-          const consumed = 0;
+          const modelUsage = usageCounts[item.name] || { day: 0, week: 0, month: 0, total: 0 };
 
           return (
             <div key={item.id} className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -131,15 +158,15 @@ export default function MediaQuotasContent({ plan }) {
               {isUnlimited ? (
                 <>
                   <p className="text-lg font-bold text-black">{t("settings.mediaUnlimited")}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">{t("settings.mediaGenerated", { n: 0 })}</p>
+                  <p className="text-[11px] text-gray-500 mt-1">{t("settings.mediaGenerated", { n: modelUsage.total })}</p>
                 </>
               ) : isNotIncluded ? (
                 <p className="text-sm text-gray-400 mt-1">{t("settings.mediaNotIncluded")}</p>
               ) : (
                 <div className="space-y-2">
-                  <QuotaRow label={t("settings.mediaDay")} consumed={consumed} limit={item.quotas.day} />
-                  <QuotaRow label={t("settings.mediaWeek")} consumed={consumed} limit={item.quotas.week} />
-                  <QuotaRow label={t("settings.mediaMonth")} consumed={consumed} limit={item.quotas.month} />
+                  <QuotaRow label={t("settings.mediaDay")} consumed={modelUsage.day} limit={item.quotas.day} />
+                  <QuotaRow label={t("settings.mediaWeek")} consumed={modelUsage.week} limit={item.quotas.week} />
+                  <QuotaRow label={t("settings.mediaMonth")} consumed={modelUsage.month} limit={item.quotas.month} />
                 </div>
               )}
             </div>
