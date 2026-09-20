@@ -197,7 +197,7 @@ export default function InvoicesContent({ plan = "free" }) {
                           setOpenMenuId(null);
                           setModalOpen(true);
                         }}
-                        className="mx-1 flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
                       >
                         <Eye className="w-4 h-4 text-gray-500" />
                         Visualizar
@@ -207,7 +207,7 @@ export default function InvoicesContent({ plan = "free" }) {
                           setOpenMenuId(null);
                           window.print();
                         }}
-                        className="mx-1 flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
                       >
                         <Download className="w-4 h-4 text-gray-500" />
                         Comprovante
