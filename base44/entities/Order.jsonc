@@ -47,6 +47,10 @@
     "coupon_code": {
       "type": "string",
       "description": "Cupom aplicado, se houver"
+    },
+    "payment_id": {
+      "type": "string",
+      "description": "ID do pagamento no Mercado Pago"
     }
   },
   "required": [

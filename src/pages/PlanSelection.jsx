@@ -12,6 +12,7 @@ import {
   formatBRL,
   getFreeTimeLabel,
 } from "@/lib/planData";
+import PixPaymentModal from "@/components/ayzen/PixPaymentModal";
 
 const MONTHS_PT = [
   "jan", "fev", "mar", "abr", "mai", "jun",
@@ -37,6 +38,7 @@ export default function PlanSelection() {
   const [confirmPlan, setConfirmPlan] = useState(null);
   const [blockedDowngrade, setBlockedDowngrade] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const [pixData, setPixData] = useState(null);
 
   const currentPlan = user?.plan || "free";
   const currentCycle = user?.plan_cycle || "mensal";
@@ -75,26 +77,61 @@ export default function PlanSelection() {
   const handleConfirm = async () => {
     if (!confirmPlan) return;
     const info = getChangeInfo(confirmPlan);
+
+    // Free downgrade or zero-amount change: direct update
+    if (info.amountToPay <= 0) {
+      setProcessing(true);
+      try {
+        const updateData = {
+          plan: confirmPlan.id,
+          plan_cycle: cycle,
+          plan_subscribed_at: new Date().toISOString(),
+          auto_renew: true,
+        };
+        if (info.isDowngrade) {
+          updateData.last_downgrade_at = new Date().toISOString();
+        }
+        await base44.auth.updateMe(updateData);
+        await checkUserAuth();
+        setConfirmPlan(null);
+        navigate("/settings", { state: { section: "plan" } });
+      } catch (err) {
+        console.error("Erro ao atualizar plano:", err);
+      } finally {
+        setProcessing(false);
+      }
+      return;
+    }
+
+    // Paid upgrade: create PIX payment
     setProcessing(true);
     try {
-      const updateData = {
-        plan: confirmPlan.id,
-        plan_cycle: cycle,
-        plan_subscribed_at: new Date().toISOString(),
-        auto_renew: true,
-      };
-      if (info.isDowngrade) {
-        updateData.last_downgrade_at = new Date().toISOString();
-      }
-      await base44.auth.updateMe(updateData);
-      await checkUserAuth();
+      const res = await base44.functions.invoke("mercadopagoPayment", {
+        planId: confirmPlan.id,
+        cycle: cycle,
+        amount: info.amountToPay,
+        planName: confirmPlan.name,
+      });
+      setPixData({
+        qrCodeBase64: res.data?.qr_code_base64,
+        pixCode: res.data?.qr_code,
+        orderId: res.data?.order_id,
+        paymentId: res.data?.payment_id,
+        planName: confirmPlan.name,
+        amount: formatBRL(info.amountToPay),
+      });
       setConfirmPlan(null);
-      navigate("/settings", { state: { section: "plan" } });
     } catch (err) {
-      console.error("Erro ao atualizar plano:", err);
+      console.error("Erro ao criar pagamento:", err);
     } finally {
       setProcessing(false);
     }
+  };
+
+  const handlePaid = async () => {
+    await checkUserAuth();
+    setPixData(null);
+    navigate("/settings", { state: { section: "plan" } });
   };
 
   return (
@@ -304,6 +341,20 @@ export default function PlanSelection() {
           </div>
         );
       })()}
+
+      {/* PIX Payment modal */}
+      {pixData && (
+        <PixPaymentModal
+          open={!!pixData}
+          onClose={() => setPixData(null)}
+          qrCodeBase64={pixData.qrCodeBase64}
+          pixCode={pixData.pixCode}
+          planName={pixData.planName}
+          amount={pixData.amount}
+          orderId={pixData.orderId}
+          onPaid={handlePaid}
+        />
+      )}
 
       {/* Blocked downgrade modal */}
       {blockedDowngrade && (
