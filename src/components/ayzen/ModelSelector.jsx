@@ -89,10 +89,21 @@ export const AUDIO_MODELS = [
   { id: "fish-s2-pro-tts", name: "Fish Audio S2 Pro", logo: FISH_AUDIO, ms: "~1.5 s", level: "medium", type: "audio" }
 ];
 
+// Modelos de áudio disponíveis por plano (progressivo: 1, 2, 4, 6, 8)
+export const AUDIO_MODELS_BY_PLAN = {
+  free: [],
+  starter: AUDIO_MODELS.slice(0, 1),
+  premium: AUDIO_MODELS.slice(0, 2),
+  team: AUDIO_MODELS.slice(0, 4),
+  startup: AUDIO_MODELS.slice(0, 6),
+  enterprise: AUDIO_MODELS
+};
+
 export function getModelInfo(id, plan = "free") {
   if (id === "auto") return { id: "auto", name: "Zyntra Auto", logo: LOGO };
   const models = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
-  const found = models.find((m) => m.id === id) || IMAGE_MODELS.find((m) => m.id === id) || AUDIO_MODELS.find((m) => m.id === id);
+  const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
+  const found = models.find((m) => m.id === id) || IMAGE_MODELS.find((m) => m.id === id) || audioModels.find((m) => m.id === id) || AUDIO_MODELS.find((m) => m.id === id);
   return found || { id: "auto", name: "Zyntra Auto", logo: LOGO };
 }
 
@@ -128,7 +139,8 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
   const filteredImages = IMAGE_MODELS.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
   );
-  const filteredAudios = AUDIO_MODELS.filter((m) =>
+  const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
+  const filteredAudios = audioModels.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -233,6 +245,7 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
           )}
         </div>
 
+        {filteredAudios.length > 0 && <>
         <div className="h-px bg-gray-100" />
 
         {/* Audio models section */}
@@ -259,6 +272,7 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
           </button>
           )}
         </div>
+        </>}
       </div>
     </motion.div>
   );
