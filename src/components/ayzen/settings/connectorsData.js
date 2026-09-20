@@ -18,6 +18,9 @@ export const WORKSPACE_CONNECTOR_MAP = {
   gcontacts: "6aafb4259c31d3a1619b5ef6",
   gtasks: "6aafb428590567e4c76bcf98",
   gdrive: "6aafb42265da4d497f1b1801",
+  gdocs: "6aafb6297ac5b0557625e838",
+  gsheets: "6aafb626d111421c4bad5174",
+  gmeet: "6aafb623aef5c24738fbbc92",
 };
 
 export const CONNECTORS = [
