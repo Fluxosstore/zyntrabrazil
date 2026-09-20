@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Crown, Plug, X, Plus, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
+import ConnectorCatalog from "./ConnectorCatalog";
 
 const CONNECTOR_SLOTS_BY_PLAN = {
   free: 0,
@@ -109,7 +110,10 @@ export default function ConnectorsContent({ plan = "free" }) {
           </div>
         </section>
 
-        {/* My connectors */}
+        {/* Available connectors catalog */}
+        <ConnectorCatalog />
+
+        {/* Custom MCP servers */}
         <section>
           <h2 className="text-base font-bold text-black mb-1">{t("settings.myConnectors")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.myConnectorsDesc")}</p>
