@@ -7,22 +7,22 @@ export const QUOTAS_BY_PLAN = {
     audio: { day: 0, week: 0, month: 0 }
   },
   starter: {
-    text: { day: 0, week: 0, month: 10000 },
+    text: { day: 0, week: 0, month: 15000 },
     image: { day: 2, week: 8, month: 30 },
     audio: { day: 1, week: 4, month: 15 }
   },
   premium: {
-    text: { day: 0, week: 0, month: 15000 },
+    text: { day: 0, week: 0, month: 20000 },
     image: { day: 4, week: 15, month: 50 },
     audio: { day: 2, week: 8, month: 25 }
   },
   team: {
-    text: { day: 0, week: 0, month: 20000 },
+    text: { day: 0, week: 0, month: 25000 },
     image: { day: 8, week: 30, month: 100 },
     audio: { day: 4, week: 15, month: 40 }
   },
   startup: {
-    text: { day: 0, week: 0, month: 25000 },
+    text: { day: 0, week: 0, month: 30000 },
     image: { day: 12, week: 45, month: 150 },
     audio: { day: 6, week: 22, month: 60 }
   },
