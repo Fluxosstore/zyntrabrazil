@@ -172,7 +172,7 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
     <>
       <div className="border border-gray-200 rounded-2xl overflow-hidden">
         {/* Header row */}
-        <div className="grid grid-cols-[300px_100px_70px_110px_1fr] gap-4 px-4 py-2 border-b border-gray-100 bg-gray-50/50">
+        <div className="grid grid-cols-[1fr_120px_80px_120px_100px] gap-4 px-4 py-2 border-b border-gray-100 bg-gray-50/50">
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">NOME</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">TIPO</span>
           <span className="text-[10px] font-semibold tracking-wider text-gray-400">TAMANHO</span>
@@ -180,7 +180,7 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
           <span></span>
         </div>
         {filtered.map((item) => (
-          <div key={item.id} className="group grid grid-cols-[300px_100px_70px_110px_1fr] gap-4 items-center px-4 py-3 border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+          <div key={item.id} className="group grid grid-cols-[1fr_120px_80px_120px_100px] gap-4 items-center px-4 py-3 border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
             {/* Name + thumbnail */}
             <div className="flex items-center gap-3 min-w-0">
               <div
