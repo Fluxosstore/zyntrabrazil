@@ -64,6 +64,23 @@ export default function Dashboard() {
 
   useEffect(() => {
     try {
+      const openId = localStorage.getItem("zyntra_open_conversation");
+      if (openId) {
+        localStorage.removeItem("zyntra_open_conversation");
+        const conv = conversations.find((c) => c.id === openId);
+        if (conv) {
+          setActiveConversationId(openId);
+          setMessages(conv.messages || []);
+        }
+      }
+    } catch (err) {
+      console.error("Erro ao abrir conversa:", err);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    try {
       const editData = localStorage.getItem("zyntra_edit_image");
       if (editData) {
         const { url, prompt, model } = JSON.parse(editData);

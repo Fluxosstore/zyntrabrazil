@@ -43,6 +43,13 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   });
   const displayConversations = conversations.length > 0 ? conversations : localConversations;
 
+  const handleSelect = onSelectConversation || ((convId) => {
+    try {
+      localStorage.setItem("zyntra_open_conversation", convId);
+    } catch {}
+    navigate("/dashboard");
+  });
+
   return (
     <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F4F4F6] flex flex-col rounded-r-2xl transition-all duration-200`}>
       <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
@@ -143,7 +150,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                     key={conv.id}
                     conv={conv}
                     active={conv.id === activeConversationId}
-                    onSelect={onSelectConversation}
+                    onSelect={handleSelect}
                     onPin={onTogglePin}
                     onRenameCommit={onRenameConversation}
                     onSelectToggle={onToggleSelect}

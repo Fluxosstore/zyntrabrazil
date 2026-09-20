@@ -36,6 +36,14 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
     onClose();
   };
 
+  const handleSelect = onSelectConversation || ((convId) => {
+    try {
+      localStorage.setItem("zyntra_open_conversation", convId);
+    } catch {}
+    navigate("/dashboard");
+    onClose();
+  });
+
   const navItemClass =
     "w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-gray-700 hover:bg-gray-100 text-xs font-medium transition-colors";
 
@@ -122,7 +130,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                       key={conv.id}
                       conv={conv}
                       active={conv.id === activeConversationId}
-                      onSelect={onSelectConversation}
+                      onSelect={handleSelect}
                       onPin={onTogglePin}
                       onRenameCommit={onRenameConversation}
                       onSelectToggle={onToggleSelect}
