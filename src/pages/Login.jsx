@@ -65,7 +65,7 @@ export default function Login() {
           setPasskeyVerified(true);
         }
       } else {
-        const dbg = finishData.debug ? ` [${finishData.debug.step || ""} alg=${finishData.debug.algorithm} sigLen=${finishData.debug.sigLen} raw=${finishData.debug.rawVerifyResult} der=${finishData.debug.derVerifyResult}]` : "";
+        const dbg = finishData.debug ? ` [${finishData.debug.step || ""} alg=${finishData.debug.algorithm} sigLen=${finishData.debug.sigLen} first=${finishData.debug.sigFirstBytes} raw=${finishData.debug.rawVerifyResult} der=${finishData.debug.derVerifyResult} derErr=${finishData.debug.derError || "none"}]` : "";
         setError(`${finishData.error || "Falha na verificação da passkey."}${dbg}`);
       }
     } catch (e) {
