@@ -1,10 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export default function ImaginingCard({ modelName }) {
+export default function ImaginingCard({ modelName, modelLogo }) {
   return (
     <div className="w-full max-w-[420px]">
       <div className="flex items-center gap-2 mb-1.5">
+        {modelLogo && (
+          <img src={modelLogo} alt={modelName || "Imagem"} className="w-5 h-5 rounded object-contain" />
+        )}
         <span className="text-sm font-bold text-black">{modelName || "Imagem"}</span>
       </div>
       <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-[#0A0A0F] border border-gray-200">

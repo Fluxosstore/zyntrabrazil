@@ -218,7 +218,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
       {loading && (
         imagining ? (
           <div className="flex justify-start">
-            <ImaginingCard modelName={loadingModel.name} />
+            <ImaginingCard modelName={loadingModel.name} modelLogo={loadingModel.logo} />
           </div>
         ) : (
           <div className="flex justify-start">
