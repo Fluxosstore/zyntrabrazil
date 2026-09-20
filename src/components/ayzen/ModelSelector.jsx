@@ -14,7 +14,7 @@ const GPT =
 const CLAUDE =
 "https://upload.wikimedia.org/wikipedia/commons/b/b0/Claude_AI_symbol.svg";
 const GROK =
-"https://upload.wikimedia.org/wikipedia/commons/f/f4/Grok_logo_without_text.svg";
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
 
 export const PLAN_LABELS = {
   free: "Zyntra Free",
