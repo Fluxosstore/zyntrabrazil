@@ -30,6 +30,10 @@ export default function Dashboard() {
   const { t } = useLanguage();
 
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
+  const toggleConnector = (id) =>
+    setActiveConnectorIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
   const [msg, setMsg] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
   const [model, setModel] = useState("auto");
@@ -38,6 +42,7 @@ export default function Dashboard() {
   const [plusMenuOpen, setPlusMenuOpen] = useState(false);
   const [toolsPanelOpen, setToolsPanelOpen] = useState(false);
   const [connectorsPanelOpen, setConnectorsPanelOpen] = useState(false);
+  const [activeConnectorIds, setActiveConnectorIds] = useState([]);
   const [attachedFile, setAttachedFile] = useState(null);
   const plusRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -627,6 +632,8 @@ export default function Dashboard() {
                     {plusMenuOpen && connectorsPanelOpen &&
                       <ConnectorsPanel
                         onBack={() => setConnectorsPanelOpen(false)}
+                        activeIds={activeConnectorIds}
+                        onToggleConnector={toggleConnector}
                         onConnectApps={() => {
                           setPlusMenuOpen(false);
                           setConnectorsPanelOpen(false);
@@ -719,8 +726,10 @@ export default function Dashboard() {
         useMemories={useMemories}
         setUseMemories={setUseMemories}
         reasoning={reasoning}
-        setReasoning={setReasoning} />
-      
-    </>);
+        setReasoning={setReasoning}
+        activeConnectorIds={activeConnectorIds}
+        onToggleConnector={toggleConnector} />
+
+        </>);
 
 }

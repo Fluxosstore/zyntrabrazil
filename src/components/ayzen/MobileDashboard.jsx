@@ -41,6 +41,7 @@ export default function MobileDashboard({
   saveMemories, setSaveMemories,
   useMemories, setUseMemories,
   reasoning, setReasoning,
+  activeConnectorIds, onToggleConnector,
 }) {
   const { user } = useAuth();
   const { t } = useLanguage();
@@ -262,6 +263,8 @@ export default function MobileDashboard({
                 {plusMenuOpen && connectorsPanelOpen && (
                   <ConnectorsPanel
                     onBack={() => setConnectorsPanelOpen(false)}
+                    activeIds={activeConnectorIds}
+                    onToggleConnector={onToggleConnector}
                     onConnectApps={() => {
                       setPlusMenuOpen(false);
                       setConnectorsPanelOpen(false);
