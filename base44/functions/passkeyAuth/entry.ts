@@ -197,42 +197,67 @@ export default async function(req: Request): Promise<Response> {
     if (action === "finishAuth") {
       const { credentialId, authenticatorData, clientDataJSON, signature: clientSig, challenge, challengeSignature } = body;
 
-      console.log("[finishAuth] credentialId:", credentialId);
-      console.log("[finishAuth] challenge:", challenge);
+      const debug: any = { step: "start", credentialId };
 
       const valid = await verifyChallenge(challenge, challengeSignature);
       if (!valid) {
-        console.log("[finishAuth] Challenge signature invalid");
-        return Response.json({ error: "Invalid challenge" }, { status: 400 });
+        debug.step = "challenge_invalid";
+        return Response.json({ success: false, error: "Invalid challenge", debug }, { status: 200 });
       }
+      debug.step = "challenge_ok";
 
       // Find the passkey by credential ID using service role
-      const passkeys = await base44.asServiceRole.entities.Passkey.filter({ credential_id: credentialId });
+      let passkeys;
+      try {
+        passkeys = await base44.asServiceRole.entities.Passkey.filter({ credential_id: credentialId });
+        debug.passkeysFound = passkeys?.length || 0;
+      } catch (dbErr) {
+        debug.step = "db_error";
+        debug.dbError = dbErr.message;
+        return Response.json({ success: false, error: "DB error: " + dbErr.message, debug }, { status: 200 });
+      }
+
       if (!passkeys || passkeys.length === 0) {
-        console.log("[finishAuth] Passkey not found for credentialId:", credentialId);
-        return Response.json({ error: "Credential not found" }, { status: 404 });
+        debug.step = "passkey_not_found";
+        return Response.json({ success: false, error: "Credential not found", debug }, { status: 200 });
       }
 
       const passkey = passkeys[0];
-      console.log("[finishAuth] Passkey found, algorithm:", passkey.algorithm, "device:", passkey.device_name);
+      debug.step = "passkey_found";
+      debug.algorithm = passkey.algorithm;
+      debug.deviceName = passkey.device_name;
 
       // Parse clientDataJSON
-      const clientData = JSON.parse(new TextDecoder().decode(base64urlToBuffer(clientDataJSON)));
-      console.log("[finishAuth] clientData type:", clientData.type, "origin:", clientData.origin);
+      let clientData;
+      try {
+        clientData = JSON.parse(new TextDecoder().decode(base64urlToBuffer(clientDataJSON)));
+        debug.clientDataType = clientData.type;
+        debug.clientDataOrigin = clientData.origin;
+        debug.clientDataChallenge = clientData.challenge;
+        debug.serverChallenge = challenge;
+      } catch (parseErr) {
+        debug.step = "clientData_parse_error";
+        debug.parseError = parseErr.message;
+        return Response.json({ success: false, error: "Invalid clientData", debug }, { status: 200 });
+      }
+
       if (clientData.type !== "webauthn.get") {
-        return Response.json({ error: "Invalid assertion type" }, { status: 400 });
+        debug.step = "wrong_type";
+        return Response.json({ success: false, error: "Invalid assertion type", debug }, { status: 200 });
       }
 
       // Verify challenge matches (compare base64url without padding)
       const normalizeB64url = (s: string) => s.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-      if (normalizeB64url(clientData.challenge) !== normalizeB64url(challenge)) {
-        console.log("[finishAuth] Challenge mismatch:", clientData.challenge, "vs", challenge);
-        return Response.json({ error: "Challenge mismatch" }, { status: 400 });
+      const challengeMatch = normalizeB64url(clientData.challenge) === normalizeB64url(challenge);
+      debug.challengeMatch = challengeMatch;
+      if (!challengeMatch) {
+        debug.step = "challenge_mismatch";
+        return Response.json({ success: false, error: "Challenge mismatch", debug }, { status: 200 });
       }
 
       // Verify the signature
       const importParams = getKeyImportParams(passkey.algorithm);
-      console.log("[finishAuth] importParams:", JSON.stringify(importParams));
+      debug.importParams = importParams;
 
       let publicKey;
       try {
@@ -243,10 +268,11 @@ export default async function(req: Request): Promise<Response> {
           false,
           ['verify']
         );
-        console.log("[finishAuth] Public key imported successfully");
+        debug.step = "key_imported";
       } catch (importErr) {
-        console.log("[finishAuth] Public key import failed:", importErr.message);
-        return Response.json({ error: "Key import failed: " + importErr.message }, { status: 500 });
+        debug.step = "key_import_failed";
+        debug.importError = importErr.message;
+        return Response.json({ success: false, error: "Key import failed: " + importErr.message, debug }, { status: 200 });
       }
 
       const authData = new Uint8Array(base64urlToBuffer(authenticatorData));
@@ -255,13 +281,16 @@ export default async function(req: Request): Promise<Response> {
       signedData.set(authData, 0);
       signedData.set(clientDataHash, authData.length);
 
-      console.log("[finishAuth] authData length:", authData.length, "clientDataHash length:", clientDataHash.length, "signedData length:", signedData.length);
-      console.log("[finishAuth] signature length:", base64urlToBuffer(clientSig).byteLength);
+      const sigBuffer = base64urlToBuffer(clientSig);
+      const sigBytes = new Uint8Array(sigBuffer);
+      debug.authDataLen = authData.length;
+      debug.clientDataHashLen = clientDataHash.length;
+      debug.signedDataLen = signedData.length;
+      debug.sigLen = sigBytes.length;
+      debug.sigFirstBytes = Array.from(sigBytes.slice(0, 4)).map(b => b.toString(16)).join(' ');
 
       const verifyParams = getVerifyParams(passkey.algorithm);
-      console.log("[finishAuth] verifyParams:", JSON.stringify(verifyParams));
-
-      const sigBuffer = base64urlToBuffer(clientSig);
+      debug.verifyParams = verifyParams;
 
       // Try raw signature verification
       let verified = await crypto.subtle.verify(
@@ -270,48 +299,51 @@ export default async function(req: Request): Promise<Response> {
         sigBuffer,
         signedData
       );
-      console.log("[finishAuth] Raw signature verify result:", verified);
+      debug.rawVerifyResult = verified;
 
       // If raw verification fails and algorithm is ECDSA, try DER format
       if (!verified && passkey.algorithm === -7) {
-        console.log("[finishAuth] Raw verify failed, trying DER to raw conversion");
+        debug.step = "trying_der";
         try {
           const derSig = new Uint8Array(sigBuffer);
-          // DER format: 0x30 <len> 0x02 <rlen> <r> 0x02 <slen> <s>
           if (derSig[0] === 0x30) {
             let offset = 2;
             const rLen = derSig[offset];
             offset++;
-            const r = derSig.slice(offset, offset + rLen);
+            let r = derSig.slice(offset, offset + rLen);
             offset += rLen;
             const sLen = derSig[offset];
             offset++;
-            const s = derSig.slice(offset, offset + sLen);
+            let s = derSig.slice(offset, offset + sLen);
 
-            // Remove leading zeros and pad to 32 bytes
+            // Remove leading zero padding (DER adds 0x00 to positive numbers starting with 0x80+)
+            if (r.length > 1 && r[0] === 0) r = r.slice(1);
+            if (s.length > 1 && s[0] === 0) s = s.slice(1);
+
+            // Pad to 32 bytes
             const rPadded = new Uint8Array(32);
             const sPadded = new Uint8Array(32);
-            const rStart = Math.max(0, 32 - r.length);
-            const sStart = Math.max(0, 32 - s.length);
-            rPadded.set(r, rStart);
-            sPadded.set(s, sStart);
+            rPadded.set(r, Math.max(0, 32 - r.length));
+            sPadded.set(s, Math.max(0, 32 - s.length));
 
             const rawSig = new Uint8Array(64);
             rawSig.set(rPadded, 0);
             rawSig.set(sPadded, 32);
 
             verified = await crypto.subtle.verify(verifyParams, publicKey, rawSig.buffer, signedData);
-            console.log("[finishAuth] DER-converted verify result:", verified);
+            debug.derVerifyResult = verified;
           }
         } catch (derErr) {
-          console.log("[finishAuth] DER conversion failed:", derErr.message);
+          debug.derError = derErr.message;
         }
       }
 
       if (!verified) {
-        console.log("[finishAuth] Signature verification failed");
-        return Response.json({ error: "Signature verification failed" }, { status: 401 });
+        debug.step = "sig_verify_failed";
+        return Response.json({ success: false, error: "Signature verification failed", debug }, { status: 200 });
       }
+
+      debug.step = "verified";
 
       // Get the user's email
       let userEmail: string | null = null;

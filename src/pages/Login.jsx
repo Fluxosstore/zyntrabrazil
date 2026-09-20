@@ -65,7 +65,8 @@ export default function Login() {
           setPasskeyVerified(true);
         }
       } else {
-        setError("Falha na verificação da passkey.");
+        const dbg = finishData.debug ? ` [${finishData.debug.step || ""} alg=${finishData.debug.algorithm} sigLen=${finishData.debug.sigLen} raw=${finishData.debug.rawVerifyResult} der=${finishData.debug.derVerifyResult}]` : "";
+        setError(`${finishData.error || "Falha na verificação da passkey."}${dbg}`);
       }
     } catch (e) {
       if (e.name !== "NotAllowedError") {
