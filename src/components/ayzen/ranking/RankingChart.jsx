@@ -61,17 +61,28 @@ export default function RankingChart({ models, top3 }) {
     contextLength: m.contextLength,
   }));
 
-  // Generate stacked time-series data from real model context lengths
-  // Each model gets a base value proportional to its context length, with slight variation over time
-  const chartData = CHART_LABELS.map((date, i) => {
+  // Generate stacked time-series data with dynamic variation per model over time
+  const rawData = CHART_LABELS.map((date, i) => {
     const row = { date };
+    const t = i / (CHART_LABELS.length - 1); // 0..1
     series.forEach((s, idx) => {
-      const base = (s.contextLength / 1000000); // scale to T range
-      const wave = Math.sin(i * 0.5 + idx) * 0.15 * base;
-      const drift = (i / CHART_LABELS.length) * 0.1 * base;
-      row[s.key] = Math.max(0, base + wave + drift);
+      const base = s.contextLength || 128000;
+      // each model has its own trend: some grow, some shrink, some peak mid-way
+      const trend = 0.5 + 0.8 * Math.sin(idx * 1.3 + i * 0.7) * (1 - t * 0.3);
+      const swell = 0.7 + 0.6 * Math.sin(i * 0.9 + idx * 2.1);
+      const growth = 0.6 + t * (0.5 + 0.5 * Math.cos(idx * 0.8));
+      row[s.key] = Math.max(base * 0.05, base * trend * swell * growth);
     });
     return row;
+  });
+  const maxTotal = Math.max(...rawData.map((row) =>
+    series.reduce((sum, s) => sum + row[s.key], 0)
+  ), 1);
+  const scale = 18 / maxTotal;
+  const chartData = rawData.map((row) => {
+    const scaled = { date: row.date };
+    series.forEach((s) => { scaled[s.key] = row[s.key] * scale; });
+    return scaled;
   });
 
   return (
