@@ -17,7 +17,7 @@ export default function RankingQualidade() {
   return (
     <>
       {/* Desktop */}
-      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
+      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
         <DashboardSidebar activePage="ranking" />
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
           <div className="flex-1 overflow-y-auto px-8 py-6 space-y-6">

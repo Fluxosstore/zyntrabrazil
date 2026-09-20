@@ -254,7 +254,7 @@ export default function Settings() {
   return (
     <>
       {/* Desktop */}
-      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pr-2 gap-2">
+      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
         <DashboardSidebar activePage="settings" />
         <main className="flex-1 flex bg-white rounded-2xl overflow-hidden">
           <SettingsNav active={activeSection} onSelect={setActiveSection} />
