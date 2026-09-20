@@ -22,6 +22,7 @@ import ChatMessages from "@/components/ayzen/chat/ChatMessages";
 import { isImageGenerationIntent, messagesToPrompt } from "@/lib/chatUtils";
 import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -51,6 +52,7 @@ export default function Dashboard() {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imagining, setImagining] = useState(false);
+  const { listening, toggle: toggleMic } = useSpeechRecognition({ msg, setMsg });
 
   useEffect(() => {
     try {
@@ -558,7 +560,12 @@ export default function Dashboard() {
                 </div>
               </div>
               <div className="flex items-center gap-1.5">
-                <button className="w-7 h-7 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors">
+                <button
+                  onClick={toggleMic}
+                  className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
+                    listening ? "bg-red-500 text-white" : "text-gray-500 hover:bg-gray-100"
+                  }`}
+                >
                   <Mic className="w-3.5 h-3.5" />
                 </button>
                 <button

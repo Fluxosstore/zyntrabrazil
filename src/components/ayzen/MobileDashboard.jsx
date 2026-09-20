@@ -20,6 +20,7 @@ import ModelSelector, { getModelInfo } from "@/components/ayzen/ModelSelector";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
@@ -50,6 +51,7 @@ export default function MobileDashboard({
   const fileInputRef = useRef(null);
   const plusRef = useRef(null);
   const navigate = useNavigate();
+  const { listening, toggle: toggleMic } = useSpeechRecognition({ msg, setMsg });
 
   function greeting() {
     const h = new Date().getHours();
@@ -267,7 +269,12 @@ export default function MobileDashboard({
               </AnimatePresence>
             </div>
             <div className="flex items-center gap-2">
-              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600">
+              <button
+                onClick={toggleMic}
+                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                  listening ? "bg-red-500 text-white" : "bg-gray-100 text-gray-600"
+                }`}
+              >
                 <Mic className="w-4 h-4" />
               </button>
               <button
