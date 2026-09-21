@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Download, Trash2, MessageSquarePlus } from "lucide-react";
+import { Download, Trash2, MessageSquarePlus, Music, Video, FileText, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -44,6 +44,22 @@ const SUB_TYPE_MAP = {
   audio: "audio",
   video: "video",
 };
+
+function inferMediaKind(item) {
+  if (item.type === "image") return "image";
+  if (item.type === "response") return "response";
+  const url = (item.url || "").toLowerCase();
+  const model = (item.model || "").toLowerCase();
+  if (/\.(mp3|wav|ogg|m4a|aac|flac)(\?|$)/.test(url) || /audio|tts/.test(model)) return "audio";
+  if (/\.(mp4|webm|mov|avi|mkv)(\?|$)/.test(url) || /video/.test(model)) return "video";
+  return item.type || "file";
+}
+
+function ThumbIcon({ item, className = "w-5 h-5 text-gray-400" }) {
+  const kind = inferMediaKind(item);
+  const Icon = kind === "audio" ? Music : kind === "video" ? Video : kind === "response" ? Star : FileText;
+  return <Icon className={className} />;
+}
 
 export default function LibraryItems({ activeTab, subFilter = "all", view = "list", emptyState = null }) {
   const { t } = useLanguage();
@@ -111,7 +127,13 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
     if (activeTab === "files") {
       matchesTab = i.type !== "response";
       const subType = SUB_TYPE_MAP[subFilter];
-      if (subType) matchesTab = matchesTab && i.type === subType;
+      if (subType) {
+        if (subType === "audio" || subType === "video") {
+          matchesTab = matchesTab && inferMediaKind(i) === subType;
+        } else {
+          matchesTab = matchesTab && i.type === subType;
+        }
+      }
     } else {
       const targetType = TAB_TYPE_MAP[activeTab];
       matchesTab = !targetType || i.type === targetType;
@@ -139,13 +161,13 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
           {filtered.map((item) => (
             <div key={item.id} className="group rounded-2xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
               <div
-                className="aspect-square bg-gray-100 overflow-hidden cursor-pointer"
+                className="aspect-square bg-gray-100 overflow-hidden cursor-pointer flex items-center justify-center"
                 onClick={() => item.url && item.type === "image" && setModalItem(item)}
               >
-                {item.url ? (
+                {item.type === "image" && item.url ? (
                   <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300 text-3xl">📄</div>
+                  <ThumbIcon item={item} className="w-8 h-8 text-gray-300" />
                 )}
               </div>
               <div className="p-3">
@@ -186,13 +208,13 @@ export default function LibraryItems({ activeTab, subFilter = "all", view = "lis
             {/* Name + thumbnail */}
             <div className="flex items-center gap-3 min-w-0">
               <div
-                className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0 cursor-pointer"
+                className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden shrink-0 cursor-pointer flex items-center justify-center"
                 onClick={() => item.url && item.type === "image" && setModalItem(item)}
               >
-                {item.url ? (
+                {item.type === "image" && item.url ? (
                   <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300 text-lg">📄</div>
+                  <ThumbIcon item={item} className="w-5 h-5 text-gray-400" />
                 )}
               </div>
               <p className="text-sm font-medium text-black truncate">{item.title}</p>
