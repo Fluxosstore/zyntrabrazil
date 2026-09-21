@@ -18,7 +18,7 @@ export default function TrialExpired() {
           Seu período de teste gratuito de 24 horas terminou. Faça a renovação para continuar usando a Zyntra sem interrupções.
         </p>
         <button
-          onClick={() => navigate("/settings", { state: { section: "plan" } })}
+          onClick={() => navigate("/plan-selection")}
           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#1D1D1F] text-white text-sm font-medium hover:bg-black transition-colors"
         >
           <Zap className="w-4 h-4" />
