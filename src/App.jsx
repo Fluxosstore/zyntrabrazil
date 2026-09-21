@@ -16,6 +16,7 @@ import ResetPassword from '@/pages/ResetPassword';
 import Dashboard from '@/pages/Dashboard';
 import Library from '@/pages/Library';
 import Automations from '@/pages/Automations';
+import Codrax from '@/pages/Codrax';
 import Settings from '@/pages/Settings';
 import PlanSelection from '@/pages/PlanSelection';
 import Ranking from '@/pages/Ranking';
@@ -65,6 +66,7 @@ const AuthenticatedApp = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/library" element={<Library />} />
           <Route path="/automations" element={<Automations />} />
+          <Route path="/codrax" element={<Codrax />} />
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/ranking/qualidade" element={<RankingQualidade />} />
         </Route>
