@@ -7,11 +7,11 @@ import { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 
 const PLAN_PRICES = {
   free: { mensal: "R$ 0,00", anual: "R$ 0,00" },
-  starter: { mensal: "R$ 90,00", anual: "R$ 75,00" },
-  premium: { mensal: "R$ 149,90", anual: "R$ 124,90" },
-  team: { mensal: "R$ 399,90", anual: "R$ 333,25" },
-  startup: { mensal: "R$ 599,90", anual: "R$ 499,90" },
-  enterprise: { mensal: "R$ 999,90", anual: "R$ 833,25" }
+  starter: { mensal: "R$ 49,90", anual: "R$ 41,58" },
+  premium: { mensal: "R$ 99,90", anual: "R$ 83,25" },
+  team: { mensal: "R$ 149,90", anual: "R$ 124,92" },
+  startup: { mensal: "R$ 199,90", anual: "R$ 166,58" },
+  enterprise: { mensal: "R$ 249,90", anual: "R$ 208,25" }
 };
 
 const PLAN_DESC_KEYS = {
