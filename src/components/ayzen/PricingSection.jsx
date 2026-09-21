@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
 import { getFreeTimeLabel } from "@/lib/planData";
 
 const GEMINI = "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/c545d8735_gemini.svg";
@@ -91,7 +93,7 @@ function buildBusinessPlans(t) {
   ];
 }
 
-function PlanCard({ plan, cycle, t }) {
+function PlanCard({ plan, cycle, t, onCta }) {
   return (
     <div className="relative bg-white border border-[#e5e5e5] rounded-3xl p-8 flex flex-col">
       {plan.tag && (
@@ -147,7 +149,7 @@ function PlanCard({ plan, cycle, t }) {
           )
         )}
       </div>
-      <button className="mt-6 w-full py-3 rounded-full text-sm font-semibold text-black bg-white border border-[#D1D1D1] hover:border-violet-300 hover:bg-gray-50 transition-colors">
+      <button onClick={onCta} className="mt-6 w-full py-3 rounded-full text-sm font-semibold text-black bg-white border border-[#D1D1D1] hover:border-violet-300 hover:bg-gray-50 transition-colors">
         {plan.cta}
       </button>
     </div>
@@ -156,10 +158,20 @@ function PlanCard({ plan, cycle, t }) {
 
 export default function PricingSection() {
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [cycle, setCycle] = useState("mensal");
   const [tab, setTab] = useState("pessoal");
   const personalPlans = buildPersonalPlans(t);
   const businessPlans = buildBusinessPlans(t);
+
+  const handleCta = () => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      navigate("/plan-selection");
+    }
+  };
 
   return (
     <section id="planos" className="py-20 lg:py-28 bg-[#FAFAFA]">
@@ -226,7 +238,7 @@ export default function PricingSection() {
         {/* Cards */}
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
           {(tab === "pessoal" ? personalPlans : businessPlans).map((plan) => (
-            <PlanCard key={plan.name} plan={plan} cycle={cycle} t={t} />
+            <PlanCard key={plan.name} plan={plan} cycle={cycle} t={t} onCta={handleCta} />
           ))}
         </div>
       </div>
