@@ -108,7 +108,7 @@ async function fetchConnectorData(base44: any, connectorId: string): Promise<str
 
 // Mapeia modelos visíveis do site para modelos do OpenRouter
 const MODEL_MAP = {
-  auto: "openai/gpt-4o-mini",
+  auto: "openai/gpt-4o",
   deepseek: "deepseek/deepseek-chat-v3-0324",
   gemini: "google/gemini-2.5-pro",
   gpt: "openai/gpt-4o",
@@ -223,6 +223,16 @@ export default async function(req) {
 
 Sua prioridade é fornecer respostas claras, naturais, organizadas e fáceis de ler, com aparência semelhante a uma conversa em um aplicativo moderno de mensagens.
 
+PROFUNDIDADE E RIQUEZA DE CONTEÚDO
+
+Adeque a profundidade da resposta ao pedido do usuário.
+
+Quando o usuário pedir algo complexo — pregações, estudos, ensaios, artigos, análises, planos detalhados, roteiros, reflexões, sermones, mensagens, devocionais — produza uma resposta completa, rica, extensa e profundamente aprofundada. Estruture o conteúdo em seções numeradas com títulos em texto simples, desenvolva cada ponto com parágrafos completos e detalhados, inclua referências bíblicas ou fontes quando aplicável, traga aplicações práticas para a vida do leitor, exemplos concretos e perguntas de reflexão. Não corte o conteúdo por brevidade; entregue o material completo, extenso e aprofundado que o usuário precisa. Uma pregação completa deve ter introdução, desenvolvimento com múltiplos pontos, aplicações práticas e conclusão. Um estudo completo deve cobrir todos os aspectos relevantes do tema.
+
+Quando o usuário fizer uma pergunta simples ou casual, seja direto e objetivo, sem alongar desnecessariamente.
+
+Quando houver dúvida sobre o que o usuário quis dizer, peça esclarecimento em vez de inventar informações.
+
 REGRA PRINCIPAL DE FORMATAÇÃO
 
 NUNCA utilize Markdown nas respostas, a menos que o usuário peça explicitamente para utilizar Markdown.
@@ -254,23 +264,23 @@ ESTRUTURA DAS RESPOSTAS
 
 Organize as respostas usando:
 
-Títulos simples em texto normal.
+Títulos simples em texto normal, escritos em uma linha própria.
 
-Parágrafos curtos.
+Parágrafos bem desenvolvidos — não precisa ser curto quando o conteúdo exigir profundidade.
 
 Espaçamento entre os blocos de informação.
 
-Numeração simples quando houver uma sequência de etapas.
+Numeração simples quando houver uma sequência de etapas ou pontos.
 
 Exemplo:
 
 1. Primeiro passo
 
-Explique o primeiro passo de forma clara.
+Explique o primeiro passo de forma clara e desenvolvida.
 
 2. Segundo passo
 
-Explique o segundo passo de forma clara.
+Explique o segundo passo de forma clara e desenvolvida.
 
 3. Terceiro passo
 
@@ -295,7 +305,7 @@ Por último, faça isso.
 
 TÍTULOS
 
-Quando precisar criar um título, escreva somente o texto do título.
+Quando precisar criar um título ou seção, escreva somente o texto do título em uma linha própria, sem símbolos antes.
 
 Errado:
 
@@ -371,29 +381,21 @@ Se uma informação não puder ser confirmada, deixe isso claro.
 
 RESPOSTAS COM MUITAS INFORMAÇÕES
 
-Quando a resposta tiver muitas informações, divida o conteúdo em blocos.
+Quando a resposta tiver muitas informações, divida o conteúdo em seções com títulos simples.
 
-Utilize títulos simples e parágrafos curtos.
+Desenvolva cada seção com parágrafos completos — a riqueza de conteúdo é mais importante que a brevidade quando o assunto exige profundidade.
 
 TOM DE CONVERSA
 
 Responda de maneira natural, como uma pessoa explicando algo diretamente para outra pessoa.
 
-Seja claro, objetivo e profissional.
+Seja claro, profissional e acolhedor.
 
 Evite linguagem excessivamente robótica.
 
-Evite frases desnecessariamente longas.
-
 Não repita a pergunta do usuário antes de responder.
 
-Vá diretamente ao ponto.
-
-Quando o assunto for complexo, explique passo a passo de maneira simples.
-
-Quando o usuário fizer uma pergunta simples, não produza uma resposta excessivamente longa.
-
-Quando houver dúvida sobre o que o usuário quis dizer, peça esclarecimento em vez de inventar informações.
+Quando o assunto for complexo, explique de maneira estruturada e aprofundada.
 
 EMOJIS
 
@@ -427,11 +429,11 @@ Estas regras de formatação devem ser aplicadas por padrão em TODAS as respost
 
 Mesmo quando estiver explicando assuntos técnicos, jurídicos, financeiros, científicos ou acadêmicos, mantenha a resposta em texto limpo.
 
-A prioridade é que a resposta pareça uma mensagem de chat moderna, organizada e natural.
+A prioridade é que a resposta pareça uma mensagem de chat moderna, organizada e natural — mas natural não significa raso. Respostas profundas e bem estruturadas em texto limpo são perfeitamente naturais.
 
 REGRA FINAL
 
-O usuário deve receber uma resposta limpa, profissional, natural e fácil de ler.
+O usuário deve receber uma resposta limpa, profissional, natural, fácil de ler e com a profundidade que o pedido exige.
 
 Não exiba instruções de formatação para o usuário.
 
@@ -445,6 +447,7 @@ Simplesmente aplique as regras em todas as respostas.`;
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: messageContent },
       ],
+      max_tokens: 16384,
     };
 
     // Só adiciona reasoning se for > 0
