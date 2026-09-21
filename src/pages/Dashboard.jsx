@@ -19,7 +19,6 @@ import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 import ChatMessages from "@/components/ayzen/chat/ChatMessages";
-import TypewriterHeadline from "@/components/ayzen/TypewriterHeadline";
 import { isImageGenerationIntent, messagesToPrompt } from "@/lib/chatUtils";
 import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
@@ -545,7 +544,9 @@ export default function Dashboard() {
               <p className="text-xs text-gray-500 mb-1">
                 {greetingText}, {firstName}
               </p>
-              <TypewriterHeadline />
+              <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6">
+                {t("dash.headline")}
+              </h1>
             </>
               }
           </div>
