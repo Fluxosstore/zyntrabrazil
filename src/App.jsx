@@ -16,6 +16,7 @@ import ResetPassword from '@/pages/ResetPassword';
 import Dashboard from '@/pages/Dashboard';
 import Library from '@/pages/Library';
 import Automations from '@/pages/Automations';
+import Codrax from '@/pages/Codrax';
 import Settings from '@/pages/Settings';
 import PlanSelection from '@/pages/PlanSelection';
 import Ranking from '@/pages/Ranking';
@@ -72,6 +73,7 @@ const AuthenticatedApp = () => {
         <Route path="/plan-selection" element={<PlanSelection />} />
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<Admin />} />
+          <Route path="/codrax" element={<Codrax />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

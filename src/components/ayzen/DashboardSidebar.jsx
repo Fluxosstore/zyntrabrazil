@@ -7,6 +7,7 @@ import {
   Search,
   BookOpen,
   Workflow,
+  Code2,
   ChevronsUpDown,
   PanelLeftClose,
   Settings,
@@ -39,6 +40,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   };
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
+  const isAdmin = user?.role === "admin";
   const navigate = useNavigate();
   const handleNew = onNewConversation || (() => navigate("/dashboard"));
 
@@ -59,18 +61,18 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
     <aside className={`${collapsed ? "w-16" : "w-60"} bg-[#F4F4F6] flex flex-col rounded-r-2xl transition-all duration-200`}>
       <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
         {!collapsed && (
-          <Link to="/dashboard" className="flex items-center gap-2">
+          <button onClick={() => toggleCollapsed(true)} className="flex items-center gap-2">
             <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
             <span className="text-base font-bold text-black">Zyntra</span>
-          </Link>
+          </button>
         )}
         {collapsed && (
-          <Link
-            to="/dashboard"
+          <button
+            onClick={() => toggleCollapsed(false)}
             className="w-full flex items-center justify-center aspect-square py-2 rounded-lg hover:bg-gray-200/60 transition-colors"
           >
             <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
-          </Link>
+          </button>
         )}
         {!collapsed && (
           <button
@@ -97,6 +99,11 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             <Link to="/automations" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "automations" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
               <IntegrationIcon className="w-4 h-4" />
             </Link>
+            {isAdmin && (
+              <Link to="/codrax" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "codrax" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
+                <Code2 className="w-4 h-4" />
+              </Link>
+            )}
           </>
         ) : (
           <>
@@ -132,6 +139,15 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
               {t("dash.automations")}
             </Link>
+            {isAdmin && (
+              <Link
+                to="/codrax"
+                className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "codrax" ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"}`}
+              >
+                <Code2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                Codrax
+              </Link>
+            )}
           </>
         )}
       </div>
