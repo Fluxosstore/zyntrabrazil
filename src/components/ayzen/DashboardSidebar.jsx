@@ -7,7 +7,6 @@ import {
   Search,
   BookOpen,
   Workflow,
-  Code2,
   ChevronsUpDown,
   PanelLeftClose,
   Settings,
@@ -98,9 +97,6 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             <Link to="/automations" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "automations" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
               <IntegrationIcon className="w-4 h-4" />
             </Link>
-            <Link to="/codrax" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "codrax" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
-              <Code2 className="w-4 h-4" />
-            </Link>
           </>
         ) : (
           <>
@@ -135,13 +131,6 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             >
               <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
               {t("dash.automations")}
-            </Link>
-            <Link
-              to="/codrax"
-              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "codrax" ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"}`}
-            >
-              <Code2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              Codrax
             </Link>
           </>
         )}

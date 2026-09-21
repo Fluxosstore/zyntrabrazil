@@ -6,7 +6,6 @@ import {
   Search,
   BookOpen,
   Workflow,
-  Code2,
   ChevronsUpDown,
   PanelLeftClose,
   Plus,
@@ -111,10 +110,6 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
               <Link to="/automations" onClick={onClose} className={navItemClass}>
                 <Workflow className="w-4 h-4 text-gray-600 shrink-0" />
                 {t("dash.automations")}
-              </Link>
-              <Link to="/codrax" onClick={onClose} className={navItemClass}>
-                <Code2 className="w-4 h-4 text-gray-600 shrink-0" />
-                Codrax
               </Link>
             </div>
 
