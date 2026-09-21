@@ -50,7 +50,6 @@ export default function TypingHeadline() {
       <span>Do rascunho</span>
       <span className="inline-flex items-baseline">
         {displayText}
-        <span className="inline-block w-[2px] h-5 sm:h-6 bg-black ml-0.5 animate-pulse" />
       </span>
       <span>, num só lugar</span>
     </h1>
