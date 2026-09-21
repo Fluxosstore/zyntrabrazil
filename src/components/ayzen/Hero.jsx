@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import FloatingDots from "@/components/ayzen/FloatingDots";
 import { useLanguage } from "@/lib/LanguageContext";
-import HeroCyclingText from "@/components/ayzen/HeroCyclingText";
 
 const aiModels = [
   { name: "GPT-5", logo: "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0bb1a42e9_chatgpt.svg" },
@@ -70,7 +69,7 @@ export default function Hero() {
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <HeroCyclingText />
+              <span className="text-violet-600">{t("hero.title3")}</span>
             </h1>
 
             <p className="mt-6 text-sm text-gray-500 leading-relaxed max-w-xl font-light">
