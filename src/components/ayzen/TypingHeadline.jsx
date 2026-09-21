@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const PHRASES = [
-  "Do rascunho à imagem, num só lugar",
-  "Do rascunho ao vídeo, num só lugar",
-  "Do rascunho à programação, num só lugar",
-  "Do rascunho à imaginação, num só lugar",
-];
+const WORDS = ["à imagem", "ao vídeo", "à imaginação", "à programação"];
 
-const TYPE_SPEED = 45; // ms per char
-const ERASE_SPEED = 25; // ms per char
-const HOLD_MS = 5000; // hold full phrase for 5s
+const TYPE_SPEED = 60; // ms per char
+const ERASE_SPEED = 35; // ms per char
+const HOLD_MS = 5000; // hold full word for 5s
 
 export default function TypingHeadline() {
-  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [wordIndex, setWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [phase, setPhase] = useState("typing"); // typing | holding | erasing
   const timers = useRef([]);
@@ -24,7 +19,7 @@ export default function TypingHeadline() {
 
   useEffect(() => {
     clearTimers();
-    const fullText = PHRASES[phraseIndex];
+    const fullText = WORDS[wordIndex];
 
     if (phase === "typing") {
       if (displayText.length < fullText.length) {
@@ -43,17 +38,21 @@ export default function TypingHeadline() {
         }, ERASE_SPEED);
         timers.current.push(id);
       } else {
-        setPhraseIndex((i) => (i + 1) % PHRASES.length);
+        setWordIndex((i) => (i + 1) % WORDS.length);
         setPhase("typing");
       }
     }
     return clearTimers;
-  }, [displayText, phase, phraseIndex]);
+  }, [displayText, phase, wordIndex]);
 
   return (
-    <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6 min-h-[2em] flex items-center justify-center">
-      <span>{displayText}</span>
-      <span className="inline-block w-[2px] h-5 sm:h-6 bg-black ml-1 animate-pulse" />
+    <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6 min-h-[2em] flex items-center justify-center flex-wrap gap-x-1.5">
+      <span>Do rascunho</span>
+      <span className="inline-flex items-baseline">
+        {displayText}
+        <span className="inline-block w-[2px] h-5 sm:h-6 bg-black ml-0.5 animate-pulse" />
+      </span>
+      <span>num só lugar</span>
     </h1>
   );
 }
