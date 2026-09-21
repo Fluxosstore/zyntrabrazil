@@ -27,8 +27,16 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   const { t } = useLanguage();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return localStorage.getItem("zyntra_sidebar_collapsed") === "true"; } catch { return false; }
+  });
   const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleCollapsed = (val) => {
+    const next = typeof val === "boolean" ? val : !collapsed;
+    setCollapsed(next);
+    try { localStorage.setItem("zyntra_sidebar_collapsed", String(next)); } catch {}
+  };
   const plan = user?.plan || "free";
   const planLabel = PLAN_LABELS[plan] || PLAN_LABELS.free;
   const navigate = useNavigate();
@@ -59,7 +67,6 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         {collapsed && (
           <Link
             to="/dashboard"
-            onClick={() => setCollapsed(false)}
             className="w-full flex items-center justify-center aspect-square py-2 rounded-lg hover:bg-gray-200/60 transition-colors"
           >
             <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
@@ -67,7 +74,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         )}
         {!collapsed && (
           <button
-            onClick={() => setCollapsed(true)}
+            onClick={() => toggleCollapsed(true)}
             className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors"
           >
             <PanelLeftClose className="w-3.5 h-3.5" />
