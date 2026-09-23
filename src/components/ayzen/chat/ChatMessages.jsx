@@ -78,7 +78,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
   const loadingModel = getModelInfo(model, plan);
 
   return (
-    <div ref={scrollRef} className="flex-1 overflow-y-auto py-4">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto py-4 min-h-0">
       <div className="w-full max-w-5xl mx-auto space-y-6 px-4">
       <AnimatePresence>
         {messages.map((msg, i) => (
