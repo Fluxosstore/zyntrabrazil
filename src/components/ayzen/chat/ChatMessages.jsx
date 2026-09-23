@@ -79,7 +79,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
 
   return (
     <div ref={scrollRef} className="flex-1 overflow-y-auto py-4">
-      <div className="w-full max-w-5xl mx-auto space-y-6">
+      <div className="w-full max-w-5xl mx-auto space-y-6 px-4">
       <AnimatePresence>
         {messages.map((msg, i) => (
           <motion.div
