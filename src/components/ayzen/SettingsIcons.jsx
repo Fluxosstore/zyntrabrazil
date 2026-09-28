@@ -44,10 +44,9 @@ export function ReceiptLinesIcon({ className }) {
       strokeLinejoin="round"
       className={className}
     >
-      <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
+      <path d="M5 2h14v17l-3 2l-3 -2l-3 2l-3 -2V2Z" />
       <path d="M8 8h8" />
-      <path d="M8 12h8" />
-      <path d="M8 16h5" />
+      <path d="M8 12h5" />
     </svg>
   );
 }
