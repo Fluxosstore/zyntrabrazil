@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
 import {
   Plus,
   Search,
-  BookOpen,
-  Workflow,
   Code2,
   ChevronsUpDown,
   PanelLeftClose,
@@ -18,6 +16,9 @@ import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import { PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 import { ChatPlusIcon, BooksIcon, IntegrationIcon } from "@/components/ayzen/SidebarIcons";
+import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
+import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
+import { base44 } from "@/api/base44Client";
 import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 
 const LOGO =
@@ -32,6 +33,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
     try { return localStorage.getItem("zyntra_sidebar_collapsed") === "true"; } catch { return false; }
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [balance, setBalance] = useState(0);
 
   const toggleCollapsed = (val) => {
     const next = typeof val === "boolean" ? val : !collapsed;
@@ -43,6 +45,26 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   const isAdmin = user?.role === "admin";
   const navigate = useNavigate();
   const handleNew = onNewConversation || (() => navigate("/dashboard"));
+
+  const formatCredits = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const records = await base44.entities.TokenUsage.list("-created_date", 500);
+        const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+        const monthly = records
+          .filter((r) => new Date(r.created_date).getTime() >= monthStart)
+          .reduce((s, r) => s + (r.tokens || 0), 0);
+        const credits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
+        const planCredits = Math.max(0, credits.month - monthly);
+        const purchased = user?.balance || 0;
+        setBalance(planCredits + purchased);
+      } catch {
+        setBalance(CREDITS_BY_PLAN[plan]?.month || 0);
+      }
+    })();
+  }, [plan, user?.id, user?.balance]);
 
   const filteredConversations = searchQuery.trim()
     ? conversations.filter((c) =>
@@ -108,7 +130,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         ) : (
           <>
             <button onClick={handleNew} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#7C5DCF] text-white text-xs font-medium hover:bg-[#6B4DD0] transition-colors">
-              <Plus className="w-3.5 h-3.5 shrink-0" />
+              <ChatPlusIcon className="w-3.5 h-3.5 shrink-0" />
               {t("dash.newConversation")}
             </button>
 
@@ -121,33 +143,35 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                 className="w-full h-8 pl-8 pr-10 rounded-lg bg-white border border-gray-200 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
               />
               <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-medium text-gray-400 bg-gray-100 px-1 py-0.5 rounded">
-                ⌘K
+                Ctrl K
               </span>
             </div>
 
-            <Link
-              to="/library"
-              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "library" ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"}`}
-            >
-              <BookOpen className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              {t("dash.library")}
-            </Link>
-            <Link
-              to="/automations"
-              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "automations" ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"}`}
-            >
-              <Workflow className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-              {t("dash.automations")}
-            </Link>
-            {isAdmin && (
+            <div className="rounded-lg bg-gray-200/50 p-1 space-y-0.5">
               <Link
-                to="/codrax"
-                className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "codrax" ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"}`}
+                to="/library"
+                className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "library" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}
               >
-                <Code2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-                Codrax
+                <BooksIcon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                {t("dash.library")}
               </Link>
-            )}
+              <Link
+                to="/automations"
+                className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "automations" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}
+              >
+                <IntegrationIcon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                {t("dash.automations")}
+              </Link>
+              {isAdmin && (
+                <Link
+                  to="/codrax"
+                  className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "codrax" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}
+                >
+                  <Code2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                  Codrax
+                </Link>
+              )}
+            </div>
           </>
         )}
       </div>
@@ -190,6 +214,21 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
           <Link to="/settings" className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
             <Settings className="w-4 h-4" />
           </Link>
+        </div>
+      )}
+
+      {/* credits bar */}
+      {!collapsed && (
+        <div className="px-3 pb-1">
+          <div className="flex items-center justify-between rounded-xl bg-[#eceef0] border border-gray-300/70 px-3 py-2.5">
+            <div className="flex items-center gap-2">
+              <CoinStackIcon className="w-4 h-4 text-gray-600" />
+              <span className="text-xs font-semibold text-black">{formatCredits(balance)}</span>
+            </div>
+            <Link to="/recharge-credits" className="text-xs font-medium text-[#7C5DCF] hover:underline">
+              {t("dash.recharge")}
+            </Link>
+          </div>
         </div>
       )}
 
