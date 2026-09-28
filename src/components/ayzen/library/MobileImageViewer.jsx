@@ -3,7 +3,6 @@ import { X, Download, Copy, MessageSquarePlus, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
-import { useToast } from "@/components/ui/use-toast";
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -14,7 +13,6 @@ function formatDate(dateStr) {
 export default function MobileImageViewer({ item, onClose, onDelete }) {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [copied, setCopied] = useState(false);
 
   if (!item) return null;
@@ -41,9 +39,7 @@ export default function MobileImageViewer({ item, onClose, onDelete }) {
       await navigator.clipboard.writeText(item.prompt || item.title || "");
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch {
-      toast({ title: "Não foi possível copiar" });
-    }
+    } catch {}
   };
 
   const handleOpenInChat = () => {
@@ -52,10 +48,6 @@ export default function MobileImageViewer({ item, onClose, onDelete }) {
       JSON.stringify({ url: item.url, prompt: item.prompt || item.title, model: item.model })
     );
     navigate("/dashboard");
-  };
-
-  const handleFeedback = () => {
-    toast({ title: "Obrigado pelo feedback!" });
   };
 
   return (
@@ -111,21 +103,13 @@ export default function MobileImageViewer({ item, onClose, onDelete }) {
 
         {/* Details footer card */}
         <div className="px-3 pb-4">
-          <div className="bg-[#1e1e1e] rounded-2xl p-3.5 flex items-start gap-3">
-            <div className="flex-1 min-w-0">
-              <p className="text-sm text-white leading-snug line-clamp-3">
-                {item.prompt || item.title}
-              </p>
-              <p className="text-xs text-gray-400 mt-1.5">
-                {item.model || "IA"} • {formatDate(item.created_date)}
-              </p>
-            </div>
-            <button
-              onClick={handleFeedback}
-              className="shrink-0 px-4 py-2 rounded-xl bg-[#5c54c4] text-white text-xs font-medium active:opacity-80 transition-opacity"
-            >
-              Feedback
-            </button>
+          <div className="bg-[#1e1e1e] rounded-2xl p-3.5">
+            <p className="text-sm text-white leading-snug line-clamp-3">
+              {item.prompt || item.title}
+            </p>
+            <p className="text-xs text-gray-400 mt-1.5">
+              {item.model || "IA"} • {formatDate(item.created_date)}
+            </p>
           </div>
         </div>
       </motion.div>
