@@ -5,7 +5,7 @@ import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
 import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
 export const LOGO =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png";
 
 const GEMINI =
 "https://upload.wikimedia.org/wikipedia/commons/1/1d/Google_Gemini_icon_2025.svg";
