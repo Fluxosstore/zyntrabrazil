@@ -72,7 +72,7 @@ export default function SkillFormContent({ onBack, editSkill, onSaved }) {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="px-10 py-8 space-y-6 max-w-7xl">
+      <div className="px-10 py-8 space-y-6 w-full">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-black">Habilidades</h1>
@@ -82,7 +82,7 @@ export default function SkillFormContent({ onBack, editSkill, onSaved }) {
         </div>
 
         {/* Two-column: preview + form */}
-        <div className="grid grid-cols-1 lg:grid-cols-[440px_1fr] gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[720px_1fr] gap-6 items-start">
           {/* Left: breadcrumb + Prévia no chat */}
           <div className="space-y-3">
             {/* Breadcrumb */}
