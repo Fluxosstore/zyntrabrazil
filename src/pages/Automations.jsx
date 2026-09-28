@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Clock, Send, Menu } from "lucide-react";
+import { Send, Menu, Plus } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import AutomationCatalog from "@/components/ayzen/automations/AutomationCatalog";
+import MobileAutomationCard from "@/components/ayzen/automations/MobileAutomationCard";
+import { AUTOMATION_TEMPLATES } from "@/components/ayzen/automations/automationTemplates";
 
 export default function Automations() {
   const { t } = useLanguage();
@@ -53,8 +55,8 @@ export default function Automations() {
       </div>
 
       {/* Mobile */}
-      <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+      <div className="md:hidden h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
+        <div className="flex items-center justify-between px-4 py-3">
           <button
             onClick={() => setSidebarOpen(true)}
             className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
@@ -65,35 +67,54 @@ export default function Automations() {
           <div className="w-9" />
         </div>
 
-        <div className="px-4 pt-6 pb-4">
-          <div className="p-5 bg-white border border-gray-200 rounded-2xl">
-            <h1 className="text-xl font-bold text-black">{t("auto.title")}</h1>
-            <p className="text-sm text-gray-500 mt-1.5">{t("auto.desc1")}</p>
-            <p className="text-sm text-gray-500 mt-1">{t("auto.desc2")}</p>
-          </div>
-        </div>
+        <div className="flex-1 overflow-y-auto px-4 pb-6">
+          {/* Hero */}
+          <div className="pt-2 pb-5">
+            <h1 className="text-xl font-bold text-black leading-snug">{t("auto.heroTitle")}</h1>
+            <p className="text-sm text-gray-500 mt-2 leading-relaxed">{t("auto.heroDesc")}</p>
 
-        <div className="px-4 pb-4">
-          <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl">
-            <div className="w-10 h-10 rounded-xl bg-[#2AABEE] flex items-center justify-center shrink-0">
-              <Send className="w-5 h-5 text-white" />
+            {/* Steps */}
+            <div className="mt-5 space-y-3">
+              {[
+                { n: 1, title: t("auto.step1Title"), desc: t("auto.step1Desc") },
+                { n: 2, title: t("auto.step2Title"), desc: t("auto.step2Desc") },
+                { n: 3, title: t("auto.step3Title"), desc: t("auto.step3Desc") },
+              ].map((s) => (
+                <div key={s.n} className="flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-[#7B5BC8] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                    {s.n}
+                  </span>
+                  <div className="pt-0.5">
+                    <p className="text-sm font-semibold text-black">{s.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{s.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-black">Telegram</p>
-              <p className="text-xs text-gray-500 mt-0.5">{t("auto.telegramDesc")}</p>
-            </div>
-            <button className="px-4 py-2 rounded-xl bg-black text-white text-xs font-medium shrink-0">
-              {t("auto.connect")}
+
+            <button className="mt-5 w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors">
+              <Plus className="w-4 h-4" />
+              {t("auto.newAutomation")}
             </button>
           </div>
-        </div>
 
-        <div className="flex-1 px-4 pb-4 overflow-y-auto">
-          <div className="mb-4">
-            <h2 className="text-sm font-semibold text-black">Automações prontas</h2>
-            <p className="text-xs text-gray-500 mt-0.5">Ative um modelo para começar.</p>
+          {/* Templates container */}
+          <div className="rounded-2xl bg-white border border-gray-200/80 p-4">
+            <h2 className="text-base font-bold text-black">{t("auto.createFirst")}</h2>
+            <p className="text-xs text-gray-500 mt-1">{t("auto.createFirstDesc")}</p>
+
+            <button className="mt-3 w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors">
+              <Plus className="w-4 h-4" />
+              {t("auto.newAutomation")}
+            </button>
+
+            {/* Template list */}
+            <div className="mt-4 space-y-2">
+              {AUTOMATION_TEMPLATES.map((tpl) => (
+                <MobileAutomationCard key={tpl.id} template={tpl} />
+              ))}
+            </div>
           </div>
-          <AutomationCatalog />
         </div>
 
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
