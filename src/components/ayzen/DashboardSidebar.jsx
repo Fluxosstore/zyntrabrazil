@@ -225,7 +225,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               <CoinStackIcon className="w-4 h-4 text-gray-600" />
               <span className="text-xs font-semibold text-black">{formatCredits(balance)}</span>
             </div>
-            <Link to="/recharge-credits" className="px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-[#6B4DD0] transition-colors bg-[hsl(var(--border))] text-[hsl(var(--card-foreground))]">
+            <Link to="/recharge-credits" className="px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-[#6B4DD0] transition-colors text-[hsl(var(--card-foreground))] bg-[hsl(var(--input))]">
               {t("dash.recharge")}
             </Link>
           </div>
