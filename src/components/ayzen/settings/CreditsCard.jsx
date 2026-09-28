@@ -74,7 +74,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Inner container */}
-      <div className="rounded-xl bg-white/10 border border-white/40 p-4 mb-4">
+      <div className="rounded-xl bg-white/10 border border-white/40 p-4">
         {/* Balance */}
         <div className="mb-4">
           <div className="flex items-center gap-1.5 mb-1">
