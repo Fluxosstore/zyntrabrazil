@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Plus, Loader2, ChevronDown, Trash2, Pencil, MoreVertical } from "lucide-react";
+import { Plus, Loader2, ChevronDown, Trash2, Pencil, MoreVertical, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 import { base44 } from "@/api/base44Client";
@@ -14,98 +14,112 @@ const ASSIGNED_SKILLS = [
     name: "acabamento-pro",
     description:
       "Craft verificável: grid 4/8px, anatomia de botão, todos os estados, movimento e hierarquia de superfície.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a2",
     name: "animacao-de-interface",
     description:
       "Animação como decisão: gate de frequência, propósito nomeado, tabela de durações e curvas.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a3",
     name: "apple-design",
     description:
       "Interface fluida estilo Apple: resposta imediata, gesto 1:1, interruptibilidade, física no release.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a4",
     name: "auditoria-de-ui",
     description:
       "Passe objetivo de acessibilidade, foco, formulários, overflow, imagens, dark mode e toque.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a5",
     name: "catalogo-de-estilos",
     description:
       "Sete direções prontas (Preciso, Editorial, Brutal, Orgânico, Noturno, Luxo, Vitrine) pra executar por inteiro.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a6",
     name: "copy-que-vende",
     description:
       "Texto que converte em pt-BR: específico vence criativo, benefício antes de feature, palavras banidas.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a7",
     name: "design-anti-generico",
     description:
       "Regras verificáveis contra o visual médio de IA: cores, tipografia, composição e labels.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a8",
     name: "landing-que-converte",
     description:
       "Landing como máquina de uma decisão: dobra 1, estrutura, ritmo visual, copy e confiança.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a9",
     name: "metodo-karpathy",
     description:
       "Contra os vícios de IA codando: pensar antes, simplicidade, mudança cirúrgica e objetivo verificável.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a10",
     name: "painel-de-dados",
     description:
       "Dashboard lido em 5s: KPIs tabulares, tabelas certas, gráficos com regras, densidade e estados.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a11",
     name: "react-performance",
     description:
       "Maior impacto primeiro: rede em paralelo, bundle, re-render, listas grandes e medida antes de remédio.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a12",
     name: "react-solido",
     description:
       "React que não quebra na segunda edição: estado, efeitos, listas, composição e robustez.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a13",
     name: "seo-do-app",
     description:
       "App publicado nasce indexável: head obrigatório, estrutura, robots/sitemap, dados estruturados.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   },
   {
     id: "a14",
     name: "shadcn-ui",
     description:
       "Compor com o shadcn real do projeto: variants, tokens, armadilhas conhecidas e formulários.",
-    tag: "Global"
+    tag: "Global",
+    instructions: ""
   }
 ];
 
@@ -349,6 +363,30 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
                         />
                       </button>
                     </div>
+
+                    {expanded && (
+                      <div className="mt-3 rounded-lg bg-[#f7f7f8] p-4">
+                        {skill.instructions ? (
+                          <div className="space-y-3">
+                            {skill.instructions.split("\n\n").map((para, i) => (
+                              <p key={i} className="text-xs text-gray-700 leading-relaxed text-left">
+                                {para}
+                              </p>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-xs text-gray-400 italic">
+                            Instruções em breve.
+                          </p>
+                        )}
+                        <div className="mt-4 pt-3 border-t border-gray-200 flex items-center gap-1.5">
+                          <Lock className="w-3 h-3 text-gray-400" />
+                          <span className="text-[11px] text-gray-400">
+                            Gerenciada pelo administrador
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}
