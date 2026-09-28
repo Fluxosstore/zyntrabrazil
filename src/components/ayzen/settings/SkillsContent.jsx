@@ -137,33 +137,23 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
                 <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
               </div>
             ) : skills.length === 0 ? (
-              <div className="rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex flex-col items-center text-center relative">
-                <div className="w-full flex items-end justify-center pt-4 pb-0 relative">
-                  <img
-                    src={ASTRONAUT_IMG}
-                    alt="Sem habilidades"
-                    className="w-64 h-64 object-contain relative z-10"
-                  />
-                  <div
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-12 rounded-[50%] bg-white z-20"
-                    style={{ filter: "blur(20px)" }}
-                  />
-                  <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full px-6 flex flex-col items-center text-center z-30">
-                    <p className="text-sm font-bold text-black">Crie sua primeira habilidade</p>
-                    <p className="text-xs text-gray-500 mt-1 max-w-xs">
-                      Escreva uma vez, ative sempre que precisar, sem repetir contexto em toda conversa.
-                    </p>
-                  </div>
-                </div>
-                <div className="w-full px-6 pb-6 pt-2 flex flex-col items-center">
-                  <button
-                    onClick={onCreateSkill}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#7C5DCF] text-white text-sm font-medium hover:bg-[#6b4bd0] transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Criar primeira habilidade
-                  </button>
-                </div>
+              <div className="rounded-xl border-2 border-dashed border-gray-200 bg-white flex flex-col items-center text-center px-6 py-10">
+                <img
+                  src={ASTRONAUT_IMG}
+                  alt="Sem habilidades"
+                  className="w-40 h-40 object-contain mb-6"
+                />
+                <p className="text-base font-bold text-black">Crie sua primeira habilidade</p>
+                <p className="text-sm text-gray-500 mt-1.5 max-w-xs">
+                  Escreva uma vez, ative sempre que precisar, sem repetir contexto em toda conversa.
+                </p>
+                <button
+                  onClick={onCreateSkill}
+                  className="mt-6 flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#7C5DCF] text-white text-sm font-medium hover:bg-[#6b4bd0] transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Criar primeira habilidade
+                </button>
               </div>
             ) : (
               <div className="space-y-2">
