@@ -75,50 +75,28 @@ export default function CreditsCard({ onReload, className = "" }) {
 
       {/* Inner container */}
       <div className="rounded-xl bg-white/10 border border-white/40 p-4 mb-4">
-        {/* Balance + Movements */}
-        <div className="flex gap-6 mb-4">
-          {/* Left: Available now */}
-          <div className="flex-[3]">
-            <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-[11px] text-white/80">Disponíveis agora</span>
-              <button onClick={() => setShowBalance((v) => !v)} className="text-white/70 hover:text-white">
-                {showBalance ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-              </button>
-            </div>
-            <div className="flex items-center gap-2">
-              <CoinStackIcon className="w-6 h-6 text-white/90 shrink-0" />
-              <p className="text-3xl font-bold tracking-tight">
-                {showBalance ? formatCredits(available) : "•••••"}
-              </p>
-            </div>
-            <div className="mt-3 flex items-end justify-between">
-              <div>
-                <p className="text-[10px] font-semibold tracking-wider text-white/70">Validade</p>
-                <p className="text-[11px] text-white/90">Do plano</p>
-              </div>
-              <p className="text-[11px] text-white/90 text-right">
-                {expiryLabel ? `${formatCredits(available)} até ${expiryLabel}` : "—"}
-              </p>
-            </div>
-          </div>
-
-          {/* Right: Last movements */}
-          <div className="flex-[2]">
-            <p className="text-[10px] font-semibold tracking-wider text-white/70 mb-2">ÚLTIMAS MOVIMENTAÇÕES</p>
-            <div className="flex items-start gap-2">
-              <RefreshCw className="w-3.5 h-3.5 text-white/70 shrink-0 mt-0.5" />
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] text-white/90">Créditos do plano</p>
-                <p className="text-[10px] text-white/70">{lastCreditDate || "—"}</p>
-              </div>
-              <div className="flex items-center gap-1.5 shrink-0">
-                <FileText className="w-3 h-3 text-white/70" />
-                <p className="text-[11px] font-semibold text-white">+{formatCredits(lastCreditAmount)}</p>
-              </div>
-            </div>
-            <button className="mt-3 flex items-center gap-1 text-[11px] text-white/80 hover:text-white transition-colors">
-              Ver extrato completo <ArrowUpRight className="w-3 h-3" />
+        {/* Balance */}
+        <div className="mb-4">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="text-[11px] text-white/80">Disponíveis agora</span>
+            <button onClick={() => setShowBalance((v) => !v)} className="text-white/70 hover:text-white">
+              {showBalance ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
             </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <CoinStackIcon className="w-6 h-6 text-white/90 shrink-0" />
+            <p className="text-3xl font-bold tracking-tight">
+              {showBalance ? formatCredits(available) : "•••••"}
+            </p>
+          </div>
+          <div className="mt-3 flex items-end justify-between">
+            <div>
+              <p className="text-[10px] font-semibold tracking-wider text-white/70">Validade</p>
+              <p className="text-[11px] text-white/90">Do plano</p>
+            </div>
+            <p className="text-[11px] text-white/90 text-right">
+              {expiryLabel ? `${formatCredits(available)} até ${expiryLabel}` : "—"}
+            </p>
           </div>
         </div>
 
@@ -151,6 +129,25 @@ export default function CreditsCard({ onReload, className = "" }) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Last movements */}
+      <div className="mb-4">
+        <p className="text-[10px] font-semibold tracking-wider text-white/70 mb-2">ÚLTIMAS MOVIMENTAÇÕES</p>
+        <div className="flex items-start gap-2">
+          <RefreshCw className="w-3.5 h-3.5 text-white/70 shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-[11px] text-white/90">Créditos do plano</p>
+            <p className="text-[10px] text-white/70">{lastCreditDate || "—"}</p>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <FileText className="w-3 h-3 text-white/70" />
+            <p className="text-[11px] font-semibold text-white">+{formatCredits(lastCreditAmount)}</p>
+          </div>
+        </div>
+        <button className="mt-3 flex items-center gap-1 text-[11px] text-white/80 hover:text-white transition-colors">
+          Ver extrato completo <ArrowUpRight className="w-3 h-3" />
+        </button>
       </div>
 
       {/* Footer */}
