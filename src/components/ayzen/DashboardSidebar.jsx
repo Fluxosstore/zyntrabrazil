@@ -147,7 +147,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               </span>
             </div>
 
-            <div className="rounded-lg bg-gray-200/50 p-1 space-y-0.5">
+            <div className="rounded-xl bg-gray-200/50 p-1 space-y-0.5">
               <Link
                 to="/library"
                 className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "library" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}
