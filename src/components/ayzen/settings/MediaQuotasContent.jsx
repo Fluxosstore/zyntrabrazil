@@ -79,7 +79,7 @@ export default function MediaQuotasContent({ plan }) {
           <span className="text-xs font-medium text-gray-500">IA</span>
           <span className="text-xs font-medium text-gray-500">Custo</span>
           <span className="text-xs font-medium text-gray-500">Na semana</span>
-          <span className="text-xs font-medium text-gray-500">Mensagens</span>
+          <span className="text-xs font-medium text-gray-500 -ml-2">Mensagens</span>
         </div>
         {/* Rows */}
         {items.map((item, i) => {
