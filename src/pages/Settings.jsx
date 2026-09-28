@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarChart3, Search, ChevronLeft, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Fingerprint } from "lucide-react";
+import { BarChart3, Search, ChevronLeft, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Fingerprint, PanelLeft, MessageSquarePlus } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
@@ -465,28 +465,18 @@ export default function Settings() {
       {/* Mobile */}
       <div className="md:hidden h-screen flex flex-col bg-[#F4F4F6] overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => navigate(-1)}
-              className="w-8 h-8 flex items-center justify-center -ml-1 text-gray-700 active:bg-gray-100 rounded-lg">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <span className="text-base font-bold text-black">{t("settings.title")}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-gray-200">
-              <span className="text-[11px] font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
-            </div>
-            <button
-              onClick={() => navigate("/recharge-credits")}
-              className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#7a5bc8] text-white text-[11px] font-medium">
-              
-              <Plus className="w-3 h-3" />
-              Recarregar
-            </button>
-          </div>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 active:bg-gray-50 transition-colors">
+            <PanelLeft className="w-5 h-5 text-black" />
+          </button>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 active:bg-gray-50 transition-colors">
+            <MessageSquarePlus className="w-5 h-5 text-black" />
+          </button>
         </div>
-        <MobileSettingsTabs active={activeSection} onSelect={setActiveSection} />
+        <MobileSettingsTabs active={activeSection} onSelect={setActiveSection} onRecharge={() => navigate("/recharge-credits")} />
         <div className="flex-1 overflow-y-auto">
           {renderMobileContent()}
         </div>
