@@ -75,8 +75,10 @@ export default function CreditsCard({ onReload, className = "" }) {
         </button>
       </div>
 
+      {/* Inner container + Last movements side by side */}
+      <div className="flex gap-4">
       {/* Inner container */}
-      <div className="rounded-xl bg-white/10 border border-white/40 p-4">
+      <div className="flex-1 rounded-xl bg-white/10 border border-white/40 p-4">
         {/* Balance */}
         <div className="mb-4">
           <div className="flex items-center gap-1.5 mb-1.5">
@@ -134,7 +136,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Last movements */}
-      <div className="my-auto">
+      <div className="w-[38%] my-auto">
         <p className="text-[11px] font-semibold tracking-wider text-white/70 mb-2.5">ÚLTIMAS MOVIMENTAÇÕES</p>
         <div className="flex items-start gap-2.5">
           <RefreshCw className="w-4 h-4 text-white/70 shrink-0 mt-0.5" />
@@ -150,6 +152,7 @@ export default function CreditsCard({ onReload, className = "" }) {
         <button className="mt-3.5 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors">
           Ver extrato completo <ArrowUpRight className="w-3.5 h-3.5" />
         </button>
+      </div>
       </div>
 
       {/* Footer */}
