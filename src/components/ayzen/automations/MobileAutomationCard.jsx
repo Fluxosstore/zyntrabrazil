@@ -20,8 +20,8 @@ export default function MobileAutomationCard({ template, onClick: onClickProp })
       onClick={onClickProp}
       className="w-full flex items-center gap-3 px-3 py-3 bg-[#F4F4F6] rounded-2xl text-left active:bg-gray-200/70 transition-colors"
     >
-      <div className="w-10 h-10 rounded-full bg-[#F3EEFF] flex items-center justify-center shrink-0">
-        <Icon className="w-5 h-5 text-[#7B5BC8]" />
+      <div className="w-10 h-10 rounded-xl bg-[#F0F0F2] border border-[#D1D1D6] flex items-center justify-center shrink-0">
+        <Icon className="w-5 h-5 text-black" />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-black truncate">{template.title}</p>
