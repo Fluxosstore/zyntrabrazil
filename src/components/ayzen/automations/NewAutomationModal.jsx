@@ -136,7 +136,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.92 }}
             transition={{ type: "tween", duration: 0.2, ease: "easeOut" }}
-            className="bg-white rounded-2xl overflow-hidden w-full max-w-[380px] max-h-[94vh] flex flex-col shadow-2xl pointer-events-auto"
+            className="bg-white rounded-2xl overflow-hidden w-full max-w-[420px] max-h-[94vh] flex flex-col shadow-2xl pointer-events-auto"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-gray-100 shrink-0">
