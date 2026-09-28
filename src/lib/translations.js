@@ -395,7 +395,9 @@ export const translations = {
 
     // Library
     "library.title": "Biblioteca",
-    "library.desc": "Tudo que passou pela IA: imagens geradas e arquivos enviados, em um só lugar.",
+    "library.desc": "Tudo que você criou com a IA e enviou para ela, em um só lugar.",
+    "library.savedResponses": "Respostas salvas",
+    "library.viewAll": "Ver tudo",
     "library.tabAll": "Tudo",
     "library.tabImages": "Imagens",
     "library.tabFiles": "Arquivos",
@@ -1096,7 +1098,9 @@ export const translations = {
 
     // Library
     "library.title": "Library",
-    "library.desc": "Everything that went through AI: generated images and uploaded files, in one place.",
+    "library.desc": "Everything you created with AI and sent to it, in one place.",
+    "library.savedResponses": "Saved responses",
+    "library.viewAll": "See all",
     "library.tabAll": "All",
     "library.tabImages": "Images",
     "library.tabFiles": "Files",
@@ -1797,7 +1801,9 @@ export const translations = {
 
     // Library
     "library.title": "Biblioteca",
-    "library.desc": "Todo lo que pasó por la IA: imágenes generadas y archivos enviados, en un solo lugar.",
+    "library.desc": "Todo lo que creaste con la IA y le enviaste, en un solo lugar.",
+    "library.savedResponses": "Respuestas guardadas",
+    "library.viewAll": "Ver todo",
     "library.tabAll": "Todo",
     "library.tabImages": "Imágenes",
     "library.tabFiles": "Archivos",
