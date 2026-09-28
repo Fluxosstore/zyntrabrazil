@@ -72,7 +72,7 @@ export default function SkillFormContent({ onBack, editSkill, onSaved }) {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="px-10 py-8 space-y-6 w-full">
+      <div className="px-4 md:px-10 py-5 md:py-8 space-y-6 w-full">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-black">Habilidades</h1>
