@@ -1,10 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Crown, Wand2, Trash2, Pencil, Plus, Loader2, MoreVertical } from "lucide-react";
+import { Plus, Loader2, ChevronDown, Trash2, Pencil, MoreVertical } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/lib/LanguageContext";
 import { base44 } from "@/api/base44Client";
 
-const MAX_SKILLS = 20;
+const ASTRONAUT_IMG =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/81e46fe3d_empty-astronaut-removebg-preview.png";
+
+// Habilidades atribuídas (globais / da empresa) — exemplo estático
+const ASSIGNED_SKILLS = [
+  {
+    id: "a1",
+    name: "acabamento-pro",
+    description:
+      "Craft verificável: grid 4/8px, anatomia de botão, todos os estados, movimento e hierarquia de superfície.",
+    tag: "Global"
+  },
+  {
+    id: "a2",
+    name: "animacao-de-interface",
+    description:
+      "Animação como decisão: gate de frequência, propósito nomeado, tabela de durações e curvas.",
+    tag: "Global"
+  },
+  {
+    id: "a3",
+    name: "apple-design",
+    description:
+      "Interface fluida estilo Apple: resposta imediata, gesto 1:1, interruptibilidade, física no release.",
+    tag: "Global"
+  },
+  {
+    id: "a4",
+    name: "auditoria-de-ui",
+    description:
+      "Passe objetivo de acessibilidade, foco, formulários, overflow, imagens, dark mode e toque.",
+    tag: "Global"
+  },
+  {
+    id: "a5",
+    name: "catalogo-de-estilos",
+    description:
+      "Sete direções prontas (Preciso, Editorial, Brutal, Orgânico, Noturno, Luxo, Vitrine) pra executar por inteiro.",
+    tag: "Global"
+  }
+];
+
+const TOTAL_ASSIGNED = 14;
 
 export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkill }) {
   const { t } = useLanguage();
@@ -15,6 +57,8 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
   const [loading, setLoading] = useState(true);
   const [menuOpenId, setMenuOpenId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [expandedAssigned, setExpandedAssigned] = useState(null);
+  const [showAllAssigned, setShowAllAssigned] = useState(false);
 
   const loadSkills = async () => {
     setLoading(true);
@@ -41,57 +85,12 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
     }
   }, [menuOpenId]);
 
-  if (!isPaid) {
-    return (
-      <div className="flex-1 overflow-y-auto">
-        <div className="px-10 py-8 space-y-8">
-          <div>
-            <p className="text-xs text-gray-400">{t("settings.title")}</p>
-            <h1 className="text-2xl font-bold text-black mt-0.5">{t("settings.skills")}</h1>
-            <p className="text-sm text-gray-500 mt-1">{t("settings.skillsSubtitle")}</p>
-          </div>
-
-          <div className="border-t border-gray-200" />
-
-          <section>
-            <h2 className="text-base font-bold text-black mb-1">{t("settings.mySkills")}</h2>
-            <p className="text-xs text-gray-500 mb-3">{t("settings.mySkillsDesc")}</p>
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 flex items-center justify-between gap-4">
-              <div className="flex items-start gap-3 flex-1 min-w-0">
-                <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                  <Crown className="w-5 h-5 text-gray-600" />
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="text-base font-bold text-black">{t("settings.skillsPremiumTitle")}</p>
-                    <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-medium shrink-0">
-                      {t("settings.premiumFeature")}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1 md:whitespace-nowrap">{t("settings.skillsPremiumDesc")}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => navigate("/plan-selection")}
-                className="px-4 py-2 rounded-xl bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0"
-              >
-                {t("settings.seePlans")}
-              </button>
-            </div>
-          </section>
-        </div>
-      </div>
-    );
-  }
-
-  const activeCount = skills.filter((s) => s.active).length;
-  const inactiveCount = skills.length - activeCount;
-  const available = MAX_SKILLS - skills.length;
-
   const handleToggle = async (skill) => {
     try {
       await base44.entities.Skill.update(skill.id, { active: !skill.active });
-      setSkills((prev) => prev.map((s) => s.id === skill.id ? { ...s, active: !s.active } : s));
+      setSkills((prev) =>
+        prev.map((s) => (s.id === skill.id ? { ...s, active: !s.active } : s))
+      );
     } catch (err) {
       console.error("Erro ao alternar habilidade:", err);
     }
@@ -109,168 +108,206 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
     setDeletingId(null);
   };
 
+  // Lista de atribuídas: mostra 5 por padrão, todas quando expandido
+  const assignedToShow = showAllAssigned ? ASSIGNED_SKILLS : ASSIGNED_SKILLS.slice(0, 5);
+
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="px-10 py-8 space-y-8">
         {/* Header */}
         <div>
-          <p className="text-xs text-gray-400">{t("settings.title")}</p>
-          <h1 className="text-2xl font-bold text-black mt-0.5">{t("settings.skills")}</h1>
-          <p className="text-sm text-gray-500 mt-1">{t("settings.skillsSubtitle")}</p>
+          <h1 className="text-2xl font-bold text-black">Habilidades</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Instruções reutilizáveis que a IA segue quando você ativa
+          </p>
         </div>
 
-        <div className="border-t border-gray-200" />
+        {/* Two-column layout */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+          {/* Left: Minhas habilidades */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
+            <h2 className="text-base font-bold text-black mb-1">Minhas habilidades</h2>
+            <p className="text-xs text-gray-500 mb-4">
+              Cadastre instruções reutilizáveis e ative no chat digitando{" "}
+              <span className="font-medium text-black">/nome-da-habilidade</span>.
+            </p>
 
-        {/* Summary card */}
-        <section>
-          <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-            <div className="flex items-center gap-3 p-5">
-              <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0">
-                <Wand2 className="w-5 h-5 text-gray-600" />
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
               </div>
-              <div className="flex-1">
-                <p className="text-base font-bold text-black">{t("settings.skillsLibraryTitle")}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{t("settings.skillsLibraryDesc")}</p>
-              </div>
-              {skills.length > 0 && (
-                <button
-                  onClick={onCreateSkill}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-black text-white text-xs font-medium hover:bg-gray-800 transition-colors shrink-0"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  {t("settings.newSkillBtn")}
-                </button>
-              )}
-            </div>
-            <div className="grid grid-cols-3 border-t border-gray-100">
-              <div className="p-4 border-r border-gray-100">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.skillsActive")}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{activeCount}</p>
-              </div>
-              <div className="p-4 border-r border-gray-100">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.skillsInactive")}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{inactiveCount}</p>
-              </div>
-              <div className="p-4">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.skillsAvailable")}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{available}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* My skills */}
-        <section>
-          <h2 className="text-base font-bold text-black mb-1">{t("settings.mySkills")}</h2>
-          <p className="text-xs text-gray-500 mb-3">{t("settings.mySkillsDesc")}</p>
-
-          {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-            </div>
-          ) : skills.length === 0 ? (
-            <div className="rounded-2xl border border-gray-200 bg-white p-5 flex items-center justify-between gap-4">
-              <div className="flex items-start gap-3 flex-1 min-w-0">
-                <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0">
-                  <Wand2 className="w-5 h-5 text-gray-600" />
+            ) : skills.length === 0 ? (
+              <div className="rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex flex-col items-center text-center relative">
+                <div className="w-full flex items-end justify-center pt-4 pb-0 relative">
+                  <img
+                    src={ASTRONAUT_IMG}
+                    alt="Sem habilidades"
+                    className="w-64 h-64 object-contain relative z-10"
+                  />
+                  <div
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-12 rounded-[50%] bg-white z-20"
+                    style={{ filter: "blur(20px)" }}
+                  />
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full px-6 flex flex-col items-center text-center z-30">
+                    <p className="text-sm font-bold text-black">Crie sua primeira habilidade</p>
+                    <p className="text-xs text-gray-500 mt-1 max-w-xs">
+                      Escreva uma vez, ative sempre que precisar, sem repetir contexto em toda conversa.
+                    </p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <p className="text-base font-bold text-black">{t("settings.createFirstSkill")}</p>
-                  <p className="text-xs text-gray-500 mt-1">{t("settings.createFirstSkillDesc")}</p>
-                </div>
-              </div>
-              <button
-                onClick={onCreateSkill}
-                className="px-4 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors shrink-0 whitespace-nowrap"
-              >
-                {t("settings.createFirstSkillBtn")}
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {skills.map((skill) => (
-                <div
-                  key={skill.id}
-                  className="rounded-2xl border border-gray-200 bg-white p-4 flex items-center gap-3"
-                >
-                  {/* Toggle */}
+                <div className="w-full px-6 pb-6 pt-2 flex flex-col items-center">
                   <button
-                    onClick={() => handleToggle(skill)}
-                    className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${
-                      skill.active ? "bg-black" : "bg-gray-200"
-                    }`}
+                    onClick={onCreateSkill}
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#7C5DCF] text-white text-sm font-medium hover:bg-[#6b4bd0] transition-colors"
                   >
-                    <span
-                      className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${
-                        skill.active ? "translate-x-4" : "translate-x-0.5"
-                      }`}
-                    />
+                    <Plus className="w-4 h-4" />
+                    Criar primeira habilidade
                   </button>
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-black">/{skill.name}</span>
-                      {skill.active ? (
-                        <span className="px-2 py-0.5 rounded-full bg-green-50 text-green-600 text-[10px] font-medium">
-                          {t("settings.skillActiveLabel")}
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-medium">
-                          {t("settings.skillInactiveLabel")}
-                        </span>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {skills.map((skill) => (
+                  <div
+                    key={skill.id}
+                    className="rounded-xl border border-gray-200 bg-white p-3.5 flex items-center gap-3"
+                  >
+                    <button
+                      onClick={() => handleToggle(skill)}
+                      className={`relative w-9 h-5 rounded-full transition-colors shrink-0 ${
+                        skill.active ? "bg-[#7C5DCF]" : "bg-gray-200"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${
+                          skill.active ? "translate-x-4" : "translate-x-0.5"
+                        }`}
+                      />
+                    </button>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-black">/{skill.name}</span>
+                        {skill.active ? (
+                          <span className="px-2 py-0.5 rounded-full bg-green-50 text-green-600 text-[10px] font-medium">
+                            Ativa
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-medium">
+                            Inativa
+                          </span>
+                        )}
+                      </div>
+                      {skill.description && (
+                        <p className="text-xs text-gray-500 mt-0.5 truncate">{skill.description}</p>
                       )}
                     </div>
-                    {skill.description && (
-                      <p className="text-xs text-gray-500 mt-0.5 truncate">{skill.description}</p>
-                    )}
+                    <div className="relative" data-skill-menu>
+                      <button
+                        onClick={() => setMenuOpenId(menuOpenId === skill.id ? null : skill.id)}
+                        className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition-colors shrink-0"
+                      >
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+                      {menuOpenId === skill.id && (
+                        <div className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+                          <button
+                            onClick={() => {
+                              onEditSkill?.(skill);
+                              setMenuOpenId(null);
+                            }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors text-left"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => handleDelete(skill)}
+                            disabled={deletingId === skill.id}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-500 hover:bg-red-50 transition-colors text-left disabled:opacity-50"
+                          >
+                            {deletingId === skill.id ? (
+                              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                            ) : (
+                              <Trash2 className="w-3.5 h-3.5" />
+                            )}
+                            Excluir
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                ))}
+                <button
+                  onClick={onCreateSkill}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors mt-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Nova habilidade
+                </button>
+              </div>
+            )}
+          </div>
 
-                  {/* Actions menu */}
-                  <div className="relative" data-skill-menu>
-                    <button
-                      onClick={() => setMenuOpenId(menuOpenId === skill.id ? null : skill.id)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500 transition-colors shrink-0"
-                    >
-                      <MoreVertical className="w-4 h-4" />
-                    </button>
-                    {menuOpenId === skill.id && (
-                      <div className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
-                        <button
-                          onClick={() => {
-                            onEditSkill?.(skill);
-                            setMenuOpenId(null);
-                          }}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors text-left"
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                          {t("settings.editSkillBtn")}
-                        </button>
-                        <button
-                          onClick={() => handleDelete(skill)}
-                          disabled={deletingId === skill.id}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-xs text-red-500 hover:bg-red-50 transition-colors text-left disabled:opacity-50"
-                        >
-                          {deletingId === skill.id ? (
-                            <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          ) : (
-                            <Trash2 className="w-3.5 h-3.5" />
-                          )}
-                          {t("settings.deleteSkill")}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+          {/* Right: Atribuídas a você */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
+            <div className="flex items-center justify-between mb-1">
+              <h2 className="text-base font-bold text-black">Atribuídas a você</h2>
+              <span className="text-xs text-gray-500">{TOTAL_ASSIGNED} habilidades</span>
             </div>
-          )}
+            <p className="text-xs text-gray-500 mb-4">
+              Habilidades da empresa ou direcionadas a você por um administrador.
+            </p>
+
+            <div className="flex-1 space-y-2">
+              {assignedToShow.map((skill) => {
+                const expanded = expandedAssigned === skill.id;
+                return (
+                  <div
+                    key={skill.id}
+                    className="rounded-xl border border-gray-200 bg-white p-3.5"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-sm font-bold text-black">/{skill.name}</span>
+                          <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-[10px] font-medium shrink-0">
+                            {skill.tag}
+                          </span>
+                        </div>
+                        <p
+                          className={`text-xs text-gray-500 leading-relaxed ${
+                            expanded ? "" : "line-clamp-2"
+                          }`}
+                        >
+                          {skill.description}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() =>
+                          setExpandedAssigned(expanded ? null : skill.id)
+                        }
+                        className="flex items-center gap-1 text-xs font-medium text-gray-600 hover:text-black transition-colors shrink-0 mt-0.5"
+                      >
+                        Ver instruções
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 transition-transform ${
+                            expanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setShowAllAssigned((v) => !v)}
+              className="mt-4 mx-auto flex items-center justify-center px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              Ver todas ({TOTAL_ASSIGNED})
+            </button>
+          </div>
         </section>
       </div>
     </div>
