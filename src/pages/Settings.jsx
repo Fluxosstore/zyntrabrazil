@@ -411,7 +411,7 @@ export default function Settings() {
         <DashboardSidebar activePage="settings" />
         <main className="flex-1 flex flex-col bg-[#FAFAFB] rounded-2xl overflow-hidden">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-8 py-4">
+        <div className="flex items-center justify-between px-8 py-4 border-b border-gray-200/60">
           <div className="flex items-center gap-4">
             <h1 className="text-sm font-bold text-black shrink-0">{t("settings.title")}</h1>
             <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-100/80">
