@@ -202,13 +202,13 @@ export default function ConnectorsContent({ plan = "free" }) {
   if (!isPaid) {
     return (
       <div className="flex-1 overflow-y-auto">
-        <div className="pl-10 pr-8 py-8 space-y-8">
+        <div className="pl-10 pr-0 py-8 space-y-8">
           <div>
             <h1 className="text-2xl font-bold text-black">Conectores</h1>
             <p className="text-sm text-gray-500 mt-1">Servidores MCP que dão ferramentas novas para a IA</p>
           </div>
 
-          <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 items-start">
+          <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 items-start lg:-mr-[10px]">
             {/* Left: Meus conectores - locked */}
             <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
               <h2 className="text-base font-bold text-black mb-1">Meus conectores</h2>
@@ -245,7 +245,7 @@ export default function ConnectorsContent({ plan = "free" }) {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="pl-10 pr-8 py-8 space-y-8">
+      <div className="pl-10 pr-0 py-8 space-y-8">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-black">Conectores</h1>
@@ -253,7 +253,7 @@ export default function ConnectorsContent({ plan = "free" }) {
         </div>
 
         {/* Two-column layout */}
-        <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 items-start">
+        <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 items-start lg:-mr-[10px]">
           {/* Left: Meus conectores */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
             <h2 className="text-base font-bold text-black mb-1">Meus conectores</h2>
