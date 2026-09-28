@@ -257,7 +257,7 @@ export default function MemoriesContent() {
                     </filter>
                   </svg>
                   <div className="w-full flex items-end justify-center pt-4 pb-0 relative">
-                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1137f8894_empty-astronaut-removebg-preview.png"
+                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/81e46fe3d_empty-astronaut-removebg-preview.png"
 
                   alt="Sem memórias"
                   className="w-80 h-80 object-contain relative z-10"
