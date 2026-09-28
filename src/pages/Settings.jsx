@@ -18,6 +18,7 @@ import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
 import MediaQuotasContent from "@/components/ayzen/settings/MediaQuotasContent";
 import CreditsCard from "@/components/ayzen/settings/CreditsCard";
 import MobileProfileContent from "@/components/ayzen/settings/MobileProfileContent";
+import MobileInvoicesContent from "@/components/ayzen/settings/MobileInvoicesContent";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import { CoinStackIcon, ReceiptLinesIcon } from "@/components/ayzen/SettingsIcons";
@@ -410,6 +411,9 @@ export default function Settings() {
   const renderMobileContent = () => {
     if (activeSection === "usage") {
       return <MobileProfileContent onNavigate={setActiveSection} />;
+    }
+    if (activeSection === "invoices") {
+      return <MobileInvoicesContent plan={user?.plan || "free"} />;
     }
     return renderContent();
   };
