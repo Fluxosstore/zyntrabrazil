@@ -19,6 +19,7 @@ import MediaQuotasContent from "@/components/ayzen/settings/MediaQuotasContent";
 import CreditsCard from "@/components/ayzen/settings/CreditsCard";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
+import { CoinStackIcon, ReceiptLinesIcon } from "@/components/ayzen/SettingsIcons";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import { PLAN_PRICES } from "@/lib/planData";
 import { base44 } from "@/api/base44Client";
@@ -159,8 +160,8 @@ function UsageContent({ onNavigate }) {
                 {[
                   { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
                   { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
-                  { icon: Coins, label: "Recarregar", onClick: () => navigate("/plan-selection") },
-                  { icon: Receipt, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true },
+                  { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/plan-selection") },
+                  { icon: ReceiptLinesIcon, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true },
                 ].map((btn) => (
                   <button
                     key={btn.label}
