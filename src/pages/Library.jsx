@@ -286,10 +286,10 @@ export default function LibraryPage() {
               <div className="relative" ref={sortRef}>
                 <button
                   onClick={() => setSortOpen((v) => !v)}
-                  className="flex items-center gap-1.5 h-10 px-3.5 rounded-full bg-[#EBEBEB] text-xs font-medium text-gray-700 active:bg-gray-200 transition-colors whitespace-nowrap shrink-0"
+                  className="flex items-center justify-between gap-1.5 h-9 w-40 px-3.5 rounded-full bg-[#EBEBEB] text-xs font-medium text-gray-700 active:bg-gray-200 transition-colors whitespace-nowrap shrink-0"
                 >
-                  {sortOptions.find((o) => o.id === sortOrder)?.label || t("library.recent")}
-                  <ChevronDown className={`w-3.5 h-3.5 text-gray-500 transition-transform ${sortOpen ? "rotate-180" : ""}`} />
+                  <span className="flex-1 text-left truncate">{sortOptions.find((o) => o.id === sortOrder)?.label || t("library.recent")}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 text-gray-500 shrink-0 transition-transform ${sortOpen ? "rotate-180" : ""}`} />
                 </button>
                 {sortOpen && (
                   <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1 z-50 overflow-hidden">
