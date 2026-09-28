@@ -21,7 +21,7 @@ function formatExpiry(dateStr) {
   }
 }
 
-export default function CreditsCard({ onReload }) {
+export default function CreditsCard({ onReload, className = "" }) {
   const { user } = useAuth();
   const plan = user?.plan || "free";
   const credits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
@@ -63,7 +63,7 @@ export default function CreditsCard({ onReload }) {
   const lastCreditAmount = usage.lastCredit?.tokens || credits.month;
 
   return (
-    <div className="rounded-2xl bg-[#7a5bc8] text-white p-5 flex flex-col">
+    <div className={`rounded-2xl bg-[#7a5bc8] text-white p-5 flex flex-col ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-base font-bold">Créditos</h3>
