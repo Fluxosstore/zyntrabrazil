@@ -79,9 +79,11 @@ export default function MediaQuotasContent({ plan }) {
 
   return (
     <section>
-      <h2 className="text-base font-bold text-black mb-1">Consumo por IA</h2>
-      <p className="text-xs text-gray-500 mb-3">Acompanhe o uso de cada modelo disponível no seu plano.</p>
       <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+        <div className="px-5 pt-5 pb-1">
+          <h2 className="text-base font-bold text-black">Consumo por IA</h2>
+          <p className="text-xs text-gray-500 mt-0.5">Acompanhe o uso de cada modelo disponível no seu plano.</p>
+        </div>
         {/* Header */}
         <div className="grid grid-cols-[2fr_1.2fr_2fr_1fr] gap-4 px-5 py-3 border-b border-gray-200">
           <span className="text-xs font-medium text-gray-500">IA</span>
