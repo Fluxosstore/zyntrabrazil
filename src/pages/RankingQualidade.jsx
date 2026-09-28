@@ -92,7 +92,10 @@ export default function RankingQualidade() {
               {t("ranking.quality")}
             </button>
           </div>
-          <QualityFilters metric={metric} setMetric={setMetric} />
+          <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3">
+            <QualityFilters metric={metric} setMetric={setMetric} />
+          </div>
+          <QualityChart metric={metric} />
           <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3 space-y-3">
             <div>
               <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>

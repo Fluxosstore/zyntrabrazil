@@ -160,13 +160,16 @@ export default function Ranking() {
     }
     if (mobile) {
       return (
-        <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3 space-y-3">
-          <div>
-            <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
-            <p className="text-xs text-gray-500 mt-0.5">{t("ranking.fullRankingDesc")}</p>
+        <>
+          <RankingChart models={data.models} top3={data.top3} />
+          <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3 space-y-3">
+            <div>
+              <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
+              <p className="text-xs text-gray-500 mt-0.5">{t("ranking.fullRankingDesc")}</p>
+            </div>
+            <MobileRankingList models={data.models} />
           </div>
-          <MobileRankingList models={data.models} />
-        </div>
+        </>
       );
     }
     return (
@@ -259,12 +262,14 @@ export default function Ranking() {
               {t("ranking.quality")}
             </button>
           </div>
-          <RankingFilters
-            modality={modality}
-            period={period}
-            onModalityChange={setModality}
-            onPeriodChange={setPeriod}
-          />
+          <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3">
+            <RankingFilters
+              modality={modality}
+              period={period}
+              onModalityChange={setModality}
+              onPeriodChange={setPeriod}
+            />
+          </div>
           {renderContent(true)}
           <p className="text-center text-[11px] text-gray-400">
             Dados em tempo real via OpenRouter · Ordenado por janela de contexto
