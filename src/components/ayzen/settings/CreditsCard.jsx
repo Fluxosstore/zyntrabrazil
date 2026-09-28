@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, ArrowUpRight, Plus, FileText, RefreshCw } from "lucide-react";
+import { Eye, EyeOff, ArrowUpRight, Plus, FileText, RefreshCw, FileClock, ChevronRight } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
@@ -68,8 +68,10 @@ export default function CreditsCard({ onReload, className = "" }) {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold">Créditos</h3>
-        <button className="flex items-center gap-1 text-[11px] text-white/90 border border-white/40 rounded-full px-3 py-1 hover:bg-white/10 transition-colors">
-          Ver extrato <ArrowUpRight className="w-3 h-3" />
+        <button className="flex items-center gap-1.5 text-[11px] text-white border border-white rounded-full px-3 py-1 hover:bg-white/10 transition-colors">
+          <FileClock className="w-3 h-3" />
+          Ver extrato
+          <ChevronRight className="w-3 h-3" />
         </button>
       </div>
 
