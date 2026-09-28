@@ -467,12 +467,12 @@ export default function Settings() {
         <div className="flex items-center justify-between px-4 py-3">
           <button
             onClick={() => navigate("/dashboard")}
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 active:bg-gray-50 transition-colors">
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-black active:opacity-60 transition-opacity">
             <PanelLeft className="w-5 h-5 text-black" />
           </button>
           <button
             onClick={() => navigate("/dashboard")}
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-200 active:bg-gray-50 transition-colors">
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-black active:opacity-60 transition-opacity">
             <MessageSquarePlus className="w-5 h-5 text-black" />
           </button>
         </div>
