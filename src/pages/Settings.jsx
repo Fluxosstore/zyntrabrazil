@@ -409,7 +409,7 @@ export default function Settings() {
       {/* Desktop - with sidebar */}
       <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
         <DashboardSidebar activePage="settings" />
-        <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
+        <main className="flex-1 flex flex-col bg-[#F5F5F7] rounded-2xl overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center justify-between px-8 py-4">
           <div className="flex items-center gap-4">
