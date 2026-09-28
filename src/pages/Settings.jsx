@@ -186,7 +186,7 @@ function UsageContent({ onNavigate }) {
         {/* Plan + Credits two-column */}
         <section className="grid grid-cols-1 lg:grid-cols-[4fr_8fr] gap-4">
           {/* Plan card */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-[580px]">
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-[460px] xl:min-h-[580px]">
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
             <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[280px] flex flex-col justify-between">
