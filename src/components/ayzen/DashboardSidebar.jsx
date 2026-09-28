@@ -20,6 +20,7 @@ import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import { base44 } from "@/api/base44Client";
 import ChatListItem from "@/components/ayzen/chat/ChatListItem";
+import NewFolderModal from "@/components/ayzen/chat/NewFolderModal";
 
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
@@ -34,6 +35,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [balance, setBalance] = useState(0);
+  const [folderModalOpen, setFolderModalOpen] = useState(false);
 
   const toggleCollapsed = (val) => {
     const next = typeof val === "boolean" ? val : !collapsed;
@@ -182,7 +184,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             <span className="text-[10px] font-semibold tracking-wider text-gray-400">
               {t("dash.chats")}
             </span>
-            <button onClick={handleNew} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+            <button onClick={() => setFolderModalOpen(true)} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
               <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -271,7 +273,9 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             </>
           }
         </button>
-      </div>
-    </aside>);
+        </div>
 
-}
+        <NewFolderModal open={folderModalOpen} onClose={() => setFolderModalOpen(false)} />
+        </aside>);
+
+        }
