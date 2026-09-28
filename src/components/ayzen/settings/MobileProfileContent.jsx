@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShieldCheck, Fingerprint, Eye, EyeOff, ChevronRight, MessageCircle, RefreshCw, ArrowUpRight, Sparkles, Volume2 } from "lucide-react";
+import { ShieldCheck, Fingerprint, Eye, EyeOff, ChevronRight, ChevronDown, MessageCircle, RefreshCw, ArrowUpRight, Sparkles, Volume2 } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
@@ -125,25 +125,30 @@ export default function MobileProfileContent({ onNavigate }) {
             <p className="text-base font-bold text-black">
               {user?.full_name || (user?.email || "—").split("@")[0]}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5 truncate">{user?.email || "—"}</p>
-            <p className="text-xs text-gray-500 mt-0.5">Membro desde {formatMemberDate(user?.created_date)}</p>
+            <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1.5">
+              <span className="truncate">{user?.email || "—"}</span>
+              <span className="text-gray-300 shrink-0">•</span>
+              <span className="shrink-0">Membro desde {formatMemberDate(user?.created_date)}</span>
+            </p>
           </div>
         </div>
-        {/* Icon grid */}
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
-            { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
-            { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/recharge-credits") },
-            { icon: ReceiptLinesIcon, label: "Faturas", onClick: () => onNavigate?.("invoices") },
-          ].map((btn) => (
-            <button key={btn.label} onClick={btn.onClick} className="flex flex-col items-center gap-1.5">
-              <div className="w-12 h-12 rounded-full bg-[#F5F5F5] flex items-center justify-center">
-                <btn.icon className={`w-5 h-5 ${btn.red ? "text-red-500" : "text-black"}`} />
-              </div>
-              <span className="text-[10px] font-medium text-gray-500">{btn.label}</span>
-            </button>
-          ))}
+        {/* Icon grid - recessed sub-container */}
+        <div className="rounded-xl bg-[#F5F5F5] p-3">
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
+              { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
+              { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/recharge-credits") },
+              { icon: ReceiptLinesIcon, label: "Faturas", onClick: () => onNavigate?.("invoices") },
+            ].map((btn) => (
+              <button key={btn.label} onClick={btn.onClick} className="flex flex-col items-center gap-1.5">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                  <btn.icon className={`w-5 h-5 ${btn.red ? "text-[#D32F2F]" : "text-[#333333]"}`} />
+                </div>
+                <span className="text-[10px] font-medium text-gray-500">{btn.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -151,23 +156,19 @@ export default function MobileProfileContent({ onNavigate }) {
       <div className="rounded-2xl border border-gray-200 bg-white p-4">
         <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
         {/* Plan card */}
-        <div className="relative rounded-2xl bg-[#F4F4F4] p-3 overflow-hidden flex flex-col justify-between min-h-[120px]">
-          <img
-            src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cbb8fd4bf_ddb60374d_ChatGPTImage16desetde202623_41_31.png"
-            alt=""
-            aria-hidden="true"
-            className="absolute -bottom-4 -right-4 w-24 h-24 object-contain opacity-60 select-none pointer-events-none"
-            style={{ filter: "brightness(0) invert(1)" }} />
+        <div className="relative rounded-2xl bg-gradient-to-br from-[#f4f4f4] to-[#e9e9e9] p-4 overflow-hidden flex flex-col justify-between min-h-[130px]">
+          {/* Decorative blob */}
+          <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-br from-[#7C5DCF]/15 to-[#EC4899]/10 blur-2xl pointer-events-none" />
           <div className="relative flex items-start justify-between">
             <p className="text-sm font-bold text-black">Zyntra</p>
             <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#067049]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#006644]" />
               Ativo
             </span>
           </div>
-          <div className="relative flex items-end justify-between mt-2">
+          <div className="relative flex items-end justify-between mt-3">
             <div>
-              <p className="text-[10px] text-gray-400 mb-0.5">Assinatura</p>
+              <p className="text-[10px] text-gray-500 mb-0.5">Assinatura</p>
               <p className="text-lg font-bold text-black">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
             </div>
             <p className="text-xs text-gray-600">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"} por mês</p>
@@ -175,15 +176,15 @@ export default function MobileProfileContent({ onNavigate }) {
         </div>
         {/* Info rows */}
         <div className="mt-3">
-          <div className="flex items-center justify-between py-2 border-b border-gray-100">
+          <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
             <span className="text-xs text-gray-500">Próximo vencimento</span>
             <span className="text-xs font-medium text-black">{formatMemberDate(user?.plan_expires) || "—"}</span>
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-gray-100">
+          <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
             <span className="text-xs text-gray-500">Renovação</span>
             <span className="text-xs font-medium text-black">{user?.auto_renew !== false ? "Automática" : "Por fatura"}</span>
           </div>
-          <div className="flex items-center justify-between py-2">
+          <div className="flex items-center justify-between py-2.5">
             <span className="text-xs text-gray-500">IAs no plano</span>
             <span className="text-xs font-medium text-black">{(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).length}</span>
           </div>
@@ -367,15 +368,20 @@ export default function MobileProfileContent({ onNavigate }) {
           {usageWindows.map((w) => {
             const pct = w.limit > 0 ? Math.min(100, Math.round((w.consumed / w.limit) * 100)) : 0;
             return (
-              <div key={w.label} className="rounded-xl bg-[#F9F9FB] p-4">
+              <div key={w.label} className="rounded-xl bg-[#F7F7F7] p-4">
                 <p className="text-[11px] font-medium text-gray-500 mb-2">{w.label}</p>
                 <p className="text-sm font-bold text-black mb-3">{formatCredits(w.consumed)} de {formatCredits(w.limit)}</p>
-                <div className="h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                <div className="h-1.5 rounded-full bg-[#E0E0E0] overflow-hidden">
                   <div className="h-full bg-gray-700 rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
                 </div>
               </div>
             );
           })}
+        </div>
+        {/* Footer */}
+        <div className="border-t border-gray-100 px-4 py-3 flex items-center justify-between">
+          <span className="text-xs font-medium text-black">Ler a política de uso justo</span>
+          <ChevronDown className="w-4 h-4 text-black" />
         </div>
       </div>
 
