@@ -63,14 +63,14 @@ export default function Automations() {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <span className="text-sm font-semibold text-black">{t("auto.title")}</span>
           <div className="w-9" />
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 pb-6">
           {/* Hero */}
           <div className="pt-2 pb-5">
-            <h1 className="text-xl font-bold text-black leading-snug">{t("auto.heroTitle")}</h1>
+            <h1 className="text-xl font-bold text-black leading-snug">{t("auto.heroTitle1")}</h1>
+            <p className="text-base font-semibold text-black mt-0.5">{t("auto.heroTitle2")}</p>
             <p className="text-sm text-gray-500 mt-2 leading-relaxed">{t("auto.heroDesc")}</p>
 
             {/* Steps */}
@@ -92,8 +92,8 @@ export default function Automations() {
               ))}
             </div>
 
-            <button className="mt-5 w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors">
-              <Plus className="w-4 h-4" />
+            <button className="mt-5 flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#7B5BC8] text-white text-xs font-medium active:bg-[#6A4DB8] transition-colors">
+              <Plus className="w-3.5 h-3.5" />
               {t("auto.newAutomation")}
             </button>
           </div>
