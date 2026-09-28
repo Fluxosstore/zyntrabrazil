@@ -189,7 +189,7 @@ function UsageContent({ onNavigate }) {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-[580px]">
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
-            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[250px] flex flex-col justify-between">
+            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[280px] flex flex-col justify-between">
               {/* Decorative shape */}
               <div className="absolute -bottom-12 -right-10 w-40 h-40 rounded-[50%] bg-gray-300/50 blur-xl rotate-12" />
               <div className="relative flex items-start justify-between">
@@ -209,17 +209,17 @@ function UsageContent({ onNavigate }) {
             </div>
             {/* Info rows */}
             <div className="mt-4">
-              <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Próximo vencimento</span>
-                <span className="text-sm font-medium text-black">{formatMemberDate(user?.plan_expires) || "—"}</span>
+              <div className="flex items-center justify-between py-2 border-b border-gray-100">
+                <span className="text-xs text-gray-500">Próximo vencimento</span>
+                <span className="text-xs font-medium text-black">{formatMemberDate(user?.plan_expires) || "—"}</span>
               </div>
-              <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
-                <span className="text-sm text-gray-500">Renovação</span>
-                <span className="text-sm font-medium text-black">{user?.auto_renew !== false ? "Automática" : "Por fatura"}</span>
+              <div className="flex items-center justify-between py-2 border-b border-gray-100">
+                <span className="text-xs text-gray-500">Renovação</span>
+                <span className="text-xs font-medium text-black">{user?.auto_renew !== false ? "Automática" : "Por fatura"}</span>
               </div>
-              <div className="flex items-center justify-between py-2.5">
-                <span className="text-sm text-gray-500">IAs no plano</span>
-                <span className="text-sm font-medium text-black">{(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).length}</span>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-xs text-gray-500">IAs no plano</span>
+                <span className="text-xs font-medium text-black">{(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).length}</span>
               </div>
             </div>
             {/* Badge + button */}
