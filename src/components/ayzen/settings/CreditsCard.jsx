@@ -156,7 +156,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="mt-auto flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold text-white">Precisa de mais créditos?</p>
           <p className="text-[11px] text-white/70">Créditos avulsos valem 12 meses.</p>
