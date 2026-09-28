@@ -202,16 +202,18 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       {!collapsed &&
       <>
           <div className="flex items-center justify-between px-3 pt-3 pb-1">
-            <button
-              onClick={() => setFoldersSectionOpen((v) => !v)}
-              className="flex items-center gap-1 text-[10px] font-semibold tracking-wider text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <ChevronRight className={`w-3 h-3 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
-              Pastas
-            </button>
-            <button onClick={() => setFolderModalOpen(true)} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
-              <Plus className="w-3.5 h-3.5" />
-            </button>
+            <span className="text-[10px] font-semibold tracking-wider text-gray-400">Pastas</span>
+            <div className="flex items-center gap-0.5">
+              <button
+                onClick={() => setFoldersSectionOpen((v) => !v)}
+                className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors"
+              >
+                <ChevronRight className={`w-3 h-3 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
+              </button>
+              <button onClick={() => setFolderModalOpen(true)} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+                <Plus className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
           <div className="flex-1 px-3 overflow-y-auto">
             {/* Folders with nested chats */}
@@ -224,7 +226,6 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                     onClick={() => setExpandedFolders((p) => ({ ...p, [folder.id]: !isExpanded }))}
                     className="flex items-center gap-2 px-2.5 py-2 rounded-xl cursor-pointer text-gray-700 hover:bg-gray-200/60 transition-colors group"
                   >
-                    <ChevronRight className={`w-3 h-3 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
                     <Folder className="w-3.5 h-3.5 shrink-0" style={{ color: folder.color || "#6C31E3" }} />
                     <span className="flex-1 text-xs font-medium truncate">{folder.name}</span>
                     {folderChats.length > 0 && <span className="text-[10px] text-gray-400">{folderChats.length}</span>}
@@ -234,6 +235,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                     >
                       <MoreVertical className="w-3.5 h-3.5" />
                     </button>
+                    <ChevronRight className={`w-3 h-3 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
                   </div>
                   <AnimatePresence>
                     {folderMenuId === folder.id && (

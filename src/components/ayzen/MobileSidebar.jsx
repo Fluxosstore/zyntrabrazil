@@ -177,19 +177,21 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
             {/* Pastas section */}
             <div className="flex items-center justify-between px-3 pt-3 pb-1">
-              <button
-                onClick={() => setFoldersSectionOpen((v) => !v)}
-                className="flex items-center gap-1 text-xs font-semibold tracking-wider text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <ChevronRight className={`w-4 h-4 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
-                Pastas
-              </button>
-              <button
-                onClick={() => setFolderModalOpen(true)}
-                className="w-7 h-7 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+              <span className="text-xs font-semibold tracking-wider text-gray-400">Pastas</span>
+              <div className="flex items-center gap-0.5">
+                <button
+                  onClick={() => setFoldersSectionOpen((v) => !v)}
+                  className="w-7 h-7 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors"
+                >
+                  <ChevronRight className={`w-4 h-4 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
+                </button>
+                <button
+                  onClick={() => setFolderModalOpen(true)}
+                  className="w-7 h-7 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
 
-                <Plus className="w-4 h-4" />
-              </button>
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Chats list */}
@@ -204,7 +206,6 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                       onClick={() => setExpandedFolders((p) => ({ ...p, [folder.id]: !isExpanded }))}
                       className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer text-gray-700 hover:bg-gray-100 transition-colors group"
                     >
-                      <ChevronRight className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
                       <Folder className="w-4 h-4 shrink-0" style={{ color: folder.color || "#6C31E3" }} />
                       <span className="flex-1 text-sm font-medium truncate">{folder.name}</span>
                       {folderChats.length > 0 && <span className="text-xs text-gray-400">{folderChats.length}</span>}
@@ -214,6 +215,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                       >
                         <MoreVertical className="w-4 h-4" />
                       </button>
+                      <ChevronRight className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
                     </div>
                     <AnimatePresence>
                       {folderMenuId === folder.id && (
