@@ -169,7 +169,7 @@ function UsageContent({ onNavigate }) {
                   >
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
                       btn.active
-                        ? "bg-[#e5e7eb] text-gray-700 ring-1 ring-gray-300"
+                        ? "bg-[#d1d5db] text-gray-700 ring-1 ring-gray-300"
                         : "bg-transparent text-gray-500 group-hover:bg-gray-200/60"
                     }`}>
                       <btn.icon className="w-4 h-4" />
