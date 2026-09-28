@@ -197,7 +197,13 @@ export default async function(req) {
     } else {
       reasoningInstructions = "NÍVEL DE RACIOCÍNIO: ALTO. Analise o problema profundamente, divida em partes, considere todos os aspectos relevantes e produza uma resposta completa e detalhada.\n\n";
     }
-    const contextPrompt = reasoningInstructions + skillInstructions + connectorContext + memoryContext + prompt;
+
+    // Instrução de busca na web — sempre cita fontes
+    let webSearchInstructions = "";
+    if (useWebSearch) {
+      webSearchInstructions = "BUSCA NA WEB ATIVADA: Você tem acesso a informações atualizadas da internet nesta resposta. Use dados atualizados e SEMPRE cite as fontes no final da resposta, no formato abaixo, com as URLs completas e reais que você consultou:\n\nFontes:\nhttps://exemplo.com/fonte1\nhttps://exemplo.com/fonte2\n\nRegras:\n- Nunca invente URLs. Se não encontrou fontes confiáveis, diga que não encontrou informações atualizadas suficientes.\n- As URLs devem ser reais e terem sido efetivamente consultadas.\n- Coloque as fontes sempre no final da resposta.\n\n";
+    }
+    const contextPrompt = reasoningInstructions + webSearchInstructions + skillInstructions + connectorContext + memoryContext + prompt;
 
     const imageUrls = (fileUrls || []).filter((u) =>
       u.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i)
