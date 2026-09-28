@@ -129,7 +129,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
           </>
         ) : (
           <>
-            <button onClick={handleNew} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg bg-[#7C5DCF] text-white text-xs font-medium hover:bg-[#6B4DD0] transition-colors">
+            <button onClick={handleNew} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl bg-[#7C5DCF] text-white text-xs font-medium hover:bg-[#6B4DD0] transition-colors">
               <ChatPlusIcon className="w-3.5 h-3.5 shrink-0" />
               {t("dash.newConversation")}
             </button>
