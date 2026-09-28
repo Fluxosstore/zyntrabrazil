@@ -284,7 +284,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             </div>
 
             {/* credits bar */}
-            <div className="px-3 pb-1">
+            <div className="px-3 pb-0.5">
               <div className="flex items-center justify-between rounded-xl bg-[#eceef0] border border-gray-300/70 px-3 py-2.5">
                 <div className="flex items-center gap-2">
                   <CoinStackIcon className="w-5 h-5 text-gray-600" />
@@ -297,7 +297,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             </div>
 
             {/* User footer */}
-            <div className="relative px-3 py-2">
+            <div className="relative px-3 py-1">
               <AnimatePresence>
                 {popoverOpen &&
               <UserPopover
