@@ -228,7 +228,7 @@ export default function MemoriesContent() {
                   <button
                   onClick={handleSaveMemory}
                   disabled={!memoryText.trim() || savingMemory}
-                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-white text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors bg-[#000000]">
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-white text-sm font-medium hover:bg-[#6b4bd0] disabled:opacity-50 disabled:cursor-not-allowed transition-colors bg-[#7C5DCF]">
                   
                     {savingMemory ?
                   <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
