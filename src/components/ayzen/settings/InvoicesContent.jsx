@@ -78,7 +78,7 @@ export default function InvoicesContent({ plan = "free" }) {
           <p className="text-sm text-gray-500 mt-1">Sua assinatura, suas faturas e suas recargas.</p>
         </div>
 
-        <div className="border-t border-gray-200 hidden" />
+        
 
         {/* Assinatura card */}
         <section>
