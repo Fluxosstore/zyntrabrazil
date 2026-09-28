@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sparkles, HelpCircle, Plus, X, Save, Trash2, Loader2, MessageCircle, Brain } from "lucide-react";
+import { Lightbulb, MessageCircleMore, HelpCircle, Plus, X, Save, Trash2, Loader2 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -131,7 +131,7 @@ export default function MemoriesContent() {
               <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200">
                 <div className="flex items-start gap-3 min-w-0">
                   <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                    <Sparkles className="w-4 h-4 text-gray-600" />
+                    <Lightbulb className="w-4 h-4 text-[#E63946]" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -144,7 +144,8 @@ export default function MemoriesContent() {
                 <Switch
                   checked={autoExtraction}
                   onCheckedChange={handleToggleAutoExtraction}
-                  disabled={toggling === "auto"} />
+                  disabled={toggling === "auto"}
+                  className="data-[state=checked]:bg-[#7C5DCF]" />
                 
               </div>
 
@@ -152,7 +153,7 @@ export default function MemoriesContent() {
               <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200">
                 <div className="flex items-start gap-3 min-w-0">
                   <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                    <MessageCircle className="w-4 h-4 text-gray-600" />
+                    <MessageCircleMore className="w-4 h-4 text-[#E63946]" />
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -165,7 +166,8 @@ export default function MemoriesContent() {
                 <Switch
                   checked={useMemories}
                   onCheckedChange={handleToggleUseMemories}
-                  disabled={toggling === "use"} />
+                  disabled={toggling === "use"}
+                  className="data-[state=checked]:bg-[#7C5DCF]" />
                 
               </div>
             </div>
