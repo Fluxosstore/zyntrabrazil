@@ -107,7 +107,7 @@ export default function MobileDashboard({
   }, [plusMenuOpen, skillsOpen]);
 
   return (
-    <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
+    <div className="md:hidden h-[100dvh] flex flex-col bg-white overflow-hidden overscroll-none">
       <input
         ref={fileInputRef}
         type="file"
