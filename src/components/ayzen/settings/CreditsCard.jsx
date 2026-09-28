@@ -132,7 +132,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Last movements */}
-      <div className="mb-4">
+      <div className="my-auto">
         <p className="text-[10px] font-semibold tracking-wider text-white/70 mb-2">ÚLTIMAS MOVIMENTAÇÕES</p>
         <div className="flex items-start gap-2">
           <RefreshCw className="w-3.5 h-3.5 text-white/70 shrink-0 mt-0.5" />
@@ -151,7 +151,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Footer */}
-      <div className="mt-auto flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-[11px] font-semibold text-white">Precisa de mais créditos?</p>
           <p className="text-[10px] text-white/70">Créditos avulsos valem 12 meses.</p>
