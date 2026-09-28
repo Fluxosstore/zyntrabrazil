@@ -39,6 +39,37 @@ function formatExpiry(dateStr) {
   }
 }
 
+const POLICY_SECTIONS = [
+  {
+    heading: "Como funciona a franquia",
+    body: "Ela vem do próprio plano — não dos seus créditos. Cada IA de uso justo tem uma franquia que renova junto com os créditos, no mesmo ciclo. Enquanto houver franquia, a IA responde normalmente; quando acaba, ela pausa até a renovação."
+  },
+  {
+    heading: "O custo de cada mensagem varia",
+    body: "Conversas longas custam mais do que conversas curtas. O consumo da franquia depende do tamanho da conversa e da complexidade da resposta, então duas mensagens podem consumir quantidades diferentes."
+  },
+  {
+    heading: "Avisamos antes",
+    body: "Quando você chega a 80% da franquia, avisamos para você se organizar. O aviso aparece na tela e, se quiser, você pode trocar de plano ou esperar a renovação."
+  },
+  {
+    heading: "Quando a franquia acaba",
+    body: "As IAs de uso justo pausam até a data mostrada na tela. As outras IAs continuam normais, gastando os seus créditos normalmente — só as de uso justo ficam de folga até a franquia voltar."
+  },
+  {
+    heading: "Automação e compartilhamento de acesso",
+    body: "Continuamos acompanhando padrões de uso para garantir que a franquia seja usada de forma justa por todos. Uso automatizado em massa ou compartilhamento de acesso pode acelerar o consumo da franquia."
+  },
+  {
+    heading: "O que nunca acontece",
+    body: "Nada é cobrado a mais além do seu plano. A franquia é um benefício incluso: se acabar, a IA só pausa — você não paga extra e não perde créditos."
+  },
+  {
+    heading: "Se precisar de mais",
+    body: "Um plano maior tem uma franquia maior. Se a franquia do seu plano acabar rápido com frequência, vale considerar a mudança para um plano superior, que oferece mais margem de uso justo."
+  }
+];
+
 const MODEL_LOGO_BY_NAME = (() => {
   const map = { "Zyntra Auto": LOGO };
   const arrays = [
@@ -158,7 +189,7 @@ export default function MobileProfileContent({ onNavigate }) {
       <div className="rounded-2xl border border-gray-200 bg-white p-4">
         <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
         {/* Plan card */}
-        <div className="relative rounded-2xl bg-gradient-to-br from-[#f4f4f4] to-[#e9e9e9] p-4 overflow-hidden flex flex-col justify-between min-h-[130px]">
+        <div className="relative rounded-2xl bg-gradient-to-br from-[#f4f4f4] to-[#e9e9e9] p-4 overflow-hidden flex flex-col justify-between min-h-[170px]">
           {/* Decorative blob */}
           <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-br from-[#7C5DCF]/15 to-[#EC4899]/10 blur-2xl pointer-events-none" />
           <div className="relative flex items-start justify-between">
@@ -395,10 +426,16 @@ export default function MobileProfileContent({ onNavigate }) {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               className="overflow-hidden">
-              <div className="px-4 pb-4 pt-1">
+              <div className="border-t border-gray-100 px-4 py-4 space-y-4">
                 <p className="text-xs text-gray-500 leading-relaxed">
-                  As IAs de uso justo não gastam seus créditos: elas têm uma franquia própria, que renova junto com os créditos. Se a franquia acabar antes, elas pausam até a data mostrada na tela, e as outras IAs continuam normais com os seus créditos. Avisamos quando você chega a 80%.
+                  Nossos planos incluem IAs de uso justo, que funcionam com uma franquia separada dos seus créditos. A franquia existe para manter o serviço sustentável e justo para todos os usuários do mesmo plano.
                 </p>
+                {POLICY_SECTIONS.map((s) => (
+                  <div key={s.heading}>
+                    <h3 className="text-sm font-bold text-black mb-1">{s.heading}</h3>
+                    <p className="text-xs text-gray-500 leading-relaxed">{s.body}</p>
+                  </div>
+                ))}
               </div>
             </motion.div>
           )}
