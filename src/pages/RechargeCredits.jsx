@@ -40,6 +40,7 @@ export default function RechargeCredits() {
   const [popupUrl, setPopupUrl] = useState(null);
   const [pixModal, setPixModal] = useState({ open: false, data: null });
   const [orderId, setOrderId] = useState(null);
+  const [pendingRecharges, setPendingRecharges] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -56,8 +57,17 @@ export default function RechargeCredits() {
       } catch (e) {
         setBalance(CREDITS_BY_PLAN[plan]?.month || 0);
       }
+
+      try {
+        const pending = await base44.entities.Order.filter({
+          status: "pending",
+          plan: "credits",
+          created_by_id: user?.id
+        });
+        setPendingRecharges(pending.length);
+      } catch (e) {}
     })();
-  }, [plan]);
+  }, [plan, user?.id]);
 
   const amount = isCustom ? Math.max(0, parseFloat(customAmount) || 0) : selectedAmount;
   const credits = Math.round(amount * CREDIT_RATE);
@@ -139,13 +149,15 @@ export default function RechargeCredits() {
               </p>
 
               {/* Pending recharge alert */}
+              {pendingRecharges > 0 &&
               <div className="mb-8">
                 <div className="w-full rounded-xl px-5 py-3 bg-[hsl(var(--accent))]">
                   <p className="text-sm text-gray-700 text-left">
-                    Você tem 1 de 2 recargas aguardando pagamento. No limite, para criar outra, cancele uma delas ou espere vencer.
+                    Você tem {pendingRecharges} de 2 recargas aguardando pagamento. No limite, para criar outra, cancele uma delas ou espere vencer.
                   </p>
                 </div>
               </div>
+              }
 
               {/* Two-column layout */}
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 items-start">
@@ -429,11 +441,13 @@ export default function RechargeCredits() {
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {/* Pending recharge alert */}
+          {pendingRecharges > 0 &&
           <div className="w-full rounded-full bg-[#e5e7eb] px-4 py-2.5">
             <p className="text-xs text-gray-700 text-left">
-              Você tem 1 de 2 recargas aguardando pagamento. No limite, para criar outra, cancele uma delas ou espere vencer.
+              Você tem {pendingRecharges} de 2 recargas aguardando pagamento. No limite, para criar outra, cancele uma delas ou espere vencer.
             </p>
           </div>
+          }
 
           {/* Quanto colocar */}
           <div className="rounded-2xl border border-gray-200 bg-white p-4">
