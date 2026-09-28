@@ -154,12 +154,14 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Footer */}
-      <div className="mt-auto">
-        <p className="text-[11px] font-semibold text-white/90 mb-0.5">Precisa de mais créditos?</p>
-        <p className="text-[10px] text-white/70 mb-3">Créditos avulsos valem 12 meses.</p>
+      <div className="mt-auto flex items-center justify-between gap-4">
+        <div>
+          <p className="text-[11px] font-semibold text-white">Precisa de mais créditos?</p>
+          <p className="text-[10px] text-white/70">Créditos avulsos valem 12 meses.</p>
+        </div>
         <button
           onClick={onReload}
-          className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-[#7C5DCF] text-sm font-semibold hover:bg-white/90 transition-colors"
+          className="flex items-center justify-center gap-1.5 px-5 py-2 rounded-full bg-white text-[#7C5DCF] text-sm font-semibold hover:bg-white/90 transition-colors"
         >
           <Plus className="w-4 h-4" />
           Recarregar
