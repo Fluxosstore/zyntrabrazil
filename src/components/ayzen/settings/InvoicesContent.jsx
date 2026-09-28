@@ -189,6 +189,8 @@ export default function InvoicesContent({ plan = "free" }) {
   // Build invoice rows from orders + subscription
   const invoices = [];
   for (const o of orders) {
+    // Cancelled recharges leave the pending list and disappear from invoices
+    if (o.status === "cancelled") continue;
     const isRecharge = o.plan === "credits";
     const date = formatLongDate(o.created_date);
     const value = formatBRL(o.amount || 0);

@@ -18,7 +18,8 @@
         "premium",
         "team",
         "startup",
-        "enterprise"
+        "enterprise",
+        "credits"
       ]
     },
     "amount": {
@@ -30,7 +31,8 @@
       "description": "Ciclo de cobran\u00e7a",
       "enum": [
         "mensal",
-        "anual"
+        "anual",
+        "avulso"
       ]
     },
     "status": {
