@@ -68,7 +68,7 @@ export default function AccountContent() {
         rpId,
         rpName: "Zyntra",
         userId: startData.userId,
-        userEmail: startData.userEmail,
+        userEmail: startData.userEmail
       });
       await base44.functions.invoke("passkeyAuth", {
         action: "finishRegistration",
@@ -78,7 +78,7 @@ export default function AccountContent() {
         challenge: startData.challenge,
         challengeSignature: startData.challengeSignature,
         deviceName: detectDeviceName(),
-        password: pwdInput,
+        password: pwdInput
       });
       setPwdInput("");
       await loadPasskeys();
@@ -102,7 +102,7 @@ export default function AccountContent() {
   const hasPasskey = passkeys.length > 0;
   const activeLayers = (has2FA ? 1 : 0) + (hasPasskey ? 1 : 0);
   const totalLayers = 2;
-  const layerPct = (activeLayers / totalLayers) * 100;
+  const layerPct = activeLayers / totalLayers * 100;
   const isWeak = activeLayers < 2;
 
   return (
@@ -114,7 +114,7 @@ export default function AccountContent() {
           <p className="text-sm text-gray-500 mt-1">Proteja o acesso à sua conta com verificação em duas etapas e passkeys.</p>
         </div>
 
-        <div className="border-t border-gray-200" />
+        <div className="border-t border-gray-200 hidden" />
 
         {/* Two-column layout */}
         <section className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4">
@@ -126,19 +126,19 @@ export default function AccountContent() {
                 <h2 className="text-base font-bold text-black">Proteção da conta</h2>
                 <p className="text-xs text-gray-500 mt-0.5">{activeLayers} de {totalLayers} camadas ativas</p>
               </div>
-              {isWeak && (
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[#FCE4E4] text-[11px] font-medium text-[#D9534F]">
+              {isWeak &&
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[#FCE4E4] text-[11px] font-medium text-[#D9534F]">
                   Fraca
                 </span>
-              )}
+              }
             </div>
 
             {/* Progress bar */}
             <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden mb-5">
               <div
                 className="h-full rounded-full transition-all duration-700"
-                style={{ width: `${layerPct}%`, backgroundColor: isWeak ? "#F1A4A0" : "#22C55E" }}
-              />
+                style={{ width: `${layerPct}%`, backgroundColor: isWeak ? "#F1A4A0" : "#22C55E" }} />
+              
             </div>
 
             {/* Items */}
@@ -180,21 +180,21 @@ export default function AccountContent() {
                   <button
                     onClick={handleAddPasskeyClick}
                     disabled={passkeyAdding}
-                    className="px-4 py-2 rounded-xl bg-[#7a52d5] text-white text-sm font-medium hover:bg-[#6b4bd0] transition-colors shrink-0 disabled:opacity-50"
-                  >
+                    className="px-4 py-2 rounded-xl bg-[#7a52d5] text-white text-sm font-medium hover:bg-[#6b4bd0] transition-colors shrink-0 disabled:opacity-50">
+                    
                     {passkeyAdding ? "Cadastrando..." : "Adicionar passkey"}
                   </button>
                 </div>
 
                 {/* Passkey list */}
-                {passkeyLoading ? (
-                  <div className="mt-4 flex items-center justify-center py-3">
+                {passkeyLoading ?
+                <div className="mt-4 flex items-center justify-center py-3">
                     <div className="w-5 h-5 border-2 border-gray-200 border-t-gray-400 rounded-full animate-spin" />
-                  </div>
-                ) : passkeys.length > 0 ? (
-                  <div className="mt-4 space-y-2">
-                    {passkeys.map((pk) => (
-                      <div key={pk.id} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50">
+                  </div> :
+                passkeys.length > 0 ?
+                <div className="mt-4 space-y-2">
+                    {passkeys.map((pk) =>
+                  <div key={pk.id} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-gray-50">
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0">
                             <Fingerprint className="w-4 h-4 text-gray-500" />
@@ -205,15 +205,15 @@ export default function AccountContent() {
                           </div>
                         </div>
                         <button
-                          onClick={() => handleDeletePasskey(pk.id)}
-                          className="text-xs text-gray-400 hover:text-red-500 transition-colors shrink-0"
-                        >
+                      onClick={() => handleDeletePasskey(pk.id)}
+                      className="text-xs text-gray-400 hover:text-red-500 transition-colors shrink-0">
+                      
                           Remover
                         </button>
                       </div>
-                    ))}
-                  </div>
-                ) : null}
+                  )}
+                  </div> :
+                null}
               </div>
             </div>
           </div>
@@ -239,27 +239,27 @@ export default function AccountContent() {
         </section>
 
         {/* Admin panel link */}
-        {user?.role === "admin" && (
-          <section>
+        {user?.role === "admin" &&
+        <section>
             <div className="rounded-2xl border border-gray-200 bg-white p-5 flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-bold text-black">Painel de Administração</p>
                 <p className="text-xs text-gray-500 mt-0.5">Gerencie pedidos, usuários, cupons e configurações</p>
               </div>
               <Link
-                to="/admin"
-                className="px-4 py-2 rounded-xl bg-[#1D1D1F] text-white text-sm font-medium hover:bg-black transition-colors shrink-0"
-              >
+              to="/admin"
+              className="px-4 py-2 rounded-xl bg-[#1D1D1F] text-white text-sm font-medium hover:bg-black transition-colors shrink-0">
+              
                 Acessar painel
               </Link>
             </div>
           </section>
-        )}
+        }
       </div>
 
       {/* Password modal for passkey confirmation */}
-      {showPwdModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowPwdModal(false)}>
+      {showPwdModal &&
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowPwdModal(false)}>
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -276,24 +276,24 @@ export default function AccountContent() {
               Digite sua senha para vincular a passkey. Ela será usada para entrar automaticamente com biometria.
             </p>
             <input
-              type="password"
-              value={pwdInput}
-              onChange={(e) => { setPwdInput(e.target.value); setPwdError(""); }}
-              onKeyDown={(e) => { if (e.key === "Enter") handleAddPasskey(); }}
-              autoFocus
-              placeholder="Sua senha"
-              className="w-full h-10 px-3 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+            type="password"
+            value={pwdInput}
+            onChange={(e) => {setPwdInput(e.target.value);setPwdError("");}}
+            onKeyDown={(e) => {if (e.key === "Enter") handleAddPasskey();}}
+            autoFocus
+            placeholder="Sua senha"
+            className="w-full h-10 px-3 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+          
             {pwdError && <p className="mt-2 text-xs text-red-500">{pwdError}</p>}
             <button
-              onClick={handleAddPasskey}
-              className="w-full mt-4 h-10 rounded-lg bg-[#1D1D1F] text-white text-sm font-semibold hover:bg-black transition-colors"
-            >
+            onClick={handleAddPasskey}
+            className="w-full mt-4 h-10 rounded-lg bg-[#1D1D1F] text-white text-sm font-semibold hover:bg-black transition-colors">
+            
               Confirmar e cadastrar
             </button>
           </div>
         </div>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
