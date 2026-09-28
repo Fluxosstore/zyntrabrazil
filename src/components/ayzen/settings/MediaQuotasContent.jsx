@@ -79,52 +79,51 @@ export default function MediaQuotasContent({ plan }) {
 
   return (
     <section>
-      <h2 className="text-base font-bold text-black mb-1">{t("settings.mediaQuotas")}</h2>
-      <p className="text-xs text-gray-500 mb-3">{t("settings.mediaQuotasDesc")}</p>
-      <div className="grid grid-cols-2 gap-4">
-        {items.map((item) => {
-          const isUnlimited = item.quotas === "unlimited";
-          const isNotIncluded = !isUnlimited && item.quotas.day === 0 && item.quotas.week === 0 && item.quotas.month === 0;
+      <h2 className="text-base font-bold text-black mb-1">Consumo por IA</h2>
+      <p className="text-xs text-gray-500 mb-3">Acompanhe o uso de cada modelo disponível no seu plano.</p>
+      <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+        {/* Header */}
+        <div className="grid grid-cols-[2fr_1.2fr_2fr_1fr] gap-4 px-5 py-3 border-b border-gray-200">
+          <span className="text-xs font-medium text-gray-500">IA</span>
+          <span className="text-xs font-medium text-gray-500">Custo</span>
+          <span className="text-xs font-medium text-gray-500">Na semana</span>
+          <span className="text-xs font-medium text-gray-500">Mensagens</span>
+        </div>
+        {/* Rows */}
+        {items.map((item, i) => {
           const modelUsage = usageCounts[item.name] || { day: 0, week: 0, month: 0, total: 0 };
-
+          const isUnlimited = item.quotas === "unlimited";
+          const weekLimit = isUnlimited ? 0 : (item.quotas.week > 0 ? item.quotas.week : item.quotas.month);
+          const weekPct = weekLimit > 0 ? Math.min(100, Math.round((modelUsage.week / weekLimit) * 100)) : 0;
+          const isLast = i === items.length - 1;
           return (
-            <div key={item.id} className="rounded-2xl border border-gray-200 bg-white p-5">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
-                    {item.logo ? (
-                      <img src={item.logo} alt={item.name} className="w-5 h-5 object-contain" />
-                    ) : (
-                      <Volume2 className="w-4 h-4 text-gray-600" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-black leading-tight">{item.name}</p>
-                    <p className="text-[10px] font-semibold tracking-wider text-gray-400">{t(item.catKey)}</p>
-                  </div>
+            <div key={item.id} className={`grid grid-cols-[2fr_1.2fr_2fr_1fr] gap-4 px-5 py-4 items-center ${!isLast ? "border-b border-gray-100" : ""}`}>
+              {/* IA */}
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                  {item.logo ? (
+                    <img src={item.logo} alt={item.name} className="w-5 h-5 object-contain" />
+                  ) : (
+                    <Volume2 className="w-4 h-4 text-gray-600" />
+                  )}
                 </div>
+                <span className="text-sm font-medium text-black truncate">{item.name}</span>
               </div>
-
-              {isUnlimited ? (
-                <>
-                  <p className="text-lg font-bold text-black">{t("settings.mediaUnlimited")}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">{t("settings.mediaGenerated", { n: modelUsage.total })}</p>
-                </>
-              ) : isNotIncluded ? (
-                <p className="text-sm text-gray-400 mt-1">{t("settings.mediaNotIncluded")}</p>
-              ) : (
-                <div className="space-y-2">
-                  {item.quotas.day > 0 && (
-                    <QuotaRow label={t("settings.mediaDay")} consumed={modelUsage.day} limit={item.quotas.day} />
-                  )}
-                  {item.quotas.week > 0 && (
-                    <QuotaRow label={t("settings.mediaWeek")} consumed={modelUsage.week} limit={item.quotas.week} />
-                  )}
-                  {item.quotas.month > 0 && (
-                    <QuotaRow label={t("settings.mediaMonth")} consumed={modelUsage.month} limit={item.quotas.month} />
-                  )}
+              {/* Custo */}
+              <div>
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[#F3F4F6] text-[11px] font-medium text-gray-600">
+                  Usa créditos
+                </span>
+              </div>
+              {/* Na semana */}
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                  <div className="h-full bg-gray-700 rounded-full transition-all duration-700" style={{ width: `${weekPct}%` }} />
                 </div>
-              )}
+                <span className="text-xs font-medium text-gray-600 tabular-nums w-9 text-right">{weekPct}%</span>
+              </div>
+              {/* Mensagens */}
+              <span className="text-xs text-gray-500">Sem limite</span>
             </div>
           );
         })}
