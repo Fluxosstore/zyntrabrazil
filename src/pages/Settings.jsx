@@ -413,7 +413,7 @@ export default function Settings() {
         {/* Top bar */}
         <div className="flex items-center justify-between px-8 py-4">
           <div className="flex items-center gap-4">
-            <h1 className="text-lg font-bold text-black shrink-0">{t("settings.title")}</h1>
+            <h1 className="text-sm font-bold text-black shrink-0">{t("settings.title")}</h1>
             <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-100/80">
               {SETTINGS_TABS.map((tab) => (
                 <button
