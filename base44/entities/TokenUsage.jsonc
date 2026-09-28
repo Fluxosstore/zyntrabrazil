@@ -9,6 +9,10 @@
     "model": {
       "type": "string",
       "description": "Modelo de IA usado (ex: gpt, claude, gemini)"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Texto do comando enviado pelo usu\u00e1rio"
     }
   },
   "required": [

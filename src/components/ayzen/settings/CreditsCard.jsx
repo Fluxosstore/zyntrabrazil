@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, ArrowUpRight, Plus, FileText, RefreshCw, FileClock, ChevronRight } from "lucide-react";
+import { Eye, EyeOff, ArrowUpRight, Plus, FileText, RefreshCw, FileClock, ChevronRight, MessageCircle, Sparkles } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
@@ -28,6 +28,7 @@ export default function CreditsCard({ onReload, className = "" }) {
   const credits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
   const [showBalance, setShowBalance] = useState(true);
   const [usage, setUsage] = useState({ monthly: 0, daily: 0, weekly: 0, lastCredit: null });
+  const [movements, setMovements] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -42,6 +43,7 @@ export default function CreditsCard({ onReload, className = "" }) {
         const weekly = records.filter((r) => new Date(r.created_date).getTime() >= weekAgo).reduce((s, r) => s + (r.tokens || 0), 0);
         const lastCredit = records.find((r) => (r.tokens || 0) > 0);
         setUsage({ monthly, daily, weekly, lastCredit });
+        setMovements(records);
       } catch (e) {}
     })();
   }, []);
@@ -54,6 +56,13 @@ export default function CreditsCard({ onReload, className = "" }) {
 
   const planExpires = user?.plan_expires || null;
   const expiryLabel = formatExpiry(planExpires);
+
+  const planRefillDate = (() => {
+    const ref = planExpires ? new Date(planExpires) : new Date();
+    ref.setMonth(ref.getMonth() - 1);
+    if (isNaN(ref.getTime())) return null;
+    return `${ref.getDate()} de ${MONTHS_PT[ref.getMonth()]}.., ${String(ref.getHours()).padStart(2, "0")}:${String(ref.getMinutes()).padStart(2, "0")}`;
+  })();
 
   const lastCreditDate = usage.lastCredit
     ? (() => {
@@ -76,7 +85,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Inner container + Last movements side by side */}
-      <div className="flex gap-4">
+      <div className="relative flex gap-4">
       {/* Inner container */}
       <div className="flex-1 rounded-xl bg-white/10 border border-white/40 p-4">
         {/* Balance */}
@@ -135,21 +144,48 @@ export default function CreditsCard({ onReload, className = "" }) {
         </div>
       </div>
 
-      {/* Last movements */}
-      <div className="w-[38%] self-start pt-4">
-        <p className="text-[11px] font-semibold tracking-wider text-white/70 mb-2.5">ÚLTIMAS MOVIMENTAÇÕES</p>
-        <div className="flex items-start gap-2.5">
-          <RefreshCw className="w-4 h-4 text-white/70 shrink-0 mt-0.5" />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-white/90">Créditos do plano</p>
-            <p className="text-[11px] text-white/70">{lastCreditDate || "—"}</p>
+      {/* Spacer reserves width for the absolute last-movements column */}
+      <div className="w-[38%]" />
+      {/* Last movements - absolute, fills the inner container's height */}
+      <div className="w-[38%] absolute top-0 right-0 bottom-0 flex flex-col overflow-hidden">
+        <p className="text-[11px] font-semibold tracking-wider text-white/70 mb-2.5 pt-4">ÚLTIMAS MOVIMENTAÇÕES</p>
+        <div className="flex-1 overflow-y-auto scrollbar-hide min-h-0 space-y-3 pr-1">
+          {/* Plan credit refill (positive) */}
+          <div className="flex items-start gap-2.5">
+            <RefreshCw className="w-4 h-4 text-white/70 shrink-0 mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-white/90">Créditos do plano</p>
+              <p className="text-[11px] text-white/70">{planRefillDate || "—"}</p>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <CoinStackIcon className="w-3.5 h-3.5 text-white/70" />
+              <p className="text-xs font-semibold text-white">+{formatCredits(credits.month)}</p>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5 shrink-0">
-            <FileText className="w-3.5 h-3.5 text-white/70" />
-            <p className="text-xs font-semibold text-white">+{formatCredits(lastCreditAmount)}</p>
-          </div>
+          {/* Command consumptions (negative) */}
+          {movements.map((m) => {
+            const d = new Date(m.created_date);
+            const ts = `${d.getDate()} de ${MONTHS_PT[d.getMonth()]}., ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+            const title = m.prompt ? (m.prompt.length > 28 ? m.prompt.slice(0, 28) + "…" : m.prompt) : "Comando";
+            return (
+              <div key={m.id} className="flex items-start gap-2.5">
+                <MessageCircle className="w-4 h-4 text-white/70 shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-white/90 truncate">{title}</p>
+                  <p className="text-[11px] text-white/70 flex items-center gap-1 truncate">
+                    {ts}
+                    {m.model && <><Sparkles className="w-3 h-3 shrink-0" /><span className="truncate">{m.model}</span></>}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <CoinStackIcon className="w-3.5 h-3.5 text-white/70" />
+                  <p className="text-xs font-semibold text-white">-{formatCredits(m.tokens || 0)}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <button className="mt-3.5 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors">
+        <button className="mt-3 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors self-start">
           Ver extrato completo <ArrowUpRight className="w-3.5 h-3.5" />
         </button>
       </div>

@@ -261,7 +261,7 @@ export default function Dashboard() {
         });
         const audioUrl = result.data?.url;
         if (!audioUrl) throw new Error("Nenhum áudio retornado");
-        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name, prompt: msg }).then(() => invalidateUsageCache()).catch(() => {});
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
           type: "file",
@@ -293,7 +293,7 @@ export default function Dashboard() {
         });
         const imageUrl = result.data?.url;
         if (!imageUrl) throw new Error("Nenhuma imagem retornada");
-        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name, prompt: msg }).then(() => invalidateUsageCache()).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
@@ -324,7 +324,7 @@ export default function Dashboard() {
           activeConnectorIds
         });
         const _respText = result.data?.content || "";
-        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name, prompt: msg }).then(() => invalidateUsageCache()).catch(() => {});
         setMessages([
         ...newMessages,
         {
@@ -387,7 +387,7 @@ export default function Dashboard() {
         activeConnectorIds
       });
       const _respText = result.data?.content || "";
-      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name }).then(() => invalidateUsageCache()).catch(() => {});
+      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name, prompt: text }).then(() => invalidateUsageCache()).catch(() => {});
       setMessages([
       ...baseMessages,
       {
