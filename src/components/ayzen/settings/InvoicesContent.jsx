@@ -65,9 +65,9 @@ export default function InvoicesContent({ plan = "free" }) {
     setOpenMenuId(inv.id);
   };
 
-  const invoices = isPaid
-    ? [{ id: 1, date: startDate, type: "Assinatura", credits: "—", period: `${startDate} a ${endDate}`, due: dueDate, status: "paid", value }]
-    : [];
+  const invoices = isPaid ?
+  [{ id: 1, date: startDate, type: "Assinatura", credits: "—", period: `${startDate} a ${endDate}`, due: dueDate, status: "paid", value }] :
+  [];
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -78,7 +78,7 @@ export default function InvoicesContent({ plan = "free" }) {
           <p className="text-sm text-gray-500 mt-1">Sua assinatura, suas faturas e suas recargas.</p>
         </div>
 
-        <div className="border-t border-gray-200" />
+        <div className="border-t border-gray-200 hidden" />
 
         {/* Assinatura card */}
         <section>
@@ -123,16 +123,16 @@ export default function InvoicesContent({ plan = "free" }) {
             </div>
 
             {/* Rows */}
-            {invoices.length === 0 ? (
-              <div className="px-5 py-12 flex flex-col items-center justify-center">
+            {invoices.length === 0 ?
+            <div className="px-5 py-12 flex flex-col items-center justify-center">
                 <p className="text-sm text-gray-400">Nenhuma fatura ainda.</p>
-              </div>
-            ) : (
-              invoices.map((inv) => (
-                <div
-                  key={inv.id}
-                  className="grid grid-cols-[1.3fr_0.8fr_0.6fr_1.6fr_1.1fr_0.8fr_0.8fr_48px] gap-3 items-center px-5 py-4 border-b border-gray-100 last:border-b-0"
-                >
+              </div> :
+
+            invoices.map((inv) =>
+            <div
+              key={inv.id}
+              className="grid grid-cols-[1.3fr_0.8fr_0.6fr_1.6fr_1.1fr_0.8fr_0.8fr_48px] gap-3 items-center px-5 py-4 border-b border-gray-100 last:border-b-0">
+              
                   <span className="text-sm text-black">{inv.date}</span>
                   <span>
                     <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium">
@@ -151,44 +151,44 @@ export default function InvoicesContent({ plan = "free" }) {
                   <span className="text-sm font-semibold text-black text-right">{inv.value}</span>
                   <div className="relative justify-self-end" ref={openMenuId === inv.id ? menuRef : null}>
                     <button
-                      onClick={(e) => openMenu(inv, e.currentTarget)}
-                      className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
-                        openMenuId === inv.id ? "bg-gray-100 text-gray-700" : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                      }`}
-                    >
+                  onClick={(e) => openMenu(inv, e.currentTarget)}
+                  className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
+                  openMenuId === inv.id ? "bg-gray-100 text-gray-700" : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"}`
+                  }>
+                  
                       <MoreHorizontal className="w-4 h-4" />
                     </button>
-                    {openMenuId === inv.id && menuPos && (
-                      <div
-                        className="fixed w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 px-1 z-50"
-                        style={{ top: menuPos.top, right: menuPos.right }}
-                      >
+                    {openMenuId === inv.id && menuPos &&
+                <div
+                  className="fixed w-40 bg-white rounded-xl shadow-lg border border-gray-100 py-1 px-1 z-50"
+                  style={{ top: menuPos.top, right: menuPos.right }}>
+                  
                         <button
-                          onClick={() => {
-                            setOpenMenuId(null);
-                            setModalOpen(true);
-                          }}
-                          className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
-                        >
+                    onClick={() => {
+                      setOpenMenuId(null);
+                      setModalOpen(true);
+                    }}
+                    className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left">
+                    
                           <Eye className="w-4 h-4 text-gray-500" />
                           Visualizar
                         </button>
                         <button
-                          onClick={() => {
-                            setOpenMenuId(null);
-                            window.print();
-                          }}
-                          className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left"
-                        >
+                    onClick={() => {
+                      setOpenMenuId(null);
+                      window.print();
+                    }}
+                    className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition-colors text-left">
+                    
                           <Download className="w-4 h-4 text-gray-500" />
                           Comprovante
                         </button>
                       </div>
-                    )}
+                }
                   </div>
                 </div>
-              ))
-            )}
+            )
+            }
 
             {/* Footer */}
             <div className="flex items-center justify-between px-5 py-3 border-t border-gray-100">
@@ -220,8 +220,8 @@ export default function InvoicesContent({ plan = "free" }) {
         value={value}
         date={subDate}
         userEmail={user?.email}
-        userName={user?.full_name}
-      />
-    </div>
-  );
+        userName={user?.full_name} />
+      
+    </div>);
+
 }
