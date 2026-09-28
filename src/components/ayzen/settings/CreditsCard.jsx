@@ -68,10 +68,10 @@ export default function CreditsCard({ onReload, className = "" }) {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold">Créditos</h3>
-        <button className="flex items-center gap-1.5 text-[11px] text-white border border-white rounded-full px-3 py-1 hover:bg-white/10 transition-colors">
-          <FileClock className="w-3 h-3" />
+        <button className="flex items-center gap-1.5 text-xs text-white border border-white rounded-full px-3.5 py-1.5 hover:bg-white/10 transition-colors">
+          <FileClock className="w-3.5 h-3.5" />
           Ver extrato
-          <ChevronRight className="w-3 h-3" />
+          <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
@@ -79,24 +79,24 @@ export default function CreditsCard({ onReload, className = "" }) {
       <div className="rounded-xl bg-white/10 border border-white/40 p-4">
         {/* Balance */}
         <div className="mb-4">
-          <div className="flex items-center gap-1.5 mb-1">
-            <span className="text-[11px] text-white/80">Disponíveis agora</span>
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <span className="text-xs text-white/80">Disponíveis agora</span>
             <button onClick={() => setShowBalance((v) => !v)} className="text-white/70 hover:text-white">
-              {showBalance ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+              {showBalance ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <div className="flex items-center gap-2">
-            <CoinStackIcon className="w-6 h-6 text-white/90 shrink-0" />
-            <p className="text-3xl font-bold tracking-tight">
+          <div className="flex items-center gap-2.5">
+            <CoinStackIcon className="w-7 h-7 text-white/90 shrink-0" />
+            <p className="text-4xl font-bold tracking-tight">
               {showBalance ? formatCredits(available) : "•••••"}
             </p>
           </div>
-          <div className="mt-3 flex items-end justify-between">
+          <div className="mt-4 flex items-end justify-between">
             <div>
-              <p className="text-[10px] font-semibold tracking-wider text-white/70">Validade</p>
-              <p className="text-[11px] text-white/90">Do plano</p>
+              <p className="text-[11px] font-semibold tracking-wider text-white/70">Validade</p>
+              <p className="text-xs text-white/90">Do plano</p>
             </div>
-            <p className="text-[11px] text-white/90 text-right">
+            <p className="text-xs text-white/90 text-right">
               {expiryLabel ? `${formatCredits(available)} até ${expiryLabel}` : "—"}
             </p>
           </div>
@@ -104,28 +104,28 @@ export default function CreditsCard({ onReload, className = "" }) {
 
         {/* Usage pace */}
         <div className="border-t border-white/20 pt-4">
-          <p className="text-[11px] font-semibold text-white/90 mb-1">Ritmo de uso</p>
-          <p className="text-[10px] text-white/70 mb-3 leading-relaxed">
+          <p className="text-sm font-semibold text-white/90 mb-1">Ritmo de uso</p>
+          <p className="text-xs text-white/70 mb-4 leading-relaxed">
             Os créditos voltam aos poucos, conforme o consumo antigo sai da janela.
           </p>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {/* 24h */}
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-[11px] text-white/80">Últimas 24 horas</span>
-                <span className="text-[11px] font-medium text-white">{formatCredits(usage.daily)} de {formatCredits(dailyLimit)}</span>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-white/80">Últimas 24 horas</span>
+                <span className="text-xs font-medium text-white">{formatCredits(usage.daily)} de {formatCredits(dailyLimit)}</span>
               </div>
-              <div className="h-1.5 rounded-full bg-white/20 overflow-hidden">
+              <div className="h-2.5 rounded-full bg-white/20 overflow-hidden">
                 <div className="h-full bg-white rounded-full transition-all duration-700" style={{ width: `${dailyPct}%` }} />
               </div>
             </div>
             {/* 7d */}
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-[11px] text-white/80">Últimos 7 dias</span>
-                <span className="text-[11px] font-medium text-white">{formatCredits(usage.weekly)} de {formatCredits(weeklyLimit)}</span>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-white/80">Últimos 7 dias</span>
+                <span className="text-xs font-medium text-white">{formatCredits(usage.weekly)} de {formatCredits(weeklyLimit)}</span>
               </div>
-              <div className="h-1.5 rounded-full bg-white/20 overflow-hidden">
+              <div className="h-2.5 rounded-full bg-white/20 overflow-hidden">
                 <div className="h-full bg-white rounded-full transition-all duration-700" style={{ width: `${weeklyPct}%` }} />
               </div>
             </div>
@@ -135,28 +135,28 @@ export default function CreditsCard({ onReload, className = "" }) {
 
       {/* Last movements */}
       <div className="my-auto">
-        <p className="text-[10px] font-semibold tracking-wider text-white/70 mb-2">ÚLTIMAS MOVIMENTAÇÕES</p>
-        <div className="flex items-start gap-2">
-          <RefreshCw className="w-3.5 h-3.5 text-white/70 shrink-0 mt-0.5" />
+        <p className="text-[11px] font-semibold tracking-wider text-white/70 mb-2.5">ÚLTIMAS MOVIMENTAÇÕES</p>
+        <div className="flex items-start gap-2.5">
+          <RefreshCw className="w-4 h-4 text-white/70 shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
-            <p className="text-[11px] text-white/90">Créditos do plano</p>
-            <p className="text-[10px] text-white/70">{lastCreditDate || "—"}</p>
+            <p className="text-xs text-white/90">Créditos do plano</p>
+            <p className="text-[11px] text-white/70">{lastCreditDate || "—"}</p>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
-            <FileText className="w-3 h-3 text-white/70" />
-            <p className="text-[11px] font-semibold text-white">+{formatCredits(lastCreditAmount)}</p>
+            <FileText className="w-3.5 h-3.5 text-white/70" />
+            <p className="text-xs font-semibold text-white">+{formatCredits(lastCreditAmount)}</p>
           </div>
         </div>
-        <button className="mt-3 flex items-center gap-1 text-[11px] text-white/80 hover:text-white transition-colors">
-          Ver extrato completo <ArrowUpRight className="w-3 h-3" />
+        <button className="mt-3.5 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors">
+          Ver extrato completo <ArrowUpRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Footer */}
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-[11px] font-semibold text-white">Precisa de mais créditos?</p>
-          <p className="text-[10px] text-white/70">Créditos avulsos valem 12 meses.</p>
+          <p className="text-xs font-semibold text-white">Precisa de mais créditos?</p>
+          <p className="text-[11px] text-white/70">Créditos avulsos valem 12 meses.</p>
         </div>
         <button
           onClick={onReload}
