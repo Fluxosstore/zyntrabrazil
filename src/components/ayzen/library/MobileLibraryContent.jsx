@@ -182,6 +182,9 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
         {Object.entries(grouped).map(([model, modelItems]) => (
           <div key={model}>
             <div className="flex items-center gap-2 mb-2.5">
+              <div className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+                <img src={getModelLogo(model)} alt="" className="w-4 h-4 object-contain" />
+              </div>
               <h2 className="text-sm font-bold text-black">{model}</h2>
               <span className="px-2 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-500">
                 {modelItems.length}
@@ -264,23 +267,24 @@ function SimpleResponseCard({ item }) {
 
 function DetailedResponseCard({ item, onDelete, onEdit }) {
   return (
-    <div className="p-3.5 bg-[#F5F5F5] rounded-xl">
-      <div className="flex items-center gap-2 mb-2.5">
-        <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0 overflow-hidden">
-          <img src={getModelLogo(item.model)} alt="" className="w-4 h-4 object-contain" />
+    <div className="p-3.5 bg-white border border-gray-200 rounded-2xl">
+      <div className="flex items-start justify-between mb-2.5">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
+            <img src={getModelLogo(item.model)} alt="" className="w-4 h-4 object-contain" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-black leading-tight">{item.model || "ChatGPT"}</p>
+            <p className="text-xs text-gray-500 mt-0.5">{formatDate(item.created_date)}</p>
+          </div>
         </div>
-        <span className="text-sm font-semibold text-black">{item.model || "ChatGPT"}</span>
-        <span className="text-xs text-gray-500 ml-auto">{formatDate(item.created_date)}</span>
-      </div>
-      <div className="flex items-start gap-2">
-        <p className="flex-1 text-sm text-gray-700 leading-relaxed">{item.title || item.prompt}</p>
         <div className="flex items-center gap-1 shrink-0">
-          <button className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 active:bg-gray-200">
+          <button className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 active:bg-gray-100">
             <Copy className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => onEdit(item)}
-            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 active:bg-gray-200"
+            className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 active:bg-gray-100"
           >
             <MessageSquarePlus className="w-3.5 h-3.5" />
           </button>
@@ -292,6 +296,7 @@ function DetailedResponseCard({ item, onDelete, onEdit }) {
           </button>
         </div>
       </div>
+      <p className="text-sm text-gray-700 leading-relaxed">{item.title || item.prompt}</p>
     </div>
   );
 }
