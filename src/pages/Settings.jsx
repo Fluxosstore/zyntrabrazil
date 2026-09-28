@@ -432,13 +432,13 @@ export default function Settings() {
             </nav>
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-200">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-200">
               <Coins className="w-3.5 h-3.5 text-gray-500" />
               <span className="text-xs font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
             </div>
             <button
               onClick={() => navigate("/plan-selection")}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors"
             >
               Recarregar
             </button>
