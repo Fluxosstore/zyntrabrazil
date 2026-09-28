@@ -127,7 +127,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             </div>
 
             {/* Nav */}
-            <div className="px-3 space-y-0.5">
+            <div className="px-3 space-y-1.5">
               <button
                 onClick={handleNewConversation}
                 className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white text-sm font-medium hover:opacity-90 transition-opacity">
