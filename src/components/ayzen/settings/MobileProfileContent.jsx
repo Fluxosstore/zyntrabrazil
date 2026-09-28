@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShieldCheck, Fingerprint, Eye, EyeOff, ChevronRight, ChevronDown, MessageCircle, RefreshCw, ArrowUpRight, Sparkles, Volume2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
@@ -61,6 +62,7 @@ export default function MobileProfileContent({ onNavigate }) {
   const [showBalance, setShowBalance] = useState(true);
   const [usage, setUsage] = useState({ monthly: 0, daily: 0, weekly: 0 });
   const [movements, setMovements] = useState([]);
+  const [policyOpen, setPolicyOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -379,17 +381,28 @@ export default function MobileProfileContent({ onNavigate }) {
           })}
         </div>
         {/* Footer */}
-        <div className="border-t border-gray-100 px-4 py-3 flex items-center justify-between">
+        <button
+          onClick={() => setPolicyOpen((v) => !v)}
+          className="w-full border-t border-gray-100 px-4 py-3 flex items-center justify-between transition-colors hover:bg-gray-50">
           <span className="text-xs font-medium text-black">Ler a política de uso justo</span>
-          <ChevronDown className="w-4 h-4 text-black" />
-        </div>
-      </div>
-
-      {/* Feedback button */}
-      <div className="flex justify-end">
-        <button className="px-5 py-2.5 rounded-xl bg-[#311b92] text-white text-sm font-semibold hover:bg-[#281470] transition-colors">
-          Feedback
+          <ChevronDown className={`w-4 h-4 text-black transition-transform duration-200 ${policyOpen ? "rotate-180" : ""}`} />
         </button>
+        <AnimatePresence>
+          {policyOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="overflow-hidden">
+              <div className="px-4 pb-4 pt-1">
+                <p className="text-xs text-gray-500 leading-relaxed">
+                  As IAs de uso justo não gastam seus créditos: elas têm uma franquia própria, que renova junto com os créditos. Se a franquia acabar antes, elas pausam até a data mostrada na tela, e as outras IAs continuam normais com os seus créditos. Avisamos quando você chega a 80%.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
