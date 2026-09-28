@@ -247,7 +247,7 @@ function UsageContent({ onNavigate }) {
         </section>
 
         {/* Visão geral */}
-        <section>
+        <section className="hidden">
           <h2 className="text-base font-bold text-black mb-1">{t("settings.overview")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.overviewSubtitle")}</p>
           <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
@@ -289,7 +289,7 @@ function UsageContent({ onNavigate }) {
         </section>
 
         {/* Tokens do plano */}
-        <section>
+        <section className="hidden">
           <h2 className="text-base font-bold text-black mb-1">{t("settings.tokensPlan")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.tokensPlanDesc")}</p>
           <div className="grid grid-cols-2 gap-4">
