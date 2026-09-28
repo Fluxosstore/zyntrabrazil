@@ -5,11 +5,26 @@ import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import AutomationCatalog from "@/components/ayzen/automations/AutomationCatalog";
 import MobileAutomationCard from "@/components/ayzen/automations/MobileAutomationCard";
+import NewAutomationModal from "@/components/ayzen/automations/NewAutomationModal";
 import { AUTOMATION_TEMPLATES } from "@/components/ayzen/automations/automationTemplates";
 
 export default function Automations() {
   const { t } = useLanguage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [prefill, setPrefill] = useState(null);
+
+  const openModal = (tpl) => {
+    if (tpl) {
+      setPrefill({
+        name: tpl.title,
+        instructions: tpl.desc,
+      });
+    } else {
+      setPrefill(null);
+    }
+    setModalOpen(true);
+  };
 
   return (
     <>
@@ -92,7 +107,10 @@ export default function Automations() {
               ))}
             </div>
 
-            <button className="mt-5 flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors">
+            <button
+              onClick={() => openModal(null)}
+              className="mt-5 flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors"
+            >
               <Plus className="w-4 h-4" />
               {t("auto.newAutomation")}
             </button>
@@ -103,7 +121,10 @@ export default function Automations() {
             <h2 className="text-base font-bold text-black">{t("auto.createFirst")}</h2>
             <p className="text-xs text-gray-500 mt-1">{t("auto.createFirstDesc")}</p>
 
-            <button className="mt-3 w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors">
+            <button
+              onClick={() => openModal(null)}
+              className="mt-3 w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-[#7B5BC8] text-white text-sm font-medium active:bg-[#6A4DB8] transition-colors"
+            >
               <Plus className="w-4 h-4" />
               {t("auto.newAutomation")}
             </button>
@@ -111,13 +132,19 @@ export default function Automations() {
             {/* Template list */}
             <div className="mt-4 space-y-2">
               {AUTOMATION_TEMPLATES.map((tpl) => (
-                <MobileAutomationCard key={tpl.id} template={tpl} />
+                <MobileAutomationCard key={tpl.id} template={tpl} onClick={() => openModal(tpl)} />
               ))}
             </div>
           </div>
         </div>
 
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <NewAutomationModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onCreated={() => {}}
+          prefill={prefill}
+        />
       </div>
     </>
   );

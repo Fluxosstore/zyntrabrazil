@@ -12,12 +12,12 @@ const ICONS = {
   TrendingUp, AlertCircle, Cake, Clock, Zap, Bell,
 };
 
-export default function MobileAutomationCard({ template, onClick }) {
+export default function MobileAutomationCard({ template, onClick: onClickProp }) {
   const Icon = ICONS[template.icon] || Clock;
 
   return (
     <button
-      onClick={() => onClick?.(template)}
+      onClick={onClickProp}
       className="w-full flex items-center gap-3 px-3 py-3 bg-[#F4F4F6] rounded-2xl text-left active:bg-gray-200/70 transition-colors"
     >
       <div className="w-10 h-10 rounded-full bg-[#F3EEFF] flex items-center justify-center shrink-0">

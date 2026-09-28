@@ -1,0 +1,73 @@
+{
+  "name": "Automation",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome da automa\u00e7\u00e3o"
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "diaria",
+        "dias_uteis",
+        "semanal",
+        "mensal"
+      ],
+      "description": "Frequ\u00eancia de execu\u00e7\u00e3o",
+      "default": "diaria"
+    },
+    "time_hour": {
+      "type": "number",
+      "description": "Hora de execu\u00e7\u00e3o (0-23)",
+      "default": 8
+    },
+    "time_minute": {
+      "type": "number",
+      "description": "Minuto de execu\u00e7\u00e3o (0-59)",
+      "default": 0
+    },
+    "instructions": {
+      "type": "string",
+      "description": "Instru\u00e7\u00f5es do que a IA deve fazer"
+    },
+    "model": {
+      "type": "string",
+      "description": "Modelo de IA escolhido"
+    },
+    "backup_model": {
+      "type": "string",
+      "description": "IA reserva (modelo alternativo)"
+    },
+    "web_search": {
+      "type": "boolean",
+      "description": "Se a busca na web est\u00e1 ativa",
+      "default": false
+    },
+    "team_of_ais": {
+      "type": "boolean",
+      "description": "Se executa com Time de IAs",
+      "default": false
+    },
+    "notify_only_relevant": {
+      "type": "boolean",
+      "description": "Avisar somente quando houver algo relevante",
+      "default": false
+    },
+    "deliver_telegram": {
+      "type": "boolean",
+      "description": "Entregar resultado no Telegram",
+      "default": false
+    },
+    "active": {
+      "type": "boolean",
+      "description": "Se a automa\u00e7\u00e3o est\u00e1 ativa",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "instructions",
+    "frequency"
+  ]
+}
