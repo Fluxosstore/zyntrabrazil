@@ -11,10 +11,10 @@ import PixPaymentModal from "@/components/ayzen/PixPaymentModal";
 const CREDIT_RATE = 4000; // créditos por R$ 1
 
 const AMOUNT_OPTIONS = [
-  { value: 20, label: "R$ 20,00", credits: 80000 },
-  { value: 50, label: "R$ 50,00", credits: 200000 },
-  { value: 100, label: "R$ 100,00", credits: 400000 },
-];
+{ value: 20, label: "R$ 20,00", credits: 80000 },
+{ value: 50, label: "R$ 50,00", credits: 200000 },
+{ value: 100, label: "R$ 100,00", credits: 400000 }];
+
 
 function formatCredits(n) {
   return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -46,9 +46,9 @@ export default function RechargeCredits() {
       try {
         const records = await base44.entities.TokenUsage.list("-created_date", 500);
         const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
-        const monthly = records
-          .filter((r) => new Date(r.created_date).getTime() >= monthStart)
-          .reduce((s, r) => s + (r.tokens || 0), 0);
+        const monthly = records.
+        filter((r) => new Date(r.created_date).getTime() >= monthStart).
+        reduce((s, r) => s + (r.tokens || 0), 0);
         const credits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
         setBalance(Math.max(0, credits.month - monthly));
       } catch (e) {
@@ -61,13 +61,13 @@ export default function RechargeCredits() {
   const credits = Math.round(amount * CREDIT_RATE);
 
   const installmentOptions = [
-    { count: 1, label: "À vista", value: amount },
-    { count: 2, label: "2x", value: amount / 2 },
-    { count: 3, label: "3x", value: amount / 3 },
-    { count: 4, label: "4x", value: amount / 4 },
-    { count: 5, label: "5x", value: amount / 5 },
-    { count: 6, label: "6x", value: amount / 6 },
-  ];
+  { count: 1, label: "À vista", value: amount },
+  { count: 2, label: "2x", value: amount / 2 },
+  { count: 3, label: "3x", value: amount / 3 },
+  { count: 4, label: "4x", value: amount / 4 },
+  { count: 5, label: "5x", value: amount / 5 },
+  { count: 6, label: "6x", value: amount / 6 }];
+
 
   const canPay = amount > 0 && paymentMethod !== null;
 
@@ -81,7 +81,7 @@ export default function RechargeCredits() {
           planId: "credits",
           cycle: "avulso",
           amount: amount,
-          planName: "Créditos avulsos",
+          planName: "Créditos avulsos"
         });
         setOrderId(res.order_id);
         setPixModal({
@@ -90,8 +90,8 @@ export default function RechargeCredits() {
             qrCodeBase64: res.qr_code_base64,
             pixCode: res.qr_code,
             amount: formatBRL(amount),
-            orderId: res.order_id,
-          },
+            orderId: res.order_id
+          }
         });
         setPaying(false);
       } else if (paymentMethod === "cartao") {
@@ -124,8 +124,8 @@ export default function RechargeCredits() {
               {/* Back link */}
               <button
                 onClick={() => navigate("/settings")}
-                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors mb-4"
-              >
+                className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors mb-4">
+                
                 <ChevronLeft className="w-4 h-4" />
                 Voltar para a carteira
               </button>
@@ -138,7 +138,7 @@ export default function RechargeCredits() {
 
               {/* Pending recharge alert */}
               <div className="mb-8">
-                <div className="w-full rounded-xl bg-[#e5e7eb] px-5 py-3">
+                <div className="w-full rounded-xl px-5 py-3 bg-[hsl(var(--accent))]">
                   <p className="text-sm text-gray-700 text-left">
                     Você tem 1 de 2 recargas aguardando pagamento. No limite, para criar outra, cancele uma delas ou espere vencer.
                   </p>
@@ -164,62 +164,62 @@ export default function RechargeCredits() {
                               setSelectedAmount(opt.value);
                             }}
                             className={`relative rounded-xl border p-4 text-left transition-all ${
-                              selected
-                                ? "border-black border-2 bg-white"
-                                : "border-gray-200 bg-white hover:border-gray-300"
-                            }`}
-                          >
-                            {selected && (
-                              <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                            selected ?
+                            "border-black border-2 bg-white" :
+                            "border-gray-200 bg-white hover:border-gray-300"}`
+                            }>
+                            
+                            {selected &&
+                            <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                                 <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                               </div>
-                            )}
+                            }
                             <p className="text-sm font-bold text-black">{opt.label}</p>
                             <p className="text-xs text-gray-500 mt-0.5">{formatCredits(opt.credits)} créditos</p>
-                          </button>
-                        );
+                          </button>);
+
                       })}
                       {/* Outro valor */}
                       <button
                         onClick={() => setIsCustom(true)}
                         className={`relative rounded-xl border p-4 text-left transition-all ${
-                          isCustom
-                            ? "border-black border-2 bg-white"
-                            : "border-gray-200 bg-white hover:border-gray-300"
-                        }`}
-                      >
-                        {isCustom && (
-                          <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                        isCustom ?
+                        "border-black border-2 bg-white" :
+                        "border-gray-200 bg-white hover:border-gray-300"}`
+                        }>
+                        
+                        {isCustom &&
+                        <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                             <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                           </div>
-                        )}
+                        }
                         <p className="text-sm font-bold text-black">Outro valor</p>
                         <p className="text-xs text-gray-500 mt-0.5">você escolhe</p>
                       </button>
                     </div>
 
                     {/* Custom amount input */}
-                    {isCustom && (
-                      <div className="mt-3">
+                    {isCustom &&
+                    <div className="mt-3">
                         <div className="relative">
                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500">R$</span>
                           <input
-                            type="number"
-                            value={customAmount}
-                            onChange={(e) => setCustomAmount(e.target.value)}
-                            placeholder="0,00"
-                            min="5"
-                            autoFocus
-                            className="w-full h-12 pl-10 pr-4 rounded-xl border border-gray-200 bg-white text-sm font-medium text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-400"
-                          />
+                          type="number"
+                          value={customAmount}
+                          onChange={(e) => setCustomAmount(e.target.value)}
+                          placeholder="0,00"
+                          min="5"
+                          autoFocus
+                          className="w-full h-12 pl-10 pr-4 rounded-xl border border-gray-200 bg-white text-sm font-medium text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
+                        
                         </div>
-                        {customAmount && parseFloat(customAmount) > 0 && (
-                          <p className="text-xs text-gray-500 mt-2">
+                        {customAmount && parseFloat(customAmount) > 0 &&
+                      <p className="text-xs text-gray-500 mt-2">
                             {formatCredits(credits)} créditos
                           </p>
-                        )}
+                      }
                       </div>
-                    )}
+                    }
                   </div>
 
                   {/* Como pagar */}
@@ -234,16 +234,16 @@ export default function RechargeCredits() {
                           setPaymentOpen(false);
                         }}
                         className={`relative rounded-xl border p-4 flex items-center gap-3 transition-all ${
-                          paymentMethod === "pix"
-                            ? "border-black border-2 bg-white"
-                            : "border-gray-200 bg-white hover:border-gray-300"
-                        }`}
-                      >
-                        {paymentMethod === "pix" && (
-                          <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                        paymentMethod === "pix" ?
+                        "border-black border-2 bg-white" :
+                        "border-gray-200 bg-white hover:border-gray-300"}`
+                        }>
+                        
+                        {paymentMethod === "pix" &&
+                        <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                             <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                           </div>
-                        )}
+                        }
                         <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center shrink-0">
                           <Grid3x3 className="w-5 h-5 text-gray-700" />
                         </div>
@@ -260,16 +260,16 @@ export default function RechargeCredits() {
                           setInstallments(1);
                         }}
                         className={`relative rounded-xl border p-4 flex items-center gap-3 transition-all ${
-                          paymentMethod === "cartao"
-                            ? "border-black border-2 bg-white"
-                            : "border-gray-200 bg-white hover:border-gray-300"
-                        }`}
-                      >
-                        {paymentMethod === "cartao" && (
-                          <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                        paymentMethod === "cartao" ?
+                        "border-black border-2 bg-white" :
+                        "border-gray-200 bg-white hover:border-gray-300"}`
+                        }>
+                        
+                        {paymentMethod === "cartao" &&
+                        <div className="absolute top-2 right-2 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                             <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                           </div>
-                        )}
+                        }
                         <div className="w-10 h-10 rounded-lg bg-gray-50 flex items-center justify-center shrink-0">
                           <CreditCard className="w-5 h-5 text-gray-700" />
                         </div>
@@ -282,36 +282,36 @@ export default function RechargeCredits() {
                   </div>
 
                   {/* Até quantas parcelas (only when Cartão selected) */}
-                  {paymentMethod === "cartao" && (
-                    <>
+                  {paymentMethod === "cartao" &&
+                  <>
                       <div className="rounded-2xl border border-gray-200 bg-white p-5">
                         <h2 className="text-base font-bold text-black mb-1">Até quantas parcelas</h2>
                         <p className="text-xs text-gray-500 mb-4">Divida em até 6x no cartão.</p>
                         <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                           {installmentOptions.map((opt) => {
-                            const selected = installments === opt.count;
-                            return (
-                              <button
-                                key={opt.count}
-                                onClick={() => setInstallments(opt.count)}
-                                className={`relative rounded-xl border p-3 text-left transition-all ${
-                                  selected
-                                    ? "border-black border-2 bg-white"
-                                    : "border-gray-200 bg-white hover:border-gray-300"
-                                }`}
-                              >
-                                {selected && (
-                                  <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                          const selected = installments === opt.count;
+                          return (
+                            <button
+                              key={opt.count}
+                              onClick={() => setInstallments(opt.count)}
+                              className={`relative rounded-xl border p-3 text-left transition-all ${
+                              selected ?
+                              "border-black border-2 bg-white" :
+                              "border-gray-200 bg-white hover:border-gray-300"}`
+                              }>
+                              
+                                {selected &&
+                              <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                                     <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                                   </div>
-                                )}
+                              }
                                 <p className="text-sm font-bold text-black">{opt.label}</p>
                                 <p className="text-xs text-gray-500 mt-0.5">
                                   {opt.count === 1 ? formatBRL(opt.value) : `${formatBRL(opt.value)} cada`}
                                 </p>
-                              </button>
-                            );
-                          })}
+                              </button>);
+
+                        })}
                         </div>
                         <p className="text-xs text-gray-400 mt-3">Cada parcela tem no mínimo R$ 5,00.</p>
                       </div>
@@ -347,7 +347,7 @@ export default function RechargeCredits() {
                         </p>
                       </div>
                     </>
-                  )}
+                  }
                 </div>
 
                 {/* Right column - Summary */}
@@ -371,8 +371,8 @@ export default function RechargeCredits() {
                       </div>
                     </div>
 
-                    {paymentOpen && paymentMethod === "cartao" ? (
-                      <div className="rounded-xl bg-white/10 p-4 mb-5">
+                    {paymentOpen && paymentMethod === "cartao" ?
+                    <div className="rounded-xl bg-white/10 p-4 mb-5">
                         <div className="flex items-center gap-2 mb-2">
                           <div className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0">
                             <Loader2 className="w-3 h-3 animate-spin" />
@@ -383,26 +383,26 @@ export default function RechargeCredits() {
                           Termine o pagamento lá. Avisamos aqui assim que o crédito entrar.
                         </p>
                         <button
-                          onClick={() => popupUrl && window.open(popupUrl, "_blank")}
-                          className="text-xs text-white underline hover:text-white/80 transition-colors"
-                        >
+                        onClick={() => popupUrl && window.open(popupUrl, "_blank")}
+                        className="text-xs text-white underline hover:text-white/80 transition-colors">
+                        
                           Abrir a aba de novo
                         </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={handlePay}
-                        disabled={!canPay || paying}
-                        className="w-full h-12 rounded-xl bg-white text-[#7C5DCF] text-sm font-bold hover:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-4"
-                      >
-                        {paying ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <CoinStackIcon className="w-4 h-4" />
-                        )}
+                      </div> :
+
+                    <button
+                      onClick={handlePay}
+                      disabled={!canPay || paying}
+                      className="w-full h-12 rounded-xl bg-white text-[#7C5DCF] text-sm font-bold hover:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-4">
+                      
+                        {paying ?
+                      <Loader2 className="w-4 h-4 animate-spin" /> :
+
+                      <CoinStackIcon className="w-4 h-4" />
+                      }
                         {paying ? "Processando..." : `Pagar ${formatBRL(amount)}`}
                       </button>
-                    )}
+                    }
 
                     <p className="text-[11px] text-white/60 text-center">Nenhuma recarga neste ciclo</p>
                   </div>
@@ -418,8 +418,8 @@ export default function RechargeCredits() {
         <div className="flex items-center gap-2 px-4 py-3 bg-white border-b border-gray-200">
           <button
             onClick={() => navigate("/settings")}
-            className="w-8 h-8 flex items-center justify-center -ml-1 text-gray-700 active:bg-gray-100 rounded-lg"
-          >
+            className="w-8 h-8 flex items-center justify-center -ml-1 text-gray-700 active:bg-gray-100 rounded-lg">
+            
             <ChevronLeft className="w-5 h-5" />
           </button>
           <span className="text-base font-bold text-black">Recarregar créditos</span>
@@ -448,47 +448,47 @@ export default function RechargeCredits() {
                       setSelectedAmount(opt.value);
                     }}
                     className={`relative rounded-xl border p-3 text-left transition-all ${
-                      selected ? "border-black border-2" : "border-gray-200"
-                    }`}
-                  >
-                    {selected && (
-                      <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                    selected ? "border-black border-2" : "border-gray-200"}`
+                    }>
+                    
+                    {selected &&
+                    <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                         <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                       </div>
-                    )}
+                    }
                     <p className="text-sm font-bold text-black">{opt.label}</p>
                     <p className="text-xs text-gray-500">{formatCredits(opt.credits)} créditos</p>
-                  </button>
-                );
+                  </button>);
+
               })}
               <button
                 onClick={() => setIsCustom(true)}
                 className={`relative rounded-xl border p-3 text-left transition-all ${
-                  isCustom ? "border-black border-2" : "border-gray-200"
-                }`}
-              >
-                {isCustom && (
-                  <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                isCustom ? "border-black border-2" : "border-gray-200"}`
+                }>
+                
+                {isCustom &&
+                <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                     <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                   </div>
-                )}
+                }
                 <p className="text-sm font-bold text-black">Outro valor</p>
                 <p className="text-xs text-gray-500">você escolhe</p>
               </button>
             </div>
-            {isCustom && (
-              <div className="mt-3 relative">
+            {isCustom &&
+            <div className="mt-3 relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500">R$</span>
                 <input
-                  type="number"
-                  value={customAmount}
-                  onChange={(e) => setCustomAmount(e.target.value)}
-                  placeholder="0,00"
-                  autoFocus
-                  className="w-full h-11 pl-9 pr-3 rounded-xl border border-gray-200 text-sm font-medium text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-400"
-                />
+                type="number"
+                value={customAmount}
+                onChange={(e) => setCustomAmount(e.target.value)}
+                placeholder="0,00"
+                autoFocus
+                className="w-full h-11 pl-9 pr-3 rounded-xl border border-gray-200 text-sm font-medium text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
+              
               </div>
-            )}
+            }
           </div>
 
           {/* Como pagar */}
@@ -502,14 +502,14 @@ export default function RechargeCredits() {
                   setPaymentOpen(false);
                 }}
                 className={`relative rounded-xl border p-3 flex items-center gap-2 transition-all ${
-                  paymentMethod === "pix" ? "border-black border-2" : "border-gray-200"
-                }`}
-              >
-                {paymentMethod === "pix" && (
-                  <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                paymentMethod === "pix" ? "border-black border-2" : "border-gray-200"}`
+                }>
+                
+                {paymentMethod === "pix" &&
+                <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                     <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                   </div>
-                )}
+                }
                 <Grid3x3 className="w-5 h-5 text-gray-700 shrink-0" />
                 <div className="text-left">
                   <p className="text-sm font-bold text-black">Pix</p>
@@ -522,14 +522,14 @@ export default function RechargeCredits() {
                   setInstallments(1);
                 }}
                 className={`relative rounded-xl border p-3 flex items-center gap-2 transition-all ${
-                  paymentMethod === "cartao" ? "border-black border-2" : "border-gray-200"
-                }`}
-              >
-                {paymentMethod === "cartao" && (
-                  <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
+                paymentMethod === "cartao" ? "border-black border-2" : "border-gray-200"}`
+                }>
+                
+                {paymentMethod === "cartao" &&
+                <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-black flex items-center justify-center">
                     <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                   </div>
-                )}
+                }
                 <CreditCard className="w-5 h-5 text-gray-700 shrink-0" />
                 <div className="text-left">
                   <p className="text-sm font-bold text-black">Cartão</p>
@@ -540,37 +540,37 @@ export default function RechargeCredits() {
           </div>
 
           {/* Parcelas (mobile) */}
-          {paymentMethod === "cartao" && (
-            <div className="rounded-2xl border border-gray-200 bg-white p-4">
+          {paymentMethod === "cartao" &&
+          <div className="rounded-2xl border border-gray-200 bg-white p-4">
               <h2 className="text-base font-bold text-black mb-1">Até quantas parcelas</h2>
               <p className="text-xs text-gray-500 mb-3">Divida em até 6x no cartão.</p>
               <div className="grid grid-cols-3 gap-2">
                 {installmentOptions.map((opt) => {
-                  const selected = installments === opt.count;
-                  return (
-                    <button
-                      key={opt.count}
-                      onClick={() => setInstallments(opt.count)}
-                      className={`relative rounded-xl border p-2 text-left transition-all ${
-                        selected ? "border-black border-2" : "border-gray-200"
-                      }`}
-                    >
-                      {selected && (
-                        <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-black flex items-center justify-center">
+                const selected = installments === opt.count;
+                return (
+                  <button
+                    key={opt.count}
+                    onClick={() => setInstallments(opt.count)}
+                    className={`relative rounded-xl border p-2 text-left transition-all ${
+                    selected ? "border-black border-2" : "border-gray-200"}`
+                    }>
+                    
+                      {selected &&
+                    <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-black flex items-center justify-center">
                           <Check className="w-2 h-2 text-white" strokeWidth={3} />
                         </div>
-                      )}
+                    }
                       <p className="text-xs font-bold text-black">{opt.label}</p>
                       <p className="text-[10px] text-gray-500">
                         {opt.count === 1 ? formatBRL(opt.value) : `${formatBRL(opt.value)} cada`}
                       </p>
-                    </button>
-                  );
-                })}
+                    </button>);
+
+              })}
               </div>
               <p className="text-[11px] text-gray-400 mt-2">Cada parcela tem no mínimo R$ 5,00.</p>
             </div>
-          )}
+          }
 
           {/* Summary (mobile) */}
           <div className="rounded-2xl bg-[#7C5DCF] text-white p-4">
@@ -590,48 +590,48 @@ export default function RechargeCredits() {
                 <span className="text-sm font-medium text-white">{formatCredits(balance)}</span>
               </div>
             </div>
-            {paymentOpen && paymentMethod === "cartao" ? (
-              <div className="rounded-xl bg-white/10 p-3 mb-4">
+            {paymentOpen && paymentMethod === "cartao" ?
+            <div className="rounded-xl bg-white/10 p-3 mb-4">
                 <div className="flex items-center gap-2 mb-1.5">
                   <Loader2 className="w-4 h-4 animate-spin" />
                   <p className="text-sm font-medium text-white">Pagamento aberto em outra aba</p>
                 </div>
                 <p className="text-xs text-white/70 mb-2">Termine o pagamento lá. Avisamos aqui assim que o crédito entrar.</p>
                 <button
-                  onClick={() => popupUrl && window.open(popupUrl, "_blank")}
-                  className="text-xs text-white underline"
-                >
+                onClick={() => popupUrl && window.open(popupUrl, "_blank")}
+                className="text-xs text-white underline">
+                
                   Abrir a aba de novo
                 </button>
-              </div>
-            ) : (
-              <button
-                onClick={handlePay}
-                disabled={!canPay || paying}
-                className="w-full h-11 rounded-xl bg-white text-[#7C5DCF] text-sm font-bold hover:bg-white/90 transition-colors disabled:opacity-40 flex items-center justify-center gap-2 mb-3"
-              >
+              </div> :
+
+            <button
+              onClick={handlePay}
+              disabled={!canPay || paying}
+              className="w-full h-11 rounded-xl bg-white text-[#7C5DCF] text-sm font-bold hover:bg-white/90 transition-colors disabled:opacity-40 flex items-center justify-center gap-2 mb-3">
+              
                 {paying ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 {paying ? "Processando..." : `Pagar ${formatBRL(amount)}`}
               </button>
-            )}
+            }
             <p className="text-[11px] text-white/60 text-center">Nenhuma recarga neste ciclo</p>
           </div>
         </div>
       </div>
 
       {/* PIX Modal */}
-      {pixModal.open && pixModal.data && (
-        <PixPaymentModal
-          open={true}
-          onClose={() => setPixModal({ open: false, data: null })}
-          qrCodeBase64={pixModal.data.qrCodeBase64}
-          pixCode={pixModal.data.pixCode}
-          planName="Créditos avulsos"
-          amount={pixModal.data.amount}
-          orderId={pixModal.data.orderId}
-          onPaid={handlePixPaid}
-        />
-      )}
-    </>
-  );
+      {pixModal.open && pixModal.data &&
+      <PixPaymentModal
+        open={true}
+        onClose={() => setPixModal({ open: false, data: null })}
+        qrCodeBase64={pixModal.data.qrCodeBase64}
+        pixCode={pixModal.data.pixCode}
+        planName="Créditos avulsos"
+        amount={pixModal.data.amount}
+        orderId={pixModal.data.orderId}
+        onPaid={handlePixPaid} />
+
+      }
+    </>);
+
 }
