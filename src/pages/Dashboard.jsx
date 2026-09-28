@@ -25,6 +25,7 @@ import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { checkModelQuota, invalidateUsageCache } from "@/lib/quotaUtils";
+import { calculateTextCredits, calculateImageCredits, calculateAudioCredits } from "@/lib/creditSystem";
 import { CONNECTORS } from "@/components/ayzen/settings/connectorsData";
 
 export default function Dashboard() {
@@ -63,6 +64,7 @@ export default function Dashboard() {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imagining, setImagining] = useState(false);
+  const startTimeRef = useRef(null);
   const { listening, toggle: toggleMic } = useSpeechRecognition({ msg, setMsg });
 
   useEffect(() => {
@@ -234,6 +236,7 @@ export default function Dashboard() {
     setLoading(true);
     if (isImageRequest) setImagining(true);
     if (isAudioRequest) setImagining(true);
+    startTimeRef.current = Date.now();
 
     try {
       // Verifica cota do modelo antes de gerar
@@ -265,7 +268,8 @@ export default function Dashboard() {
         });
         const audioUrl = result.data?.url;
         if (!audioUrl) throw new Error("Nenhum áudio retornado");
-        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
+        const _audioCredits = calculateAudioCredits(model);
+        base44.entities.TokenUsage.create({ tokens: _audioCredits, model: modelInfo.name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
           type: "file",
@@ -279,7 +283,8 @@ export default function Dashboard() {
           role: "assistant",
           content: "Aqui está o áudio gerado:",
           audio: audioUrl,
-          model: { name: modelInfo.name, logo: modelInfo.logo }
+          model: { name: modelInfo.name, logo: modelInfo.logo },
+          credits: _audioCredits
         }]
         );
       } else if (isImageRequest) {
@@ -297,7 +302,8 @@ export default function Dashboard() {
         });
         const imageUrl = result.data?.url;
         if (!imageUrl) throw new Error("Nenhuma imagem retornada");
-        base44.entities.TokenUsage.create({ tokens: 500, model: modelInfo.name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
+        const _imageCredits = calculateImageCredits(model);
+        base44.entities.TokenUsage.create({ tokens: _imageCredits, model: modelInfo.name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
@@ -312,7 +318,8 @@ export default function Dashboard() {
           role: "assistant",
           content: "Aqui está a imagem gerada:",
           image: imageUrl,
-          model: { name: modelInfo.name, logo: modelInfo.logo }
+          model: { name: modelInfo.name, logo: modelInfo.logo },
+          credits: _imageCredits
         }]
         );
         setReferenceImage(null);
@@ -328,13 +335,19 @@ export default function Dashboard() {
           activeConnectorIds
         });
         const _respText = result.data?.content || "";
-        base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(model, plan).name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
+        const _reasoning = result.data?.reasoning || "";
+        const _totalTokens = result.data?.usage?.total_tokens || Math.ceil((prompt.length + _respText.length) / 4);
+        const _textCredits = calculateTextCredits(model, _totalTokens);
+        const _thinkingTime = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+        base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(model, plan).name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
         setMessages([
         ...newMessages,
         {
           role: "assistant",
           content: _respText || "Sem resposta",
-          model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo }
+          model: { name: getModelInfo(model, plan).name, logo: getModelInfo(model, plan).logo },
+          thinking: { duration: _thinkingTime, trace: _reasoning || "Analisando sua mensagem e preparando uma resposta." },
+          credits: _textCredits
         }]
         );
       }
@@ -362,6 +375,7 @@ export default function Dashboard() {
     const baseMessages = messages.slice(0, index + 1);
     setMessages(baseMessages);
     setLoading(true);
+    startTimeRef.current = Date.now();
     try {
       const reprocModelInfo = getModelInfo(modelId, plan);
       const quotaCheck = await checkModelQuota(plan, reprocModelInfo.name, "text");
@@ -391,13 +405,19 @@ export default function Dashboard() {
         activeConnectorIds
       });
       const _respText = result.data?.content || "";
-      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text }).then(() => invalidateUsageCache()).catch(() => {});
+      const _reasoning = result.data?.reasoning || "";
+      const _totalTokens = result.data?.usage?.total_tokens || Math.ceil((prompt.length + _respText.length) / 4);
+      const _textCredits = calculateTextCredits(modelId, _totalTokens);
+      const _thinkingTime = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
+      base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text }).then(() => invalidateUsageCache()).catch(() => {});
       setMessages([
       ...baseMessages,
       {
         role: "assistant",
         content: _respText || "Sem resposta",
-        model: { name: getModelInfo(modelId, plan).name, logo: getModelInfo(modelId, plan).logo }
+        model: { name: getModelInfo(modelId, plan).name, logo: getModelInfo(modelId, plan).logo },
+        thinking: { duration: _thinkingTime, trace: _reasoning || "Analisando sua mensagem e preparando uma resposta." },
+        credits: _textCredits
       }]
       );
     } catch (err) {
@@ -735,6 +755,7 @@ export default function Dashboard() {
         handleSend={handleSend}
         messages={messages}
         loading={loading}
+        imagining={imagining}
         model={model}
         plan={plan}
         attachedFile={attachedFile}

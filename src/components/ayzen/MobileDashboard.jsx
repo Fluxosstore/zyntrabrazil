@@ -37,6 +37,7 @@ export default function MobileDashboard({
   onTogglePin, onToggleSelect,
   onMoveToFolder, onRemoveFromFolder,
   onEditMessage, onReprocess,
+  imagining,
   tempMode, setTempMode,
   setModel,
   useWebSearch, setUseWebSearch,
@@ -153,6 +154,7 @@ export default function MobileDashboard({
           <ChatMessages
             messages={messages}
             loading={loading}
+            imagining={imagining}
             onEdit={onEditMessage}
             onReprocess={onReprocess}
             plan={plan}

@@ -542,6 +542,8 @@ Não exiba instruções de formatação para o usuário. Não explique que você
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
+    const reasoningTrace = data.choices?.[0]?.message?.reasoning || "";
+    const tokenUsage = data.usage || null;
 
     // Salvar memórias se saveMemories estiver ativo
     if (saveMemories && content) {
@@ -579,7 +581,7 @@ Assistente: ${content}`;
       }
     }
 
-    return Response.json({ content, model: openrouterModel });
+    return Response.json({ content, model: openrouterModel, reasoning: reasoningTrace, usage: tokenUsage });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
