@@ -96,7 +96,7 @@ export default function Automations() {
                 { n: 3, title: t("auto.step3Title"), desc: t("auto.step3Desc") },
               ].map((s) => (
                 <div key={s.n} className="flex items-start gap-2">
-                  <span className="text-sm font-bold text-gray-400 shrink-0 w-5 text-center">
+                  <span className="text-xs font-bold text-gray-400 shrink-0 w-4 text-center">
                     {s.n}
                   </span>
                   <div className="pt-0.5">
