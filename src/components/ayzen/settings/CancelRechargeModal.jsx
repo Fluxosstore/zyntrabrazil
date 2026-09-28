@@ -10,7 +10,7 @@ export default function CancelRechargeModal({ open, onClose, onConfirm, amount }
         onClick={onClose}
       />
       {/* Modal */}
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
         <h2 className="text-lg font-bold text-black mb-2">Desistir desta recarga?</h2>
         <p className="text-sm text-gray-500 leading-relaxed mb-6">
           A cobrança de {amount} sai das pendentes e deixa de ocupar uma vaga de recarga. Se ela for paga mesmo assim, o crédito entra normalmente.
