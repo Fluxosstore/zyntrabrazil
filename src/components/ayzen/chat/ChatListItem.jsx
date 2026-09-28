@@ -4,7 +4,7 @@ import { MoreVertical, Pin, Check } from "lucide-react";
 import ChatItemMenu from "./ChatItemMenu";
 import ChatBubbleIcon from "./ChatBubbleIcon";
 
-export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCommit, onSelectToggle, onDelete, folders = [], onMoveToFolder, indent = false }) {
+export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCommit, onSelectToggle, onDelete, folders = [], onMoveToFolder, onRemoveFromFolder, indent = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(conv.title);
@@ -75,6 +75,8 @@ export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCo
             onDelete={() => onDelete?.(conv.id)}
             folders={folders}
             onMoveToFolder={(folderId) => onMoveToFolder?.(conv.id, folderId)}
+            onRemoveFromFolder={() => onRemoveFromFolder?.(conv.id)}
+            currentFolderId={conv.folder_id}
             onClose={() => setMenuOpen(false)}
           />
         )}

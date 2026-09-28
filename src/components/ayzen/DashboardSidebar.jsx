@@ -29,7 +29,7 @@ import { useFolders } from "@/hooks/useFolders";
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
-export default function DashboardSidebar({ activePage = "dashboard", conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder }) {
+export default function DashboardSidebar({ activePage = "dashboard", conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder }) {
   const { folders, reloadFolders } = useFolders();
   const [expandedFolders, setExpandedFolders] = useState({});
   const { user, logout } = useAuth();
@@ -230,6 +230,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                           onDelete={onDeleteConversation}
                           folders={folders}
                           onMoveToFolder={onMoveToFolder}
+                          onRemoveFromFolder={onRemoveFromFolder}
                           indent
                         />
                       )}

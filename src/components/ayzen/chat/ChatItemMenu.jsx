@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Pin, Pencil, CheckSquare, Trash2, FolderInput, ChevronRight, Folder } from "lucide-react";
+import { Pin, Pencil, CheckSquare, Trash2, FolderInput, FolderMinus, ChevronRight, Check } from "lucide-react";
 
-export default function ChatItemMenu({ onPin, onRename, onSelect, onDelete, onClose, folders = [], onMoveToFolder }) {
+export default function ChatItemMenu({ onPin, onRename, onSelect, onDelete, onClose, folders = [], onMoveToFolder, onRemoveFromFolder, currentFolderId }) {
   const [moveOpen, setMoveOpen] = useState(false);
 
   return (
@@ -57,7 +57,8 @@ export default function ChatItemMenu({ onPin, onRename, onSelect, onDelete, onCl
                     className="w-full flex items-center gap-2.5 pl-9 pr-3 py-2 hover:bg-gray-50 transition-colors text-left"
                   >
                     <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: f.color || "#6C31E3" }} />
-                    <span className="text-sm text-gray-700 truncate">{f.name}</span>
+                    <span className="text-sm text-gray-700 truncate flex-1">{f.name}</span>
+                    {currentFolderId === f.id && <Check className="w-3.5 h-3.5 text-[#7E57C2] shrink-0" />}
                   </button>
                 ))
               )}
@@ -65,6 +66,15 @@ export default function ChatItemMenu({ onPin, onRename, onSelect, onDelete, onCl
           )}
         </AnimatePresence>
       </div>
+      {currentFolderId && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onRemoveFromFolder?.(); onClose?.(); }}
+          className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-gray-50 transition-colors text-left"
+        >
+          <FolderMinus className="w-4 h-4 text-gray-600" />
+          <span className="text-sm text-gray-700">Remover da pasta</span>
+        </button>
+      )}
       <div className="h-px bg-gray-100" />
       <button
         onClick={(e) => { e.stopPropagation(); onSelect?.(); onClose?.(); }}
