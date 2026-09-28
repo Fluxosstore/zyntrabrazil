@@ -87,24 +87,20 @@ export default function InvoicesContent({ plan = "free" }) {
               <h2 className="text-base font-bold text-black">Assinatura</h2>
               <p className="text-xs text-gray-500 mt-0.5">Renovação, forma de pagamento e cancelamento.</p>
             </div>
-            <div className="p-5">
-              <div className="rounded-xl border border-gray-200 bg-white p-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 mt-0.5">
-                    <RefreshCw className="w-4 h-4 text-gray-600" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-black">Renovação por fatura</p>
-                    <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-                      A cada ciclo você recebe a fatura e paga por Pix, sem débito automático. Cancele quando quiser e mantenha o acesso até o vencimento.
-                    </p>
-                  </div>
+            <div className="px-5 pb-5">
+              <div className="rounded-xl border border-gray-200 bg-white p-3.5 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
+                  <RefreshCw className="w-4 h-4 text-gray-600" />
                 </div>
-                <div className="mt-4 flex justify-end">
-                  <button className="inline-flex items-center px-4 py-2 rounded-xl border border-red-200 bg-[#FDF2F2] text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-                    Cancelar renovação
-                  </button>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-black">Renovação por fatura</p>
+                  <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
+                    A cada ciclo você recebe a fatura e paga por Pix, sem débito automático. Cancele quando quiser e mantenha o acesso até o vencimento.
+                  </p>
                 </div>
+                <button className="inline-flex items-center px-4 py-2 rounded-xl border border-red-200 bg-[#FDF2F2] text-sm font-medium text-red-600 hover:bg-red-50 transition-colors shrink-0">
+                  Cancelar renovação
+                </button>
               </div>
             </div>
           </div>
