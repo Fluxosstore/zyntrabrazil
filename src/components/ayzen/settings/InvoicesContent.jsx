@@ -19,6 +19,8 @@ import { PLAN_NUMERIC_PRICES, formatBRL } from "@/lib/planData";
 import { base44 } from "@/api/base44Client";
 import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
 import ReceiptModal from "@/components/ayzen/settings/ReceiptModal";
+import PixPaymentModal from "@/components/ayzen/PixPaymentModal";
+import { useToast } from "@/components/ui/use-toast";
 
 const MONTHS_PT = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 
@@ -81,7 +83,10 @@ export default function InvoicesContent({ plan = "free" }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [menuPos, setMenuPos] = useState(null);
+  const [menuLoading, setMenuLoading] = useState(false);
+  const [pixModal, setPixModal] = useState({ open: false, data: null });
   const menuRef = useRef(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     (async () => {
@@ -121,6 +126,62 @@ export default function InvoicesContent({ plan = "free" }) {
     try {
       navigator.clipboard.writeText(text);
     } catch (e) {}
+  };
+
+  const fetchPixData = async (inv) => {
+    const res = await base44.functions.invoke("mercadopagoGetPayment", {
+      paymentId: inv.raw?.payment_id,
+      orderId: inv.raw?.id,
+    });
+    return res.data || res;
+  };
+
+  const handleOpenPayment = async (inv) => {
+    setOpenMenuId(null);
+    setMenuLoading(true);
+    try {
+      const data = await fetchPixData(inv);
+      if (!data.qr_code) {
+        toast({ title: "Pagamento não disponível", description: "Não foi possível obter o QR Code do Pix.", variant: "destructive" });
+        return;
+      }
+      setPixModal({
+        open: true,
+        data: {
+          qrCodeBase64: data.qr_code_base64,
+          pixCode: data.qr_code,
+          amount: inv.value,
+          orderId: inv.raw?.id,
+        },
+      });
+    } catch (e) {
+      toast({ title: "Erro ao abrir pagamento", description: e.message, variant: "destructive" });
+    }
+    setMenuLoading(false);
+  };
+
+  const handleCopyPix = async (inv) => {
+    setOpenMenuId(null);
+    setMenuLoading(true);
+    try {
+      const data = await fetchPixData(inv);
+      if (!data.qr_code) {
+        toast({ title: "Chave Pix não disponível", description: "Não foi possível obter a chave Pix.", variant: "destructive" });
+        return;
+      }
+      copyToClipboard(data.qr_code);
+      toast({ title: "Chave Pix copiada!", description: "Cole no app do seu banco para pagar." });
+    } catch (e) {
+      toast({ title: "Erro ao copiar Pix", description: e.message, variant: "destructive" });
+    }
+    setMenuLoading(false);
+  };
+
+  const handleCopyId = (inv) => {
+    setOpenMenuId(null);
+    const id = inv.raw?.payment_id || inv.raw?.id || inv.id;
+    copyToClipboard(String(id));
+    toast({ title: "ID copiado!", description: `ID ${id} copiado para a área de transferência.` });
   };
 
   // Build invoice rows from orders + subscription
@@ -303,27 +364,23 @@ export default function InvoicesContent({ plan = "free" }) {
                           {isRecharge && isPending ? (
                             <>
                               <button
-                                onClick={() => setOpenMenuId(null)}
-                                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
+                                onClick={() => handleOpenPayment(inv)}
+                                disabled={menuLoading}
+                                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
                               >
                                 <ExternalLink className="w-4 h-4 text-[#333333]" />
                                 Abrir pagamento
                               </button>
                               <button
-                                onClick={() => {
-                                  setOpenMenuId(null);
-                                  copyToClipboard(inv.raw?.payment_id || "");
-                                }}
-                                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
+                                onClick={() => handleCopyPix(inv)}
+                                disabled={menuLoading}
+                                className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
                               >
                                 <Copy className="w-4 h-4 text-[#333333]" />
                                 Copiar Pix
                               </button>
                               <button
-                                onClick={() => {
-                                  setOpenMenuId(null);
-                                  copyToClipboard(inv.id || inv.raw?.payment_id || "");
-                                }}
+                                onClick={() => handleCopyId(inv)}
                                 className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
                               >
                                 <Copy className="w-4 h-4 text-[#333333]" />
@@ -411,6 +468,19 @@ export default function InvoicesContent({ plan = "free" }) {
         userEmail={user?.email}
         userName={user?.full_name}
       />
+
+      {pixModal.open && pixModal.data && (
+        <PixPaymentModal
+          open={true}
+          onClose={() => setPixModal({ open: false, data: null })}
+          qrCodeBase64={pixModal.data.qrCodeBase64}
+          pixCode={pixModal.data.pixCode}
+          planName="Créditos avulsos"
+          amount={pixModal.data.amount}
+          orderId={pixModal.data.orderId}
+          onPaid={() => setPixModal({ open: false, data: null })}
+        />
+      )}
     </div>
   );
 }
