@@ -137,6 +137,10 @@ export default async function(req) {
     if (useWebSearch && realModel !== "gemini_3_flash" && realModel !== "gemini_3_1_pro") {
       realModel = "gemini_3_flash";
     }
+    // Raciocínio alto usa modelo mais capaz (apenas em modo automático)
+    if (reasoning >= 68 && model === "auto") {
+      realModel = "claude_sonnet_4_6";
+    }
 
     // Detectar e processar comandos de habilidade (/skill-name)
     let skillInstructions = "";
@@ -187,7 +191,16 @@ export default async function(req) {
       }
     }
 
-    const contextPrompt = skillInstructions + connectorContext + memoryContext + userMessage;
+    // Instruções de raciocínio conforme o nível do slider
+    let reasoningInstructions = "";
+    if (reasoning < 34) {
+      reasoningInstructions = "NÍVEL DE RACIOCÍNIO: BAIXO. Responda de forma direta, rápida e objetiva. Não alongue explicações desnecessariamente.\n\n";
+    } else if (reasoning < 68) {
+      reasoningInstructions = "NÍVEL DE RACIOCÍNIO: MÉDIO. Pense no problema e responda de forma equilibrada entre objetividade e detalhamento.\n\n";
+    } else {
+      reasoningInstructions = "NÍVEL DE RACIOCÍNIO: ALTO. Analise o problema profundamente, divida em partes, considere todos os aspectos relevantes e produza uma resposta completa e detalhada.\n\n";
+    }
+    const contextPrompt = reasoningInstructions + skillInstructions + connectorContext + memoryContext + userMessage;
 
     const imageUrls = (fileUrls || []).filter((u) =>
       u.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i)
