@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarChart3, Search, ChevronLeft } from "lucide-react";
+import { BarChart3, Search, ChevronLeft, Crown, Shield, Key, Receipt, Plus } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import SettingsNav from "@/components/ayzen/SettingsNav";
 import MobileSettingsTabs from "@/components/ayzen/MobileSettingsTabs";
-import { MODELS_BY_PLAN, IMAGE_MODELS_BY_PLAN, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
+import { MODELS_BY_PLAN, IMAGE_MODELS_BY_PLAN, AUDIO_MODELS_BY_PLAN, PLAN_LABELS } from "@/components/ayzen/ModelSelector";
 import ModelUsageRow from "@/components/ayzen/ModelUsageRow";
 import PlanContent from "@/components/ayzen/settings/PlanContent";
 import InvoicesContent from "@/components/ayzen/settings/InvoicesContent";
@@ -16,38 +16,57 @@ import ConnectorsContent from "@/components/ayzen/settings/ConnectorsContent";
 import AccountContent from "@/components/ayzen/settings/AccountContent";
 import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
 import MediaQuotasContent from "@/components/ayzen/settings/MediaQuotasContent";
+import CreditsCard from "@/components/ayzen/settings/CreditsCard";
+import { Image } from "@/components/ui/image";
+import { getAvatarForUser } from "@/lib/avatars";
+import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
+import { PLAN_PRICES } from "@/lib/planData";
 import { base44 } from "@/api/base44Client";
 
-const PLAN_TOKEN_WINDOWS = {
+const PLAN_CREDIT_WINDOWS = {
   free: [
-    { labelKey: "settings.daily", value: "4.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.weekly", value: "30.000", descKey: "settings.weeklyDesc" }
+    { labelKey: "settings.daily", value: "1.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.monthly", value: "10.000", descKey: "settings.monthlyDesc" }
   ],
   starter: [
-    { labelKey: "settings.daily", value: "128.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.weekly", value: "900.000", descKey: "settings.weeklyDesc" }
+    { labelKey: "settings.daily", value: "17.810", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.monthly", value: "178.100", descKey: "settings.monthlyDesc" }
   ],
   premium: [
-    { labelKey: "settings.weekly", value: "500.000", descKey: "settings.weeklyDesc" },
-    { labelKey: "settings.monthly", value: "5.000.000", descKey: "settings.monthlyDesc" }
+    { labelKey: "settings.daily", value: "48.130", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.monthly", value: "481.300", descKey: "settings.monthlyDesc" }
   ],
   team: [
-    { labelKey: "settings.daily", value: "1.000.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.weekly", value: "10.000.000", descKey: "settings.weeklyDesc" }
+    { labelKey: "settings.daily", value: "90.580", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.monthly", value: "905.800", descKey: "settings.monthlyDesc" }
   ],
   startup: [
-    { labelKey: "settings.daily", value: "5.000.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.weekly", value: "15.000.000", descKey: "settings.weeklyDesc" }
+    { labelKey: "settings.daily", value: "150.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.monthly", value: "1.500.000", descKey: "settings.monthlyDesc" }
   ],
   enterprise: [
-    { labelKey: "settings.daily", value: "10.000.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.weekly", value: "25.000.000", descKey: "settings.weeklyDesc" }
+    { labelKey: "settings.daily", value: "300.000", descKey: "settings.dailyDesc" },
+    { labelKey: "settings.monthly", value: "3.000.000", descKey: "settings.monthlyDesc" }
   ]
 };
+
+const MONTHS_PT = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+
+function formatMemberDate(dateStr, lang) {
+  if (!dateStr) return "—";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "—";
+    return `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} de ${d.getFullYear()}`;
+  } catch {
+    return "—";
+  }
+}
 
 function UsageContent() {
   const { t } = useLanguage();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const plan = user?.plan || "free";
   const [query, setQuery] = useState("");
   const [usage, setUsage] = useState({ monthly: 0, daily: 0, weekly: 0 });
@@ -70,7 +89,7 @@ function UsageContent() {
     })();
   }, []);
 
-  const windows = PLAN_TOKEN_WINDOWS[plan] || PLAN_TOKEN_WINDOWS.free;
+  const windows = PLAN_CREDIT_WINDOWS[plan] || PLAN_CREDIT_WINDOWS.free;
   const windowLimits = windows.map((w) => parseInt(w.value.replace(/\./g, ""), 10));
   const windowConsumed = windows.map((w) => {
     if (w.labelKey === "settings.daily") return usage.daily;
@@ -122,6 +141,104 @@ function UsageContent() {
         </div>
 
         <div className="border-t border-gray-200" />
+
+        {/* Profile header */}
+        <section>
+          <div className="rounded-2xl border border-gray-200 bg-white p-5">
+            <div className="flex items-center gap-4">
+              <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
+                <Image
+                  src={getAvatarForUser(user?.id)}
+                  alt="Profile"
+                  className="relative w-14 h-14 object-cover"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-base font-bold text-black">
+                  {user?.full_name || (user?.email || "—").split("@")[0]}
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">{user?.email || "—"}</p>
+                <p className="text-[11px] text-gray-400 mt-0.5">
+                  Membro desde {formatMemberDate(user?.created_date)}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap justify-end">
+                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                  <Shield className="w-3.5 h-3.5" />
+                  2FA
+                </button>
+                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                  <Key className="w-3.5 h-3.5" />
+                  Passkey
+                </button>
+                <button
+                  onClick={() => navigate("/plan-selection")}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#7a5bc8] text-white text-xs font-medium hover:bg-[#6b4bb8] transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Recarregar
+                </button>
+                <button
+                  onClick={() => navigate("/settings", { state: { section: "invoices" } })}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <Receipt className="w-3.5 h-3.5" />
+                  Faturas
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Plan + Credits two-column */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Plan card */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#f4f4f4] flex items-center justify-center shrink-0">
+                  <Crown className="w-5 h-5 text-black" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold tracking-wider text-gray-400">SEU PLANO</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <p className="text-lg font-bold text-black">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-50 text-[#2e7d32] text-[10px] font-medium">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#2e7d32]" />
+                      Ativo
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-gray-500">Valor</span>
+                <span className="font-medium text-black">
+                  {PLAN_PRICES[plan]?.mensal || "R$ 0,00"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-500">IAs no plano</span>
+                <span className="font-medium text-black">{(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).length} modelos</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-500">Créditos/mês</span>
+                <span className="font-medium text-black">{(CREDITS_BY_PLAN[plan]?.month || 0).toLocaleString("pt-BR")}</span>
+              </div>
+            </div>
+            <button
+              onClick={() => navigate("/plan-selection")}
+              className="mt-4 w-full py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+            >
+              Trocar de plano
+            </button>
+          </div>
+
+          {/* Credits card (purple) */}
+          <CreditsCard onReload={() => navigate("/plan-selection")} />
+        </section>
 
         {/* Visão geral */}
         <section>

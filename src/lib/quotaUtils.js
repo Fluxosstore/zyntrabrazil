@@ -1,35 +1,45 @@
 import { base44 } from "@/api/base44Client";
 
+// Limites de créditos por plano (sistema unificado de créditos)
+export const CREDITS_BY_PLAN = {
+  free:       { month: 10000,    day: 1000 },
+  starter:    { month: 178100,   day: 17810 },
+  premium:    { month: 481300,   day: 48130 },
+  team:       { month: 905800,   day: 90580 },
+  startup:    { month: 1500000,  day: 150000 },
+  enterprise: { month: 3000000,  day: 300000 }
+};
+
 export const QUOTAS_BY_PLAN = {
   free: {
-    text: { day: 0, week: 0, month: 300 },
+    text: { day: 0, week: 0, month: 10000 },
     image: { day: 0, week: 0, month: 5 },
     audio: { day: 0, week: 0, month: 3 }
   },
   starter: {
-    text: { day: 0, week: 0, month: 15000 },
+    text: { day: 17810, week: 0, month: 178100 },
     image: { day: 0, week: 0, month: 40 },
     audio: { day: 0, week: 0, month: 40 }
   },
   premium: {
-    text: { day: 0, week: 0, month: 20000 },
+    text: { day: 48130, week: 0, month: 481300 },
     image: { day: 0, week: 0, month: 70 },
     audio: { day: 0, week: 0, month: 70 }
   },
   team: {
-    text: { day: 0, week: 0, month: 25000 },
+    text: { day: 90580, week: 0, month: 905800 },
     image: { day: 0, week: 0, month: 120 },
     audio: { day: 0, week: 0, month: 120 }
   },
   startup: {
-    text: { day: 0, week: 0, month: 30000 },
+    text: { day: 150000, week: 0, month: 1500000 },
     image: { day: 0, week: 0, month: 170 },
     audio: { day: 0, week: 0, month: 170 }
   },
   enterprise: {
-    text: "unlimited",
-    image: "unlimited",
-    audio: "unlimited"
+    text: { day: 300000, week: 0, month: 3000000 },
+    image: { day: 0, week: 0, month: 300 },
+    audio: { day: 0, week: 0, month: 300 }
   }
 };
 

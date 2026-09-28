@@ -18,9 +18,9 @@ const GROK =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
 
 export const PLAN_LABELS = {
-  free: "Zyntra Free",
+  free: "Free",
   starter: "Starter",
-  premium: "Pessoal Premium",
+  premium: "Pro",
   team: "Empresarial Team",
   startup: "Empresarial Startup",
   enterprise: "Empresarial Enterprise"

@@ -50,7 +50,7 @@ export function buildPersonalPlans(t) {
   return [
     {
       id: "free",
-      name: "Zyntra Free",
+      name: "Free",
       desc: t("pricing.freeDesc"),
       price: { mensal: "R$ 0,00", anual: "R$ 0,00" },
       period: null,
@@ -75,7 +75,7 @@ export function buildPersonalPlans(t) {
     },
     {
       id: "premium",
-      name: "Pessoal Premium",
+      name: "Pro",
       desc: t("pricing.premiumDesc"),
       price: { mensal: "R$ 99,90", anual: "R$ 83,25" },
       period: t("pricing.perMonth"),
