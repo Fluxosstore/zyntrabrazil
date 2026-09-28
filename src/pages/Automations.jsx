@@ -71,7 +71,7 @@ export default function Automations() {
 
       {/* Mobile */}
       <div className="md:hidden h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 bg-[#F5F5F7] border-b border-[#D1D1D1]">
+        <div className="flex items-center justify-between px-4 py-2 bg-[#F5F5F7] border-b border-[#D1D1D1]">
           <button
             onClick={() => setSidebarOpen(true)}
             className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60"
@@ -101,7 +101,7 @@ export default function Automations() {
                 { n: 3, title: t("auto.step3Title"), desc: t("auto.step3Desc") },
               ].map((s) => (
                 <div key={s.n} className="flex items-start gap-2">
-                  <span className="text-xs font-bold text-gray-400 shrink-0 w-4 text-center pt-1">
+                  <span className="text-xs font-bold text-gray-400 shrink-0 w-4 text-center pt-1.5">
                     {s.n}
                   </span>
                   <div className="pt-0.5">
