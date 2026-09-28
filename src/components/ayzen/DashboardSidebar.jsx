@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "@/lib/AuthContext";
@@ -24,6 +24,7 @@ import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import { base44 } from "@/api/base44Client";
 import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 import NewFolderModal from "@/components/ayzen/chat/NewFolderModal";
+import FolderMenu from "@/components/ayzen/chat/FolderMenu";
 import { useFolders } from "@/hooks/useFolders";
 
 const LOGO =
@@ -32,6 +33,20 @@ const LOGO =
 export default function DashboardSidebar({ activePage = "dashboard", conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder }) {
   const { folders, reloadFolders } = useFolders();
   const [expandedFolders, setExpandedFolders] = useState({});
+  const [foldersSectionOpen, setFoldersSectionOpen] = useState(false);
+  const [folderMenuId, setFolderMenuId] = useState(null);
+  const [editFolder, setEditFolder] = useState(null);
+  const folderMenuRef = useRef(null);
+  useEffect(() => {
+    if (!folderMenuId) return;
+    function handleClickOutside(e) {
+      if (folderMenuRef.current && !folderMenuRef.current.contains(e.target)) {
+        setFolderMenuId(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [folderMenuId]);
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const firstName = (user?.full_name || user?.email || "você").split(" ")[0];
@@ -187,20 +202,24 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       {!collapsed &&
       <>
           <div className="flex items-center justify-between px-3 pt-3 pb-1">
-            <span className="text-[10px] font-semibold tracking-wider text-gray-400">
+            <button
+              onClick={() => setFoldersSectionOpen((v) => !v)}
+              className="flex items-center gap-1 text-[10px] font-semibold tracking-wider text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <ChevronRight className={`w-3 h-3 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
               Pastas
-            </span>
+            </button>
             <button onClick={() => setFolderModalOpen(true)} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
               <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
           <div className="flex-1 px-3 overflow-y-auto">
             {/* Folders with nested chats */}
-            {folders.map((folder) => {
+            {foldersSectionOpen && folders.map((folder) => {
               const folderChats = filteredConversations.filter((c) => c.folder_id === folder.id);
               const isExpanded = expandedFolders[folder.id] !== false;
               return (
-                <div key={folder.id} className="space-y-0.5">
+                <div key={folder.id} ref={folderMenuId === folder.id ? folderMenuRef : null} className="relative space-y-0.5">
                   <div
                     onClick={() => setExpandedFolders((p) => ({ ...p, [folder.id]: !isExpanded }))}
                     className="flex items-center gap-2 px-2.5 py-2 rounded-xl cursor-pointer text-gray-700 hover:bg-gray-200/60 transition-colors group"
@@ -210,12 +229,25 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                     <span className="flex-1 text-xs font-medium truncate">{folder.name}</span>
                     {folderChats.length > 0 && <span className="text-[10px] text-gray-400">{folderChats.length}</span>}
                     <button
-                      onClick={(e) => e.stopPropagation()}
+                      onClick={(e) => { e.stopPropagation(); setFolderMenuId(folderMenuId === folder.id ? null : folder.id); }}
                       className="w-5 h-5 flex items-center justify-center rounded shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 hover:bg-gray-300/50 transition-colors"
                     >
                       <MoreVertical className="w-3.5 h-3.5" />
                     </button>
                   </div>
+                  <AnimatePresence>
+                    {folderMenuId === folder.id && (
+                      <FolderMenu
+                        onEdit={() => setEditFolder(folder)}
+                        onDelete={async () => {
+                          try { await base44.entities.Folder.delete(folder.id); } catch {}
+                          reloadFolders();
+                          setFolderMenuId(null);
+                        }}
+                        onClose={() => setFolderMenuId(null)}
+                      />
+                    )}
+                  </AnimatePresence>
                   {isExpanded && folderChats.length > 0 && (
                     <div className="space-y-0.5">
                       {folderChats.map((conv) =>
@@ -334,7 +366,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         </button>
         </div>
 
-        <NewFolderModal open={folderModalOpen} onClose={() => setFolderModalOpen(false)} onCreated={reloadFolders} />
+        <NewFolderModal open={folderModalOpen || !!editFolder} editFolder={editFolder} onClose={() => { setFolderModalOpen(false); setEditFolder(null); }} onCreated={() => { reloadFolders(); setEditFolder(null); }} />
         </aside>);
 
         }

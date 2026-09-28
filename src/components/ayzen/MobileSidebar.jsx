@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical } from "lucide-react";
@@ -14,6 +14,7 @@ import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import { base44 } from "@/api/base44Client";
 import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 import NewFolderModal from "@/components/ayzen/chat/NewFolderModal";
+import FolderMenu from "@/components/ayzen/chat/FolderMenu";
 import { useFolders } from "@/hooks/useFolders";
 
 const LOGO =
@@ -22,6 +23,20 @@ const LOGO =
 export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder }) {
   const { folders, reloadFolders } = useFolders();
   const [expandedFolders, setExpandedFolders] = useState({});
+  const [foldersSectionOpen, setFoldersSectionOpen] = useState(false);
+  const [folderMenuId, setFolderMenuId] = useState(null);
+  const [editFolder, setEditFolder] = useState(null);
+  const folderMenuRef = useRef(null);
+  useEffect(() => {
+    if (!folderMenuId) return;
+    function handleClickOutside(e) {
+      if (folderMenuRef.current && !folderMenuRef.current.contains(e.target)) {
+        setFolderMenuId(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [folderMenuId]);
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();

@@ -14,7 +14,7 @@ const COLORS = [
 
 const MAX_LEN = 60;
 
-export default function NewFolderModal({ open, onClose, onCreated }) {
+export default function NewFolderModal({ open, onClose, onCreated, editFolder }) {
   const [name, setName] = useState("");
   const [color, setColor] = useState(COLORS[0]);
   const [saving, setSaving] = useState(false);
@@ -22,11 +22,11 @@ export default function NewFolderModal({ open, onClose, onCreated }) {
 
   useEffect(() => {
     if (open) {
-      setName("");
-      setColor(COLORS[0]);
+      setName(editFolder?.name || "");
+      setColor(editFolder?.color || COLORS[0]);
       setTimeout(() => inputRef.current?.focus(), 50);
     }
-  }, [open]);
+  }, [open, editFolder]);
 
   useEffect(() => {
     function onKey(e) {
@@ -40,8 +40,13 @@ export default function NewFolderModal({ open, onClose, onCreated }) {
     if (!name.trim() || saving) return;
     setSaving(true);
     try {
-      const rec = await base44.entities.Folder.create({ name: name.trim(), color });
-      onCreated?.(rec);
+      if (editFolder) {
+        const rec = await base44.entities.Folder.update(editFolder.id, { name: name.trim(), color });
+        onCreated?.(rec);
+      } else {
+        const rec = await base44.entities.Folder.create({ name: name.trim(), color });
+        onCreated?.(rec);
+      }
       onClose?.();
     } catch (e) {
       console.error(e);
@@ -76,8 +81,8 @@ export default function NewFolderModal({ open, onClose, onCreated }) {
                   <FolderPlus className="w-4.5 h-4.5 text-gray-700" style={{ width: 18, height: 18 }} />
                 </div>
                 <div>
-                  <h2 className="text-base font-bold text-black leading-tight">Nova pasta</h2>
-                  <p className="text-xs text-[#666666] mt-0.5">Organize suas conversas em uma pasta.</p>
+                  <h2 className="text-base font-bold text-black leading-tight">{editFolder ? "Editar pasta" : "Nova pasta"}</h2>
+                  <p className="text-xs text-[#666666] mt-0.5">{editFolder ? "Renomeie ou altere a cor da pasta." : "Organize suas conversas em uma pasta."}</p>
                 </div>
               </div>
               <button
@@ -135,7 +140,7 @@ export default function NewFolderModal({ open, onClose, onCreated }) {
                 disabled={!name.trim() || saving}
                 className="px-4 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-[#7C5DCF] to-[#EC4899] hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
               >
-                {saving ? "Criando..." : "Criar"}
+                {saving ? (editFolder ? "Salvando..." : "Criando...") : (editFolder ? "Salvar" : "Criar")}
               </button>
             </div>
           </motion.div>
