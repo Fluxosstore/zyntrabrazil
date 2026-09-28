@@ -324,8 +324,8 @@ function DetailedResponseCard({ item, onDelete, onEdit }) {
           </button>
         </div>
       </div>
-      <p className="text-sm text-gray-700 leading-relaxed mb-2">{item.title || item.prompt}</p>
-      <p className="text-xs text-gray-500">{formatDate(item.created_date)}</p>
+      <p className="text-sm text-gray-700 leading-relaxed">{item.title || item.prompt}</p>
+      <p className="text-right text-xs text-gray-500 mt-2">{formatDate(item.created_date)}</p>
     </div>
   );
 }
