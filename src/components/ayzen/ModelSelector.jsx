@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Search, Check, SignalHigh, SignalMedium, SignalLow, Scale, Coins } from "lucide-react";
+import { Search, Check, SignalHigh, SignalMedium, SignalLow, Scale } from "lucide-react";
+import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
 import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
 export const LOGO =
@@ -207,7 +208,7 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
   const filters = [
     { id: "todas", label: "Todas", icon: null },
     { id: "uso_justo", label: "Uso justo", icon: Scale },
-    { id: "usa_credito", label: "Usa crédito", icon: Coins },
+    { id: "usa_credito", label: "Usa crédito", icon: CoinStackIcon },
   ];
 
   return (
@@ -317,7 +318,7 @@ export default function ModelSelector({ selected, onSelect, onClose, plan = "fre
                     {fairUse ? (
                       <Scale className="w-3 h-3" />
                     ) : (
-                      <Coins className="w-3 h-3" />
+                      <CoinStackIcon className="w-3 h-3 text-orange-500" />
                     )}
                     {m.ms}
                     <SignalIndicator level={m.level} />
