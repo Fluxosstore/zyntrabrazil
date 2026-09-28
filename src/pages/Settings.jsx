@@ -189,7 +189,7 @@ function UsageContent({ onNavigate }) {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-[460px] xl:min-h-[580px]">
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
-            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[280px] flex flex-col justify-between">
+            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[220px] xl:min-h-[280px] flex flex-col justify-between">
               {/* Decorative lupa */}
               <img
                 src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cbb8fd4bf_ddb60374d_ChatGPTImage16desetde202623_41_31.png"
