@@ -189,7 +189,7 @@ export default function MobileProfileContent({ onNavigate }) {
       <div className="rounded-2xl border border-gray-200 bg-white p-4">
         <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
         {/* Plan card */}
-        <div className="relative rounded-2xl bg-gradient-to-br from-[#f4f4f4] to-[#e9e9e9] p-4 overflow-hidden flex flex-col justify-between min-h-[170px]">
+        <div className="relative rounded-2xl bg-gradient-to-br from-[#f4f4f4] to-[#e9e9e9] p-4 overflow-hidden flex flex-col justify-between min-h-[210px]">
           {/* Decorative blob */}
           <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-br from-[#7C5DCF]/15 to-[#EC4899]/10 blur-2xl pointer-events-none" />
           <div className="relative flex items-start justify-between">
