@@ -163,39 +163,65 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
     </div>
   );
 
-  // "Tudo" tab — show "Respostas salvas" section + other items
+  // "Tudo" tab — separated sections: images, responses, audio/files
   if (activeTab === "all") {
     if (filtered.length === 0) return emptyState;
 
+    const images = filtered.filter((i) => i.type === "image");
     const responses = filtered.filter((i) => i.type === "response");
-    const others = filtered.filter((i) => i.type !== "response");
+    const others = filtered.filter((i) => i.type !== "image" && i.type !== "response");
 
     return (
-      <div className="space-y-5">
-        {responses.length > 0 && (
-          <div>
-            <div className="flex items-center justify-between mb-2.5">
-              <h2 className="text-sm font-bold text-black">{t("library.savedResponses")}</h2>
-              <button className="text-xs text-gray-400 font-medium">{t("library.viewAll")}</button>
+      <>
+        <div className="space-y-6">
+          {images.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-2.5">
+                <h2 className="text-sm font-bold text-black">Imagens geradas</h2>
+                <button className="text-xs text-gray-400 font-medium">{t("library.viewAll")}</button>
+              </div>
+              <div className="space-y-3">
+                {images.slice(0, 3).map((item) => (
+                  <AllTabImageCard
+                    key={item.id}
+                    item={item}
+                    onDelete={handleDelete}
+                    onOpen={() => item.url && setViewerItem(item)}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="space-y-2">
-              {responses.slice(0, 3).map((item) => (
-                <SimpleResponseCard key={item.id} item={item} />
-              ))}
+          )}
+          {responses.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-2.5">
+                <h2 className="text-sm font-bold text-black">{t("library.savedResponses")}</h2>
+                <button className="text-xs text-gray-400 font-medium">{t("library.viewAll")}</button>
+              </div>
+              <div className="space-y-2">
+                {responses.slice(0, 3).map((item) => (
+                  <SimpleResponseCard key={item.id} item={item} />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        {others.length > 0 && (
-          <div>
-            <h2 className="text-sm font-bold text-black mb-2.5">Itens recentes</h2>
-            <div className="space-y-2">
-              {others.map((item) => (
-                <ItemRow key={item.id} item={item} />
-              ))}
+          )}
+          {others.length > 0 && (
+            <div>
+              <h2 className="text-sm font-bold text-black mb-2.5">Itens recentes</h2>
+              <div className="space-y-2">
+                {others.map((item) => (
+                  <ItemRow key={item.id} item={item} />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+        <MobileImageViewer
+          item={viewerItem}
+          onClose={() => setViewerItem(null)}
+          onDelete={handleDelete}
+        />
+      </>
     );
   }
 
@@ -344,6 +370,38 @@ function DetailedResponseCard({ item, onDelete, onEdit }) {
       </div>
       <p className="text-sm text-gray-700 leading-relaxed">{item.title || item.prompt}</p>
       <p className="text-right text-xs text-gray-500 mt-2">{formatDate(item.created_date)}</p>
+    </div>
+  );
+}
+
+function AllTabImageCard({ item, onDelete, onOpen }) {
+  return (
+    <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
+      <div
+        className="relative aspect-[4/3] bg-gray-100 overflow-hidden"
+        onClick={onOpen}
+      >
+        {item.url ? (
+          <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <ImageIcon className="w-8 h-8 text-gray-300" />
+          </div>
+        )}
+        <button
+          onClick={(e) => { e.stopPropagation(); onDelete(item.id); }}
+          className="absolute top-1.5 right-1.5 w-7 h-7 flex items-center justify-center rounded-full bg-white text-black active:bg-gray-100 transition-colors shadow-sm"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+        </button>
+      </div>
+      <div className="p-2.5">
+        <p className="text-xs font-medium text-black truncate">{item.title}</p>
+        <div className="flex items-center gap-1.5 mt-1">
+          <img src={getModelLogo(item.model)} alt="" className="w-3.5 h-3.5 object-contain" />
+          <p className="text-[10px] text-gray-500">{item.model || "IA"}</p>
+        </div>
+      </div>
     </div>
   );
 }
