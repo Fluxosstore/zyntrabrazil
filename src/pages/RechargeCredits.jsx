@@ -50,7 +50,9 @@ export default function RechargeCredits() {
         filter((r) => new Date(r.created_date).getTime() >= monthStart).
         reduce((s, r) => s + (r.tokens || 0), 0);
         const credits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
-        setBalance(Math.max(0, credits.month - monthly));
+        const planCredits = Math.max(0, credits.month - monthly);
+        const purchased = user?.balance || 0;
+        setBalance(planCredits + purchased);
       } catch (e) {
         setBalance(CREDITS_BY_PLAN[plan]?.month || 0);
       }

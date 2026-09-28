@@ -64,12 +64,23 @@ export default async function(req) {
 
       const userId = order.created_by_id;
       if (userId) {
-        await base44.asServiceRole.entities.User.update(userId, {
-          plan: order.plan,
-          plan_cycle: order.cycle,
-          plan_subscribed_at: new Date().toISOString(),
-          auto_renew: true,
-        });
+        // Credit recharge: add credits to user balance instead of changing plan
+        if (order.plan === 'credits') {
+          const CREDIT_RATE = 4000; // créditos por R$ 1
+          const creditsToAdd = Math.round(Number(order.amount) * CREDIT_RATE);
+          const currentUser = await base44.asServiceRole.entities.User.get(userId);
+          const currentBalance = currentUser?.balance || 0;
+          await base44.asServiceRole.entities.User.update(userId, {
+            balance: currentBalance + creditsToAdd,
+          });
+        } else {
+          await base44.asServiceRole.entities.User.update(userId, {
+            plan: order.plan,
+            plan_cycle: order.cycle,
+            plan_subscribed_at: new Date().toISOString(),
+            auto_renew: true,
+          });
+        }
       }
     }
 

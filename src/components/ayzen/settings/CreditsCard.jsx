@@ -66,7 +66,8 @@ export default function CreditsCard({ onReload, className = "" }) {
     })();
   }, []);
 
-  const available = Math.max(0, credits.month - usage.monthly);
+  const purchased = user?.balance || 0;
+  const available = Math.max(0, credits.month - usage.monthly) + purchased;
   const dailyLimit = credits.day;
   const weeklyLimit = Math.round(credits.day * 7);
   const dailyPct = dailyLimit > 0 ? Math.min(100, (usage.daily / dailyLimit) * 100) : 0;
