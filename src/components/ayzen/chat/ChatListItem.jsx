@@ -31,7 +31,7 @@ export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCo
     <div ref={itemRef} className="relative">
       <div
         onClick={() => !editing && onSelect?.(conv.id)}
-        className={`flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-colors group ${
+        className={`flex items-center gap-2 px-2.5 py-2 rounded-xl cursor-pointer transition-colors group ${
           active ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"
         }`}
       >
