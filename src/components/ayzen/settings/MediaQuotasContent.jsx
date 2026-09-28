@@ -79,7 +79,7 @@ export default function MediaQuotasContent({ plan }) {
           <span className="text-xs font-medium text-gray-500">IA</span>
           <span className="text-xs font-medium text-gray-500">Custo</span>
           <span className="text-xs font-medium text-gray-500">Na semana</span>
-          <span className="text-xs font-medium text-gray-500 -ml-2">Mensagens</span>
+          <span className="text-xs font-medium text-gray-500 text-right">Mensagens</span>
         </div>
         {/* Rows */}
         {items.map((item, i) => {
@@ -115,7 +115,7 @@ export default function MediaQuotasContent({ plan }) {
                 <span className="text-xs font-medium text-gray-600 tabular-nums w-9 text-right">{weekPct}%</span>
               </div>
               {/* Mensagens */}
-              <span className="text-xs text-gray-500">Sem limite</span>
+              <span className="text-xs text-gray-500 text-right">Sem limite</span>
             </div>
           );
         })}
