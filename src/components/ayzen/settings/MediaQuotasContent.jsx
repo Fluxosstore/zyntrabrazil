@@ -14,21 +14,10 @@ const CAT_KEYS = {
 
 function buildModelItems(plan) {
   const quotas = QUOTAS_BY_PLAN[plan] || QUOTAS_BY_PLAN.free;
-  const textModels = MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free;
   const imageModels = IMAGE_MODELS_BY_PLAN[plan] || IMAGE_MODELS_BY_PLAN.free;
   const audioModels = AUDIO_MODELS_BY_PLAN[plan] || [];
 
   const items = [];
-
-  textModels.forEach((m) => {
-    items.push({
-      id: `text-${m.id}`,
-      name: m.name,
-      logo: m.logo,
-      catKey: CAT_KEYS.text,
-      quotas: quotas.text
-    });
-  });
 
   imageModels.forEach((m) => {
     items.push({
