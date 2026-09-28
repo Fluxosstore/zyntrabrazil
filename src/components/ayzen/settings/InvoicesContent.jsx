@@ -20,6 +20,7 @@ import { base44 } from "@/api/base44Client";
 import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
 import ReceiptModal from "@/components/ayzen/settings/ReceiptModal";
 import PixPaymentModal from "@/components/ayzen/PixPaymentModal";
+import CancelRechargeModal from "@/components/ayzen/settings/CancelRechargeModal";
 import { useToast } from "@/components/ui/use-toast";
 
 const MONTHS_PT = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
@@ -85,6 +86,7 @@ export default function InvoicesContent({ plan = "free" }) {
   const [menuPos, setMenuPos] = useState(null);
   const [menuLoading, setMenuLoading] = useState(false);
   const [pixModal, setPixModal] = useState({ open: false, data: null });
+  const [cancelModal, setCancelModal] = useState({ open: false, inv: null });
   const menuRef = useRef(null);
   const { toast } = useToast();
 
@@ -233,12 +235,22 @@ export default function InvoicesContent({ plan = "free" }) {
     });
   }
 
-  const handleCancelRecharge = async (inv) => {
+  const handleCancelRecharge = (inv) => {
     setOpenMenuId(null);
+    setCancelModal({ open: true, inv });
+  };
+
+  const confirmCancelRecharge = async () => {
+    const inv = cancelModal.inv;
+    if (!inv) return;
     try {
       await base44.entities.Order.update(inv.raw.id, { status: "cancelled" });
       setOrders((prev) => prev.map((o) => (o.id === inv.raw.id ? { ...o, status: "cancelled" } : o)));
-    } catch (e) {}
+      toast({ title: "Recarga cancelada", description: "A cobrança saiu das pendentes." });
+    } catch (e) {
+      toast({ title: "Erro ao cancelar", description: e.message, variant: "destructive" });
+    }
+    setCancelModal({ open: false, inv: null });
   };
 
   const COLS = "grid grid-cols-[1.2fr_0.85fr_0.7fr_1.5fr_1.05fr_0.85fr_0.7fr_44px] gap-3";
@@ -481,6 +493,13 @@ export default function InvoicesContent({ plan = "free" }) {
           onPaid={() => setPixModal({ open: false, data: null })}
         />
       )}
+
+      <CancelRechargeModal
+        open={cancelModal.open}
+        amount={cancelModal.inv?.value || ""}
+        onClose={() => setCancelModal({ open: false, inv: null })}
+        onConfirm={confirmCancelRecharge}
+      />
     </div>
   );
 }
