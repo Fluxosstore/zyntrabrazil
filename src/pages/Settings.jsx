@@ -155,7 +155,7 @@ function UsageContent({ onNavigate }) {
                   {user?.email || "—"} • Membro desde {formatMemberDate(user?.created_date)}
                 </p>
               </div>
-              <div className="flex items-center gap-3 p-2 rounded-2xl bg-[#eef0f2]">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#eef0f2]">
                 {[
                   { icon: Shield, label: "2FA", onClick: () => {}, red: true },
                   { icon: Key, label: "Passkey", onClick: () => {}, red: true },
