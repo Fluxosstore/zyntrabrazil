@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
-import { MoreVertical, Pin, Check, MessageSquareText } from "lucide-react";
+import { MoreVertical, Pin, Check } from "lucide-react";
 import ChatItemMenu from "./ChatItemMenu";
+import ChatBubbleIcon from "./ChatBubbleIcon";
 
 export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCommit, onSelectToggle, onDelete }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCo
       >
         {conv.selected && <Check className="w-3.5 h-3.5 text-[#7E57C2] shrink-0" />}
         {conv.pinned && !conv.selected && <Pin className="w-3 h-3 text-gray-500 shrink-0" />}
-        {!conv.selected && !conv.pinned && <MessageSquareText className="w-3.5 h-3.5 text-gray-400 shrink-0" />}
+        {!conv.selected && !conv.pinned && <ChatBubbleIcon className="w-3.5 h-3.5 text-gray-400 shrink-0" />}
         {editing ? (
           <input
             autoFocus
