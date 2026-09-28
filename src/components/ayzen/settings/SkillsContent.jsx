@@ -155,7 +155,10 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
     setLoading(true);
     try {
       const list = await base44.entities.Skill.list("-created_date", 100);
-      setSkills(list || []);
+      // Filtra as habilidades globais (já mostradas em "Atribuídas a você") pra evitar duplicação
+      const assignedNames = new Set(ASSIGNED_SKILLS.map((s) => s.name));
+      const own = (list || []).filter((s) => !assignedNames.has(s.name));
+      setSkills(own);
     } catch (err) {
       console.error("Erro ao carregar habilidades:", err);
     }
