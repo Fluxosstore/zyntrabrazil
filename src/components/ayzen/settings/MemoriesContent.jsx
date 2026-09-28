@@ -251,17 +251,15 @@ export default function MemoriesContent() {
                     <filter id="mem-remove-black">
                       <feColorMatrix type="luminanceToAlpha" result="lum" />
                       <feComponentTransfer in="lum" result="mask">
-                        <feFuncA type="linear" slope="4" intercept="-0.15" />
+                        <feFuncA type="linear" slope="20" intercept="-1" />
                       </feComponentTransfer>
                       <feComposite in="SourceGraphic" in2="mask" operator="in" />
                     </filter>
                   </svg>
                   <div className="w-full flex items-end justify-center pt-4 pb-0 relative">
                     <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/81e46fe3d_empty-astronaut-removebg-preview.png"
-
                   alt="Sem memórias"
-                  className="w-80 h-80 object-contain relative z-10"
-                  style={{ filter: "url(#mem-remove-black)" }} />
+                  className="w-80 h-80 object-contain relative z-10" />
                     <div
                     className="absolute bottom-0 left-1/2 -translate-x-1/2 w-60 h-14 rounded-[50%] bg-white z-20"
                     style={{ filter: "blur(20px)" }} />
