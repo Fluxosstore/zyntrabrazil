@@ -10,8 +10,22 @@ import { invalidateUsageCache } from "@/lib/quotaUtils";
 
 const PURPLE = "#7B5BC8";
 
-// Custo em créditos por criar uma automação (custo "Médio")
-const AUTOMATION_CREDIT_COST = 500;
+// Custo em créditos por criar uma automação, variando por modelo
+const AUTOMATION_CREDIT_COST_BY_MODEL = {
+  auto: 500,
+  gemini: 400,
+  deepseek: 300,
+  gpt: 600,
+  gpt5: 600,
+  claude: 700,
+  grok: 650,
+};
+
+const DEFAULT_AUTOMATION_COST = 500;
+
+function getAutomationCost(modelId) {
+  return AUTOMATION_CREDIT_COST_BY_MODEL[modelId] || DEFAULT_AUTOMATION_COST;
+}
 
 export default function NewAutomationModal({ open, onClose, onCreated, prefill }) {
   const { user } = useAuth();
@@ -74,14 +88,15 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
         deliver_telegram: deliverTelegram,
         active: true,
       });
-      // Debita créditos da conta do usuário (custo médio)
+      // Debita créditos da conta do usuário conforme o modelo escolhido
+      const creditCost = getAutomationCost(model);
       base44.entities.TokenUsage.create({
-        tokens: AUTOMATION_CREDIT_COST,
+        tokens: creditCost,
         model: "Automação",
         prompt: name.trim(),
         category: "text",
       }).then(() => invalidateUsageCache()).catch(() => {});
-      toast({ title: "Automação criada com sucesso!", description: `${AUTOMATION_CREDIT_COST} créditos debitados.` });
+      toast({ title: "Automação criada com sucesso!", description: `${creditCost} créditos debitados.` });
       onCreated?.();
       handleClose();
     } catch (err) {
@@ -342,7 +357,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             <div className="px-3.5 py-2.5 border-t border-gray-100 shrink-0 space-y-2 bg-white">
               <p className="text-xs text-gray-500">
                 Custo estimado: <span className="font-semibold text-black">Médio</span>
-                <span className="text-gray-400 ml-1">({AUTOMATION_CREDIT_COST} créditos)</span>
+                <span className="text-gray-400 ml-1">({getAutomationCost(model)} créditos)</span>
               </p>
               <div className="flex gap-1.5">
                 <button
