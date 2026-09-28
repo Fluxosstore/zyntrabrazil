@@ -140,7 +140,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t("dash.searchConversation")}
-                className="w-full h-8 pl-8 pr-10 rounded-lg bg-white border border-gray-200 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+                className="w-full h-8 pl-8 pr-10 rounded-lg bg-[#F4F4F6] border border-gray-300/70 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-400"
               />
               <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-medium text-gray-400 bg-gray-100 px-1 py-0.5 rounded">
                 Ctrl K
