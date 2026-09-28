@@ -6,6 +6,7 @@ import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import QualityChart from "@/components/ayzen/ranking/QualityChart";
 import QualityTable from "@/components/ayzen/ranking/QualityTable";
+import MobileQualityList from "@/components/ayzen/ranking/MobileQualityList";
 import QualityFilters from "@/components/ayzen/ranking/QualityFilters";
 
 export default function RankingQualidade() {
@@ -96,7 +97,7 @@ export default function RankingQualidade() {
           <div>
             <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
             <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.qualityFullRankingDesc")}</p>
-            <QualityTable />
+            <MobileQualityList />
           </div>
           <p className="text-center text-[11px] text-gray-400">{t("ranking.qualityFooter")}</p>
         </div>

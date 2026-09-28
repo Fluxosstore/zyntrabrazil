@@ -6,6 +6,7 @@ import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 import RankingChart from "@/components/ayzen/ranking/RankingChart";
 import RankingTable from "@/components/ayzen/ranking/RankingTable";
+import MobileRankingList from "@/components/ayzen/ranking/MobileRankingList";
 import RankingFilters from "@/components/ayzen/ranking/RankingFilters";
 import { base44 } from "@/api/base44Client";
 
@@ -129,7 +130,7 @@ export default function Ranking() {
     return { models, top3: models.slice(0, 3) };
   }, [rawModels]);
 
-  const renderContent = () => {
+  const renderContent = (mobile = false) => {
     if (loading) {
       return (
         <div className="flex items-center justify-center py-20">
@@ -163,7 +164,7 @@ export default function Ranking() {
         <div>
           <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
           <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
-          <RankingTable models={data.models} />
+          {mobile ? <MobileRankingList models={data.models} /> : <RankingTable models={data.models} />}
         </div>
       </>
     );
@@ -253,7 +254,7 @@ export default function Ranking() {
             onModalityChange={setModality}
             onPeriodChange={setPeriod}
           />
-          {renderContent()}
+          {renderContent(true)}
           <p className="text-center text-[11px] text-gray-400">
             Dados em tempo real via OpenRouter · Ordenado por janela de contexto
           </p>
