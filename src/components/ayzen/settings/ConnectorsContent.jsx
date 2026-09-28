@@ -244,7 +244,7 @@ export default function ConnectorsContent({ plan = "free" }) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto overflow-x-hidden">
       <div className="pl-10 pr-0 py-8 space-y-8">
         {/* Header */}
         <div>
