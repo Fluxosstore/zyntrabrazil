@@ -180,8 +180,8 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
                 <h2 className="text-sm font-bold text-black">Imagens geradas</h2>
                 <button className="text-xs text-gray-400 font-medium">{t("library.viewAll")}</button>
               </div>
-              <div className="space-y-3">
-                {images.slice(0, 3).map((item) => (
+              <div className="grid grid-cols-2 gap-3">
+                {images.slice(0, 4).map((item) => (
                   <AllTabImageCard
                     key={item.id}
                     item={item}
@@ -378,7 +378,7 @@ function AllTabImageCard({ item, onDelete, onOpen }) {
   return (
     <div className="rounded-xl border border-gray-200 overflow-hidden bg-white">
       <div
-        className="relative aspect-[4/3] bg-gray-100 overflow-hidden"
+        className="relative aspect-square bg-gray-100 overflow-hidden"
         onClick={onOpen}
       >
         {item.url ? (
