@@ -24,6 +24,7 @@ import { CONNECTORS } from "@/components/ayzen/settings/connectorsData";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import SkillsPanel from "@/components/ayzen/chat/SkillsPanel";
 import SynthesisPanel from "@/components/ayzen/chat/SynthesisPanel";
+import TypingHeadline from "@/components/ayzen/TypingHeadline";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
@@ -208,9 +209,7 @@ export default function MobileDashboard({
               <p className="text-sm text-gray-500 mb-1">
                 {greeting()}, {firstName}
               </p>
-              <h1 className="text-xl font-bold text-black text-center px-4">
-                {t("dash.headline")}
-              </h1>
+              <TypingHeadline />
             </>
           )}
         </div>
