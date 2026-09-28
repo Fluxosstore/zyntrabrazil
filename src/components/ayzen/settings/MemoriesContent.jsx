@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sparkles, HelpCircle, Plus, X, Save, Trash2, Loader2 } from "lucide-react";
+import { Sparkles, HelpCircle, Plus, X, Save, Trash2, Loader2, MessageCircle, Brain } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -16,6 +16,7 @@ export default function MemoriesContent() {
   const [loading, setLoading] = useState(true);
   const [savingMemory, setSavingMemory] = useState(false);
   const [toggling, setToggling] = useState(null);
+  const [forgetting, setForgetting] = useState(false);
 
   useEffect(() => {
     setAutoExtraction(!!user?.auto_extraction);
@@ -87,6 +88,19 @@ export default function MemoriesContent() {
     }
   };
 
+  const handleForgetAll = async () => {
+    if (memories.length === 0) return;
+    setForgetting(true);
+    try {
+      await base44.entities.Memory.deleteMany({});
+      setMemories([]);
+    } catch (e) {
+      console.error("Erro ao esquecer memórias:", e);
+    } finally {
+      setForgetting(false);
+    }
+  };
+
   const count = memories.length;
 
   return (
@@ -94,141 +108,107 @@ export default function MemoriesContent() {
       <div className="px-10 py-8 space-y-8">
         {/* Header */}
         <div>
-          <p className="text-xs text-gray-400">{t("settings.title")}</p>
-          <h1 className="text-2xl font-bold text-black mt-0.5">{t("settings.memories")}</h1>
-          <p className="text-sm text-gray-500 mt-1">{t("settings.memoriesSubtitle")}</p>
+          <h1 className="text-2xl font-bold text-black">Memórias</h1>
+          <p className="text-sm text-gray-500 mt-1">Informações que a IA lembra sobre você</p>
         </div>
 
         <div className="border-t border-gray-200" />
 
-        {/* Summary card */}
-        <section>
-          <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-            <div className="flex items-start gap-3 p-5">
-              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                <Sparkles className="w-5 h-5 text-gray-600" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-1.5">
-                  <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                    {t("settings.memories")}
-                  </p>
-                  <HelpCircle className="w-3.5 h-3.5 text-gray-300" />
+        {/* Two-column layout */}
+        <section className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 items-start">
+          {/* Left: Controles de memória */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
+            {/* Header */}
+            <div className="flex items-start justify-between mb-1">
+              <h2 className="text-base font-bold text-black">Controles de memória</h2>
+              <HelpCircle className="w-4 h-4 text-gray-300 shrink-0" />
+            </div>
+            <p className="text-xs text-gray-500 mb-4">Defina quando a Ayzen pode aprender e quando deve usar o que já sabe sobre você.</p>
+
+            {/* Toggle rows */}
+            <div className="space-y-3">
+              {/* Extração automática */}
+              <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                    <Sparkles className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-bold text-black">Extração automática</p>
+                      <span className="text-[11px] font-medium text-gray-400">{autoExtraction ? "Ativa" : "Inativa"}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">A IA aprende sobre você automaticamente durante as conversas</p>
+                  </div>
                 </div>
-                <p className="text-base font-bold text-black mt-0.5">{t("settings.memoriesSaved")}</p>
-                <p className="text-xs text-gray-500 mt-1 max-w-2xl">{t("settings.memoriesCardDesc")}</p>
+                <Switch
+                  checked={autoExtraction}
+                  onCheckedChange={handleToggleAutoExtraction}
+                  disabled={toggling === "auto"}
+                />
               </div>
-            </div>
-            <div className="grid grid-cols-3 border-t border-gray-100">
-              <div className="p-4 border-r border-gray-100">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.memoriesSavedCount")}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{count}</p>
-              </div>
-              <div className="p-4 border-r border-gray-100">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.autoExtraction")}
-                </p>
-                <p className={`text-sm font-bold mt-1 ${autoExtraction ? "text-green-600" : "text-black"}`}>
-                  {autoExtraction ? t("settings.enabled") : t("settings.disabled")}
-                </p>
-              </div>
-              <div className="p-4">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.useMemoriesConvo")}
-                </p>
-                <p className={`text-sm font-bold mt-1 ${useMemories ? "text-green-600" : "text-black"}`}>
-                  {useMemories ? t("settings.enabled") : t("settings.disabled")}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Controles de memória */}
-        <section>
-          <h2 className="text-base font-bold text-black mb-1">{t("settings.memoryControls")}</h2>
-          <p className="text-xs text-gray-500 mb-3">{t("settings.memoryControlsDesc")}</p>
-          <div className="rounded-2xl border border-gray-200 bg-white divide-y divide-gray-100">
-            <div className="flex items-center justify-between gap-4 p-5">
-              <div className="flex-1">
-                <p className="text-sm font-bold text-black">{t("settings.autoExtractionToggle")}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{t("settings.autoExtractionToggleDesc")}</p>
-              </div>
-              <Switch
-                checked={autoExtraction}
-                onCheckedChange={handleToggleAutoExtraction}
-                disabled={toggling === "auto"}
-              />
-            </div>
-            <div className="flex items-center justify-between gap-4 p-5">
-              <div className="flex-1">
-                <p className="text-sm font-bold text-black">{t("settings.useMemoriesToggle")}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{t("settings.useMemoriesToggleDesc")}</p>
-              </div>
-              <Switch
-                checked={useMemories}
-                onCheckedChange={handleToggleUseMemories}
-                disabled={toggling === "use"}
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Memórias salvas */}
-        <section>
-          <div className="flex items-center gap-2 mb-3">
-            <h2 className="text-base font-bold text-black">{t("settings.memoriesSaved")}</h2>
-            <span className="inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-gray-200 text-xs font-bold text-gray-600">
-              {count}
-            </span>
-          </div>
-
-          {loading ? (
-            <div className="rounded-2xl border border-gray-200 bg-white p-10 flex flex-col items-center text-center">
-              <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
-            </div>
-          ) : count === 0 ? (
-            <div className="rounded-2xl border border-gray-200 bg-white p-10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
-                <Sparkles className="w-6 h-6 text-gray-400" />
-              </div>
-              <p className="text-sm font-bold text-black">{t("settings.noMemoriesTitle")}</p>
-              <p className="text-xs text-gray-500 mt-1 max-w-sm">{t("settings.noMemoriesDesc")}</p>
-            </div>
-          ) : (
-            <div className="rounded-2xl border border-gray-200 bg-white divide-y divide-gray-100">
-              {memories.map((m) => (
-                <div key={m.id} className="flex items-start justify-between gap-3 p-4 group">
-                  <p className="text-sm text-black flex-1 break-words">{m.content}</p>
-                  <button
-                    onClick={() => handleDeleteMemory(m.id)}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+              {/* Usar memórias */}
+              <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-200">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                    <MessageCircle className="w-4 h-4 text-gray-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-bold text-black">Usar memórias nas conversas</p>
+                      <span className="text-[11px] font-medium text-gray-400">{useMemories ? "Ativa" : "Inativa"}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">A IA usa o que já guardou pra personalizar as respostas</p>
+                  </div>
                 </div>
-              ))}
+                <Switch
+                  checked={useMemories}
+                  onCheckedChange={handleToggleUseMemories}
+                  disabled={toggling === "use"}
+                />
+              </div>
             </div>
-          )}
 
-          <div className="mt-4 space-y-3">
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              {t("settings.addMemory")}
-            </button>
+            {/* Footer: Esquecer tudo */}
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <button
+                onClick={handleForgetAll}
+                disabled={forgetting || count === 0}
+                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {forgetting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Trash2 className="w-4 h-4" />
+                )}
+                Esquecer tudo
+              </button>
+            </div>
+          </div>
 
+          {/* Right: Memórias salvas */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-base font-bold text-black">Memórias salvas</h2>
+              <button
+                onClick={() => setShowAddForm(true)}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Adicionar memória
+              </button>
+            </div>
+
+            {/* Add form */}
             {showAddForm && (
-              <div className="rounded-xl border border-gray-300 bg-white p-4">
+              <div className="mb-4 rounded-xl border border-gray-300 bg-white p-4">
                 <textarea
                   autoFocus
                   value={memoryText}
                   onChange={(e) => setMemoryText(e.target.value)}
-                  placeholder={t("settings.addMemoryPlaceholder")}
+                  placeholder="Escreva algo que a IA deve lembrar sobre você..."
                   rows={3}
                   className="w-full text-sm text-black placeholder:text-gray-500 focus:outline-none resize-none bg-transparent"
                 />
@@ -241,7 +221,7 @@ export default function MemoriesContent() {
                     className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black transition-colors"
                   >
                     <X className="w-3.5 h-3.5" />
-                    {t("settings.cancel")}
+                    Cancelar
                   </button>
                   <button
                     onClick={handleSaveMemory}
@@ -253,9 +233,44 @@ export default function MemoriesContent() {
                     ) : (
                       <Save className="w-3.5 h-3.5" />
                     )}
-                    {t("settings.save")}
+                    Salvar
                   </button>
                 </div>
+              </div>
+            )}
+
+            {/* Content area */}
+            {loading ? (
+              <div className="flex-1 flex items-center justify-center py-12">
+                <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
+              </div>
+            ) : count === 0 ? (
+              <div className="flex-1 flex items-center justify-center py-8">
+                <div className="w-full rounded-xl border-2 border-dashed border-gray-200 p-10 flex flex-col items-center text-center">
+                  <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                    <img
+                      src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
+                      alt="Sem memórias"
+                      className="w-16 h-16 object-contain opacity-80"
+                    />
+                  </div>
+                  <p className="text-sm font-bold text-black">Nenhuma memória salva ainda</p>
+                  <p className="text-xs text-gray-500 mt-1 max-w-xs">A IA vai guardar aqui o que aprender sobre você nas conversas.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex-1 space-y-2">
+                {memories.map((m) => (
+                  <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-xl bg-gray-50 group">
+                    <p className="text-sm text-black flex-1 break-words">{m.content}</p>
+                    <button
+                      onClick={() => handleDeleteMemory(m.id)}
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>
