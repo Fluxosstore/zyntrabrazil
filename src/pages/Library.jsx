@@ -221,8 +221,8 @@ export default function LibraryPage() {
           </div>
 
           {/* Filter tabs */}
-          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 pb-3">
-            <div className="inline-flex items-center gap-1 bg-[#EFEFF1] rounded-full p-1">
+          <div className="flex justify-center pb-3">
+            <div className="flex items-center gap-0.5 bg-[#EFEFF1] rounded-full p-1 max-w-full overflow-x-auto scrollbar-hide">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
@@ -230,7 +230,7 @@ export default function LibraryPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
                       active
                         ? "bg-white text-black shadow-sm"
                         : "text-gray-500"
