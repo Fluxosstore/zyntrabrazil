@@ -17,6 +17,7 @@ import AccountContent from "@/components/ayzen/settings/AccountContent";
 import MemoriesContent from "@/components/ayzen/settings/MemoriesContent";
 import MediaQuotasContent from "@/components/ayzen/settings/MediaQuotasContent";
 import CreditsCard from "@/components/ayzen/settings/CreditsCard";
+import MobileProfileContent from "@/components/ayzen/settings/MobileProfileContent";
 import { Image } from "@/components/ui/image";
 import { getAvatarForUser } from "@/lib/avatars";
 import { CoinStackIcon, ReceiptLinesIcon } from "@/components/ayzen/SettingsIcons";
@@ -406,6 +407,13 @@ export default function Settings() {
     }
   };
 
+  const renderMobileContent = () => {
+    if (activeSection === "usage") {
+      return <MobileProfileContent onNavigate={setActiveSection} />;
+    }
+    return renderContent();
+  };
+
   return (
     <>
       {/* Desktop - with sidebar */}
@@ -480,7 +488,7 @@ export default function Settings() {
         </div>
         <MobileSettingsTabs active={activeSection} onSelect={setActiveSection} />
         <div className="flex-1 overflow-y-auto">
-          {renderContent()}
+          {renderMobileContent()}
         </div>
       </div>
     </>);
