@@ -72,18 +72,7 @@ export default function SkillFormContent({ onBack, editSkill, onSaved }) {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="px-10 py-8 space-y-6 max-w-6xl">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-1.5 text-xs text-gray-400">
-          <button onClick={onBack} className="hover:text-gray-600 transition-colors">
-            Minhas habilidades
-          </button>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-gray-600">
-            {editSkill ? t("settings.editSkill") : "Nova habilidade"}
-          </span>
-        </div>
-
+      <div className="px-10 py-8 space-y-6 max-w-7xl">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-black">Habilidades</h1>
@@ -93,27 +82,41 @@ export default function SkillFormContent({ onBack, editSkill, onSaved }) {
         </div>
 
         {/* Two-column: preview + form */}
-        <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-6 items-start">
-          {/* Left: Prévia no chat */}
-          <div className="rounded-2xl bg-[#7C5DFA] p-5 flex flex-col text-white lg:sticky lg:top-4">
-            <h2 className="text-base font-bold mb-4">Prévia no chat</h2>
-
-            <p className="text-xs text-white/70 mb-1">No chat:</p>
-            <p className="text-2xl font-bold tracking-tight mb-4 break-words">
-              /{previewName}
-            </p>
-
-            <div className="rounded-xl bg-white/15 p-3.5 mb-6">
-              <p className="text-sm text-white/90 leading-relaxed break-words">
-                {previewDesc}
-              </p>
+        <div className="grid grid-cols-1 lg:grid-cols-[440px_1fr] gap-8 items-start">
+          {/* Left: breadcrumb + Prévia no chat */}
+          <div className="space-y-3">
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-1.5 text-xs text-gray-400">
+              <button onClick={onBack} className="hover:text-gray-600 transition-colors">
+                Minhas habilidades
+              </button>
+              <ChevronRight className="w-3 h-3" />
+              <span className="text-gray-600">
+                {editSkill ? t("settings.editSkill") : "Nova habilidade"}
+              </span>
             </div>
 
-            <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/20">
-              <span className="text-[11px] font-medium text-white/70">Gatilho</span>
-              <span className="text-[11px] font-medium text-white/70">
-                Comando de barra
-              </span>
+            {/* Prévia no chat */}
+            <div className="rounded-2xl bg-[#7C5DFA] p-5 flex flex-col text-white lg:sticky lg:top-4">
+              <h2 className="text-base font-bold mb-4">Prévia no chat</h2>
+
+              <p className="text-xs text-white/70 mb-1">No chat:</p>
+              <p className="text-2xl font-bold tracking-tight mb-4 break-words">
+                /{previewName}
+              </p>
+
+              <div className="rounded-xl bg-white/15 p-3.5 mb-6">
+                <p className="text-sm text-white/90 leading-relaxed break-words">
+                  {previewDesc}
+                </p>
+              </div>
+
+              <div className="mt-auto flex items-center justify-between pt-4 border-t border-white/20">
+                <span className="text-[11px] font-medium text-white/70">Gatilho</span>
+                <span className="text-[11px] font-medium text-white/70">
+                  Comando de barra
+                </span>
+              </div>
             </div>
           </div>
 
