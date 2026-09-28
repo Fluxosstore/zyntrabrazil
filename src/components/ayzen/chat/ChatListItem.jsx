@@ -4,7 +4,7 @@ import { MoreVertical, Pin, Check } from "lucide-react";
 import ChatItemMenu from "./ChatItemMenu";
 import ChatBubbleIcon from "./ChatBubbleIcon";
 
-export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCommit, onSelectToggle, onDelete }) {
+export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCommit, onSelectToggle, onDelete, folders = [], onMoveToFolder, indent = false }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(conv.title);
@@ -32,7 +32,7 @@ export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCo
     <div ref={itemRef} className="relative">
       <div
         onClick={() => !editing && onSelect?.(conv.id)}
-        className={`flex items-center gap-2 px-2.5 py-2 rounded-xl cursor-pointer transition-colors group ${
+        className={`flex items-center gap-2 ${indent ? "pl-7" : "px-2.5"} pr-2.5 py-2 rounded-xl cursor-pointer transition-colors group ${
           active ? "bg-gray-200/60 text-gray-900" : "text-gray-700 hover:bg-gray-200/60"
         }`}
       >
@@ -73,6 +73,8 @@ export default function ChatListItem({ conv, active, onSelect, onPin, onRenameCo
             onRename={() => { setEditTitle(conv.title); setEditing(true); }}
             onSelect={() => onSelectToggle?.(conv.id)}
             onDelete={() => onDelete?.(conv.id)}
+            folders={folders}
+            onMoveToFolder={(folderId) => onMoveToFolder?.(conv.id, folderId)}
             onClose={() => setMenuOpen(false)}
           />
         )}

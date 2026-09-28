@@ -35,6 +35,7 @@ export default function MobileDashboard({
   onNewConversation, onSelectConversation,
   onDeleteConversation, onRenameConversation,
   onTogglePin, onToggleSelect,
+  onMoveToFolder,
   onEditMessage, onReprocess,
   tempMode, setTempMode,
   setModel,
@@ -326,6 +327,7 @@ export default function MobileDashboard({
         onRenameConversation={onRenameConversation}
         onTogglePin={onTogglePin}
         onToggleSelect={onToggleSelect}
+        onMoveToFolder={onMoveToFolder}
       />
     </div>
   );

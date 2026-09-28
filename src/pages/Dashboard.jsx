@@ -450,6 +450,10 @@ export default function Dashboard() {
     setConversations((prev) => prev.map((c) => c.id === convId ? { ...c, selected: !c.selected } : c));
   };
 
+  const handleMoveToFolder = (convId, folderId) => {
+    setConversations((prev) => prev.map((c) => c.id === convId ? { ...c, folder_id: folderId } : c));
+  };
+
   return (
     <>
     <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
@@ -462,7 +466,8 @@ export default function Dashboard() {
           onDeleteConversation={handleDeleteConversation}
           onRenameConversation={handleRenameConversation}
           onTogglePin={handleTogglePin}
-          onToggleSelect={handleToggleSelect} />
+          onToggleSelect={handleToggleSelect}
+          onMoveToFolder={handleMoveToFolder} />
         
 
       {/* Main */}
@@ -737,6 +742,7 @@ export default function Dashboard() {
         onRenameConversation={handleRenameConversation}
         onTogglePin={handleTogglePin}
         onToggleSelect={handleToggleSelect}
+        onMoveToFolder={handleMoveToFolder}
         onEditMessage={handleEditMessage}
         onReprocess={handleReprocess}
         tempMode={tempMode}

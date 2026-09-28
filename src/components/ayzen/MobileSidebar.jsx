@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight } from "lucide-react";
+import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
@@ -14,11 +14,14 @@ import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import { base44 } from "@/api/base44Client";
 import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 import NewFolderModal from "@/components/ayzen/chat/NewFolderModal";
+import { useFolders } from "@/hooks/useFolders";
 
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
-export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect }) {
+export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder }) {
+  const { folders, reloadFolders } = useFolders();
+  const [expandedFolders, setExpandedFolders] = useState({});
   const { user, logout } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -174,25 +177,72 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
             {/* Chats list */}
             <div className="flex-1 px-3 overflow-y-auto">
-              <div className="px-2 pt-1 pb-1">
+              {/* Folders with nested chats */}
+              {folders.map((folder) => {
+                const folderChats = filteredConversations.filter((c) => c.folder_id === folder.id);
+                const isExpanded = expandedFolders[folder.id] !== false;
+                return (
+                  <div key={folder.id} className="space-y-0.5">
+                    <div
+                      onClick={() => setExpandedFolders((p) => ({ ...p, [folder.id]: !isExpanded }))}
+                      className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer text-gray-700 hover:bg-gray-100 transition-colors group"
+                    >
+                      <ChevronRight className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
+                      <Folder className="w-4 h-4 shrink-0" style={{ color: folder.color || "#6C31E3" }} />
+                      <span className="flex-1 text-sm font-medium truncate">{folder.name}</span>
+                      {folderChats.length > 0 && <span className="text-xs text-gray-400">{folderChats.length}</span>}
+                      <button
+                        onClick={(e) => e.stopPropagation()}
+                        className="w-6 h-6 flex items-center justify-center rounded shrink-0 text-gray-400 hover:bg-gray-200 transition-colors"
+                      >
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+                    </div>
+                    {isExpanded && folderChats.length > 0 && (
+                      <div className="space-y-0.5">
+                        {folderChats.map((conv) =>
+                          <ChatListItem
+                            key={conv.id}
+                            conv={conv}
+                            active={conv.id === activeConversationId}
+                            onSelect={handleSelect}
+                            onPin={onTogglePin}
+                            onRenameCommit={onRenameConversation}
+                            onSelectToggle={onToggleSelect}
+                            onDelete={onDeleteConversation}
+                            folders={folders}
+                            onMoveToFolder={onMoveToFolder}
+                            indent
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Chats without folder */}
+              <div className="px-2 pt-2 pb-1">
                 <span className="text-xs font-semibold tracking-wider text-gray-400">
                   Hoje
                 </span>
               </div>
-              {filteredConversations.length === 0 ?
+              {filteredConversations.filter((c) => !c.folder_id).length === 0 && folders.length === 0 ?
             <p className="px-2 text-xs text-gray-400">{t("dash.noChats")}</p> :
 
             <div className="space-y-0.5">
-                  {filteredConversations.map((conv) =>
-              <ChatListItem
-                key={conv.id}
-                conv={conv}
-                active={conv.id === activeConversationId}
-                onSelect={handleSelect}
-                onPin={onTogglePin}
-                onRenameCommit={onRenameConversation}
-                onSelectToggle={onToggleSelect}
-                onDelete={onDeleteConversation} />
+                  {filteredConversations.filter((c) => !c.folder_id).map((conv) =>
+                <ChatListItem
+                  key={conv.id}
+                  conv={conv}
+                  active={conv.id === activeConversationId}
+                  onSelect={handleSelect}
+                  onPin={onTogglePin}
+                  onRenameCommit={onRenameConversation}
+                  onSelectToggle={onToggleSelect}
+                  onDelete={onDeleteConversation}
+                  folders={folders}
+                  onMoveToFolder={onMoveToFolder} />
 
               )}
                 </div>
@@ -248,7 +298,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
               </button>
             </div>
 
-            <NewFolderModal open={folderModalOpen} onClose={() => setFolderModalOpen(false)} />
+            <NewFolderModal open={folderModalOpen} onClose={() => setFolderModalOpen(false)} onCreated={reloadFolders} />
           </motion.aside>
         </>
       }
