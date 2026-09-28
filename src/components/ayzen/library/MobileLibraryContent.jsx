@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
+import MobileImageViewer from "@/components/ayzen/library/MobileImageViewer";
 import {
   MODELS_BY_PLAN, IMAGE_MODELS, IMAGE_MODELS_BY_PLAN,
   AUDIO_MODELS, AUDIO_MODELS_BY_PLAN, LOGO,
@@ -92,6 +93,7 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [viewerItem, setViewerItem] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -242,30 +244,46 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
 
   if (activeTab === "images") {
     return (
-      <div className="grid grid-cols-2 gap-3">
-        {filtered.map((item) => (
-          <div
-            key={item.id}
-            className="rounded-xl border border-gray-200 overflow-hidden bg-white"
-          >
-            <div className="aspect-square bg-gray-100 overflow-hidden">
-              {item.url ? (
-                <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <ImageIcon className="w-8 h-8 text-gray-300" />
-                </div>
-              )}
+      <>
+        <div className="grid grid-cols-2 gap-3">
+          {filtered.map((item) => (
+            <div
+              key={item.id}
+              className="rounded-xl border border-gray-200 overflow-hidden bg-white"
+            >
+              <div
+                className="relative aspect-square bg-gray-100 overflow-hidden"
+                onClick={() => item.url && setViewerItem(item)}
+              >
+                {item.url ? (
+                  <img src={item.url} alt={item.title} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <ImageIcon className="w-8 h-8 text-gray-300" />
+                  </div>
+                )}
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleDelete(item.id); }}
+                  className="absolute top-1.5 right-1.5 w-7 h-7 flex items-center justify-center rounded-full bg-black/50 text-white active:bg-black/70 transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              <div className="p-2.5">
+                <p className="text-xs font-medium text-black truncate">{item.title}</p>
+                <p className="text-[10px] text-gray-500 mt-0.5">
+                  {item.model} • {formatDate(item.created_date)}
+                </p>
+              </div>
             </div>
-            <div className="p-2.5">
-              <p className="text-xs font-medium text-black truncate">{item.title}</p>
-              <p className="text-[10px] text-gray-500 mt-0.5">
-                {item.model} • {formatDate(item.created_date)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+        <MobileImageViewer
+          item={viewerItem}
+          onClose={() => setViewerItem(null)}
+          onDelete={handleDelete}
+        />
+      </>
     );
   }
 
