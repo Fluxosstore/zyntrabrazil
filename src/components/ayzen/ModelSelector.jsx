@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Search, Check, SignalHigh, SignalMedium, SignalLow } from "lucide-react";
 import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
 
-const LOGO =
+export const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ddb60374d_ChatGPTImage16desetde202623_41_31.png";
 
 const GEMINI =

@@ -4,6 +4,24 @@ import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import { CoinStackIcon } from "@/components/ayzen/SettingsIcons";
+import { MODELS_BY_PLAN, IMAGE_MODELS, IMAGE_MODELS_BY_PLAN, AUDIO_MODELS, AUDIO_MODELS_BY_PLAN, LOGO } from "@/components/ayzen/ModelSelector";
+
+const MODEL_LOGO_BY_NAME = (() => {
+  const map = { "Zyntra Auto": LOGO };
+  const arrays = [
+    ...Object.values(MODELS_BY_PLAN),
+    IMAGE_MODELS,
+    ...Object.values(IMAGE_MODELS_BY_PLAN),
+    AUDIO_MODELS,
+    ...Object.values(AUDIO_MODELS_BY_PLAN)
+  ];
+  for (const arr of arrays) {
+    for (const m of arr || []) {
+      if (m && m.name && m.logo) map[m.name] = m.logo;
+    }
+  }
+  return map;
+})();
 
 const MONTHS_PT = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
 
@@ -174,7 +192,7 @@ export default function CreditsCard({ onReload, className = "" }) {
                   <p className="text-xs text-white/90 truncate">{title}</p>
                   <p className="text-[11px] text-white/70 flex items-center gap-1 truncate">
                     {ts}
-                    {m.model && <><Sparkles className="w-3 h-3 shrink-0" /><span className="truncate">{m.model}</span></>}
+                    {m.model && (() => { const logo = MODEL_LOGO_BY_NAME[m.model]; return (<>{logo ? <img src={logo} alt={m.model} className="w-3 h-3 rounded object-contain shrink-0" /> : <Sparkles className="w-3 h-3 shrink-0" />}<span className="truncate">{m.model}</span></>); })()}
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
