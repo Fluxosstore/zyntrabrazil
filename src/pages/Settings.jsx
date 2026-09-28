@@ -160,7 +160,7 @@ function UsageContent({ onNavigate }) {
                 {[
                 { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
                 { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
-                { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/plan-selection") },
+                { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/recharge-credits") },
                 { icon: ReceiptLinesIcon, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true }].
                 map((btn) =>
                 <button
@@ -243,7 +243,7 @@ function UsageContent({ onNavigate }) {
           </div>
 
           {/* Credits card (purple) */}
-          <CreditsCard onReload={() => navigate("/plan-selection")} className="min-h-[580px]" />
+          <CreditsCard onReload={() => navigate("/recharge-credits")} className="min-h-[580px]" />
         </section>
 
         {/* Visão geral */}
@@ -439,7 +439,7 @@ export default function Settings() {
               <span className="text-xs font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
             </div>
             <button
-                onClick={() => navigate("/plan-selection")}
+                onClick={() => navigate("/recharge-credits")}
                 className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors">
                 
               Recarregar
@@ -470,7 +470,7 @@ export default function Settings() {
               <span className="text-[11px] font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
             </div>
             <button
-              onClick={() => navigate("/plan-selection")}
+              onClick={() => navigate("/recharge-credits")}
               className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#7a5bc8] text-white text-[11px] font-medium">
               
               <Plus className="w-3 h-3" />

@@ -19,6 +19,7 @@ import Automations from '@/pages/Automations';
 import Codrax from '@/pages/Codrax';
 import Settings from '@/pages/Settings';
 import PlanSelection from '@/pages/PlanSelection';
+import RechargeCredits from '@/pages/RechargeCredits';
 import Ranking from '@/pages/Ranking';
 import RankingQualidade from '@/pages/RankingQualidade';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -71,6 +72,7 @@ const AuthenticatedApp = () => {
         </Route>
         <Route path="/settings" element={<Settings />} />
         <Route path="/plan-selection" element={<PlanSelection />} />
+        <Route path="/recharge-credits" element={<RechargeCredits />} />
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<Admin />} />
           <Route path="/codrax" element={<Codrax />} />
