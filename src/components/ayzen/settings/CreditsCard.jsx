@@ -91,7 +91,7 @@ export default function CreditsCard({ onReload, className = "" }) {
   const lastCreditAmount = usage.lastCredit?.tokens || credits.month;
 
   return (
-    <div className={`rounded-2xl bg-[#7C5DCF] text-white p-5 flex flex-col ${className}`}>
+    <div className={`rounded-2xl bg-[#7C5DCF] text-white p-5 flex flex-col min-h-[340px] ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold">Créditos</h3>
