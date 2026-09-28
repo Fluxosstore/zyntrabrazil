@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, ArrowUpRight, Plus, FileText, RefreshCw, FileClock, ChevronRight, MessageCircle, Sparkles } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
@@ -42,6 +43,7 @@ function formatExpiry(dateStr) {
 
 export default function CreditsCard({ onReload, className = "" }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const plan = user?.plan || "free";
   const credits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
   const [showBalance, setShowBalance] = useState(true);
@@ -96,7 +98,10 @@ export default function CreditsCard({ onReload, className = "" }) {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold">Créditos</h3>
-        <button className="flex items-center gap-1.5 text-xs text-white border border-white rounded-full px-3.5 py-1.5 hover:bg-white/10 transition-colors">
+        <button
+          onClick={() => navigate("/statement")}
+          className="flex items-center gap-1.5 text-xs text-white border border-white rounded-full px-3.5 py-1.5 hover:bg-white/10 transition-colors"
+        >
           <FileClock className="w-3.5 h-3.5" />
           Ver extrato
           <ChevronRight className="w-3.5 h-3.5" />
@@ -204,7 +209,10 @@ export default function CreditsCard({ onReload, className = "" }) {
             );
           })}
         </div>
-        <button className="mt-3 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors self-start">
+        <button
+          onClick={() => navigate("/statement")}
+          className="mt-3 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors self-start"
+        >
           Ver extrato completo <ArrowUpRight className="w-3.5 h-3.5" />
         </button>
       </div>

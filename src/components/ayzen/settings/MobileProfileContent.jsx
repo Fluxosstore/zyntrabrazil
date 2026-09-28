@@ -238,7 +238,10 @@ export default function MobileProfileContent({ onNavigate }) {
       <div className="rounded-2xl bg-[#7C5DCF] text-white p-4 flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-base font-bold">Créditos</h3>
-          <button className="flex items-center gap-1.5 text-xs text-white border border-white rounded-full px-3 py-1.5 hover:bg-white/10 transition-colors">
+          <button
+            onClick={() => navigate("/statement")}
+            className="flex items-center gap-1.5 text-xs text-white border border-white rounded-full px-3 py-1.5 hover:bg-white/10 transition-colors"
+          >
             Ver extrato
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
@@ -340,7 +343,10 @@ export default function MobileProfileContent({ onNavigate }) {
               );
             })}
           </div>
-          <button className="mt-3 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors">
+          <button
+            onClick={() => navigate("/statement")}
+            className="mt-3 flex items-center gap-1 text-xs text-white/80 hover:text-white transition-colors"
+          >
             Ver extrato completo <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </div>
