@@ -259,19 +259,21 @@ export default function MemoriesContent() {
                 </div>
               </div> :
 
-            <div className="flex-1 space-y-2">
-                {memories.map((m) =>
-              <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-xl bg-gray-50 group">
+            <div className="flex-1">
+              <div className="w-full rounded-xl border-2 border-dashed border-gray-200 p-4 space-y-2">
+                {memories.map((m) => (
+                  <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-lg bg-gray-50 group">
                     <p className="text-sm text-black flex-1 break-words">{m.content}</p>
                     <button
-                  onClick={() => handleDeleteMemory(m.id)}
-                  className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0">
-                  
+                      onClick={() => handleDeleteMemory(m.id)}
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-              )}
+                ))}
               </div>
+            </div>
             }
           </div>
         </section>
