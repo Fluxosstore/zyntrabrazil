@@ -6,8 +6,12 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { useToast } from "@/components/ui/use-toast";
 import { MODELS_BY_PLAN, getModelInfo } from "@/components/ayzen/ModelSelector";
+import { invalidateUsageCache } from "@/lib/quotaUtils";
 
 const PURPLE = "#7B5BC8";
+
+// Custo em créditos por criar uma automação (custo "Médio")
+const AUTOMATION_CREDIT_COST = 500;
 
 export default function NewAutomationModal({ open, onClose, onCreated, prefill }) {
   const { user } = useAuth();
@@ -70,7 +74,14 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
         deliver_telegram: deliverTelegram,
         active: true,
       });
-      toast({ title: "Automação criada com sucesso!" });
+      // Debita créditos da conta do usuário (custo médio)
+      base44.entities.TokenUsage.create({
+        tokens: AUTOMATION_CREDIT_COST,
+        model: "Automação",
+        prompt: name.trim(),
+        category: "text",
+      }).then(() => invalidateUsageCache()).catch(() => {});
+      toast({ title: "Automação criada com sucesso!", description: `${AUTOMATION_CREDIT_COST} créditos debitados.` });
       onCreated?.();
       handleClose();
     } catch (err) {
@@ -125,7 +136,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.92 }}
             transition={{ type: "tween", duration: 0.2, ease: "easeOut" }}
-            className="bg-white rounded-2xl w-full max-w-[340px] max-h-[94vh] flex flex-col shadow-2xl pointer-events-auto"
+            className="bg-white rounded-2xl overflow-hidden w-full max-w-[340px] max-h-[94vh] flex flex-col shadow-2xl pointer-events-auto"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-gray-100 shrink-0">
@@ -331,6 +342,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             <div className="px-3.5 py-2.5 border-t border-gray-100 shrink-0 space-y-2 bg-white">
               <p className="text-xs text-gray-500">
                 Custo estimado: <span className="font-semibold text-black">Médio</span>
+                <span className="text-gray-400 ml-1">({AUTOMATION_CREDIT_COST} créditos)</span>
               </p>
               <div className="flex gap-1.5">
                 <button
