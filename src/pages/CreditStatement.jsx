@@ -11,6 +11,7 @@ import {
   MODELS_BY_PLAN, IMAGE_MODELS, IMAGE_MODELS_BY_PLAN,
   AUDIO_MODELS, AUDIO_MODELS_BY_PLAN, LOGO,
 } from "@/components/ayzen/ModelSelector";
+import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 
 const MODEL_LOGO_BY_NAME = (() => {
   const map = { "Zyntra Auto": LOGO };
@@ -58,11 +59,32 @@ export default function CreditStatement() {
   const [perPage, setPerPage] = useState(20);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const plan = user?.plan || "free";
+  const planCredits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
+
   useEffect(() => {
     (async () => {
       try {
         const records = await base44.entities.TokenUsage.list("-created_date", 500);
-        setMovements(records || []);
+        // Build the full list: a synthetic plan-credit refill (entrada) + all consumption records (gastos)
+        const refillDate = user?.plan_expires
+          ? new Date(user.plan_expires)
+          : new Date();
+        refillDate.setMonth(refillDate.getMonth() - 1);
+        const syntheticRefill = {
+          id: "plan-refill-synthetic",
+          tokens: planCredits.month,
+          model: "Créditos do plano",
+          prompt: "Créditos do plano",
+          created_date: refillDate.toISOString(),
+          isPlanRefill: true,
+        };
+        // Consumption records are stored as positive token counts → display as negative gastos
+        const gastos = (records || []).map((r) => ({
+          ...r,
+          tokens: -Math.abs(r.tokens || 0),
+        }));
+        setMovements([syntheticRefill, ...gastos]);
       } catch (e) {
         // ignore
       } finally {
