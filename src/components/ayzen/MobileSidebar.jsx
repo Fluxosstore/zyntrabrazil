@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+
 import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
@@ -176,12 +177,13 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
             {/* Pastas section */}
             <div className="flex items-center justify-between px-3 pt-3 pb-1">
-              <div className="flex items-center gap-1">
-                <span className="text-xs font-semibold tracking-wider text-gray-400">
-                  Pastas
-                </span>
-                <ChevronRight className="w-4 h-4 text-gray-400" />
-              </div>
+              <button
+                onClick={() => setFoldersSectionOpen((v) => !v)}
+                className="flex items-center gap-1 text-xs font-semibold tracking-wider text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <ChevronRight className={`w-4 h-4 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
+                Pastas
+              </button>
               <button
                 onClick={() => setFolderModalOpen(true)}
                 className="w-7 h-7 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
@@ -193,11 +195,11 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             {/* Chats list */}
             <div className="flex-1 px-3 overflow-y-auto">
               {/* Folders with nested chats */}
-              {folders.map((folder) => {
+              {foldersSectionOpen && folders.map((folder) => {
                 const folderChats = filteredConversations.filter((c) => c.folder_id === folder.id);
                 const isExpanded = expandedFolders[folder.id] !== false;
                 return (
-                  <div key={folder.id} className="space-y-0.5">
+                  <div key={folder.id} ref={folderMenuId === folder.id ? folderMenuRef : null} className="relative space-y-0.5">
                     <div
                       onClick={() => setExpandedFolders((p) => ({ ...p, [folder.id]: !isExpanded }))}
                       className="flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer text-gray-700 hover:bg-gray-100 transition-colors group"
@@ -207,12 +209,25 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                       <span className="flex-1 text-sm font-medium truncate">{folder.name}</span>
                       {folderChats.length > 0 && <span className="text-xs text-gray-400">{folderChats.length}</span>}
                       <button
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => { e.stopPropagation(); setFolderMenuId(folderMenuId === folder.id ? null : folder.id); }}
                         className="w-6 h-6 flex items-center justify-center rounded shrink-0 text-gray-400 hover:bg-gray-200 transition-colors"
                       >
                         <MoreVertical className="w-4 h-4" />
                       </button>
                     </div>
+                    <AnimatePresence>
+                      {folderMenuId === folder.id && (
+                        <FolderMenu
+                          onEdit={() => setEditFolder(folder)}
+                          onDelete={async () => {
+                            try { await base44.entities.Folder.delete(folder.id); } catch {}
+                            reloadFolders();
+                            setFolderMenuId(null);
+                          }}
+                          onClose={() => setFolderMenuId(null)}
+                        />
+                      )}
+                    </AnimatePresence>
                     {isExpanded && folderChats.length > 0 && (
                       <div className="space-y-0.5">
                         {folderChats.map((conv) =>
@@ -315,7 +330,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
               </button>
             </div>
 
-            <NewFolderModal open={folderModalOpen} onClose={() => setFolderModalOpen(false)} onCreated={reloadFolders} />
+            <NewFolderModal open={folderModalOpen || !!editFolder} editFolder={editFolder} onClose={() => { setFolderModalOpen(false); setEditFolder(null); }} onCreated={() => { reloadFolders(); setEditFolder(null); }} />
           </motion.aside>
         </>
       }
