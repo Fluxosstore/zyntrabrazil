@@ -254,9 +254,9 @@ export default function MobileDashboard({
                   setToolsPanelOpen(false);
                   setConnectorsPanelOpen(false);
                 }}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 text-gray-600"
+                className="w-8 h-8 flex items-center justify-center text-black"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-5 h-5" />
               </button>
               <AnimatePresence>
                 {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && (
@@ -296,20 +296,18 @@ export default function MobileDashboard({
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleMic}
-                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
-                  listening ? "bg-red-500 text-white" : "bg-gray-100 text-gray-600"
+                className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors ${
+                  listening ? "bg-red-500 text-white" : "bg-[#F2F2F2] text-black"
                 }`}
               >
-                <Mic className="w-4 h-4" />
+                <Mic className="w-5 h-5" />
               </button>
               <button
                 onClick={handleSend}
                 disabled={!msg.trim() && !attachedFile}
-                className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
-                  msg || attachedFile ? "bg-[#1D1D1F] text-white" : "bg-gray-200 text-gray-400"
-                }`}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F2F2F2] text-black transition-colors"
               >
-                <ArrowUp className="w-4 h-4" />
+                <ArrowUp className="w-5 h-5" />
               </button>
             </div>
           </div>
