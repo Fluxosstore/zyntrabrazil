@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Search,
   ChevronDown,
+  Check,
   LayoutGrid,
   List,
   Folder,
@@ -51,6 +52,32 @@ export default function LibraryPage() {
   const [view, setView] = useState("list");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState("");
+  const [sortOpen, setSortOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState("recent");
+  const sortRef = useRef(null);
+
+  useEffect(() => {
+    if (!sortOpen) return;
+    function handleClickOutside(e) {
+      if (sortRef.current && !sortRef.current.contains(e.target)) {
+        setSortOpen(false);
+      }
+    }
+    function handleEscape(e) {
+      if (e.key === "Escape") setSortOpen(false);
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [sortOpen]);
+
+  const sortOptions = [
+    { id: "recent", label: "Mais recentes" },
+    { id: "oldest", label: "Mais antigas" },
+  ];
 
   const showNoResults = activeTab === "files" && subFilter !== "all";
 
@@ -256,10 +283,37 @@ export default function LibraryPage() {
                   className="w-full h-10 pl-10 pr-4 rounded-full bg-[#EBEBEB] text-sm text-black placeholder:text-gray-400 focus:outline-none"
                 />
               </div>
-              <button className="flex items-center gap-1.5 h-10 px-3.5 rounded-full bg-[#EBEBEB] text-xs font-medium text-gray-700 active:bg-gray-200 transition-colors whitespace-nowrap shrink-0">
-                {t("library.recent")}
-                <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
-              </button>
+              <div className="relative" ref={sortRef}>
+                <button
+                  onClick={() => setSortOpen((v) => !v)}
+                  className="flex items-center gap-1.5 h-10 px-3.5 rounded-full bg-[#EBEBEB] text-xs font-medium text-gray-700 active:bg-gray-200 transition-colors whitespace-nowrap shrink-0"
+                >
+                  {sortOptions.find((o) => o.id === sortOrder)?.label || t("library.recent")}
+                  <ChevronDown className={`w-3.5 h-3.5 text-gray-500 transition-transform ${sortOpen ? "rotate-180" : ""}`} />
+                </button>
+                {sortOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1 z-50 overflow-hidden">
+                    {sortOptions.map((opt) => {
+                      const active = sortOrder === opt.id;
+                      return (
+                        <button
+                          key={opt.id}
+                          onClick={() => {
+                            setSortOrder(opt.id);
+                            setSortOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors ${
+                            active ? "bg-[#E6E6ED] text-black" : "text-black hover:bg-gray-50"
+                          }`}
+                        >
+                          {opt.label}
+                          {active && <Check className="w-4 h-4 text-gray-700" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
