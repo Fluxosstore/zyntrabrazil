@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarChart3, Search, ChevronLeft, Crown, Shield, Key, Receipt, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Coins } from "lucide-react";
+import { BarChart3, Search, ChevronLeft, Crown, Shield, Key, Receipt, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Coins, Fingerprint } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
@@ -157,8 +157,8 @@ function UsageContent({ onNavigate }) {
               </div>
               <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#eef0f2]">
                 {[
-                  { icon: Shield, label: "2FA", onClick: () => {}, red: true },
-                  { icon: Key, label: "Passkey", onClick: () => {}, red: true },
+                  { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
+                  { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
                   { icon: Coins, label: "Recarregar", onClick: () => navigate("/plan-selection") },
                   { icon: Receipt, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true },
                 ].map((btn) => (
@@ -172,7 +172,7 @@ function UsageContent({ onNavigate }) {
                         ? "bg-[#d1d5db] text-gray-700 ring-1 ring-gray-300"
                         : "bg-[#d1d5db] ring-1 ring-gray-300 group-hover:bg-[#c4c8cf]"
                     }`}>
-                      <btn.icon className={`w-4 h-4 ${btn.red ? "text-red-500" : "text-gray-500"}`} />
+                      <btn.icon className={`w-4 h-4 ${btn.red ? "text-red-500" : "text-black"}`} />
                     </div>
                     <span className="text-[10px] font-medium text-gray-500">{btn.label}</span>
                   </button>
