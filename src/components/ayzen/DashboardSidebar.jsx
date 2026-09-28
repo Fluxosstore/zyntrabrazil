@@ -191,7 +191,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-medium transition-colors ${activePage === "codrax" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
               
                   <Code2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
-                  Codrax
+                  Zintre Code
                 </Link>
             }
             </div>

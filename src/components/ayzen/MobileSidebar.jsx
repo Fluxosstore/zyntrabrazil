@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical } from "lucide-react";
+import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical, Code2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
@@ -168,8 +168,8 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                 to="/codrax"
                 onClick={onClose}
                 className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
-
-                  Codrax
+                  <Code2 className="w-4 h-4 text-gray-500 shrink-0" />
+                  Zintre Code
                 </Link>
               }
               </div>

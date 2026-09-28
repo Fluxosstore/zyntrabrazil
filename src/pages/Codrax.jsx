@@ -18,7 +18,7 @@ function CodraxContent({ tab, setTab, canAccess }) {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-violet-800 flex items-center justify-center">
               <Code2 className="w-4 h-4 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-black">Codrax</h1>
+            <h1 className="text-2xl font-bold text-black">Zintre Code</h1>
           </div>
           <p className="text-sm text-gray-500">
             Biblioteca de conceitos e estúdio de criação de projetos com IA.
@@ -60,7 +60,7 @@ function CodraxContent({ tab, setTab, canAccess }) {
             </div>
             <h3 className="text-lg font-bold text-gray-900 mb-2">Plano Starter necessário</h3>
             <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-              O Codrax Projetos está disponível a partir do plano Starter. Faça upgrade para criar e editar projetos direto no seu GitHub com IA.
+              O Zintre Code Projetos está disponível a partir do plano Starter. Faça upgrade para criar e editar projetos direto no seu GitHub com IA.
             </p>
             <a
               href="/plan-selection"
@@ -101,7 +101,7 @@ export default function Codrax() {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <span className="text-sm font-bold text-black">Codrax</span>
+          <span className="text-sm font-bold text-black">Zintre Code</span>
           <div className="w-9" />
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-4">
