@@ -12,6 +12,7 @@ import {
   AUDIO_MODELS, AUDIO_MODELS_BY_PLAN, LOGO,
 } from "@/components/ayzen/ModelSelector";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
+import MovementCard from "@/components/ayzen/statement/MovementCard";
 
 const MODEL_LOGO_BY_NAME = (() => {
   const map = { "Zyntra Auto": LOGO };
@@ -283,68 +284,19 @@ export default function CreditStatement() {
               </div>
             ) : (
               <>
-                {/* Movement rows */}
-                <div>
-                  {paged.map((m, idx) => {
-                    const tokens = m.tokens || 0;
-                    const isPositive = tokens > 0;
-                    const isPlanCredit =
-                      m.model === "Créditos do plano" ||
-                      m.prompt === "Créditos do plano" ||
-                      (isPositive && !m.model);
-                    const badgeLabel = isPlanCredit ? "Créditos do plano" : "Conversa";
-                    const description = m.prompt || (isPlanCredit ? "Créditos do plano" : "Conversa");
-                    const modelLogo = m.model ? MODEL_LOGO_BY_NAME[m.model] : null;
-                    return (
-                      <div key={m.id}>
-                        {idx > 0 && <div className="border-t border-gray-100" />}
-                        <div className="py-3">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
-                              {isPlanCredit ? (
-                                <RefreshCw className="w-3 h-3" />
-                              ) : (
-                                <MessageCircle className="w-3 h-3" />
-                              )}
-                              {badgeLabel}
-                            </span>
-                            <span
-                              className={`text-sm font-bold ${
-                                isPositive ? "text-[#2E7D32]" : "text-[#D32F2F]"
-                              }`}
-                            >
-                              {isPositive ? "+" : "-"}
-                              {formatCredits(tokens)}
-                            </span>
-                          </div>
-                          <p className="text-sm text-black mb-1 truncate">{description}</p>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs text-gray-500">
-                              {formatDate(m.created_date)}
-                            </span>
-                            {m.model && (
-                              <span className="flex items-center gap-1 text-xs text-gray-500">
-                                {modelLogo ? (
-                                  <img
-                                    src={modelLogo}
-                                    alt={m.model}
-                                    className="w-3 h-3 rounded object-contain"
-                                  />
-                                ) : (
-                                  <Sparkles className="w-3 h-3 text-orange-500" />
-                                )}
-                                {m.model}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+                {/* Movement cards */}
+                <div className="space-y-2.5">
+                  {paged.map((m) => (
+                    <MovementCard
+                      key={m.id}
+                      movement={m}
+                      modelLogo={m.model ? MODEL_LOGO_BY_NAME[m.model] : null}
+                    />
+                  ))}
                 </div>
 
                 {/* Pagination */}
-                <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100">
+                <div className="flex items-center justify-between pt-4 mt-3 border-t border-gray-100">
                   <div className="flex items-center gap-1.5">
                     <span className="text-xs text-gray-500">Por página</span>
                     <button className="flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 text-xs text-black">
@@ -488,66 +440,17 @@ export default function CreditStatement() {
                   </div>
                 ) : (
                   <>
-                    <div>
-                      {paged.map((m, idx) => {
-                        const tokens = m.tokens || 0;
-                        const isPositive = tokens > 0;
-                        const isPlanCredit =
-                          m.model === "Créditos do plano" ||
-                          m.prompt === "Créditos do plano" ||
-                          (isPositive && !m.model);
-                        const badgeLabel = isPlanCredit ? "Créditos do plano" : "Conversa";
-                        const description = m.prompt || (isPlanCredit ? "Créditos do plano" : "Conversa");
-                        const modelLogo = m.model ? MODEL_LOGO_BY_NAME[m.model] : null;
-                        return (
-                          <div key={m.id}>
-                            {idx > 0 && <div className="border-t border-gray-100" />}
-                            <div className="py-3">
-                              <div className="flex items-center justify-between mb-2">
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
-                                  {isPlanCredit ? (
-                                    <RefreshCw className="w-3 h-3" />
-                                  ) : (
-                                    <MessageCircle className="w-3 h-3" />
-                                  )}
-                                  {badgeLabel}
-                                </span>
-                                <span
-                                  className={`text-sm font-bold ${
-                                    isPositive ? "text-[#2E7D32]" : "text-[#D32F2F]"
-                                  }`}
-                                >
-                                  {isPositive ? "+" : "-"}
-                                  {formatCredits(tokens)}
-                                </span>
-                              </div>
-                              <p className="text-sm text-black mb-1 truncate">{description}</p>
-                              <div className="flex items-center justify-between">
-                                <span className="text-xs text-gray-500">
-                                  {formatDate(m.created_date)}
-                                </span>
-                                {m.model && (
-                                  <span className="flex items-center gap-1 text-xs text-gray-500">
-                                    {modelLogo ? (
-                                      <img
-                                        src={modelLogo}
-                                        alt={m.model}
-                                        className="w-3 h-3 rounded object-contain"
-                                      />
-                                    ) : (
-                                      <Sparkles className="w-3 h-3 text-orange-500" />
-                                    )}
-                                    {m.model}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
+                    <div className="space-y-2.5">
+                      {paged.map((m) => (
+                        <MovementCard
+                          key={m.id}
+                          movement={m}
+                          modelLogo={m.model ? MODEL_LOGO_BY_NAME[m.model] : null}
+                        />
+                      ))}
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-100">
+                    <div className="flex items-center justify-between pt-4 mt-3 border-t border-gray-100">
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs text-gray-500">Por página</span>
                         <button className="flex items-center gap-1 px-2 py-1 rounded-md border border-gray-200 text-xs text-black">
