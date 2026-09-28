@@ -139,8 +139,8 @@ function UsageContent({ onNavigate }) {
         <section>
           <div className="rounded-2xl border border-gray-200 bg-white p-5">
             <div className="flex items-center gap-4">
-              <div className="relative w-14 h-14 shrink-0 rounded-full overflow-hidden">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
+              <div className="relative w-14 h-14 shrink-0 rounded-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
                 <Image
                   src={getAvatarForUser(user?.id)}
                   alt="Profile"
@@ -155,11 +155,11 @@ function UsageContent({ onNavigate }) {
                   {user?.email || "—"} • Membro desde {formatMemberDate(user?.created_date)}
                 </p>
               </div>
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-3 p-2 rounded-2xl bg-[#f9fafb]">
                 {[
                   { icon: Shield, label: "2FA", onClick: () => {} },
                   { icon: Key, label: "Passkey", onClick: () => {} },
-                  { icon: Plus, label: "Recarregar", onClick: () => navigate("/plan-selection"), primary: true },
+                  { icon: Coins, label: "Recarregar", onClick: () => navigate("/plan-selection") },
                   { icon: Receipt, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true },
                 ].map((btn) => (
                   <button
@@ -168,11 +168,9 @@ function UsageContent({ onNavigate }) {
                     className="flex flex-col items-center gap-1.5 group"
                   >
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                      btn.primary
-                        ? "bg-[#7a5bc8] text-white hover:bg-[#6b4bb8]"
-                        : btn.active
-                        ? "bg-gray-100 text-gray-700"
-                        : "bg-gray-50 text-gray-600 group-hover:bg-gray-100"
+                      btn.active
+                        ? "bg-[#e5e7eb] text-gray-700 ring-1 ring-gray-300"
+                        : "bg-transparent text-gray-500 group-hover:bg-gray-200/60"
                     }`}>
                       <btn.icon className="w-4 h-4" />
                     </div>
