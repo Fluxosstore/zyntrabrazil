@@ -199,8 +199,8 @@ function UsageContent({ onNavigate }) {
                 style={{ filter: "brightness(0) invert(1)" }} />
               
               <div className="relative flex items-start justify-between">
-                <p className="text-sm font-bold text-black">Zyntra</p>
-                <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
+                <p className="text-xs font-bold text-black">Zyntra</p>
+                <span className="inline-flex items-center gap-1.5 text-[11px] text-gray-600">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#067049]" />
                   Ativo
                 </span>
