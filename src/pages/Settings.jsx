@@ -406,8 +406,10 @@ export default function Settings() {
 
   return (
     <>
-      {/* Desktop - full width, no sidebar */}
-      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden flex-col">
+      {/* Desktop - with sidebar */}
+      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
+        <DashboardSidebar activePage="settings" />
+        <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center justify-between px-8 py-4">
           <div className="flex items-center gap-6">
@@ -447,6 +449,7 @@ export default function Settings() {
         <div className="flex-1 overflow-y-auto">
           {renderContent()}
         </div>
+        </main>
       </div>
 
       {/* Mobile */}
