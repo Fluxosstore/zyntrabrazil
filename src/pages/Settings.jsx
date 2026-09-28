@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarChart3, Search, ChevronLeft, Crown, Shield, Key, Receipt, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Coins, Fingerprint } from "lucide-react";
+import { BarChart3, Search, ChevronLeft, Crown, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Fingerprint } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
@@ -355,7 +355,7 @@ function UsageContent({ onNavigate }) {
 
 const SETTINGS_TABS = [
   { id: "usage", label: "Perfil", icon: Wallet },
-  { id: "invoices", label: "Pagamentos", icon: Receipt },
+  { id: "invoices", label: "Pagamentos", icon: ReceiptLinesIcon },
   { id: "account", label: "Segurança", icon: ShieldCheck },
   { id: "memories", label: "Memórias", icon: Brain },
   { id: "skills", label: "Habilidades", icon: Wand2 },
@@ -432,7 +432,7 @@ export default function Settings() {
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-200">
-              <Coins className="w-3.5 h-3.5 text-gray-500" />
+              <CoinStackIcon className="w-3.5 h-3.5 text-gray-500" />
               <span className="text-xs font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
             </div>
             <button

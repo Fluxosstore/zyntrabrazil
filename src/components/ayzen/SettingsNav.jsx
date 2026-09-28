@@ -3,18 +3,18 @@ import {
   BarChart3,
   Crown,
   User,
-  Receipt,
   Brain,
   Wand2,
   Plug,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { ReceiptLinesIcon } from "@/components/ayzen/SettingsIcons";
 
 const ICONS = {
   usage: BarChart3,
   plan: Crown,
   account: User,
-  invoices: Receipt,
+  invoices: ReceiptLinesIcon,
   memories: Brain,
   skills: Wand2,
   connectors: Plug,
