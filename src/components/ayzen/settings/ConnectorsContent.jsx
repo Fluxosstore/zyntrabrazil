@@ -202,7 +202,7 @@ export default function ConnectorsContent({ plan = "free" }) {
   if (!isPaid) {
     return (
       <div className="flex-1 overflow-y-auto">
-        <div className="px-10 py-8 space-y-8">
+        <div className="pl-10 pr-8 py-8 space-y-8">
           <div>
             <h1 className="text-2xl font-bold text-black">Conectores</h1>
             <p className="text-sm text-gray-500 mt-1">Servidores MCP que dão ferramentas novas para a IA</p>
@@ -245,7 +245,7 @@ export default function ConnectorsContent({ plan = "free" }) {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="px-10 py-8 space-y-8">
+      <div className="pl-10 pr-8 py-8 space-y-8">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-black">Conectores</h1>
