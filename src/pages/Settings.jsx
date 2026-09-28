@@ -195,7 +195,7 @@ function UsageContent({ onNavigate }) {
                 src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cbb8fd4bf_ddb60374d_ChatGPTImage16desetde202623_41_31.png"
                 alt=""
                 aria-hidden="true"
-                className="absolute -bottom-6 -right-6 w-28 h-28 object-contain opacity-25 select-none pointer-events-none"
+                className="absolute -bottom-6 -right-6 w-28 h-28 object-contain opacity-60 select-none pointer-events-none"
                 style={{ filter: "brightness(0) invert(1)" }}
               />
               <div className="relative flex items-start justify-between">
