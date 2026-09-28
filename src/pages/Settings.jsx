@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarChart3, Search, ChevronLeft, Crown, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Fingerprint } from "lucide-react";
+import { BarChart3, Search, ChevronLeft, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Fingerprint } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
@@ -187,47 +187,44 @@ function UsageContent({ onNavigate }) {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Plan card */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#f4f4f4] flex items-center justify-center shrink-0">
-                  <Crown className="w-5 h-5 text-black" />
-                </div>
+            <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
+            {/* Subscription card */}
+            <div className="relative rounded-2xl bg-[#F9F9F9] p-4 overflow-hidden">
+              {/* Decorative shape */}
+              <div className="absolute -bottom-10 -right-8 w-36 h-36 rounded-full bg-gradient-to-br from-[#7E57C2]/10 to-[#EC4899]/10 blur-2xl" />
+              <div className="relative flex items-start justify-between mb-8">
+                <p className="text-sm font-bold text-black">Zyntra</p>
+                <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#067049]" />
+                  Ativo
+                </span>
+              </div>
+              <div className="relative flex items-end justify-between">
                 <div>
-                  <p className="text-[10px] font-semibold tracking-wider text-gray-400">SEU PLANO</p>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <p className="text-lg font-bold text-black">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-50 text-[#2e7d32] text-[10px] font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2e7d32]" />
-                      Ativo
-                    </span>
-                  </div>
+                  <p className="text-[10px] text-gray-400 mb-0.5">Assinatura</p>
+                  <p className="text-lg font-bold text-black">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
                 </div>
-              </div>
-              <div className="text-right">
-                <p className="text-lg font-bold text-black">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"}</p>
-                <p className="text-[10px] text-gray-400">por mês</p>
+                <p className="text-xs text-gray-600">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"} por mês</p>
               </div>
             </div>
-            <div className="space-y-2.5 text-sm border-t border-gray-100 pt-3">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Próximo vencimento</span>
-                <span className="font-medium text-black">{formatMemberDate(user?.plan_expires) || "—"}</span>
+            {/* Info rows */}
+            <div className="mt-4">
+              <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
+                <span className="text-sm text-gray-500">Próximo vencimento</span>
+                <span className="text-sm font-medium text-black">{formatMemberDate(user?.plan_expires) || "—"}</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Renovação</span>
-                <span className="font-medium text-black">{user?.auto_renew !== false ? "Automática" : "Manual"}</span>
+              <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
+                <span className="text-sm text-gray-500">Renovação</span>
+                <span className="text-sm font-medium text-black">{user?.auto_renew !== false ? "Automática" : "Por fatura"}</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">IAs no plano</span>
-                <span className="font-medium text-black">{(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).length} modelos</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-gray-500">Créditos/mês</span>
-                <span className="font-medium text-black">{(CREDITS_BY_PLAN[plan]?.month || 0).toLocaleString("pt-BR")}</span>
+              <div className="flex items-center justify-between py-2.5">
+                <span className="text-sm text-gray-500">IAs no plano</span>
+                <span className="text-sm font-medium text-black">{(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).length}</span>
               </div>
             </div>
+            {/* Badge + button */}
             <div className="flex items-center gap-2 mt-4">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-gray-100 text-[11px] font-medium text-gray-600">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[#EEEEEE] text-[11px] font-medium text-gray-600">
                 Automações
               </span>
               <button
