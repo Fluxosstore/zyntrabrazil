@@ -36,9 +36,9 @@ export default function Dashboard() {
   const openConvKey = `zyntra_open_conversation_${user?.id || 'guest'}`;
   const editImageKey = `zyntra_edit_image_${user?.id || 'guest'}`;
   const toggleConnector = (id) =>
-    setActiveConnectorIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+  setActiveConnectorIds((prev) =>
+  prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+  );
   const [msg, setMsg] = useState("");
   const [modelOpen, setModelOpen] = useState(false);
   const [model, setModel] = useState("auto");
@@ -224,9 +224,9 @@ export default function Dashboard() {
       setActiveConversationId(convId);
     }
 
-    const conversationTitle = activeConversationId
-      ? (conversations.find((c) => c.id === activeConversationId)?.title || getConversationTitle(msg))
-      : getConversationTitle(msg);
+    const conversationTitle = activeConversationId ?
+    conversations.find((c) => c.id === activeConversationId)?.title || getConversationTitle(msg) :
+    getConversationTitle(msg);
 
     setMessages(newMessages);
     setMsg("");
@@ -242,17 +242,17 @@ export default function Dashboard() {
       const quotaCheck = await checkModelQuota(plan, modelInfo.name, category);
 
       if (quotaCheck.exceeded) {
-        const quotaMsg = quotaCheck.notIncluded
-          ? t("dash.quotaNotIncluded", { model: modelInfo.name })
-          : t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: modelInfo.name });
+        const quotaMsg = quotaCheck.notIncluded ?
+        t("dash.quotaNotIncluded", { model: modelInfo.name }) :
+        t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: modelInfo.name });
         setMessages([
-          ...newMessages,
-          {
-            role: "assistant",
-            content: quotaMsg,
-            model: { name: modelInfo.name, logo: modelInfo.logo }
-          }
-        ]);
+        ...newMessages,
+        {
+          role: "assistant",
+          content: quotaMsg,
+          model: { name: modelInfo.name, logo: modelInfo.logo }
+        }]
+        );
         setLoading(false);
         setImagining(false);
         return;
@@ -261,7 +261,7 @@ export default function Dashboard() {
       if (isAudioRequest) {
         const result = await base44.functions.invoke("openrouterAudio", {
           prompt: msg,
-          model,
+          model
         });
         const audioUrl = result.data?.url;
         if (!audioUrl) throw new Error("Nenhum áudio retornado");
@@ -366,17 +366,17 @@ export default function Dashboard() {
       const reprocModelInfo = getModelInfo(modelId, plan);
       const quotaCheck = await checkModelQuota(plan, reprocModelInfo.name, "text");
       if (quotaCheck.exceeded) {
-        const quotaMsg = quotaCheck.notIncluded
-          ? t("dash.quotaNotIncluded", { model: reprocModelInfo.name })
-          : t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: reprocModelInfo.name });
+        const quotaMsg = quotaCheck.notIncluded ?
+        t("dash.quotaNotIncluded", { model: reprocModelInfo.name }) :
+        t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: reprocModelInfo.name });
         setMessages([
-          ...baseMessages,
-          {
-            role: "assistant",
-            content: quotaMsg,
-            model: { name: reprocModelInfo.name, logo: reprocModelInfo.logo }
-          }
-        ]);
+        ...baseMessages,
+        {
+          role: "assistant",
+          content: quotaMsg,
+          model: { name: reprocModelInfo.name, logo: reprocModelInfo.logo }
+        }]
+        );
         setLoading(false);
         return;
       }
@@ -391,7 +391,7 @@ export default function Dashboard() {
         activeConnectorIds
       });
       const _respText = result.data?.content || "";
-      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name, prompt: (conversations.find((c) => c.id === activeConversationId)?.title || text) }).then(() => invalidateUsageCache()).catch(() => {});
+      base44.entities.TokenUsage.create({ tokens: Math.ceil((prompt.length + _respText.length) / 4), model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text }).then(() => invalidateUsageCache()).catch(() => {});
       setMessages([
       ...baseMessages,
       {
@@ -471,7 +471,7 @@ export default function Dashboard() {
         <div className="h-9 flex items-center justify-between px-5 border-b border-gray-100">
           <button
               onClick={() => navigate("/ranking")}
-              className="flex items-center gap-2 text-xs text-gray-500 hover:opacity-80 transition-opacity">
+              className="flex items-center gap-2 text-xs text-gray-500 hover:opacity-80 transition-opacity hidden">
               
             <span className="w-1.5 h-1.5 rounded-full bg-[#7E57C2]" />
             <span className="font-medium">{t("dash.topBar")}</span>
@@ -570,7 +570,7 @@ export default function Dashboard() {
 
           {/* input */}
           <div className="w-full max-w-5xl mx-auto bg-white rounded-2xl border border-gray-200 p-4 mb-6">
-            {activeConnectorIds.length > 0 && (
+            {activeConnectorIds.length > 0 &&
               <div className="flex items-center gap-1.5 mb-2 flex-wrap">
                 {activeConnectorIds.map((id) => {
                   const meta = CONNECTORS.find((c) => c.id === id);
@@ -579,11 +579,11 @@ export default function Dashboard() {
                     <span key={id} className="flex items-center gap-1 px-2 py-1 rounded-full bg-gray-100 text-[11px] font-medium text-gray-700">
                       <img src={meta.logo} alt="" className="w-3 h-3 object-contain rounded-full" />
                       {meta.name}
-                    </span>
-                  );
+                    </span>);
+
                 })}
               </div>
-            )}
+              }
             {attachedFile &&
               <div className="flex items-center gap-2 mb-2 px-3 py-1.5 bg-gray-50 rounded-lg w-fit">
                 <Paperclip className="w-3 h-3 text-gray-500 shrink-0" />
