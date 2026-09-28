@@ -43,10 +43,73 @@ const ASSIGNED_SKILLS = [
     description:
       "Sete direções prontas (Preciso, Editorial, Brutal, Orgânico, Noturno, Luxo, Vitrine) pra executar por inteiro.",
     tag: "Global"
+  },
+  {
+    id: "a6",
+    name: "copy-que-vende",
+    description:
+      "Texto que converte em pt-BR: específico vence criativo, benefício antes de feature, palavras banidas.",
+    tag: "Global"
+  },
+  {
+    id: "a7",
+    name: "design-anti-generico",
+    description:
+      "Regras verificáveis contra o visual médio de IA: cores, tipografia, composição e labels.",
+    tag: "Global"
+  },
+  {
+    id: "a8",
+    name: "landing-que-converte",
+    description:
+      "Landing como máquina de uma decisão: dobra 1, estrutura, ritmo visual, copy e confiança.",
+    tag: "Global"
+  },
+  {
+    id: "a9",
+    name: "metodo-karpathy",
+    description:
+      "Contra os vícios de IA codando: pensar antes, simplicidade, mudança cirúrgica e objetivo verificável.",
+    tag: "Global"
+  },
+  {
+    id: "a10",
+    name: "painel-de-dados",
+    description:
+      "Dashboard lido em 5s: KPIs tabulares, tabelas certas, gráficos com regras, densidade e estados.",
+    tag: "Global"
+  },
+  {
+    id: "a11",
+    name: "react-performance",
+    description:
+      "Maior impacto primeiro: rede em paralelo, bundle, re-render, listas grandes e medida antes de remédio.",
+    tag: "Global"
+  },
+  {
+    id: "a12",
+    name: "react-solido",
+    description:
+      "React que não quebra na segunda edição: estado, efeitos, listas, composição e robustez.",
+    tag: "Global"
+  },
+  {
+    id: "a13",
+    name: "seo-do-app",
+    description:
+      "App publicado nasce indexável: head obrigatório, estrutura, robots/sitemap, dados estruturados.",
+    tag: "Global"
+  },
+  {
+    id: "a14",
+    name: "shadcn-ui",
+    description:
+      "Compor com o shadcn real do projeto: variants, tokens, armadilhas conhecidas e formulários.",
+    tag: "Global"
   }
 ];
 
-const TOTAL_ASSIGNED = 14;
+const TOTAL_ASSIGNED = ASSIGNED_SKILLS.length;
 
 export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkill }) {
   const { t } = useLanguage();
@@ -295,7 +358,7 @@ export default function SkillsContent({ plan = "free", onCreateSkill, onEditSkil
               onClick={() => setShowAllAssigned((v) => !v)}
               className="mt-4 mx-auto flex items-center justify-center px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
             >
-              Ver todas ({TOTAL_ASSIGNED})
+              {showAllAssigned ? "Mostrar menos" : `Ver todas (${TOTAL_ASSIGNED})`}
             </button>
           </div>
         </section>
