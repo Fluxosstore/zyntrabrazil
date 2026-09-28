@@ -412,23 +412,25 @@ export default function Settings() {
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center justify-between px-8 py-4">
-          <h1 className="text-lg font-bold text-black shrink-0">{t("settings.title")}</h1>
-          <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-100/80">
-            {SETTINGS_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => { setActiveSection(tab.id); setSkillFormOpen(false); }}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  activeSection === tab.id
-                    ? "bg-white text-black shadow-sm"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                <tab.icon className="w-3.5 h-3.5" />
-                {tab.label}
-              </button>
-            ))}
-          </nav>
+          <div className="flex items-center gap-4">
+            <h1 className="text-lg font-bold text-black shrink-0">{t("settings.title")}</h1>
+            <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-100/80">
+              {SETTINGS_TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => { setActiveSection(tab.id); setSkillFormOpen(false); }}
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    activeSection === tab.id
+                      ? "bg-white text-black shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <tab.icon className="w-3.5 h-3.5" />
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
           <div className="flex items-center gap-3 shrink-0">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100">
               <Coins className="w-3.5 h-3.5 text-gray-500" />
