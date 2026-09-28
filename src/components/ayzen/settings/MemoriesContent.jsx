@@ -246,16 +246,17 @@ export default function MemoriesContent() {
               </div> :
             count === 0 ?
             <div className="flex-1 flex items-center justify-center py-8">
-                <div className="w-full rounded-xl border-2 border-dashed border-gray-200 p-10 flex flex-col items-center text-center">
-                  <div className="w-16 h-16 mb-4 flex items-center justify-center">
+                <div className="w-full rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex flex-col items-center text-center relative">
+                  <div className="w-full bg-black flex items-end justify-center pt-10 pb-0">
                     <img
-                    src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
-                    alt="Sem memórias"
-                    className="w-16 h-16 object-contain opacity-80" />
-                  
+                      src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0e76cb915_empty-astronaut.webp"
+                      alt="Sem memórias"
+                      className="w-36 h-36 object-contain" />
                   </div>
-                  <p className="text-sm font-bold text-black">Nenhuma memória salva ainda</p>
-                  <p className="text-xs text-gray-500 mt-1 max-w-xs">A IA vai guardar aqui o que aprender sobre você nas conversas.</p>
+                  <div className="w-full px-6 py-6 bg-white flex flex-col items-center">
+                    <p className="text-sm font-bold text-black">Nenhuma memória salva ainda</p>
+                    <p className="text-xs text-gray-500 mt-1 max-w-xs">A IA vai guardar aqui o que aprender sobre você nas conversas.</p>
+                  </div>
                 </div>
               </div> :
 
