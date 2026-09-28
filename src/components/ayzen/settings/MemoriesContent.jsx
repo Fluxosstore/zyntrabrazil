@@ -112,7 +112,7 @@ export default function MemoriesContent() {
           <p className="text-sm text-gray-500 mt-1">Informações que a IA lembra sobre você</p>
         </div>
 
-        <div className="border-t border-gray-200" />
+        <div className="border-t border-gray-200 hidden" />
 
         {/* Two-column layout */}
         <section className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-4 items-start">
@@ -144,8 +144,8 @@ export default function MemoriesContent() {
                 <Switch
                   checked={autoExtraction}
                   onCheckedChange={handleToggleAutoExtraction}
-                  disabled={toggling === "auto"}
-                />
+                  disabled={toggling === "auto"} />
+                
               </div>
 
               {/* Usar memórias */}
@@ -165,8 +165,8 @@ export default function MemoriesContent() {
                 <Switch
                   checked={useMemories}
                   onCheckedChange={handleToggleUseMemories}
-                  disabled={toggling === "use"}
-                />
+                  disabled={toggling === "use"} />
+                
               </div>
             </div>
 
@@ -175,13 +175,13 @@ export default function MemoriesContent() {
               <button
                 onClick={handleForgetAll}
                 disabled={forgetting || count === 0}
-                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {forgetting ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Trash2 className="w-4 h-4" />
-                )}
+                className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                
+                {forgetting ?
+                <Loader2 className="w-4 h-4 animate-spin" /> :
+
+                <Trash2 className="w-4 h-4" />
+                }
                 Esquecer tudo
               </button>
             </div>
@@ -194,88 +194,88 @@ export default function MemoriesContent() {
               <h2 className="text-base font-bold text-black">Memórias salvas</h2>
               <button
                 onClick={() => setShowAddForm(true)}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors"
-              >
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors">
+                
                 <Plus className="w-3.5 h-3.5" />
                 Adicionar memória
               </button>
             </div>
 
             {/* Add form */}
-            {showAddForm && (
-              <div className="mb-4 rounded-xl border border-gray-300 bg-white p-4">
+            {showAddForm &&
+            <div className="mb-4 rounded-xl border border-gray-300 bg-white p-4">
                 <textarea
-                  autoFocus
-                  value={memoryText}
-                  onChange={(e) => setMemoryText(e.target.value)}
-                  placeholder="Escreva algo que a IA deve lembrar sobre você..."
-                  rows={3}
-                  className="w-full text-sm text-black placeholder:text-gray-500 focus:outline-none resize-none bg-transparent"
-                />
+                autoFocus
+                value={memoryText}
+                onChange={(e) => setMemoryText(e.target.value)}
+                placeholder="Escreva algo que a IA deve lembrar sobre você..."
+                rows={3}
+                className="w-full text-sm text-black placeholder:text-gray-500 focus:outline-none resize-none bg-transparent" />
+              
                 <div className="flex items-center justify-end gap-3 mt-2">
                   <button
-                    onClick={() => {
-                      setShowAddForm(false);
-                      setMemoryText("");
-                    }}
-                    className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black transition-colors"
-                  >
+                  onClick={() => {
+                    setShowAddForm(false);
+                    setMemoryText("");
+                  }}
+                  className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-black transition-colors">
+                  
                     <X className="w-3.5 h-3.5" />
                     Cancelar
                   </button>
                   <button
-                    onClick={handleSaveMemory}
-                    disabled={!memoryText.trim() || savingMemory}
-                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-black text-white text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {savingMemory ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    ) : (
-                      <Save className="w-3.5 h-3.5" />
-                    )}
+                  onClick={handleSaveMemory}
+                  disabled={!memoryText.trim() || savingMemory}
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-black text-white text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                  
+                    {savingMemory ?
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" /> :
+
+                  <Save className="w-3.5 h-3.5" />
+                  }
                     Salvar
                   </button>
                 </div>
               </div>
-            )}
+            }
 
             {/* Content area */}
-            {loading ? (
-              <div className="flex-1 flex items-center justify-center py-12">
+            {loading ?
+            <div className="flex-1 flex items-center justify-center py-12">
                 <Loader2 className="w-6 h-6 text-gray-400 animate-spin" />
-              </div>
-            ) : count === 0 ? (
-              <div className="flex-1 flex items-center justify-center py-8">
+              </div> :
+            count === 0 ?
+            <div className="flex-1 flex items-center justify-center py-8">
                 <div className="w-full rounded-xl border-2 border-dashed border-gray-200 p-10 flex flex-col items-center text-center">
                   <div className="w-16 h-16 mb-4 flex items-center justify-center">
                     <img
-                      src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
-                      alt="Sem memórias"
-                      className="w-16 h-16 object-contain opacity-80"
-                    />
+                    src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
+                    alt="Sem memórias"
+                    className="w-16 h-16 object-contain opacity-80" />
+                  
                   </div>
                   <p className="text-sm font-bold text-black">Nenhuma memória salva ainda</p>
                   <p className="text-xs text-gray-500 mt-1 max-w-xs">A IA vai guardar aqui o que aprender sobre você nas conversas.</p>
                 </div>
-              </div>
-            ) : (
-              <div className="flex-1 space-y-2">
-                {memories.map((m) => (
-                  <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-xl bg-gray-50 group">
+              </div> :
+
+            <div className="flex-1 space-y-2">
+                {memories.map((m) =>
+              <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-xl bg-gray-50 group">
                     <p className="text-sm text-black flex-1 break-words">{m.content}</p>
                     <button
-                      onClick={() => handleDeleteMemory(m.id)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
-                    >
+                  onClick={() => handleDeleteMemory(m.id)}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0">
+                  
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                ))}
+              )}
               </div>
-            )}
+            }
           </div>
         </section>
       </div>
-    </div>
-  );
+    </div>);
+
 }
