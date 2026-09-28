@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarChart3, Search, ChevronLeft, Crown, Shield, Key, Receipt, Plus } from "lucide-react";
+import { BarChart3, Search, ChevronLeft, Crown, Shield, Key, Receipt, Plus, Wallet, ShieldCheck, Brain, Wand2, Plug, Coins } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
@@ -355,12 +355,12 @@ function UsageContent({ onNavigate }) {
 }
 
 const SETTINGS_TABS = [
-  { id: "usage", label: "Perfil" },
-  { id: "invoices", label: "Pagamentos" },
-  { id: "account", label: "Segurança" },
-  { id: "memories", label: "Memórias" },
-  { id: "skills", label: "Habilidades" },
-  { id: "connectors", label: "Conectores" },
+  { id: "usage", label: "Perfil", icon: Wallet },
+  { id: "invoices", label: "Pagamentos", icon: Receipt },
+  { id: "account", label: "Segurança", icon: ShieldCheck },
+  { id: "memories", label: "Memórias", icon: Brain },
+  { id: "skills", label: "Habilidades", icon: Wand2 },
+  { id: "connectors", label: "Conectores", icon: Plug },
 ];
 
 export default function Settings() {
@@ -412,34 +412,32 @@ export default function Settings() {
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center justify-between px-8 py-4">
-          <div className="flex items-center gap-6">
-            <h1 className="text-lg font-bold text-black">{t("settings.title")}</h1>
-            <nav className="flex items-center gap-1">
-              {SETTINGS_TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => { setActiveSection(tab.id); setSkillFormOpen(false); }}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                    activeSection === tab.id
-                      ? "bg-white text-black border border-gray-200"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200">
+          <h1 className="text-lg font-bold text-black shrink-0">{t("settings.title")}</h1>
+          <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-100/80">
+            {SETTINGS_TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => { setActiveSection(tab.id); setSkillFormOpen(false); }}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  activeSection === tab.id
+                    ? "bg-white text-black shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <tab.icon className="w-3.5 h-3.5" />
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100">
+              <Coins className="w-3.5 h-3.5 text-gray-500" />
               <span className="text-xs font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
-              <span className="text-[10px] text-gray-400">créditos</span>
             </div>
             <button
               onClick={() => navigate("/plan-selection")}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#7a5bc8] text-white text-xs font-medium hover:bg-[#6b4bb8] transition-colors"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors"
             >
-              <Plus className="w-3.5 h-3.5" />
               Recarregar
             </button>
           </div>
