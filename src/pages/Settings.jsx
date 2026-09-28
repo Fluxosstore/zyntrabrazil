@@ -247,110 +247,110 @@ function UsageContent({ onNavigate }) {
         </section>
 
         {/* Visão geral */}
-        <section className="hidden">
-          <h2 className="text-base font-bold text-black mb-1">{t("settings.overview")}</h2>
-          <p className="text-xs text-gray-500 mb-3">{t("settings.overviewSubtitle")}</p>
-          <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-            <div className="flex items-center gap-3 p-5">
-              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                <BarChart3 className="w-5 h-5 text-gray-600" />
-              </div>
-              <div className="flex-1">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.consumedMonth")}
-                </p>
-                <p className="text-lg font-bold text-black">{formatTokens(usage.monthly)} {t("settings.tokensLabel")}</p>
-                <p className="text-xs text-gray-400">{t("settings.period")}</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 border-t border-gray-100">
-              <div className="p-4 border-r border-gray-100">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t("settings.activeModels")}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{planModels.length}</p>
-              </div>
-              <div className="p-4 border-r border-gray-100">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t(windows[0].labelKey)}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{pct(windowConsumed[0], windowLimits[0])}%</p>
-                <p className="text-[10px] text-gray-400">{t(windows[0].descKey)}</p>
-              </div>
-              <div className="p-4">
-                <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                  {t(windows[1].labelKey)}
-                </p>
-                <p className="text-lg font-bold text-black mt-0.5">{pct(windowConsumed[1], windowLimits[1])}%</p>
-                <p className="text-[10px] text-gray-400">{t(windows[1].descKey)}</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
         {/* Tokens do plano */}
-        <section className="hidden">
-          <h2 className="text-base font-bold text-black mb-1">{t("settings.tokensPlan")}</h2>
-          <p className="text-xs text-gray-500 mb-3">{t("settings.tokensPlanDesc")}</p>
-          <div className="grid grid-cols-2 gap-4">
-            {windows.map((win, i) => {
-              const limit = windowLimits[i];
-              const consumed = windowConsumed[i];
-              const percentage = pct(consumed, limit);
-              const targetWidth = Math.max(rawPct(consumed, limit), consumed > 0 ? 1.5 : 0);
-              const barWidth = animated ? targetWidth : 0;
-              return (
-                <div key={win.labelKey} className="rounded-2xl border border-gray-200 bg-white p-5">
-                  <div className="flex items-center justify-between">
-                    <p className="text-[10px] font-semibold tracking-wider text-gray-400">
-                      {t(win.labelKey)}
-                    </p>
-                    <span className="text-[10px] text-gray-400">● {percentage}%</span>
-                  </div>
-                  <p className="text-lg font-bold text-black mt-1">{formatTokens(consumed)} / {win.value}</p>
-                  <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                    <div
-                      className="h-full bg-black rounded-full transition-all duration-[1200ms] ease-out"
-                      style={{ width: `${barWidth}%` }} />
-                    
-                  </div>
-                  <p className="text-[11px] text-gray-500 mt-2">{t(win.descKey)}</p>
-                </div>);
+        
 
-            })}
-          </div>
-        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
         {/* Cotas de mídia */}
         <MediaQuotasContent plan={plan} />
 
         {/* Mensagens por IA */}
-        <section className="hidden">
-          <h2 className="text-base font-bold text-black mb-1">{t("settings.messagesByIA")}</h2>
-          <p className="text-xs text-gray-500 mb-3">{t("settings.messagesByIADesc")}</p>
-          <div className="relative mb-3">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder={t("settings.searchModel")}
-              className="w-full h-10 pl-9 pr-3 rounded-xl bg-white border border-gray-200 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-300" />
-            
-          </div>
-          <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-            {filtered.map((m, i) =>
-            <ModelUsageRow key={m.name} model={m} isLast={i === filtered.length - 1} plan={plan} />
-            )}
-            {filtered.length === 0 &&
-            <p className="px-4 py-6 text-sm text-gray-400 text-center">
-                {t("settings.noModels")}
-              </p>
-            }
-          </div>
-          <p className="text-xs text-gray-400 mt-2">
-            {t("settings.showingModels", { shown: filtered.length, total: planModels.length })}
-          </p>
-        </section>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
       </div>
     </div>);
 
