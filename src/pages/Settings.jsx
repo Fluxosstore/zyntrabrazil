@@ -26,29 +26,29 @@ import { base44 } from "@/api/base44Client";
 
 const PLAN_CREDIT_WINDOWS = {
   free: [
-    { labelKey: "settings.daily", value: "1.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.monthly", value: "10.000", descKey: "settings.monthlyDesc" }
-  ],
+  { labelKey: "settings.daily", value: "1.000", descKey: "settings.dailyDesc" },
+  { labelKey: "settings.monthly", value: "10.000", descKey: "settings.monthlyDesc" }],
+
   starter: [
-    { labelKey: "settings.daily", value: "17.810", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.monthly", value: "178.100", descKey: "settings.monthlyDesc" }
-  ],
+  { labelKey: "settings.daily", value: "17.810", descKey: "settings.dailyDesc" },
+  { labelKey: "settings.monthly", value: "178.100", descKey: "settings.monthlyDesc" }],
+
   premium: [
-    { labelKey: "settings.daily", value: "48.130", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.monthly", value: "481.300", descKey: "settings.monthlyDesc" }
-  ],
+  { labelKey: "settings.daily", value: "48.130", descKey: "settings.dailyDesc" },
+  { labelKey: "settings.monthly", value: "481.300", descKey: "settings.monthlyDesc" }],
+
   team: [
-    { labelKey: "settings.daily", value: "90.580", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.monthly", value: "905.800", descKey: "settings.monthlyDesc" }
-  ],
+  { labelKey: "settings.daily", value: "90.580", descKey: "settings.dailyDesc" },
+  { labelKey: "settings.monthly", value: "905.800", descKey: "settings.monthlyDesc" }],
+
   startup: [
-    { labelKey: "settings.daily", value: "150.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.monthly", value: "1.500.000", descKey: "settings.monthlyDesc" }
-  ],
+  { labelKey: "settings.daily", value: "150.000", descKey: "settings.dailyDesc" },
+  { labelKey: "settings.monthly", value: "1.500.000", descKey: "settings.monthlyDesc" }],
+
   enterprise: [
-    { labelKey: "settings.daily", value: "300.000", descKey: "settings.dailyDesc" },
-    { labelKey: "settings.monthly", value: "3.000.000", descKey: "settings.monthlyDesc" }
-  ]
+  { labelKey: "settings.daily", value: "300.000", descKey: "settings.dailyDesc" },
+  { labelKey: "settings.monthly", value: "3.000.000", descKey: "settings.monthlyDesc" }]
+
 };
 
 const MONTHS_PT = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
@@ -101,31 +101,31 @@ function UsageContent({ onNavigate }) {
   const formatTokens = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   const pct = (consumed, limit) => {
     if (limit <= 0) return 0;
-    const value = Math.min(100, (consumed / limit) * 100);
+    const value = Math.min(100, consumed / limit * 100);
     if (value === 0) return 0;
     if (value < 1) return Math.round(value * 100) / 100;
     return Math.round(value);
   };
-  const rawPct = (consumed, limit) => (limit > 0 ? Math.min(100, (consumed / limit) * 100) : 0);
+  const rawPct = (consumed, limit) => limit > 0 ? Math.min(100, consumed / limit * 100) : 0;
   const isPaid = plan && plan !== "free";
 
   const planModels = [
-    ...(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
-      name: m.name,
-      logo: m.logo,
-      tags: ["Texto"]
-    })),
-    ...(IMAGE_MODELS_BY_PLAN[plan] || IMAGE_MODELS_BY_PLAN.free).map((m) => ({
-      name: m.name,
-      logo: m.logo,
-      tags: ["Imagem"]
-    })),
-    ...(AUDIO_MODELS_BY_PLAN[plan] || []).map((m) => ({
-      name: m.name,
-      logo: m.logo,
-      tags: ["Áudio"]
-    }))
-  ];
+  ...(MODELS_BY_PLAN[plan] || MODELS_BY_PLAN.free).map((m) => ({
+    name: m.name,
+    logo: m.logo,
+    tags: ["Texto"]
+  })),
+  ...(IMAGE_MODELS_BY_PLAN[plan] || IMAGE_MODELS_BY_PLAN.free).map((m) => ({
+    name: m.name,
+    logo: m.logo,
+    tags: ["Imagem"]
+  })),
+  ...(AUDIO_MODELS_BY_PLAN[plan] || []).map((m) => ({
+    name: m.name,
+    logo: m.logo,
+    tags: ["Áudio"]
+  }))];
+
 
   const filtered = planModels.filter((m) =>
   m.name.toLowerCase().includes(query.toLowerCase())
@@ -145,8 +145,8 @@ function UsageContent({ onNavigate }) {
                 <Image
                   src={getAvatarForUser(user?.id)}
                   alt="Profile"
-                  className="relative w-14 h-14 object-cover"
-                />
+                  className="relative w-14 h-14 object-cover" />
+                
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-base font-bold text-black">
@@ -158,26 +158,26 @@ function UsageContent({ onNavigate }) {
               </div>
               <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-[#eef0f2]">
                 {[
-                  { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
-                  { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
-                  { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/plan-selection") },
-                  { icon: ReceiptLinesIcon, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true },
-                ].map((btn) => (
-                  <button
-                    key={btn.label}
-                    onClick={btn.onClick}
-                    className="flex flex-col items-center gap-1.5 group"
-                  >
+                { icon: ShieldCheck, label: "2FA", onClick: () => {}, red: true },
+                { icon: Fingerprint, label: "Passkey", onClick: () => {}, red: true },
+                { icon: CoinStackIcon, label: "Recarregar", onClick: () => navigate("/plan-selection") },
+                { icon: ReceiptLinesIcon, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true }].
+                map((btn) =>
+                <button
+                  key={btn.label}
+                  onClick={btn.onClick}
+                  className="flex flex-col items-center gap-1.5 group">
+                  
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                      btn.active
-                        ? "bg-[#d1d5db] text-gray-700 ring-1 ring-gray-300"
-                        : "bg-[#d1d5db] ring-1 ring-gray-300 group-hover:bg-[#c4c8cf]"
-                    }`}>
+                  btn.active ?
+                  "bg-[#d1d5db] text-gray-700 ring-1 ring-gray-300" :
+                  "bg-[#d1d5db] ring-1 ring-gray-300 group-hover:bg-[#c4c8cf]"}`
+                  }>
                       <btn.icon className={`w-4 h-4 ${btn.red ? "text-red-500" : "text-black"}`} />
                     </div>
                     <span className="text-[10px] font-medium text-gray-500">{btn.label}</span>
                   </button>
-                ))}
+                )}
               </div>
             </div>
           </div>
@@ -196,8 +196,8 @@ function UsageContent({ onNavigate }) {
                 alt=""
                 aria-hidden="true"
                 className="absolute -bottom-6 -right-6 w-28 h-28 object-contain opacity-60 select-none pointer-events-none"
-                style={{ filter: "brightness(0) invert(1)" }}
-              />
+                style={{ filter: "brightness(0) invert(1)" }} />
+              
               <div className="relative flex items-start justify-between">
                 <p className="text-sm font-bold text-black">Zyntra</p>
                 <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
@@ -235,8 +235,8 @@ function UsageContent({ onNavigate }) {
               </span>
               <button
                 onClick={() => navigate("/plan-selection")}
-                className="w-full py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors"
-              >
+                className="w-full py-2.5 rounded-xl border border-gray-300 bg-white text-sm font-medium text-black hover:bg-gray-50 transition-colors">
+                
                 Trocar de plano
               </button>
             </div>
@@ -311,12 +311,12 @@ function UsageContent({ onNavigate }) {
                   <div className="mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
                     <div
                       className="h-full bg-black rounded-full transition-all duration-[1200ms] ease-out"
-                      style={{ width: `${barWidth}%` }}
-                    />
+                      style={{ width: `${barWidth}%` }} />
+                    
                   </div>
                   <p className="text-[11px] text-gray-500 mt-2">{t(win.descKey)}</p>
-                </div>
-              );
+                </div>);
+
             })}
           </div>
         </section>
@@ -325,7 +325,7 @@ function UsageContent({ onNavigate }) {
         <MediaQuotasContent plan={plan} />
 
         {/* Mensagens por IA */}
-        <section>
+        <section className="hidden">
           <h2 className="text-base font-bold text-black mb-1">{t("settings.messagesByIA")}</h2>
           <p className="text-xs text-gray-500 mb-3">{t("settings.messagesByIADesc")}</p>
           <div className="relative mb-3">
@@ -357,13 +357,13 @@ function UsageContent({ onNavigate }) {
 }
 
 const SETTINGS_TABS = [
-  { id: "usage", label: "Perfil", icon: Wallet },
-  { id: "invoices", label: "Pagamentos", icon: ReceiptLinesIcon },
-  { id: "account", label: "Segurança", icon: ShieldCheck },
-  { id: "memories", label: "Memórias", icon: Brain },
-  { id: "skills", label: "Habilidades", icon: Wand2 },
-  { id: "connectors", label: "Conectores", icon: Plug },
-];
+{ id: "usage", label: "Perfil", icon: Wallet },
+{ id: "invoices", label: "Pagamentos", icon: ReceiptLinesIcon },
+{ id: "account", label: "Segurança", icon: ShieldCheck },
+{ id: "memories", label: "Memórias", icon: Brain },
+{ id: "skills", label: "Habilidades", icon: Wand2 },
+{ id: "connectors", label: "Conectores", icon: Plug }];
+
 
 export default function Settings() {
   const { t } = useLanguage();
@@ -379,10 +379,10 @@ export default function Settings() {
   const renderContent = () => {
     if (activeSection === "skills" && skillFormOpen) {
       return <SkillFormContent
-        onBack={() => { setSkillFormOpen(false); setEditSkill(null); }}
+        onBack={() => {setSkillFormOpen(false);setEditSkill(null);}}
         editSkill={editSkill}
-        onSaved={() => { setSkillFormOpen(false); setEditSkill(null); }}
-      />;
+        onSaved={() => {setSkillFormOpen(false);setEditSkill(null);}} />;
+
     }
     switch (activeSection) {
       case "plan":
@@ -396,9 +396,9 @@ export default function Settings() {
       case "skills":
         return <SkillsContent
           plan={user?.plan || "free"}
-          onCreateSkill={() => { setEditSkill(null); setSkillFormOpen(true); }}
-          onEditSkill={(skill) => { setEditSkill(skill); setSkillFormOpen(true); }}
-        />;
+          onCreateSkill={() => {setEditSkill(null);setSkillFormOpen(true);}}
+          onEditSkill={(skill) => {setEditSkill(skill);setSkillFormOpen(true);}} />;
+
       case "connectors":
         return <ConnectorsContent plan={user?.plan || "free"} />;
       default:
@@ -417,20 +417,20 @@ export default function Settings() {
           <div className="flex items-center gap-4">
             <h1 className="text-sm font-bold text-black shrink-0">{t("settings.title")}</h1>
             <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-200/80">
-              {SETTINGS_TABS.map((tab) => (
+              {SETTINGS_TABS.map((tab) =>
                 <button
                   key={tab.id}
-                  onClick={() => { setActiveSection(tab.id); setSkillFormOpen(false); }}
+                  onClick={() => {setActiveSection(tab.id);setSkillFormOpen(false);}}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    activeSection === tab.id
-                      ? "bg-white text-black shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
+                  activeSection === tab.id ?
+                  "bg-white text-black shadow-sm" :
+                  "text-gray-500 hover:text-gray-700"}`
+                  }>
+                  
                   <tab.icon className="w-3.5 h-3.5" />
                   {tab.label}
                 </button>
-              ))}
+                )}
             </nav>
           </div>
           <div className="flex items-center gap-3 shrink-0">
@@ -439,9 +439,9 @@ export default function Settings() {
               <span className="text-xs font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
             </div>
             <button
-              onClick={() => navigate("/plan-selection")}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors"
-            >
+                onClick={() => navigate("/plan-selection")}
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#7a52d5] text-white text-xs font-medium hover:bg-[#6b4bd0] transition-colors">
+                
               Recarregar
             </button>
           </div>
@@ -471,8 +471,8 @@ export default function Settings() {
             </div>
             <button
               onClick={() => navigate("/plan-selection")}
-              className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#7a5bc8] text-white text-[11px] font-medium"
-            >
+              className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#7a5bc8] text-white text-[11px] font-medium">
+              
               <Plus className="w-3 h-3" />
               Recarregar
             </button>
