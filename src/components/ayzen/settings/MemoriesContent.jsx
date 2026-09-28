@@ -257,15 +257,15 @@ export default function MemoriesContent() {
                     </filter>
                   </svg>
                   <div className="w-full flex items-end justify-center pt-4 pb-0 relative">
-                    <img
-                      src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0e76cb915_empty-astronaut.webp"
-                      alt="Sem memórias"
-                      className="w-80 h-80 object-contain relative z-10"
-                      style={{ filter: "url(#mem-remove-black)" }} />
+                    <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/64af980cc_empty-astronaut.webp"
+
+                  alt="Sem memórias"
+                  className="w-80 h-80 object-contain relative z-10"
+                  style={{ filter: "url(#mem-remove-black)" }} />
                     <div
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-60 h-14 rounded-[50%] bg-white z-20"
-                      style={{ filter: "blur(20px)" }}
-                    />
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-60 h-14 rounded-[50%] bg-white z-20"
+                    style={{ filter: "blur(20px)" }} />
+                  
                   </div>
                   <div className="w-full px-6 py-6 bg-white flex flex-col items-center">
                     <p className="text-sm font-bold text-black">Nenhuma memória salva ainda</p>
@@ -276,17 +276,17 @@ export default function MemoriesContent() {
 
             <div className="flex-1">
               <div className="w-full rounded-xl border-2 border-dashed border-gray-200 p-4 space-y-2">
-                {memories.map((m) => (
-                  <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-lg bg-gray-50 group">
+                {memories.map((m) =>
+                <div key={m.id} className="flex items-start justify-between gap-3 p-3 rounded-lg bg-gray-50 group">
                     <p className="text-sm text-black flex-1 break-words">{m.content}</p>
                     <button
-                      onClick={() => handleDeleteMemory(m.id)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
-                    >
+                    onClick={() => handleDeleteMemory(m.id)}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0">
+                    
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
-                ))}
+                )}
               </div>
             </div>
             }
