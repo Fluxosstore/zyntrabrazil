@@ -136,7 +136,7 @@ export default function CreditsCard({ onReload, className = "" }) {
       </div>
 
       {/* Last movements */}
-      <div className="w-[38%] my-auto">
+      <div className="w-[38%] self-start pt-4">
         <p className="text-[11px] font-semibold tracking-wider text-white/70 mb-2.5">ÚLTIMAS MOVIMENTAÇÕES</p>
         <div className="flex items-start gap-2.5">
           <RefreshCw className="w-4 h-4 text-white/70 shrink-0 mt-0.5" />
