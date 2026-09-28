@@ -433,7 +433,7 @@ export default function Settings() {
                 )}
             </nav>
           </div>
-          <div className="flex items-center gap-3 shrink-0 mr-4">
+          <div className="flex items-center gap-3 shrink-0 mr-8">
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-200">
               <CoinStackIcon className="w-3.5 h-3.5 text-gray-500" />
               <span className="text-xs font-semibold text-black">{creditsLimit.toLocaleString("pt-BR")}</span>
