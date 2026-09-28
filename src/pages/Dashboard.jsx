@@ -478,7 +478,7 @@ export default function Dashboard() {
 
 
             
-          <div className="relative group">
+          <div className="relative group ml-auto">
             <button
                 onClick={() => setTempMode((v) => !v)}
                 className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
