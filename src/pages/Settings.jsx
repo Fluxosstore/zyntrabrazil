@@ -190,8 +190,14 @@ function UsageContent({ onNavigate }) {
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
             <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[280px] flex flex-col justify-between">
-              {/* Decorative shape */}
-              <div className="absolute -bottom-12 -right-10 w-40 h-40 rounded-[50%] bg-gray-300/50 blur-xl rotate-12" />
+              {/* Decorative lupa */}
+              <img
+                src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cbb8fd4bf_ddb60374d_ChatGPTImage16desetde202623_41_31.png"
+                alt=""
+                aria-hidden="true"
+                className="absolute -bottom-6 -right-6 w-28 h-28 object-contain opacity-25 select-none pointer-events-none"
+                style={{ filter: "brightness(0) invert(1)" }}
+              />
               <div className="relative flex items-start justify-between">
                 <p className="text-sm font-bold text-black">Zyntra</p>
                 <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
