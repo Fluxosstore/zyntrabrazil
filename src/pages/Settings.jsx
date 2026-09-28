@@ -189,10 +189,10 @@ function UsageContent({ onNavigate }) {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-[580px]">
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
-            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden">
+            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[190px] flex flex-col justify-between">
               {/* Decorative shape */}
               <div className="absolute -bottom-12 -right-10 w-40 h-40 rounded-[50%] bg-gray-300/50 blur-xl rotate-12" />
-              <div className="relative flex items-start justify-between mb-8">
+              <div className="relative flex items-start justify-between">
                 <p className="text-sm font-bold text-black">Zyntra</p>
                 <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#067049]" />
