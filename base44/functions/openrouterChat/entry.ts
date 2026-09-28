@@ -129,6 +129,7 @@ export default async function(req) {
       saveMemories = false,
       useMemories = false,
       activeConnectorIds = [],
+      skillName,
     } = body;
 
     if (!prompt) return Response.json({ error: "Prompt é obrigatório" }, { status: 400 });
@@ -144,16 +145,12 @@ export default async function(req) {
 
     // Detectar e processar comandos de habilidade (/skill-name)
     let skillInstructions = "";
-    let userMessage = prompt;
-    const skillMatch = prompt.match(/^\/([a-z0-9-]+)\s*/);
-    if (skillMatch) {
-      const skillName = skillMatch[1];
+    if (skillName) {
       try {
         const skills = await base44.entities.Skill.filter({ name: skillName, active: true });
         if (skills && skills.length > 0) {
           const skill = skills[0];
           skillInstructions = `Instruções da habilidade "${skill.name}":\n${skill.instructions}\n\n`;
-          userMessage = prompt.replace(skillMatch[0], "").trim() || skill.description || "Execute according to the skill instructions.";
         }
       } catch (e) {
         // Ignora erros de skill
@@ -200,7 +197,7 @@ export default async function(req) {
     } else {
       reasoningInstructions = "NÍVEL DE RACIOCÍNIO: ALTO. Analise o problema profundamente, divida em partes, considere todos os aspectos relevantes e produza uma resposta completa e detalhada.\n\n";
     }
-    const contextPrompt = reasoningInstructions + skillInstructions + connectorContext + memoryContext + userMessage;
+    const contextPrompt = reasoningInstructions + skillInstructions + connectorContext + memoryContext + prompt;
 
     const imageUrls = (fileUrls || []).filter((u) =>
       u.match(/\.(png|jpg|jpeg|gif|webp|bmp|svg)$/i)

@@ -339,6 +339,8 @@ export default function Dashboard() {
         setReferenceImage(null);
       } else {
         const prompt = messagesToPrompt(newMessages);
+        const skillMatch = msg.match(/^\/([a-z0-9-]+)\s*/i);
+        const skillName = skillMatch ? skillMatch[1] : undefined;
         const result = await base44.functions.invoke("openrouterChat", {
           prompt,
           model,
@@ -346,7 +348,8 @@ export default function Dashboard() {
           reasoning,
           saveMemories,
           useMemories,
-          activeConnectorIds
+          activeConnectorIds,
+          skillName
         });
         const _respText = result.data?.content || "";
         const _reasoning = result.data?.reasoning || "";
@@ -409,6 +412,8 @@ export default function Dashboard() {
         return;
       }
       const prompt = messagesToPrompt(baseMessages);
+      const skillMatch = text.match(/^\/([a-z0-9-]+)\s*/i);
+      const skillName = skillMatch ? skillMatch[1] : undefined;
       const result = await base44.functions.invoke("openrouterChat", {
         prompt,
         model: modelId,
@@ -416,7 +421,8 @@ export default function Dashboard() {
         reasoning,
         saveMemories: false,
         useMemories,
-        activeConnectorIds
+        activeConnectorIds,
+        skillName
       });
       const _respText = result.data?.content || "";
       const _reasoning = result.data?.reasoning || "";
