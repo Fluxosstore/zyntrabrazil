@@ -96,14 +96,14 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             {/* Header */}
             <div className="flex items-center justify-between px-3 py-2.5">
               <Link to="/" onClick={onClose} className="flex items-center gap-2">
-                <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
-                <span className="text-base font-bold text-black">Zyntra</span>
+                <img src={LOGO} alt="Zyntra" className="w-8 h-8 rounded-lg object-contain" />
+                <span className="text-lg font-bold text-black">Zyntra</span>
               </Link>
               <button
                 onClick={onClose}
-                className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
+                className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
 
-                <PanelLeftClose className="w-4 h-4" />
+                <PanelLeftClose className="w-5 h-5" />
               </button>
             </div>
 
@@ -111,19 +111,19 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             <div className="px-3 space-y-1">
               <button
                 onClick={handleNewConversation}
-                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white text-xs font-medium hover:opacity-90 transition-opacity">
+                className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white text-sm font-medium hover:opacity-90 transition-opacity">
 
-                <ChatPlusIcon className="w-3.5 h-3.5 shrink-0" />
+                <ChatPlusIcon className="w-4 h-4 shrink-0" />
                 {t("dash.newConversation")}
               </button>
 
               <div className="relative">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={t("dash.searchConversation")}
-                  className="w-full h-8 pl-8 pr-3 rounded-xl bg-[#F4F4F6] border border-gray-300/70 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
+                  className="w-full h-10 pl-9 pr-3 rounded-xl bg-[#F4F4F6] border border-gray-300/70 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
 
               </div>
 
@@ -131,24 +131,24 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                 <Link
                   to="/library"
                   onClick={onClose}
-                  className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium text-gray-700 hover:bg-white/60 transition-colors">
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
 
-                  <BooksIcon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                  <BooksIcon className="w-4 h-4 text-gray-500 shrink-0" />
                   {t("dash.library")}
                 </Link>
                 <Link
                   to="/automations"
                   onClick={onClose}
-                  className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium text-gray-700 hover:bg-white/60 transition-colors">
+                  className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
 
-                  <IntegrationIcon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                  <IntegrationIcon className="w-4 h-4 text-gray-500 shrink-0" />
                   {t("dash.automations")}
                 </Link>
                 {isAdmin &&
               <Link
                 to="/codrax"
                 onClick={onClose}
-                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium text-gray-700 hover:bg-white/60 transition-colors">
+                className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
 
                   Codrax
                 </Link>
@@ -159,23 +159,23 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             {/* Pastas section */}
             <div className="flex items-center justify-between px-3 pt-3 pb-1">
               <div className="flex items-center gap-1">
-                <span className="text-[10px] font-semibold tracking-wider text-gray-400">
+                <span className="text-xs font-semibold tracking-wider text-gray-400">
                   Pastas
                 </span>
-                <ChevronRight className="w-3 h-3 text-gray-400" />
+                <ChevronRight className="w-4 h-4 text-gray-400" />
               </div>
               <button
                 onClick={() => setFolderModalOpen(true)}
-                className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+                className="w-7 h-7 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
 
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
               </button>
             </div>
 
             {/* Chats list */}
             <div className="flex-1 px-3 overflow-y-auto">
               <div className="px-2 pt-1 pb-1">
-                <span className="text-[10px] font-semibold tracking-wider text-gray-400">
+                <span className="text-xs font-semibold tracking-wider text-gray-400">
                   Hoje
                 </span>
               </div>
@@ -203,10 +203,10 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             <div className="px-3 pb-1">
               <div className="flex items-center justify-between rounded-xl bg-[#eceef0] border border-gray-300/70 px-3 py-2.5">
                 <div className="flex items-center gap-2">
-                  <CoinStackIcon className="w-4 h-4 text-gray-600" />
-                  <span className="text-xs font-semibold text-black">{formatCredits(balance)}</span>
+                  <CoinStackIcon className="w-5 h-5 text-gray-600" />
+                  <span className="text-sm font-semibold text-black">{formatCredits(balance)}</span>
                 </div>
-                <Link to="/recharge-credits" onClick={onClose} className="px-3 py-1.5 rounded-lg text-xs font-medium text-black bg-[#eceef0] hover:bg-[#e2e4e8] transition-colors">
+                <Link to="/recharge-credits" onClick={onClose} className="px-3 py-2 rounded-lg text-sm font-medium text-black bg-[#eceef0] hover:bg-[#e2e4e8] transition-colors">
                   {t("dash.recharge")}
                 </Link>
               </div>
@@ -230,21 +230,21 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                 onClick={() => setPopoverOpen((v) => !v)}
                 className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl bg-[#eceef0] border border-gray-300/70 hover:bg-[#e2e4e8] transition-colors">
 
-                <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
+                <div className="relative w-9 h-9 shrink-0 rounded-full overflow-hidden">
                   <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
                   <Image
                     src={getAvatarForUser(user?.id)}
                     alt="Profile"
-                    className="relative w-7 h-7 object-cover" />
+                    className="relative w-9 h-9 object-cover" />
 
                 </div>
                 <div className="flex-1 text-left min-w-0">
-                  <p className="text-xs font-semibold text-black truncate">
+                  <p className="text-sm font-semibold text-black truncate">
                     {user?.full_name || firstName}
                   </p>
-                  <p className="text-[10px] text-gray-500 truncate">{planLabel}</p>
+                  <p className="text-xs text-gray-500 truncate">{planLabel}</p>
                 </div>
-                <ChevronsUpDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                <ChevronsUpDown className="w-4 h-4 text-gray-400 shrink-0" />
               </button>
             </div>
 
