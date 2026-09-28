@@ -18,6 +18,8 @@ import ArrowUpIcon from "@/components/ayzen/ArrowUpIcon";
 import PlusMenu from "@/components/ayzen/chat/PlusMenu";
 import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
+import SkillsPanel from "@/components/ayzen/chat/SkillsPanel";
+import SynthesisPanel from "@/components/ayzen/chat/SynthesisPanel";
 import ChatMessages from "@/components/ayzen/chat/ChatMessages";
 import TypingHeadline from "@/components/ayzen/TypingHeadline";
 import { isImageGenerationIntent, messagesToPrompt } from "@/lib/chatUtils";
@@ -48,6 +50,9 @@ export default function Dashboard() {
   const [plusMenuOpen, setPlusMenuOpen] = useState(false);
   const [toolsPanelOpen, setToolsPanelOpen] = useState(false);
   const [connectorsPanelOpen, setConnectorsPanelOpen] = useState(false);
+  const [skillsOpen, setSkillsOpen] = useState(false);
+  const [synthesisOpen, setSynthesisOpen] = useState(false);
+  const [synthesisActive, setSynthesisActive] = useState(false);
   const [activeConnectorIds, setActiveConnectorIds] = useState([]);
   const [attachedFile, setAttachedFile] = useState(null);
   const plusRef = useRef(null);
@@ -156,13 +161,15 @@ export default function Dashboard() {
         setPlusMenuOpen(false);
         setToolsPanelOpen(false);
         setConnectorsPanelOpen(false);
+        setSkillsOpen(false);
+        setSynthesisOpen(false);
       }
     }
-    if (plusMenuOpen) {
+    if (plusMenuOpen || skillsOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [plusMenuOpen]);
+  }, [plusMenuOpen, skillsOpen]);
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
@@ -172,6 +179,11 @@ export default function Dashboard() {
       setToolsPanelOpen(false);
       setConnectorsPanelOpen(false);
     }
+  };
+
+  const handleSelectSkill = (skill) => {
+    setMsg(`/${skill.name} `);
+    setSkillsOpen(false);
   };
 
   const handleSend = async () => {
@@ -631,7 +643,18 @@ export default function Dashboard() {
               }
             <textarea
                 value={msg}
-                onChange={(e) => setMsg(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setMsg(value);
+                  if (value.startsWith("/")) {
+                    setSkillsOpen(true);
+                    setPlusMenuOpen(false);
+                    setToolsPanelOpen(false);
+                    setConnectorsPanelOpen(false);
+                  } else {
+                    setSkillsOpen(false);
+                  }
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -665,11 +688,27 @@ export default function Dashboard() {
                     <Plus className="w-3.5 h-3.5" />
                   </button>
                   <AnimatePresence>
-                    {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen &&
+                    {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && !synthesisOpen && !skillsOpen &&
                       <PlusMenu
                         onOpenTools={() => setToolsPanelOpen(true)}
                         onOpenConnectors={() => setConnectorsPanelOpen(true)}
-                        onAttachFile={() => fileInputRef.current?.click()} />
+                        onAttachFile={() => fileInputRef.current?.click()}
+                        onOpenSkills={() => setSkillsOpen(true)}
+                        onOpenSynthesis={() => setSynthesisOpen(true)}
+                        onOpenCompare={() => setPlusMenuOpen(false)} />
+
+                      }
+                    {plusMenuOpen && synthesisOpen &&
+                      <SynthesisPanel
+                        onBack={() => setSynthesisOpen(false)}
+                        active={synthesisActive}
+                        onToggle={() => setSynthesisActive(false)} />
+
+                      }
+                    {skillsOpen &&
+                      <SkillsPanel
+                        onSelect={handleSelectSkill}
+                        onClose={() => setSkillsOpen(false)} />
 
                       }
                     {plusMenuOpen && toolsPanelOpen &&

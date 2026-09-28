@@ -22,6 +22,8 @@ import ToolsPanel from "@/components/ayzen/chat/ToolsPanel";
 import ConnectorsPanel from "@/components/ayzen/chat/ConnectorsPanel";
 import { CONNECTORS } from "@/components/ayzen/settings/connectorsData";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import SkillsPanel from "@/components/ayzen/chat/SkillsPanel";
+import SynthesisPanel from "@/components/ayzen/chat/SynthesisPanel";
 
 const LOGO =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41.png";
@@ -54,6 +56,9 @@ export default function MobileDashboard({
   const [plusMenuOpen, setPlusMenuOpen] = useState(false);
   const [toolsPanelOpen, setToolsPanelOpen] = useState(false);
   const [connectorsPanelOpen, setConnectorsPanelOpen] = useState(false);
+  const [skillsOpen, setSkillsOpen] = useState(false);
+  const [synthesisOpen, setSynthesisOpen] = useState(false);
+  const [synthesisActive, setSynthesisActive] = useState(false);
   const fileInputRef = useRef(null);
   const plusRef = useRef(null);
   const navigate = useNavigate();
@@ -80,19 +85,26 @@ export default function MobileDashboard({
 
   const closeSidebar = () => setSidebarOpen(false);
 
+  const handleSelectSkill = (skill) => {
+    setMsg(`/${skill.name} `);
+    setSkillsOpen(false);
+  };
+
   useEffect(() => {
     function handleClickOutside(e) {
       if (plusRef.current && !plusRef.current.contains(e.target)) {
         setPlusMenuOpen(false);
         setToolsPanelOpen(false);
         setConnectorsPanelOpen(false);
+        setSkillsOpen(false);
+        setSynthesisOpen(false);
       }
     }
-    if (plusMenuOpen) {
+    if (plusMenuOpen || skillsOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, [plusMenuOpen]);
+  }, [plusMenuOpen, skillsOpen]);
 
   return (
     <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
@@ -235,7 +247,18 @@ export default function MobileDashboard({
           )}
           <textarea
             value={msg}
-            onChange={(e) => setMsg(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setMsg(value);
+              if (value.startsWith("/")) {
+                setSkillsOpen(true);
+                setPlusMenuOpen(false);
+                setToolsPanelOpen(false);
+                setConnectorsPanelOpen(false);
+              } else {
+                setSkillsOpen(false);
+              }
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
@@ -259,11 +282,27 @@ export default function MobileDashboard({
                 <Plus className="w-5 h-5" />
               </button>
               <AnimatePresence>
-                {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && (
+                {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && !synthesisOpen && !skillsOpen && (
                   <PlusMenu
                     onOpenTools={() => setToolsPanelOpen(true)}
                     onOpenConnectors={() => setConnectorsPanelOpen(true)}
                     onAttachFile={() => fileInputRef.current?.click()}
+                    onOpenSkills={() => setSkillsOpen(true)}
+                    onOpenSynthesis={() => setSynthesisOpen(true)}
+                    onOpenCompare={() => setPlusMenuOpen(false)}
+                  />
+                )}
+                {plusMenuOpen && synthesisOpen && (
+                  <SynthesisPanel
+                    onBack={() => setSynthesisOpen(false)}
+                    active={synthesisActive}
+                    onToggle={() => setSynthesisActive(false)}
+                  />
+                )}
+                {skillsOpen && (
+                  <SkillsPanel
+                    onSelect={handleSelectSkill}
+                    onClose={() => setSkillsOpen(false)}
                   />
                 )}
                 {plusMenuOpen && toolsPanelOpen && (

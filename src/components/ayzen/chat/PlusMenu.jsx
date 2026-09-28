@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Paperclip, SlidersHorizontal, Plug, ChevronRight } from "lucide-react";
+import { Paperclip, SlidersHorizontal, Plug, ChevronRight, Sparkles, LayoutGrid, Zap } from "lucide-react";
 
-export default function PlusMenu({ onOpenTools, onOpenConnectors, onAttachFile }) {
+export default function PlusMenu({ onOpenTools, onOpenConnectors, onAttachFile, onOpenSkills, onOpenSynthesis, onOpenCompare }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8, scale: 0.96 }}
@@ -23,6 +23,22 @@ export default function PlusMenu({ onOpenTools, onOpenConnectors, onAttachFile }
       <div className="h-px bg-gray-100 mx-2" />
       <div className="p-1.5 pt-1">
         <button
+          onClick={onOpenSynthesis}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors text-left"
+        >
+          <Sparkles className="w-4 h-4 text-black shrink-0" />
+          <span className="flex-1 text-sm font-medium text-black">Síntese</span>
+          <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+        </button>
+        <button
+          onClick={onOpenCompare}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors text-left"
+        >
+          <LayoutGrid className="w-4 h-4 text-black shrink-0" />
+          <span className="flex-1 text-sm font-medium text-black">Comparar</span>
+          <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+        </button>
+        <button
           onClick={onOpenTools}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors text-left"
         >
@@ -36,9 +52,14 @@ export default function PlusMenu({ onOpenTools, onOpenConnectors, onAttachFile }
         >
           <Plug className="w-4 h-4 text-black shrink-0" />
           <span className="flex-1 text-sm font-medium text-black">Conectores</span>
-          <span className="text-[9px] font-bold tracking-wider text-[#2E7D32] bg-[#E8F5E9] px-1.5 py-0.5 rounded">
-            NOVO
-          </span>
+          <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
+        </button>
+        <button
+          onClick={onOpenSkills}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors text-left"
+        >
+          <Zap className="w-4 h-4 text-black shrink-0" />
+          <span className="flex-1 text-sm font-medium text-black">Habilidades</span>
           <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
         </button>
       </div>
