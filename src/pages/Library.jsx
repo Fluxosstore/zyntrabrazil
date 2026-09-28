@@ -292,7 +292,7 @@ export default function LibraryPage() {
                   <ChevronDown className={`w-3.5 h-3.5 text-gray-500 shrink-0 transition-transform ${sortOpen ? "rotate-180" : ""}`} />
                 </button>
                 {sortOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1 z-50 overflow-hidden">
+                  <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
                     {sortOptions.map((opt) => {
                       const active = sortOrder === opt.id;
                       return (
@@ -302,7 +302,7 @@ export default function LibraryPage() {
                             setSortOrder(opt.id);
                             setSortOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors ${
+                          className={`w-[calc(100%-0.75rem)] mx-auto flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                             active ? "bg-[#E6E6ED] text-black" : "text-black hover:bg-gray-50"
                           }`}
                         >
