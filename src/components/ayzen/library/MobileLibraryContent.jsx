@@ -4,11 +4,32 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
+import {
+  MODELS_BY_PLAN, IMAGE_MODELS, IMAGE_MODELS_BY_PLAN,
+  AUDIO_MODELS, AUDIO_MODELS_BY_PLAN, LOGO,
+} from "@/components/ayzen/ModelSelector";
 
 const ASTRONAUT =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/81e46fe3d_empty-astronaut-removebg-preview.png";
 
 const GPT_LOGO = "https://upload.wikimedia.org/wikipedia/commons/e/ef/ChatGPT-Logo.svg";
+
+const MODEL_LOGO_BY_NAME = (() => {
+  const map = { "Zyntra Auto": LOGO };
+  const arrays = [
+    ...Object.values(MODELS_BY_PLAN),
+    IMAGE_MODELS,
+    ...Object.values(IMAGE_MODELS_BY_PLAN),
+    AUDIO_MODELS,
+    ...Object.values(AUDIO_MODELS_BY_PLAN),
+  ];
+  for (const arr of arrays) {
+    for (const m of arr || []) {
+      if (m && m.name && m.logo) map[m.name] = m.logo;
+    }
+  }
+  return map;
+})();
 
 const TAB_TYPE_MAP = {
   all: null,
@@ -50,8 +71,18 @@ function ThumbIcon({ item, className = "w-5 h-5 text-gray-400" }) {
 
 function getModelLogo(model) {
   if (!model) return GPT_LOGO;
+  if (MODEL_LOGO_BY_NAME[model]) return MODEL_LOGO_BY_NAME[model];
   const m = model.toLowerCase();
   if (m.includes("gpt") || m.includes("chatgpt") || m.includes("openai")) return GPT_LOGO;
+  if (m.includes("gemini")) return "https://upload.wikimedia.org/wikipedia/commons/1/1d/Google_Gemini_icon_2025.svg";
+  if (m.includes("claude")) return "https://upload.wikimedia.org/wikipedia/commons/b/b0/Claude_AI_symbol.svg";
+  if (m.includes("deepseek")) return "https://upload.wikimedia.org/wikipedia/commons/b/ba/Deepseek-logo-icon.svg";
+  if (m.includes("grok")) return "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ad894e6fd_grok.svg";
+  if (m.includes("fish")) return "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://fish.audio/&size=256";
+  if (m.includes("minimax")) return "https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://minimaxi.com/&size=256";
+  if (m.includes("qwen")) return "https://openrouter.ai/images/icons/Qwen.png";
+  if (m.includes("deepgram")) return "https://openrouter.ai/images/icons/Deepgram.svg";
+  if (m.includes("microsoft") || m.includes("mai")) return "https://openrouter.ai/images/icons/MAI.png";
   return GPT_LOGO;
 }
 
@@ -183,7 +214,7 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
           <div key={model}>
             <div className="flex items-center gap-2 mb-2.5">
               <div className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
-                <img src={getModelLogo(model)} alt="" className="w-4 h-4 object-contain" />
+                <img src={getModelLogo(modelItems[0]?.model)} alt="" className="w-4 h-4 object-contain" />
               </div>
               <h2 className="text-sm font-bold text-black">{model}</h2>
               <span className="px-2 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-500">
@@ -268,15 +299,12 @@ function SimpleResponseCard({ item }) {
 function DetailedResponseCard({ item, onDelete, onEdit }) {
   return (
     <div className="p-3.5 bg-white border border-gray-200 rounded-2xl">
-      <div className="flex items-start justify-between mb-2.5">
+      <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shrink-0 overflow-hidden">
             <img src={getModelLogo(item.model)} alt="" className="w-4 h-4 object-contain" />
           </div>
-          <div>
-            <p className="text-sm font-semibold text-black leading-tight">{item.model || "ChatGPT"}</p>
-            <p className="text-xs text-gray-500 mt-0.5">{formatDate(item.created_date)}</p>
-          </div>
+          <p className="text-sm font-semibold text-black leading-tight">{item.model || "ChatGPT"}</p>
         </div>
         <div className="flex items-center gap-1 shrink-0">
           <button className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 active:bg-gray-100">
@@ -296,7 +324,8 @@ function DetailedResponseCard({ item, onDelete, onEdit }) {
           </button>
         </div>
       </div>
-      <p className="text-sm text-gray-700 leading-relaxed">{item.title || item.prompt}</p>
+      <p className="text-sm text-gray-700 leading-relaxed mb-2">{item.title || item.prompt}</p>
+      <p className="text-xs text-gray-500">{formatDate(item.created_date)}</p>
     </div>
   );
 }
