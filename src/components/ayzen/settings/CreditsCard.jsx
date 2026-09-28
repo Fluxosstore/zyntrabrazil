@@ -161,7 +161,7 @@ export default function CreditsCard({ onReload, className = "" }) {
         </div>
         <button
           onClick={onReload}
-          className="flex items-center justify-center gap-1.5 px-5 py-2 rounded-full bg-white text-[#7C5DCF] text-sm font-semibold hover:bg-white/90 transition-colors"
+          className="flex items-center justify-center gap-1.5 px-5 py-2 rounded-xl bg-white text-[#7C5DCF] text-sm font-semibold hover:bg-white/90 transition-colors"
         >
           <Plus className="w-4 h-4" />
           Recarregar
