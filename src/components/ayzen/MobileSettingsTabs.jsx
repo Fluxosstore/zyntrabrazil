@@ -23,7 +23,10 @@ export default function MobileSettingsTabs({ active = "usage", onSelect, onRecha
 
   return (
     <div className="flex items-center gap-2 px-4 pb-3">
-      <div className="flex-1 overflow-x-auto scrollbar-hide px-1">
+      <div
+        className="flex-1 overflow-x-auto scrollbar-hide"
+        style={{ clipPath: "inset(0 round 9999px)" }}
+      >
         <div className="flex items-center gap-1 p-1 rounded-full bg-[#EAEAEA] w-max">
           {items.map((it) => {
             const Icon = ICONS[it.id];
