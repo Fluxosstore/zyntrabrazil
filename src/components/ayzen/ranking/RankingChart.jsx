@@ -134,7 +134,7 @@ export default function RankingChart({ models, top3 }) {
           </ResponsiveContainer>
         </div>
         {/* Legend */}
-        <div className="flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-4 border-t border-gray-100 justify-center">
+        <div className="hidden md:flex flex-wrap gap-x-4 gap-y-1.5 mt-4 pt-4 border-t border-gray-100 justify-center">
           {series.map((s) => (
             <div key={s.key} className="flex items-center gap-1.5">
               <ModelLogo logo={s.logo} size={14} />

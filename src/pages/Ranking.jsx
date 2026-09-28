@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { PanelLeftClose, BarChart3, Star } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
@@ -233,15 +233,13 @@ export default function Ranking() {
 
       {/* Mobile */}
       <div className="md:hidden h-screen flex flex-col bg-white overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+        <div className="flex items-center px-4 py-3 border-b border-gray-100">
           <button
             onClick={() => setSidebarOpen(true)}
             className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
           >
-            <Menu className="w-5 h-5" />
+            <PanelLeftClose className="w-5 h-5" />
           </button>
-          <span className="text-sm font-semibold text-black">{t("ranking.title")}</span>
-          <div className="w-9" />
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-5">
@@ -251,14 +249,16 @@ export default function Ranking() {
           </div>
           <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 w-full">
             <button
-              className="flex-1 py-2 rounded-full text-sm font-medium bg-white text-black shadow-sm"
+              className="flex-1 py-2 rounded-full text-sm font-medium bg-white text-black shadow-sm flex items-center justify-center gap-1.5"
             >
+              <BarChart3 className="w-4 h-4" />
               {t("ranking.usage")}
             </button>
             <button
               onClick={() => navigate("/ranking/qualidade")}
-              className="flex-1 py-2 rounded-full text-sm font-medium text-gray-500"
+              className="flex-1 py-2 rounded-full text-sm font-medium text-gray-500 flex items-center justify-center gap-1.5"
             >
+              <Star className="w-4 h-4" />
               {t("ranking.quality")}
             </button>
           </div>
