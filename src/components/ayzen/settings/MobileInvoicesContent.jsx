@@ -5,6 +5,7 @@ import {
   Download,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   RefreshCw,
   Plus,
   Clock,
@@ -304,135 +305,142 @@ export default function MobileInvoicesContent({ plan = "free" }) {
 
         {/* Faturas card */}
         <section>
-          <h2 className="text-base font-bold text-black mb-3">Faturas</h2>
           <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-            {loading ? (
-              <div className="px-5 py-12 flex flex-col items-center justify-center">
-                <p className="text-sm text-gray-400">Carregando faturas…</p>
-              </div>
-            ) : invoices.length === 0 ? (
-              <div className="px-5 py-12 flex flex-col items-center justify-center">
-                <p className="text-sm text-gray-400">Nenhuma fatura ainda.</p>
-              </div>
-            ) : (
-              invoices.map((inv, idx) => {
-                const isRecharge = inv.type === "Recarga";
-                const isPending = inv.status === "pending";
-                return (
-                  <div
-                    key={inv.id}
-                    className={`px-4 py-4 ${idx !== invoices.length - 1 ? "border-b border-gray-100" : ""}`}
-                  >
-                    {/* Top row: badge + value */}
-                    <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 text-[11px] font-medium">
-                        {isRecharge ? <Plus className="w-3 h-3" /> : <RefreshCw className="w-3 h-3" />}
-                        {inv.type}
-                      </span>
-                      <span className="text-sm font-semibold text-black">{inv.value}</span>
-                    </div>
-                    {/* Middle row: date + period */}
-                    <p className="text-xs text-gray-500 mt-2">
-                      {inv.shortDate} {inv.period !== "—" ? inv.period : ""}
-                    </p>
-                    {/* Due row */}
-                    <p className="text-xs text-gray-500 mt-1">Vence em {inv.dueShort}</p>
-                    {/* Footer: status badge + menu */}
-                    <div className="flex items-center justify-between mt-3">
-                      {isPending ? (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#FFF5E6] text-[#D35400] text-[11px] font-medium">
-                          <Clock className="w-3 h-3" />
-                          Pendente
+            {/* Title inside the card */}
+            <div className="px-5 pt-5 pb-3">
+              <h2 className="text-base font-bold text-black">Faturas</h2>
+            </div>
+
+            {/* Invoice list */}
+            <div className="px-4 pb-4 space-y-3">
+              {loading ? (
+                <div className="py-12 flex flex-col items-center justify-center">
+                  <p className="text-sm text-gray-400">Carregando faturas…</p>
+                </div>
+              ) : invoices.length === 0 ? (
+                <div className="py-12 flex flex-col items-center justify-center">
+                  <p className="text-sm text-gray-400">Nenhuma fatura ainda.</p>
+                </div>
+              ) : (
+                invoices.map((inv) => {
+                  const isRecharge = inv.type === "Recarga";
+                  const isPending = inv.status === "pending";
+                  return (
+                    <div
+                      key={inv.id}
+                      className="rounded-xl border border-gray-200 bg-white p-4"
+                    >
+                      {/* Row 1: badge + value */}
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F9FAFB] border border-[#D1D5DB] text-gray-700 text-[11px] font-medium">
+                          {isRecharge ? <Plus className="w-3 h-3" /> : <RefreshCw className="w-3 h-3" />}
+                          {inv.type}
                         </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#E8F8F0] text-[#27AE60] text-[11px] font-medium">
-                          <Check className="w-3 h-3" />
-                          Paga
-                        </span>
-                      )}
-                      <div className="relative" ref={openMenuId === inv.id ? menuRef : null}>
-                        <button
-                          onClick={(e) => openMenu(inv, e.currentTarget)}
-                          className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
-                            openMenuId === inv.id
-                              ? "bg-gray-100 text-gray-700"
-                              : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                          }`}
-                        >
-                          <MoreHorizontal className="w-4 h-4" />
-                        </button>
-                        {openMenuId === inv.id && menuPos && (
-                          <div
-                            className="fixed w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 px-1.5 z-50"
-                            style={{ top: menuPos.top, right: menuPos.right }}
-                          >
-                            {isRecharge && isPending ? (
-                              <>
-                                <button
-                                  onClick={() => handleOpenPayment(inv)}
-                                  disabled={menuLoading}
-                                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
-                                >
-                                  <ExternalLink className="w-4 h-4 text-[#333333]" />
-                                  Abrir pagamento
-                                </button>
-                                <button
-                                  onClick={() => handleCopyPix(inv)}
-                                  disabled={menuLoading}
-                                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
-                                >
-                                  <Copy className="w-4 h-4 text-[#333333]" />
-                                  Copiar Pix
-                                </button>
-                                <button
-                                  onClick={() => handleCopyId(inv)}
-                                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
-                                >
-                                  <Copy className="w-4 h-4 text-[#333333]" />
-                                  Copiar ID
-                                </button>
-                                <div className="my-1 border-t border-gray-100" />
-                                <button
-                                  onClick={() => handleCancelRecharge(inv)}
-                                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#D93025] hover:bg-red-50 transition-colors text-left"
-                                >
-                                  <X className="w-4 h-4 text-[#D93025]" />
-                                  Desistir da recarga
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                <button
-                                  onClick={() => {
-                                    setOpenMenuId(null);
-                                    setModalData({ value: inv.value, date: inv.raw?.created_date || subDate });
-                                    setModalOpen(true);
-                                  }}
-                                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
-                                >
-                                  <Eye className="w-4 h-4 text-[#333333]" />
-                                  Visualizar
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setOpenMenuId(null);
-                                    window.print();
-                                  }}
-                                  className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
-                                >
-                                  <Download className="w-4 h-4 text-[#333333]" />
-                                  Comprovante
-                                </button>
-                              </>
-                            )}
-                          </div>
+                        <span className="text-sm font-semibold text-black">{inv.value}</span>
+                      </div>
+                      {/* Row 2: date + period */}
+                      <p className="text-xs text-[#4B5563] mt-2.5">
+                        {inv.shortDate} {inv.period !== "—" ? inv.period : ""}
+                      </p>
+                      {/* Row 3: due date */}
+                      <p className="text-xs text-[#4B5563] mt-1">Vence em {inv.dueShort}</p>
+                      {/* Row 4: status badge + menu */}
+                      <div className="flex items-center justify-between mt-3">
+                        {isPending ? (
+                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#FFF5E6] border border-[#FCD9B6] text-[#D35400] text-[11px] font-medium">
+                            <Clock className="w-3 h-3" />
+                            Pendente
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-[11px] font-medium">
+                            <Check className="w-3 h-3" />
+                            Paga
+                          </span>
                         )}
+                        <div className="relative" ref={openMenuId === inv.id ? menuRef : null}>
+                          <button
+                            onClick={(e) => openMenu(inv, e.currentTarget)}
+                            className={`w-8 h-8 flex items-center justify-center rounded-full border border-[#D1D5DB] bg-white transition-colors ${
+                              openMenuId === inv.id
+                                ? "text-gray-700 border-gray-300"
+                                : "text-gray-400 hover:text-gray-600 hover:border-gray-300"
+                            }`}
+                          >
+                            <MoreHorizontal className="w-4 h-4" />
+                          </button>
+                          {openMenuId === inv.id && menuPos && (
+                            <div
+                              className="fixed w-52 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 px-1.5 z-50"
+                              style={{ top: menuPos.top, right: menuPos.right }}
+                            >
+                              {isRecharge && isPending ? (
+                                <>
+                                  <button
+                                    onClick={() => handleOpenPayment(inv)}
+                                    disabled={menuLoading}
+                                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
+                                  >
+                                    <ExternalLink className="w-4 h-4 text-[#333333]" />
+                                    Abrir pagamento
+                                  </button>
+                                  <button
+                                    onClick={() => handleCopyPix(inv)}
+                                    disabled={menuLoading}
+                                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left disabled:opacity-50"
+                                  >
+                                    <Copy className="w-4 h-4 text-[#333333]" />
+                                    Copiar Pix
+                                  </button>
+                                  <button
+                                    onClick={() => handleCopyId(inv)}
+                                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
+                                  >
+                                    <Copy className="w-4 h-4 text-[#333333]" />
+                                    Copiar ID
+                                  </button>
+                                  <div className="my-1 border-t border-gray-100" />
+                                  <button
+                                    onClick={() => handleCancelRecharge(inv)}
+                                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#D93025] hover:bg-red-50 transition-colors text-left"
+                                  >
+                                    <X className="w-4 h-4 text-[#D93025]" />
+                                    Desistir da recarga
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    onClick={() => {
+                                      setOpenMenuId(null);
+                                      setModalData({ value: inv.value, date: inv.raw?.created_date || subDate });
+                                      setModalOpen(true);
+                                    }}
+                                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
+                                  >
+                                    <Eye className="w-4 h-4 text-[#333333]" />
+                                    Visualizar
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setOpenMenuId(null);
+                                      window.print();
+                                    }}
+                                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-[#333333] hover:bg-gray-100 transition-colors text-left"
+                                  >
+                                    <Download className="w-4 h-4 text-[#333333]" />
+                                    Comprovante
+                                  </button>
+                                </>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
-            )}
+                  );
+                })
+              )}
+            </div>
 
             {/* Pagination footer */}
             <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
@@ -440,6 +448,7 @@ export default function MobileInvoicesContent({ plan = "free" }) {
                 <span className="text-xs text-gray-500">Por página</span>
                 <button className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-gray-200 bg-white text-xs font-medium text-gray-700">
                   10
+                  <ChevronDown className="w-3 h-3 text-gray-500" />
                 </button>
               </div>
               <div className="flex items-center gap-3">
@@ -448,13 +457,13 @@ export default function MobileInvoicesContent({ plan = "free" }) {
                 </span>
                 <div className="flex items-center gap-1">
                   <button
-                    className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 disabled:opacity-40"
+                    className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-400 disabled:opacity-40"
                     disabled
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
-                    className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 disabled:opacity-40"
+                    className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-200 text-gray-400 disabled:opacity-40"
                     disabled
                   >
                     <ChevronRight className="w-4 h-4" />
