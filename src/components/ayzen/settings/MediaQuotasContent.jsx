@@ -4,6 +4,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { base44 } from "@/api/base44Client";
 import { MODELS_BY_PLAN, IMAGE_MODELS_BY_PLAN, AUDIO_MODELS_BY_PLAN } from "@/components/ayzen/ModelSelector";
 import { QUOTAS_BY_PLAN, getUsageCounts } from "@/lib/quotaUtils";
+import FairUseCard from "@/components/ayzen/settings/FairUseCard";
 
 const CAT_KEYS = {
   text: "settings.mediaTextos",
@@ -129,6 +130,10 @@ export default function MediaQuotasContent({ plan }) {
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-4">
+        <FairUseCard />
       </div>
     </section>
   );
