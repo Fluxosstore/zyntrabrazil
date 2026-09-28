@@ -4,7 +4,7 @@
   "properties": {
     "tokens": {
       "type": "number",
-      "description": "Quantidade de tokens consumidos neste registro"
+      "description": "Quantidade de cr\u00e9ditos consumidos neste registro"
     },
     "model": {
       "type": "string",
@@ -13,6 +13,15 @@
     "prompt": {
       "type": "string",
       "description": "Texto do comando enviado pelo usu\u00e1rio"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "text",
+        "image",
+        "audio"
+      ],
+      "description": "Categoria do consumo (texto, imagem ou \u00e1udio)"
     }
   },
   "required": [

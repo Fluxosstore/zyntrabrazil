@@ -12,9 +12,9 @@ export const CREDITS_BY_PLAN = {
 
 export const QUOTAS_BY_PLAN = {
   free: {
-    text: { day: 0, week: 0, month: 10000 },
-    image: { day: 0, week: 0, month: 5 },
-    audio: { day: 0, week: 0, month: 3 }
+    text: { day: 0, week: 0, month: 10 },
+    image: { day: 0, week: 0, month: 1 },
+    audio: { day: 0, week: 0, month: 1 }
   },
   starter: {
     text: { day: 17810, week: 0, month: 178100 },
@@ -83,6 +83,51 @@ export async function getUsageCounts() {
 export function invalidateUsageCache() {
   usageCache = null;
   cacheTimestamp = 0;
+}
+
+export async function checkCategoryQuota(plan, category) {
+  const quotas = QUOTAS_BY_PLAN[plan] || QUOTAS_BY_PLAN.free;
+  const categoryQuota = quotas[category];
+
+  if (categoryQuota === "unlimited") {
+    return { exceeded: false, unlimited: true };
+  }
+
+  if (!categoryQuota || (categoryQuota.day === 0 && categoryQuota.week === 0 && categoryQuota.month === 0)) {
+    return { exceeded: true, notIncluded: true, limit: 0, consumed: 0 };
+  }
+
+  try {
+    const records = await base44.entities.TokenUsage.list();
+    const date = new Date();
+    const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const startOfWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+    const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+
+    let monthCount = 0, dayCount = 0, weekCount = 0;
+    records.forEach((r) => {
+      if (r.category !== category) return;
+      const d = new Date(r.created_date);
+      if (d >= startOfMonth) monthCount++;
+      if (d >= startOfDay) dayCount++;
+      if (d >= startOfWeek) weekCount++;
+    });
+
+    if (categoryQuota.month > 0 && monthCount >= categoryQuota.month) {
+      return { exceeded: true, period: "month", consumed: monthCount, limit: categoryQuota.month };
+    }
+    if (categoryQuota.day > 0 && dayCount >= categoryQuota.day) {
+      return { exceeded: true, period: "day", consumed: dayCount, limit: categoryQuota.day };
+    }
+    if (categoryQuota.week > 0 && weekCount >= categoryQuota.week) {
+      return { exceeded: true, period: "week", consumed: weekCount, limit: categoryQuota.week };
+    }
+
+    return { exceeded: false };
+  } catch (err) {
+    console.error("Erro ao verificar cota por categoria:", err);
+    return { exceeded: false };
+  }
 }
 
 export async function checkModelQuota(plan, modelName, category) {

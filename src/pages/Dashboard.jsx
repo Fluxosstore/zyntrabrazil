@@ -24,7 +24,7 @@ import { isImageGenerationIntent, messagesToPrompt } from "@/lib/chatUtils";
 import { getConversationTitle } from "@/lib/conversationUtils";
 import { base44 } from "@/api/base44Client";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
-import { checkModelQuota, invalidateUsageCache } from "@/lib/quotaUtils";
+import { checkModelQuota, checkCategoryQuota, invalidateUsageCache } from "@/lib/quotaUtils";
 import { calculateTextCredits, calculateImageCredits, calculateAudioCredits } from "@/lib/creditSystem";
 import { CONNECTORS } from "@/components/ayzen/settings/connectorsData";
 
@@ -242,12 +242,13 @@ export default function Dashboard() {
       // Verifica cota do modelo antes de gerar
       const modelInfo = getModelInfo(model, plan);
       const category = isAudioRequest ? "audio" : isImageRequest ? "image" : "text";
-      const quotaCheck = await checkModelQuota(plan, modelInfo.name, category);
+      const quotaCheck = await checkCategoryQuota(plan, category);
 
       if (quotaCheck.exceeded) {
+        const _categoryLabel = category === "text" ? "texto" : category === "image" ? "imagem" : "áudio";
         const quotaMsg = quotaCheck.notIncluded ?
-        t("dash.quotaNotIncluded", { model: modelInfo.name }) :
-        t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: modelInfo.name });
+        t("dash.quotaNotIncluded", { model: _categoryLabel }) :
+        t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: _categoryLabel });
         setMessages([
         ...newMessages,
         {
@@ -269,7 +270,7 @@ export default function Dashboard() {
         const audioUrl = result.data?.url;
         if (!audioUrl) throw new Error("Nenhum áudio retornado");
         const _audioCredits = calculateAudioCredits(model);
-        base44.entities.TokenUsage.create({ tokens: _audioCredits, model: modelInfo.name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: _audioCredits, model: modelInfo.name, prompt: conversationTitle, category: "audio" }).then(() => invalidateUsageCache()).catch(() => {});
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
           type: "file",
@@ -303,7 +304,7 @@ export default function Dashboard() {
         const imageUrl = result.data?.url;
         if (!imageUrl) throw new Error("Nenhuma imagem retornada");
         const _imageCredits = calculateImageCredits(model);
-        base44.entities.TokenUsage.create({ tokens: _imageCredits, model: modelInfo.name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: _imageCredits, model: modelInfo.name, prompt: conversationTitle, category: "image" }).then(() => invalidateUsageCache()).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
@@ -339,7 +340,7 @@ export default function Dashboard() {
         const _totalTokens = result.data?.usage?.total_tokens || Math.ceil((prompt.length + _respText.length) / 4);
         const _textCredits = calculateTextCredits(model, _totalTokens);
         const _thinkingTime = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
-        base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(model, plan).name, prompt: conversationTitle }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(model, plan).name, prompt: conversationTitle, category: "text" }).then(() => invalidateUsageCache()).catch(() => {});
         setMessages([
         ...newMessages,
         {
@@ -378,11 +379,11 @@ export default function Dashboard() {
     startTimeRef.current = Date.now();
     try {
       const reprocModelInfo = getModelInfo(modelId, plan);
-      const quotaCheck = await checkModelQuota(plan, reprocModelInfo.name, "text");
+      const quotaCheck = await checkCategoryQuota(plan, "text");
       if (quotaCheck.exceeded) {
         const quotaMsg = quotaCheck.notIncluded ?
-        t("dash.quotaNotIncluded", { model: reprocModelInfo.name }) :
-        t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: reprocModelInfo.name });
+        t("dash.quotaNotIncluded", { model: "texto" }) :
+        t(`dash.quotaExceeded${quotaCheck.period.charAt(0).toUpperCase()}${quotaCheck.period.slice(1)}`, { limit: quotaCheck.limit, model: "texto" });
         setMessages([
         ...baseMessages,
         {
@@ -409,7 +410,7 @@ export default function Dashboard() {
       const _totalTokens = result.data?.usage?.total_tokens || Math.ceil((prompt.length + _respText.length) / 4);
       const _textCredits = calculateTextCredits(modelId, _totalTokens);
       const _thinkingTime = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
-      base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text }).then(() => invalidateUsageCache()).catch(() => {});
+      base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text, category: "text" }).then(() => invalidateUsageCache()).catch(() => {});
       setMessages([
       ...baseMessages,
       {

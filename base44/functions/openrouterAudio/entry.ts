@@ -1,35 +1,4 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
-import { secrets } from 'base44:runtime';
-
-// Mapeia modelos de áudio do seletor para modelos do OpenRouter TTS
-const AUDIO_MODEL_MAP = {
-  "fish-tts": "fish-audio/s2.1-pro",
-  "minimax-tts": "minimax/speech-2.8-hd",
-  "qwen-tts": "qwen/qwen-audio-3.0-tts-plus",
-  "qwen-flash-tts": "qwen/qwen-audio-3.0-tts-flash",
-  "deepgram-aura-tts": "deepgram/aura-2",
-  "deepgram-flux-tts": "deepgram/flux-tts:free",
-  "microsoft-tts": "microsoft/mai-voice-2-flash",
-  "fish-s2-pro-tts": "fish-audio/s2-pro",
-};
-
-// Vozes padrão por modelo — vozes naturais e humanas, priorizando português
-const DEFAULT_VOICES = {
-  "deepgram/flux-tts:free": "flux-alexis-en",
-  "deepgram/aura-2": "aura-2-luna-en",
-  "microsoft/mai-voice-2-flash": "pt-BR-FranciscaNeural",
-  "qwen/qwen-audio-3.0-tts-plus": "longanlingxin",
-  "qwen/qwen-audio-3.0-tts-flash": "longanlingxin",
-  "minimax/speech-2.8-hd": "Portuguese_CaptivatingStoryteller",
-  "minimax/speech-2.8-turbo": "Portuguese_CaptivatingStoryteller",
-};
-
-// Modelos multilíngues que não usam o campo "voice" (usam voz padrão natural)
-const NO_VOICE_MODELS = new Set([
-  "fish-audio/s2.1-pro",
-  "fish-audio/s2-pro",
-  "fish-audio/s1",
-]);
 
 export default async function(req) {
   try {
@@ -38,53 +7,19 @@ export default async function(req) {
     if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
     const body = await req.json();
-    const { prompt, model = "gpt-tts" } = body;
+    const { prompt, model = "fish-tts" } = body;
 
     if (!prompt) return Response.json({ error: "Texto é obrigatório" }, { status: 400 });
 
-    const apiKey = secrets.get("OPENROUTER_API_KEY");
-    if (!apiKey) return Response.json({ error: "OPENROUTER_API_KEY não configurada" }, { status: 500 });
-
-    const ttsModel = AUDIO_MODEL_MAP[model] || AUDIO_MODEL_MAP["fish-tts"];
-    const noVoice = NO_VOICE_MODELS.has(ttsModel);
-    const voice = noVoice ? null : (DEFAULT_VOICES[ttsModel] || "alloy");
-
-    const requestBody = {
-      model: ttsModel,
-      input: prompt,
-      response_format: "mp3",
-    };
-
-    // Só adiciona voz se o modelo suportar
-    if (voice) {
-      requestBody.voice = voice;
-    }
-
-    const response = await fetch("https://openrouter.ai/api/v1/audio/speech", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
+    const result = await base44.asServiceRole.integrations.Core.GenerateSpeech({
+      text: prompt,
+      language_code: "pt",
     });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      return Response.json({ error: `OpenRouter TTS error: ${errText}` }, { status: 500 });
-    }
+    const audioUrl = result?.url;
+    if (!audioUrl) return Response.json({ error: "Nenhum áudio gerado" }, { status: 500 });
 
-    // A resposta é áudio binário (mp3)
-    const audioBuffer = await response.arrayBuffer();
-    const audioBytes = new Uint8Array(audioBuffer);
-    const blob = new Blob([audioBytes], { type: "audio/mpeg" });
-    const file = new File([blob], `audio-zyntra.mp3`, { type: "audio/mpeg" });
-
-    // Faz upload para storage público
-    const uploadResult = await base44.asServiceRole.integrations.Core.UploadPublicFile({ file });
-    const audioUrl = uploadResult.file_url;
-
-    return Response.json({ url: audioUrl, model: ttsModel });
+    return Response.json({ url: audioUrl, model: "generate-speech" });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
