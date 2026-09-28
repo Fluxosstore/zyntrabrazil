@@ -414,7 +414,7 @@ export default function Settings() {
         <div className="flex items-center justify-between px-8 py-4 border-b border-gray-200/60">
           <div className="flex items-center gap-4">
             <h1 className="text-sm font-bold text-black shrink-0">{t("settings.title")}</h1>
-            <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-100/80">
+            <nav className="flex items-center gap-1 p-1 rounded-full bg-gray-200/80">
               {SETTINGS_TABS.map((tab) => (
                 <button
                   key={tab.id}
