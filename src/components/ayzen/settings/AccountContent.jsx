@@ -114,10 +114,10 @@ export default function AccountContent() {
           <p className="text-sm text-gray-500 mt-1">Proteja o acesso à sua conta com verificação em duas etapas e passkeys.</p>
         </div>
 
-        
+        <div className="border-t border-gray-200 hidden" />
 
         {/* Two-column layout */}
-        <section className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4">
+        <section className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-4 items-start">
           {/* Left: Proteção da conta */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
             {/* Header row */}
