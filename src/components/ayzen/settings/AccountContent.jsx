@@ -107,7 +107,7 @@ export default function AccountContent() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <div className="px-10 py-8 space-y-8">
+      <div className="px-4 md:px-10 py-5 md:py-8 space-y-5 md:space-y-8">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-black">Segurança</h1>
