@@ -13,6 +13,7 @@ import {
 } from "@/components/ayzen/ModelSelector";
 import { CREDITS_BY_PLAN } from "@/lib/quotaUtils";
 import MovementCard from "@/components/ayzen/statement/MovementCard";
+import DatePickerPopup from "@/components/ayzen/statement/DatePickerPopup";
 
 const MODEL_LOGO_BY_NAME = (() => {
   const map = { "Zyntra Auto": LOGO };
@@ -59,6 +60,8 @@ export default function CreditStatement() {
   const [page, setPage] = useState(0);
   const [perPage, setPerPage] = useState(20);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const plan = user?.plan || "free";
   const planCredits = CREDITS_BY_PLAN[plan] || CREDITS_BY_PLAN.free;
@@ -243,10 +246,24 @@ export default function CreditStatement() {
           </div>
 
           {/* Date filter */}
-          <div className="flex items-center gap-2 px-3.5 py-2.5 bg-white border border-gray-200 rounded-full mb-3">
+          <button
+            onClick={() => setDatePickerOpen(true)}
+            className="w-full flex items-center gap-2 px-3.5 py-2.5 bg-white border border-gray-200 rounded-full mb-3"
+          >
             <Calendar className="w-4 h-4 text-gray-400" />
-            <span className="text-xs text-black flex-1">Todo o período</span>
-          </div>
+            <span className="text-xs text-black flex-1 text-left">
+              {selectedDate
+                ? `${selectedDate.getDate()} de ${MONTHS_PT[selectedDate.getMonth()]}. ${selectedDate.getFullYear()}`
+                : "Todo o período"}
+            </span>
+          </button>
+
+          <DatePickerPopup
+            open={datePickerOpen}
+            onClose={() => setDatePickerOpen(false)}
+            selectedDate={selectedDate}
+            onSelect={(date) => setSelectedDate(date)}
+          />
 
           {/* Limpar filtros button */}
           {hasFilters && (
@@ -332,11 +349,6 @@ export default function CreditStatement() {
           </div>
         </div>
 
-        {/* Feedback button */}
-        <button className="fixed bottom-6 right-4 px-4 py-2.5 rounded-xl bg-[#3B348B] text-white text-xs font-medium shadow-lg z-40">
-          Feedback
-        </button>
-
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
 
@@ -404,10 +416,24 @@ export default function CreditStatement() {
               </div>
 
               {/* Date filter */}
-              <div className="flex items-center gap-2 px-3.5 py-2.5 bg-white border border-gray-200 rounded-full mb-3">
+              <button
+                onClick={() => setDatePickerOpen(true)}
+                className="w-full flex items-center gap-2 px-3.5 py-2.5 bg-white border border-gray-200 rounded-full mb-3"
+              >
                 <Calendar className="w-4 h-4 text-gray-400" />
-                <span className="text-xs text-black flex-1">Todo o período</span>
-              </div>
+                <span className="text-xs text-black flex-1 text-left">
+                  {selectedDate
+                    ? `${selectedDate.getDate()} de ${MONTHS_PT[selectedDate.getMonth()]}. ${selectedDate.getFullYear()}`
+                    : "Todo o período"}
+                </span>
+              </button>
+
+              <DatePickerPopup
+                open={datePickerOpen}
+                onClose={() => setDatePickerOpen(false)}
+                selectedDate={selectedDate}
+                onSelect={(date) => setSelectedDate(date)}
+              />
 
               {hasFilters && (
                 <button
