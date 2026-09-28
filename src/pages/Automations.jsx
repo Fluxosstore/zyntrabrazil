@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Send, Menu, Plus } from "lucide-react";
+import { Send, Plus, PanelLeftClose, MessageSquarePlus } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
@@ -71,22 +71,27 @@ export default function Automations() {
 
       {/* Mobile */}
       <div className="md:hidden h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-3 bg-[#F5F5F7] border-b border-[#D1D1D1]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
+            className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60"
           >
-            <Menu className="w-5 h-5" />
+            <PanelLeftClose className="w-5 h-5" />
           </button>
-          <div className="w-9" />
+          <button
+            onClick={() => openModal(null)}
+            className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60"
+          >
+            <MessageSquarePlus className="w-5 h-5" />
+          </button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 pb-6">
           {/* Hero */}
           <div className="pt-2 pb-5">
-            <h1 className="text-xl font-bold text-black leading-snug">{t("auto.heroTitle1")},</h1>
-            <p className="text-xl font-bold text-black leading-snug">{t("auto.heroTitle2")}</p>
-            <p className="text-sm text-gray-500 mt-2 leading-relaxed">{t("auto.heroDesc")}</p>
+            <h1 className="text-2xl font-bold text-black leading-snug">{t("auto.heroTitle1")},</h1>
+            <p className="text-2xl font-bold text-black leading-snug">{t("auto.heroTitle2")}</p>
+            <p className="text-base text-gray-500 mt-2 leading-relaxed">{t("auto.heroDesc")}</p>
 
             {/* Steps */}
             <div className="mt-5 space-y-3">
@@ -96,7 +101,7 @@ export default function Automations() {
                 { n: 3, title: t("auto.step3Title"), desc: t("auto.step3Desc") },
               ].map((s) => (
                 <div key={s.n} className="flex items-start gap-2">
-                  <span className="text-xs font-bold text-gray-400 shrink-0 w-4 text-center">
+                  <span className="text-xs font-bold text-gray-400 shrink-0 w-4 text-center pt-1">
                     {s.n}
                   </span>
                   <div className="pt-0.5">
