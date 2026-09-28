@@ -120,11 +120,11 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             className="fixed inset-0 bg-black/50 z-50 md:hidden"
           />
           <motion.div
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white rounded-t-3xl max-h-[92vh] flex flex-col shadow-2xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 md:hidden bg-white flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
@@ -138,7 +138,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5" ref={dropdownRef}>
+            <div className="flex-1 overflow-y-auto px-5 py-3 space-y-4" ref={dropdownRef}>
               {/* Name */}
               <input
                 value={name}
@@ -220,7 +220,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
                   placeholder="Leia meus e-mails não lidos das últimas 24 horas e resuma em tópicos. Depois busque as principais notícias do meu setor."
-                  rows={4}
+                  rows={3}
                   className="w-full px-3.5 py-3 rounded-xl border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7B5BC8] resize-none"
                 />
               </div>
@@ -261,14 +261,10 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
                     </div>
                   )}
                 </div>
-                <button className="mt-2 flex items-center gap-1.5 text-sm font-medium text-[#7B5BC8]">
-                  <Plus className="w-4 h-4" />
-                  IA reserva
-                </button>
               </div>
 
               {/* Toggles */}
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-black">Busca na web</span>
                   <Switch
@@ -277,60 +273,19 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
                     className="data-[state=checked]:bg-[#7B5BC8]"
                   />
                 </div>
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-black">Executar com o Time de IAs</span>
-                    <Switch
-                      checked={teamOfAis}
-                      onCheckedChange={setTeamOfAis}
-                      className="data-[state=checked]:bg-[#7B5BC8]"
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Várias IAs do plano trabalham juntas e consomem mais créditos por execução
-                  </p>
-                </div>
-              </div>
-
-              {/* Só me avise se */}
-              <div>
-                <p className="text-sm font-semibold text-black mb-2">Só me avise se</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Somente quando houver algo relevante</span>
+                  <span className="text-sm font-medium text-black">Time de IAs</span>
                   <Switch
-                    checked={notifyOnlyRelevant}
-                    onCheckedChange={setNotifyOnlyRelevant}
+                    checked={teamOfAis}
+                    onCheckedChange={setTeamOfAis}
                     className="data-[state=checked]:bg-[#7B5BC8]"
                   />
                 </div>
               </div>
-
-              {/* Entregue em */}
-              <div>
-                <p className="text-sm font-semibold text-black mb-2">Entregue em</p>
-                <div className="flex items-center gap-3 p-3.5 rounded-xl border border-gray-200">
-                  <div className="w-10 h-10 rounded-full bg-[#2AABEE] flex items-center justify-center shrink-0">
-                    <Send className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-black">Avisar no Telegram</p>
-                    <p className="text-xs text-gray-500 mt-0.5">Receba o resultado direto no seu Telegram</p>
-                  </div>
-                  <button className="px-4 py-2 rounded-full border border-gray-300 text-xs font-medium text-black shrink-0">
-                    Conectar
-                  </button>
-                </div>
-                <p className="text-xs text-gray-400 mt-2">
-                  O resultado sempre fica salvo na conversa desta automação.
-                </p>
-              </div>
             </div>
 
             {/* Footer */}
-            <div className="px-5 py-4 border-t border-gray-100 shrink-0 space-y-3 bg-white">
-              <p className="text-sm text-gray-500">
-                Custo estimado: <span className="font-semibold text-black">Médio</span>
-              </p>
+            <div className="px-5 py-3 border-t border-gray-100 shrink-0 bg-white">
               <div className="flex gap-2">
                 <button
                   onClick={handleClose}
