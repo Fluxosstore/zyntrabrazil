@@ -64,6 +64,7 @@ export default function Dashboard() {
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imagining, setImagining] = useState(false);
+  const [balanceRefreshKey, setBalanceRefreshKey] = useState(0);
   const startTimeRef = useRef(null);
   const { listening, toggle: toggleMic } = useSpeechRecognition({ msg, setMsg });
 
@@ -270,7 +271,7 @@ export default function Dashboard() {
         const audioUrl = result.data?.url;
         if (!audioUrl) throw new Error("Nenhum áudio retornado");
         const _audioCredits = calculateAudioCredits(model);
-        base44.entities.TokenUsage.create({ tokens: _audioCredits, model: modelInfo.name, prompt: conversationTitle, category: "audio" }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: _audioCredits, model: modelInfo.name, prompt: conversationTitle, category: "audio" }).then(() => { invalidateUsageCache(); setBalanceRefreshKey(k => k + 1); }).catch(() => {});
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
           type: "file",
@@ -304,7 +305,7 @@ export default function Dashboard() {
         const imageUrl = result.data?.url;
         if (!imageUrl) throw new Error("Nenhuma imagem retornada");
         const _imageCredits = calculateImageCredits(model);
-        base44.entities.TokenUsage.create({ tokens: _imageCredits, model: modelInfo.name, prompt: conversationTitle, category: "image" }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: _imageCredits, model: modelInfo.name, prompt: conversationTitle, category: "image" }).then(() => { invalidateUsageCache(); setBalanceRefreshKey(k => k + 1); }).catch(() => {});
         // Salva na biblioteca
         base44.entities.LibraryItem.create({
           title: msg.length > 40 ? msg.slice(0, 40) + "..." : msg,
@@ -340,7 +341,7 @@ export default function Dashboard() {
         const _totalTokens = result.data?.usage?.total_tokens || Math.ceil((prompt.length + _respText.length) / 4);
         const _textCredits = calculateTextCredits(model, _totalTokens);
         const _thinkingTime = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
-        base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(model, plan).name, prompt: conversationTitle, category: "text" }).then(() => invalidateUsageCache()).catch(() => {});
+        base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(model, plan).name, prompt: conversationTitle, category: "text" }).then(() => { invalidateUsageCache(); setBalanceRefreshKey(k => k + 1); }).catch(() => {});
         setMessages([
         ...newMessages,
         {
@@ -410,7 +411,7 @@ export default function Dashboard() {
       const _totalTokens = result.data?.usage?.total_tokens || Math.ceil((prompt.length + _respText.length) / 4);
       const _textCredits = calculateTextCredits(modelId, _totalTokens);
       const _thinkingTime = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
-      base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text, category: "text" }).then(() => invalidateUsageCache()).catch(() => {});
+      base44.entities.TokenUsage.create({ tokens: _textCredits, model: getModelInfo(modelId, plan).name, prompt: conversations.find((c) => c.id === activeConversationId)?.title || text, category: "text" }).then(() => { invalidateUsageCache(); setBalanceRefreshKey(k => k + 1); }).catch(() => {});
       setMessages([
       ...baseMessages,
       {
@@ -493,7 +494,8 @@ export default function Dashboard() {
           onTogglePin={handleTogglePin}
           onToggleSelect={handleToggleSelect}
           onMoveToFolder={handleMoveToFolder}
-          onRemoveFromFolder={handleRemoveFromFolder} />
+          onRemoveFromFolder={handleRemoveFromFolder}
+          balanceRefreshKey={balanceRefreshKey} />
         
 
       {/* Main */}
@@ -785,7 +787,8 @@ export default function Dashboard() {
         reasoning={reasoning}
         setReasoning={setReasoning}
         activeConnectorIds={activeConnectorIds}
-        onToggleConnector={toggleConnector} />
+        onToggleConnector={toggleConnector}
+        balanceRefreshKey={balanceRefreshKey} />
 
         </>);
 

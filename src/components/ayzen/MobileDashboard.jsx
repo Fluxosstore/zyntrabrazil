@@ -45,6 +45,7 @@ export default function MobileDashboard({
   useMemories, setUseMemories,
   reasoning, setReasoning,
   activeConnectorIds, onToggleConnector,
+  balanceRefreshKey,
 }) {
   const { user } = useAuth();
   const { t } = useLanguage();
@@ -331,6 +332,7 @@ export default function MobileDashboard({
         onToggleSelect={onToggleSelect}
         onMoveToFolder={onMoveToFolder}
         onRemoveFromFolder={onRemoveFromFolder}
+        balanceRefreshKey={balanceRefreshKey}
       />
     </div>
   );
