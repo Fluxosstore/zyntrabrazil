@@ -157,8 +157,8 @@ function UsageContent({ onNavigate }) {
               </div>
               <div className="flex items-center gap-3 p-2 rounded-2xl bg-[#f9fafb]">
                 {[
-                  { icon: Shield, label: "2FA", onClick: () => {} },
-                  { icon: Key, label: "Passkey", onClick: () => {} },
+                  { icon: Shield, label: "2FA", onClick: () => {}, red: true },
+                  { icon: Key, label: "Passkey", onClick: () => {}, red: true },
                   { icon: Coins, label: "Recarregar", onClick: () => navigate("/plan-selection") },
                   { icon: Receipt, label: "Faturas", onClick: () => onNavigate?.("invoices"), active: true },
                 ].map((btn) => (
@@ -170,9 +170,9 @@ function UsageContent({ onNavigate }) {
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
                       btn.active
                         ? "bg-[#d1d5db] text-gray-700 ring-1 ring-gray-300"
-                        : "bg-transparent text-gray-500 group-hover:bg-gray-200/60"
+                        : "bg-[#d1d5db] ring-1 ring-gray-300 group-hover:bg-[#c4c8cf]"
                     }`}>
-                      <btn.icon className="w-4 h-4" />
+                      <btn.icon className={`w-4 h-4 ${btn.red ? "text-red-500" : "text-gray-500"}`} />
                     </div>
                     <span className="text-[10px] font-medium text-gray-500">{btn.label}</span>
                   </button>
