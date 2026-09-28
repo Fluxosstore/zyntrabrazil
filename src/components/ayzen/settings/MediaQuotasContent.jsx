@@ -133,7 +133,7 @@ export default function MediaQuotasContent({ plan }) {
       </div>
 
       <div className="mt-4">
-        <FairUseCard />
+        <FairUseCard plan={plan} />
       </div>
     </section>
   );
