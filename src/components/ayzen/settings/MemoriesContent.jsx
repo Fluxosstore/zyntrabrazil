@@ -247,11 +247,25 @@ export default function MemoriesContent() {
             count === 0 ?
             <div className="flex-1 flex items-center justify-center py-8">
                 <div className="w-full rounded-xl border-2 border-dashed border-gray-200 overflow-hidden flex flex-col items-center text-center relative">
-                  <div className="w-full bg-black flex items-end justify-center pt-10 pb-0">
+                  <svg className="absolute w-0 h-0" aria-hidden="true">
+                    <filter id="mem-remove-black">
+                      <feColorMatrix type="luminanceToAlpha" result="lum" />
+                      <feComponentTransfer in="lum" result="mask">
+                        <feFuncA type="linear" slope="4" intercept="-0.15" />
+                      </feComponentTransfer>
+                      <feComposite in="SourceGraphic" in2="mask" operator="in" />
+                    </filter>
+                  </svg>
+                  <div className="w-full flex items-end justify-center pt-4 pb-0 relative">
                     <img
                       src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/0e76cb915_empty-astronaut.webp"
                       alt="Sem memórias"
-                      className="w-36 h-36 object-contain" />
+                      className="w-80 h-80 object-contain relative z-10"
+                      style={{ filter: "url(#mem-remove-black)" }} />
+                    <div
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-60 h-14 rounded-[50%] bg-white z-20"
+                      style={{ filter: "blur(20px)" }}
+                    />
                   </div>
                   <div className="w-full px-6 py-6 bg-white flex flex-col items-center">
                     <p className="text-sm font-bold text-black">Nenhuma memória salva ainda</p>
