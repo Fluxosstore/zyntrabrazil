@@ -138,7 +138,7 @@ export default function RechargeCredits() {
 
               {/* Pending recharge alert */}
               <div className="mb-8">
-                <div className="w-full rounded-full bg-[#e5e7eb] px-5 py-3">
+                <div className="w-full rounded-xl bg-[#e5e7eb] px-5 py-3">
                   <p className="text-sm text-gray-700 text-left">
                     Você tem 1 de 2 recargas aguardando pagamento. No limite, para criar outra, cancele uma delas ou espere vencer.
                   </p>
