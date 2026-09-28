@@ -189,7 +189,7 @@ function UsageContent({ onNavigate }) {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col min-h-[580px]">
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
-            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[220px] flex flex-col justify-between">
+            <div className="relative rounded-2xl bg-[#F4F4F4] p-4 overflow-hidden min-h-[250px] flex flex-col justify-between">
               {/* Decorative shape */}
               <div className="absolute -bottom-12 -right-10 w-40 h-40 rounded-[50%] bg-gray-300/50 blur-xl rotate-12" />
               <div className="relative flex items-start justify-between">
@@ -223,7 +223,7 @@ function UsageContent({ onNavigate }) {
               </div>
             </div>
             {/* Badge + button */}
-            <div className="mt-4 space-y-3">
+            <div className="mt-auto pt-4 space-y-3">
               <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#EEEEEE] text-[11px] font-medium text-gray-600">
                 Automações
               </span>
