@@ -158,13 +158,24 @@ export default function Ranking() {
         </div>
       );
     }
+    if (mobile) {
+      return (
+        <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3 space-y-3">
+          <div>
+            <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
+            <p className="text-xs text-gray-500 mt-0.5">{t("ranking.fullRankingDesc")}</p>
+          </div>
+          <MobileRankingList models={data.models} />
+        </div>
+      );
+    }
     return (
       <>
         <RankingChart models={data.models} top3={data.top3} />
         <div>
           <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
           <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.fullRankingDesc")}</p>
-          {mobile ? <MobileRankingList models={data.models} /> : <RankingTable models={data.models} />}
+          <RankingTable models={data.models} />
         </div>
       </>
     );
@@ -235,15 +246,15 @@ export default function Ranking() {
             <h1 className="text-xl font-bold text-black">{t("ranking.title")}</h1>
             <p className="text-sm text-gray-500 mt-1">{t("ranking.subtitle")}</p>
           </div>
-          <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 w-fit">
+          <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 w-full">
             <button
-              className="px-3 py-1 rounded-full text-xs font-medium bg-white text-black"
+              className="flex-1 py-2 rounded-full text-sm font-medium bg-white text-black shadow-sm"
             >
               {t("ranking.usage")}
             </button>
             <button
               onClick={() => navigate("/ranking/qualidade")}
-              className="px-3 py-1 rounded-full text-xs font-medium text-gray-500"
+              className="flex-1 py-2 rounded-full text-sm font-medium text-gray-500"
             >
               {t("ranking.quality")}
             </button>

@@ -81,22 +81,23 @@ export default function RankingQualidade() {
             <h1 className="text-xl font-bold text-black">{t("ranking.title")}</h1>
             <p className="text-sm text-gray-500 mt-1">{t("ranking.qualitySubtitle")}</p>
           </div>
-          <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 w-fit">
+          <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1 w-full">
             <button
               onClick={() => navigate("/ranking")}
-              className="px-3 py-1 rounded-full text-xs font-medium text-gray-500"
+              className="flex-1 py-2 rounded-full text-sm font-medium text-gray-500"
             >
               {t("ranking.usage")}
             </button>
-            <button className="px-3 py-1 rounded-full text-xs font-medium bg-white text-black">
+            <button className="flex-1 py-2 rounded-full text-sm font-medium bg-white text-black shadow-sm">
               {t("ranking.quality")}
             </button>
           </div>
           <QualityFilters metric={metric} setMetric={setMetric} />
-          <QualityChart metric={metric} />
-          <div>
-            <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
-            <p className="text-xs text-gray-500 mt-0.5 mb-3">{t("ranking.qualityFullRankingDesc")}</p>
+          <div className="rounded-2xl border border-[#EBEBEB] bg-[#F7F7F7] p-3 space-y-3">
+            <div>
+              <h3 className="text-base font-bold text-black">{t("ranking.fullRanking")}</h3>
+              <p className="text-xs text-gray-500 mt-0.5">{t("ranking.qualityFullRankingDesc")}</p>
+            </div>
             <MobileQualityList />
           </div>
           <p className="text-center text-[11px] text-gray-400">{t("ranking.qualityFooter")}</p>
