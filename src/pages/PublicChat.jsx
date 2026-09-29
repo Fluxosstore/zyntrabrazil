@@ -115,7 +115,7 @@ export default function PublicChat() {
         <div className="flex items-center gap-1.5">
           <Link
             to="/login"
-            className="px-3 py-1.5 rounded-full bg-black text-white text-xs font-medium hover:bg-gray-800 transition-colors"
+            className="px-3 py-1.5 rounded-full bg-[#7c3aed] text-white text-xs font-medium hover:bg-[#6d28d9] transition-colors"
           >
             Entrar
           </Link>

@@ -43,7 +43,7 @@ export default function PublicChatSidebar({ open, onClose, onNewChat }) {
 
       {/* Panel */}
       <div
-        className={`absolute left-0 top-0 h-full w-[82%] max-w-sm bg-white flex flex-col transition-transform duration-300 ease-out ${
+        className={`absolute left-0 top-0 h-full w-[82%] max-w-sm bg-white flex flex-col rounded-r-2xl overflow-hidden shadow-2xl transition-transform duration-300 ease-out ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
