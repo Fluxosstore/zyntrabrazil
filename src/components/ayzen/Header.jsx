@@ -86,7 +86,7 @@ export default function Header() {
           </a>
 
           {/* Right group: nav pill + theme pill */}
-          <div className="flex items-center gap-2 lg:gap-3">
+          <div className="flex items-center gap-2 lg:gap-3 2xl:translate-y-3">
             {/* Main pill */}
             <div className="flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full pl-2 pr-2 py-2 shadow-lg shadow-violet-200/30">
               {/* Nav */}
