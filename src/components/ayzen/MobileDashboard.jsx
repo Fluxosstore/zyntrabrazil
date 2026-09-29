@@ -118,7 +118,7 @@ export default function MobileDashboard({
       />
 
       {/* Top nav */}
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-3 safe-area-top">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -216,7 +216,7 @@ export default function MobileDashboard({
       )}
 
       {/* Input area */}
-      <div className="px-4 pb-6">
+      <div className="px-4 pb-6 safe-area-bottom">
         <div className="w-full bg-[#F9F9F9] rounded-2xl border border-gray-200 p-3">
           {activeConnectorIds && activeConnectorIds.length > 0 && (
             <div className="flex items-center gap-1.5 mb-2 flex-wrap">

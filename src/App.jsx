@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 import { LanguageProvider } from '@/lib/LanguageContext';
+import { ThemeProvider } from 'next-themes';
 // Add page imports here
 import HomeRoute from '@/components/HomeRoute';
 import PublicChat from '@/pages/PublicChat';
@@ -91,17 +92,19 @@ const AuthenticatedApp = () => {
 function App() {
 
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <QueryClientProvider client={queryClientInstance}>
-          <Router>
-            <ScrollToTop />
-            <AuthenticatedApp />
-          </Router>
-          <Toaster />
-        </QueryClientProvider>
-      </AuthProvider>
-    </LanguageProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <LanguageProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClientInstance}>
+            <Router>
+              <ScrollToTop />
+              <AuthenticatedApp />
+            </Router>
+            <Toaster />
+          </QueryClientProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   )
 }
 
