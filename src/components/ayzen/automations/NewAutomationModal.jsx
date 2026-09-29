@@ -151,38 +151,38 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.92 }}
             transition={{ type: "tween", duration: 0.2, ease: "easeOut" }}
-            className="bg-white rounded-2xl overflow-hidden w-full max-w-[420px] max-h-[94vh] flex flex-col shadow-2xl pointer-events-auto"
+            className="bg-white rounded-2xl overflow-hidden w-full max-w-[420px] max-h-[94vh] md:max-w-[560px] md:max-h-[96vh] flex flex-col shadow-2xl pointer-events-auto"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-3.5 py-2.5 border-b border-gray-100 shrink-0">
-              <h2 className="text-sm font-bold text-black">Nova automação</h2>
+            <div className="flex items-center justify-between px-3.5 py-2.5 md:px-5 md:py-3.5 border-b border-gray-100 shrink-0">
+              <h2 className="text-sm md:text-base font-bold text-black">Nova automação</h2>
               <button
                 onClick={handleClose}
-                className="w-6 h-6 flex items-center justify-center rounded-md text-gray-500 active:bg-gray-100"
+                className="w-6 h-6 md:w-8 md:h-8 flex items-center justify-center rounded-md text-gray-500 active:bg-gray-100"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </button>
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto px-3.5 py-3 space-y-3" ref={dropdownRef}>
+            <div className="flex-1 overflow-y-auto px-3.5 py-3 space-y-3 md:px-5 md:py-4 md:space-y-4" ref={dropdownRef}>
               {/* Name */}
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Briefing matinal"
-                className="w-full px-2.5 py-2 rounded-lg border border-gray-200 text-xs text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7B5BC8]"
+                className="w-full px-2.5 py-2 md:px-3.5 md:py-2.5 md:text-sm rounded-lg border border-gray-200 text-xs text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7B5BC8]"
               />
 
               {/* Quando */}
               <div>
-                <p className="text-xs font-semibold text-black mb-1.5">Quando</p>
+                <p className="text-xs md:text-sm font-semibold text-black mb-1.5">Quando</p>
                 <div className="flex bg-gray-100 rounded-lg p-0.5 gap-0.5">
                   {frequencies.map((f) => (
                     <button
                       key={f.id}
                       onClick={() => setFrequency(f.id)}
-                      className={`flex-1 py-1.5 rounded-md text-[10px] font-medium transition-colors ${
+                      className={`flex-1 py-1.5 md:py-2 rounded-md text-[10px] md:text-xs font-medium transition-colors ${
                         frequency === f.id ? "bg-white text-black shadow-sm" : "text-gray-500"
                       }`}
                     >
@@ -195,18 +195,18 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
                   <div className="relative flex-1">
                     <button
                       onClick={() => toggleDropdown("hour")}
-                      className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg border border-gray-200 text-xs text-black"
+                      className="w-full flex items-center justify-between px-2.5 py-2 md:px-3.5 md:py-2.5 md:text-sm rounded-lg border border-gray-200 text-xs text-black"
                     >
                       {String(hour).padStart(2, "0")}h
                       <ChevronDown className="w-3 h-3 text-gray-400" />
                     </button>
                     {openDropdown === "hour" && (
-                      <div className="absolute top-full left-0 right-0 mt-1 max-h-36 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+                      <div className="absolute top-full left-0 right-0 mt-1 max-h-36 md:max-h-44 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-20">
                         {hours.map((h) => (
                           <button
                             key={h}
                             onClick={() => { setHour(h); setOpenDropdown(null); }}
-                            className={`w-full px-2.5 py-1.5 text-xs text-left hover:bg-gray-100 ${h === hour ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
+                            className={`w-full px-2.5 py-1.5 md:text-sm text-xs text-left hover:bg-gray-100 ${h === hour ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
                           >
                             {String(h).padStart(2, "0")}h
                           </button>
@@ -218,18 +218,18 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
                   <div className="relative flex-1">
                     <button
                       onClick={() => toggleDropdown("minute")}
-                      className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg border border-gray-200 text-xs text-black"
+                      className="w-full flex items-center justify-between px-2.5 py-2 md:px-3.5 md:py-2.5 md:text-sm rounded-lg border border-gray-200 text-xs text-black"
                     >
                       {String(minute).padStart(2, "0")}min
                       <ChevronDown className="w-3 h-3 text-gray-400" />
                     </button>
                     {openDropdown === "minute" && (
-                      <div className="absolute top-full left-0 right-0 mt-1 max-h-36 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+                      <div className="absolute top-full left-0 right-0 mt-1 max-h-36 md:max-h-44 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-20">
                         {minutes.map((m) => (
                           <button
                             key={m}
                             onClick={() => { setMinute(m); setOpenDropdown(null); }}
-                            className={`w-full px-2.5 py-1.5 text-xs text-left hover:bg-gray-100 ${m === minute ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
+                            className={`w-full px-2.5 py-1.5 md:text-sm text-xs text-left hover:bg-gray-100 ${m === minute ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
                           >
                             {String(m).padStart(2, "0")}min
                           </button>
@@ -242,53 +242,53 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
 
               {/* Faça */}
               <div>
-                <p className="text-xs font-semibold text-black mb-1.5">Faça</p>
+                <p className="text-xs md:text-sm font-semibold text-black mb-1.5">Faça</p>
                 <textarea
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
                   placeholder="Leia meus e-mails não lidos das últimas 24 horas e resuma em tópicos. Depois busque as principais notícias do meu setor."
                   rows={3}
-                  className="w-full px-2.5 py-2 rounded-lg border border-gray-200 text-xs text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7B5BC8] resize-none"
+                  className="w-full px-2.5 py-2 md:px-3.5 md:py-2.5 md:text-sm rounded-lg border border-gray-200 text-xs text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7B5BC8] resize-none"
                 />
               </div>
 
               {/* Escolha a IA */}
               <div>
-                <p className="text-xs font-semibold text-black mb-1.5">Escolha a IA</p>
+                <p className="text-xs md:text-sm font-semibold text-black mb-1.5">Escolha a IA</p>
                 <div className="relative">
                   <button
                     onClick={() => toggleDropdown("model")}
-                    className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg border border-gray-200 text-xs text-black"
+                    className="w-full flex items-center justify-between px-2.5 py-2 md:px-3.5 md:py-2.5 md:text-sm rounded-lg border border-gray-200 text-xs text-black"
                   >
                     <span className="flex items-center gap-1.5">
-                      <img src={getModelInfo(model, plan).logo} alt="" className="w-3.5 h-3.5 rounded object-contain" />
+                      <img src={getModelInfo(model, plan).logo} alt="" className="w-3.5 h-3.5 md:w-4 md:h-4 rounded object-contain" />
                       {getModelInfo(model, plan).name}
                     </span>
                     <ChevronDown className="w-3 h-3 text-gray-400" />
                   </button>
                   {openDropdown === "model" && (
-                    <div className="absolute top-full left-0 right-0 mt-1 max-h-40 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-20">
+                    <div className="absolute top-full left-0 right-0 mt-1 max-h-40 md:max-h-52 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-20">
                       <button
                         onClick={() => { setModel("auto"); setOpenDropdown(null); }}
-                        className={`w-full flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-left hover:bg-gray-100 ${model === "auto" ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
+                        className={`w-full flex items-center gap-1.5 px-2.5 py-1.5 md:text-sm text-xs text-left hover:bg-gray-100 ${model === "auto" ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
                       >
-                        <img src={getModelInfo("auto").logo} alt="" className="w-3.5 h-3.5 rounded object-contain" />
+                        <img src={getModelInfo("auto").logo} alt="" className="w-3.5 h-3.5 md:w-4 md:h-4 rounded object-contain" />
                         Vintra Auto
                       </button>
                       {models.map((m) => (
                         <button
                           key={m.id}
                           onClick={() => { setModel(m.id); setOpenDropdown(null); }}
-                          className={`w-full flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-left hover:bg-gray-100 ${model === m.id ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
+                          className={`w-full flex items-center gap-1.5 px-2.5 py-1.5 md:text-sm text-xs text-left hover:bg-gray-100 ${model === m.id ? "text-[#7B5BC8] font-semibold" : "text-black"}`}
                         >
-                          <img src={m.logo} alt="" className="w-3.5 h-3.5 rounded object-contain" />
+                          <img src={m.logo} alt="" className="w-3.5 h-3.5 md:w-4 md:h-4 rounded object-contain" />
                           {m.name}
                         </button>
                       ))}
                     </div>
                   )}
                 </div>
-                <button className="mt-1.5 flex items-center gap-1 text-xs font-medium text-[#7B5BC8]">
+                <button className="mt-1.5 flex items-center gap-1 text-xs md:text-sm font-medium text-[#7B5BC8]">
                   <Plus className="w-3 h-3" />
                   IA reserva
                 </button>
@@ -297,7 +297,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
               {/* Toggles */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-black">Busca na web</span>
+                  <span className="text-xs md:text-sm font-medium text-black">Busca na web</span>
                   <Switch
                     checked={webSearch}
                     onCheckedChange={setWebSearch}
@@ -306,14 +306,14 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
                 </div>
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-black">Executar com o Time de IAs</span>
+                    <span className="text-xs md:text-sm font-medium text-black">Executar com o Time de IAs</span>
                     <Switch
                       checked={teamOfAis}
                       onCheckedChange={setTeamOfAis}
                       className="data-[state=checked]:bg-[#7B5BC8] scale-90"
                     />
                   </div>
-                  <p className="text-[10px] text-gray-500 mt-0.5">
+                  <p className="text-[10px] md:text-xs text-gray-500 mt-0.5">
                     Várias IAs do plano trabalham juntas e consomem mais créditos por execução
                   </p>
                 </div>
@@ -321,9 +321,9 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
 
               {/* Só me avise se */}
               <div>
-                <p className="text-xs font-semibold text-black mb-1.5">Só me avise se</p>
+                <p className="text-xs md:text-sm font-semibold text-black mb-1.5">Só me avise se</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-black">Somente quando houver algo relevante</span>
+                  <span className="text-xs md:text-sm text-black">Somente quando houver algo relevante</span>
                   <Switch
                     checked={notifyOnlyRelevant}
                     onCheckedChange={setNotifyOnlyRelevant}
@@ -334,42 +334,42 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
 
               {/* Entregue em */}
               <div>
-                <p className="text-xs font-semibold text-black mb-1.5">Entregue em</p>
-                <div className="flex items-center gap-2 p-2.5 rounded-lg border border-gray-200">
-                  <div className="w-7 h-7 rounded-full bg-[#2AABEE] flex items-center justify-center shrink-0">
-                    <Send className="w-3.5 h-3.5 text-white" />
+                <p className="text-xs md:text-sm font-semibold text-black mb-1.5">Entregue em</p>
+                <div className="flex items-center gap-2 p-2.5 md:p-3 rounded-lg border border-gray-200">
+                  <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-[#2AABEE] flex items-center justify-center shrink-0">
+                    <Send className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-black">Avisar no Telegram</p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">Receba o resultado direto no seu Telegram</p>
+                    <p className="text-xs md:text-sm font-semibold text-black">Avisar no Telegram</p>
+                    <p className="text-[10px] md:text-xs text-gray-500 mt-0.5">Receba o resultado direto no seu Telegram</p>
                   </div>
-                  <button className="px-2.5 py-1.5 rounded-full border border-gray-300 text-[10px] font-medium text-black shrink-0">
+                  <button className="px-2.5 py-1.5 md:px-3.5 md:py-2 rounded-full border border-gray-300 text-[10px] md:text-xs font-medium text-black shrink-0">
                     Conectar
                   </button>
                 </div>
-                <p className="text-[10px] text-gray-400 mt-1.5">
+                <p className="text-[10px] md:text-xs text-gray-400 mt-1.5">
                   O resultado sempre fica salvo na conversa desta automação.
                 </p>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="px-3.5 py-2.5 border-t border-gray-100 shrink-0 space-y-2 bg-white">
-              <p className="text-xs text-gray-500">
+            <div className="px-3.5 py-2.5 md:px-5 md:py-3.5 border-t border-gray-100 shrink-0 space-y-2 bg-white">
+              <p className="text-xs md:text-sm text-gray-500">
                 Custo estimado: <span className="font-semibold text-black">Médio</span>
                 <span className="text-gray-400 ml-1">({getAutomationCost(model)} créditos)</span>
               </p>
               <div className="flex gap-1.5">
                 <button
                   onClick={handleClose}
-                  className="flex-1 py-2 rounded-lg bg-gray-100 text-black text-xs font-medium active:bg-gray-200 transition-colors"
+                  className="flex-1 py-2 md:py-2.5 rounded-lg bg-gray-100 text-black text-xs md:text-sm font-medium active:bg-gray-200 transition-colors"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handleCreate}
                   disabled={!canCreate}
-                  className={`flex-1 py-2 rounded-lg text-xs font-medium transition-colors ${
+                  className={`flex-1 py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-medium transition-colors ${
                     canCreate
                       ? "bg-[#7B5BC8] text-white active:bg-[#6A4DB8]"
                       : "bg-[#D1C4E9] text-white/70 cursor-not-allowed"
