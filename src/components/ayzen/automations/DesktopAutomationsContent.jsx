@@ -17,13 +17,13 @@ import {
   TrendingUp,
   AlertCircle,
   Cake,
-  Clock,
-} from "lucide-react";
+  Clock } from
+"lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { AUTOMATION_TEMPLATES } from "./automationTemplates";
 
 const ASTRONAUT =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png";
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png";
 
 const ICONS = {
   Mail,
@@ -41,7 +41,7 @@ const ICONS = {
   TrendingUp,
   AlertCircle,
   Cake,
-  Clock,
+  Clock
 };
 
 function DesktopAutomationCard({ template, onClick }) {
@@ -49,8 +49,8 @@ function DesktopAutomationCard({ template, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-4 py-3.5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:border-gray-300 transition-all text-left"
-    >
+      className="w-full flex items-center gap-3 px-4 py-3.5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:border-gray-300 transition-all text-left">
+      
       <div className="w-10 h-10 rounded-xl bg-[#F4F4F6] border border-gray-200 flex items-center justify-center shrink-0">
         <Icon className="w-5 h-5 text-black" />
       </div>
@@ -59,17 +59,17 @@ function DesktopAutomationCard({ template, onClick }) {
         <p className="text-xs text-gray-500 truncate">{template.desc}</p>
       </div>
       <ChevronRight className="w-4 h-4 text-gray-400 shrink-0" />
-    </button>
-  );
+    </button>);
+
 }
 
 export default function DesktopAutomationsContent({ onNewAutomation, onSelectTemplate }) {
   const { t } = useLanguage();
   const steps = [
-    { n: 1, title: t("auto.step1Title"), desc: t("auto.step1Desc") },
-    { n: 2, title: t("auto.step2Title"), desc: t("auto.step2Desc") },
-    { n: 3, title: t("auto.step3Title"), desc: t("auto.step3Desc") },
-  ];
+  { n: 1, title: t("auto.step1Title"), desc: t("auto.step1Desc") },
+  { n: 2, title: t("auto.step2Title"), desc: t("auto.step2Desc") },
+  { n: 3, title: t("auto.step3Title"), desc: t("auto.step3Desc") }];
+
 
   return (
     <div className="flex-1 overflow-y-auto px-8 py-8">
@@ -79,8 +79,8 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
           <h1 className="text-3xl font-bold text-black leading-tight">{t("auto.heroTitle1")}<br />{t("auto.heroTitle2")}</h1>
           <p className="text-sm text-gray-500 mt-3 leading-relaxed">{t("auto.heroDesc1")}<br />{t("auto.heroDesc2")}</p>
           <div className="mt-6 space-y-3">
-            {steps.map((s) => (
-              <div key={s.n} className="flex items-start gap-3">
+            {steps.map((s) =>
+            <div key={s.n} className="flex items-start gap-3">
                 <span className="text-sm font-bold text-gray-400 shrink-0 w-5 text-center pt-0.5">
                   {s.n}
                 </span>
@@ -89,18 +89,18 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
                   <p className="text-xs text-gray-500 mt-0.5">{s.desc}</p>
                 </div>
               </div>
-            ))}
+            )}
           </div>
           <button
             onClick={onNewAutomation}
-            className="mt-6 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#7c3aed] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors"
-          >
+            className="mt-6 flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#7c3aed] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors">
+            
             <Plus className="w-4 h-4" />
             {t("auto.newAutomation")}
           </button>
         </div>
         <div className="hidden lg:block shrink-0">
-          <img src={ASTRONAUT} alt="" className="w-56 h-56 object-contain" />
+          <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ec2419a5c_Capturadetela2026-09-29202923.png" alt="" className="w-56 h-56 object-contain hidden" />
         </div>
       </div>
 
@@ -113,22 +113,22 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
           </div>
           <button
             onClick={onNewAutomation}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#7b5db7] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors shrink-0"
-          >
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#7b5db7] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors shrink-0">
+            
             <Plus className="w-4 h-4" />
             {t("auto.newAutomation")}
           </button>
         </div>
         <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
-          {AUTOMATION_TEMPLATES.map((tpl) => (
-            <DesktopAutomationCard
-              key={tpl.id}
-              template={tpl}
-              onClick={() => onSelectTemplate(tpl)}
-            />
-          ))}
+          {AUTOMATION_TEMPLATES.map((tpl) =>
+          <DesktopAutomationCard
+            key={tpl.id}
+            template={tpl}
+            onClick={() => onSelectTemplate(tpl)} />
+
+          )}
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
