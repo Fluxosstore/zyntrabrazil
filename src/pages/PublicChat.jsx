@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   PanelLeft,
@@ -17,6 +17,8 @@ import PublicChatSidebar from "@/components/ayzen/PublicChatSidebar";
 const FREE_KEY = "zyntra_free_command_used";
 const ORB_IMG =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png";
+const LOGO =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png";
 
 export default function PublicChat() {
   const navigate = useNavigate();
@@ -105,12 +107,25 @@ export default function PublicChat() {
             <PanelLeft className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-1.5">
-            <img src={ORB_IMG} alt="Zyntra" className="w-5 h-5 rounded object-contain" />
+            <img src={LOGO} alt="Zyntra" className="w-5 h-5 rounded object-contain" />
             <span className="text-sm font-semibold text-black">Zyntra</span>
             <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
           </div>
         </div>
-        {/* No top-right buttons in the public (unauthenticated) version */}
+        <div className="flex items-center gap-1.5">
+          <Link
+            to="/login"
+            className="px-3 py-1.5 rounded-full bg-black text-white text-xs font-medium hover:bg-gray-800 transition-colors"
+          >
+            Entrar
+          </Link>
+          <Link
+            to="/register"
+            className="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-black text-xs font-medium hover:bg-gray-50 transition-colors"
+          >
+            Cadastre-se gratuitamente
+          </Link>
+        </div>
       </div>
 
       {/* Messages or empty state */}
