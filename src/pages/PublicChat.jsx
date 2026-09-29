@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Menu,
-  ChevronDown,
+  PanelLeft,
   Plus,
   Mic,
   ArrowUp,
   Loader2,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { Image } from "@/components/ui/image";
+import FloatingDots from "@/components/ayzen/FloatingDots";
 import PublicChatSidebar from "@/components/ayzen/PublicChatSidebar";
+
+const HERO_IMG =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5f3e11fd3_quality_restoration_20260929160751648.jpg";
 
 const FREE_KEY = "zyntra_free_command_used";
 
@@ -86,22 +90,22 @@ export default function PublicChat() {
     <div className="h-[100dvh] flex flex-col bg-white overflow-hidden">
       {/* Top header */}
       <header className="flex items-center justify-between px-3 py-2.5 shrink-0">
-        <button
-          onClick={() => setSidebarOpen(true)}
-          className="w-9 h-9 flex items-center justify-center rounded-full text-[#202124] hover:bg-gray-100 transition-colors"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
-
-        <div className="flex items-center gap-1">
-          <Image
-            src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png"
-            alt="Zyntra"
-            className="w-6 h-6 rounded-md"
-            fittingType="fit"
-          />
-          <span className="font-semibold text-[#202124] text-[15px]">Zyntra</span>
-          <ChevronDown className="w-4 h-4 text-gray-500" />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="w-9 h-9 flex items-center justify-center rounded-full text-[#202124] hover:bg-gray-100 transition-colors"
+          >
+            <PanelLeft className="w-5 h-5" />
+          </button>
+          <Link to="/" className="flex items-center gap-1.5">
+            <Image
+              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png"
+              alt="Zyntra"
+              className="w-6 h-6 rounded-md"
+              fittingType="fit"
+            />
+            <span className="font-semibold text-[#202124] text-[15px]">Zyntra</span>
+          </Link>
         </div>
 
         <div className="flex items-center gap-1.5">
@@ -123,8 +127,21 @@ export default function PublicChat() {
       {/* Chat area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         {messages.length === 0 ? (
-          <div className="min-h-full flex items-center justify-center px-6">
-            <h1 className="text-2xl font-semibold text-[#202124] text-center">
+          <div className="min-h-full flex flex-col items-center justify-center px-6 relative">
+            <FloatingDots />
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="relative w-40 h-40 mb-6"
+            >
+              <div className="absolute inset-0 bg-violet-300/30 blur-3xl rounded-full" />
+              <img
+                src={HERO_IMG}
+                alt=""
+                className="relative w-full h-full object-contain"
+              />
+            </motion.div>
+            <h1 className="relative text-2xl font-semibold text-[#202124] text-center">
               Por onde começamos?
             </h1>
           </div>
@@ -162,6 +179,9 @@ export default function PublicChat() {
 
       {/* Disclaimer + Input */}
       <div className="shrink-0 px-4 pb-4 pt-1">
+        <p className="text-center text-xs font-medium text-gray-500 mb-2">
+          Zyntra AI
+        </p>
         <p className="text-center text-[11px] text-gray-400 mb-2 px-4 leading-relaxed">
           Zyntra é IA e pode cometer erros. Ao continuar, você concorda com nossos Termos e Política de Privacidade.
         </p>
