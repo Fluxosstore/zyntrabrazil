@@ -218,6 +218,7 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
         </div>
         <MobileImageViewer
           item={viewerItem}
+          items={images}
           onClose={() => setViewerItem(null)}
           onDelete={handleDelete}
         />
@@ -306,6 +307,7 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
         </div>
         <MobileImageViewer
           item={viewerItem}
+          items={filtered}
           onClose={() => setViewerItem(null)}
           onDelete={handleDelete}
         />
