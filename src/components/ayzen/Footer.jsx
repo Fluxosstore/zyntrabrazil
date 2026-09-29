@@ -82,7 +82,7 @@ export default function Footer() {
             <div className="lg:col-span-1">
               <a href="#" className="flex items-center gap-2 mb-4">
                 <img
-                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png"
+                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png"
                   alt="Zyntra"
                   className="w-8 h-8 object-contain"
                 />
