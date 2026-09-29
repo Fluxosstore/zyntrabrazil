@@ -72,7 +72,7 @@ export default function CurationSection() {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
                 <Image
-                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png"
+                  src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/db8cb624f_ChatGPTImage16desetde202623_41_31.png"
                   alt="Zyntra"
                   className="w-full h-full object-contain"
                   fittingType="fit"
