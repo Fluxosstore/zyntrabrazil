@@ -28,8 +28,8 @@ export default function Automations() {
 
   return (
     <>
-      {/* Desktop */}
-      <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
+      {/* Desktop (legacy - now uses mobile layout) */}
+      <div className="hidden h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
         <DashboardSidebar activePage="automations" />
 
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
@@ -69,8 +69,8 @@ export default function Automations() {
         </main>
       </div>
 
-      {/* Mobile */}
-      <div className="md:hidden h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
+      {/* Mobile (also used on desktop/notebook) */}
+      <div className="h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
         <div className="flex items-center justify-between px-4 py-2 bg-[#F5F5F7] border-b border-[#D1D1D1]">
           <button
             onClick={() => setSidebarOpen(true)}
