@@ -1,31 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   PanelLeft,
+  ChevronDown,
   Plus,
   Mic,
   ArrowUp,
   Loader2,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
-import { Image } from "@/components/ui/image";
-import FloatingDots from "@/components/ayzen/FloatingDots";
+import { useLanguage } from "@/lib/LanguageContext";
+import TypingHeadline from "@/components/ayzen/TypingHeadline";
 import PublicChatSidebar from "@/components/ayzen/PublicChatSidebar";
 
-const HERO_IMG =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5f3e11fd3_quality_restoration_20260929160751648.jpg";
-
 const FREE_KEY = "zyntra_free_command_used";
+const ORB_IMG =
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png";
 
 export default function PublicChat() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
+
+  function greeting() {
+    const h = new Date().getHours();
+    if (h < 12) return t("dash.greetingMorning");
+    if (h < 18) return t("dash.greetingAfternoon");
+    return t("dash.greetingNight");
+  }
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -37,7 +45,6 @@ export default function PublicChat() {
     const text = input.trim();
     if (!text || loading) return;
 
-    // Gate: if free command already used, redirect to register
     const used = (() => {
       try {
         return localStorage.getItem(FREE_KEY) === "1";
@@ -87,142 +94,121 @@ export default function PublicChat() {
   };
 
   return (
-    <div className="h-[100dvh] flex flex-col bg-white overflow-hidden">
-      {/* Top header */}
-      <header className="flex items-center justify-between px-3 py-2.5 shrink-0">
+    <div className="md:hidden h-[100dvh] flex flex-col bg-white overflow-hidden overscroll-none">
+      {/* Top nav */}
+      <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-full text-[#202124] hover:bg-gray-100 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
           >
             <PanelLeft className="w-5 h-5" />
           </button>
-          <Link to="/" className="flex items-center gap-1.5">
-            <Image
-              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png"
-              alt="Zyntra"
-              className="w-6 h-6 rounded-md"
-              fittingType="fit"
-            />
-            <span className="font-semibold text-[#202124] text-[15px]">Zyntra</span>
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          <Link
-            to="/login"
-            className="px-3 py-1.5 rounded-full bg-black text-white text-xs font-medium hover:bg-gray-800 transition-colors"
-          >
-            Entrar
-          </Link>
-          <Link
-            to="/register"
-            className="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-black text-xs font-medium hover:bg-gray-50 transition-colors"
-          >
-            Cadastre-se
-          </Link>
-        </div>
-      </header>
-
-      {/* Chat area */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto">
-        {messages.length === 0 ? (
-          <div className="min-h-full flex flex-col items-center justify-center px-6 relative">
-            <FloatingDots />
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="relative w-40 h-40 mb-6"
-            >
-              <div className="absolute inset-0 bg-violet-300/30 blur-3xl rounded-full" />
-              <img
-                src={HERO_IMG}
-                alt=""
-                className="relative w-full h-full object-contain"
-              />
-            </motion.div>
-            <h1 className="relative text-2xl font-semibold text-[#202124] text-center">
-              Por onde começamos?
-            </h1>
+          <div className="flex items-center gap-1.5">
+            <img src={ORB_IMG} alt="Zyntra" className="w-5 h-5 rounded object-contain" />
+            <span className="text-sm font-semibold text-black">Zyntra</span>
+            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
           </div>
-        ) : (
-          <div className="px-4 py-5 space-y-5">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={
-                  m.role === "user"
-                    ? "flex justify-end"
-                    : "w-full"
-                }
-              >
-                {m.role === "user" ? (
-                  <div className="max-w-[85%] bg-gray-100 text-black text-sm rounded-2xl rounded-br-md px-4 py-2.5 whitespace-pre-wrap break-words">
-                    {m.content}
-                  </div>
-                ) : (
-                  <div className="text-[15px] text-[#202124] leading-relaxed whitespace-pre-wrap break-words">
-                    {m.content}
-                  </div>
-                )}
-              </div>
-            ))}
-            {loading && (
-              <div className="flex items-center gap-2 text-gray-400">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span className="text-sm">Zyntra está pensando…</span>
-              </div>
-            )}
-          </div>
-        )}
+        </div>
+        {/* No top-right buttons in the public (unauthenticated) version */}
       </div>
 
-      {/* Disclaimer + Input */}
-      <div className="shrink-0 px-4 pb-4 pt-1">
-        <p className="text-center text-xs font-medium text-gray-500 mb-2">
-          Zyntra AI
-        </p>
-        <p className="text-center text-[11px] text-gray-400 mb-2 px-4 leading-relaxed">
-          Zyntra é IA e pode cometer erros. Ao continuar, você concorda com nossos Termos e Política de Privacidade.
-        </p>
-        <div className="flex items-end gap-2 bg-[#F4F4F4] rounded-[26px] px-3 py-2.5">
-          <button
-            className="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-200 transition-colors shrink-0"
-            onClick={() => navigate("/register")}
+      {/* Messages or empty state */}
+      {messages.length > 0 ? (
+        <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+          {messages.map((m, i) => (
+            <div
+              key={i}
+              className={m.role === "user" ? "flex justify-end" : "w-full"}
+            >
+              {m.role === "user" ? (
+                <div className="max-w-[85%] bg-gray-100 text-black text-sm rounded-2xl rounded-br-md px-4 py-2.5 whitespace-pre-wrap break-words">
+                  {m.content}
+                </div>
+              ) : (
+                <div className="text-[15px] text-[#202124] leading-relaxed whitespace-pre-wrap break-words">
+                  {m.content}
+                </div>
+              )}
+            </div>
+          ))}
+          {loading && (
+            <div className="flex items-center gap-2 text-gray-400">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span className="text-sm">Zyntra está pensando…</span>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex-1 flex flex-col items-center justify-center px-6">
+          <motion.div
+            className="relative w-20 h-20 mb-6"
+            animate={{
+              scale: [1, 1.08, 0.96, 1.05, 1],
+              rotate: [0, 6, -4, 3, 0],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
-            <Plus className="w-5 h-5" />
-          </button>
+            <img
+              src={ORB_IMG}
+              alt="Zyntra"
+              className="relative w-20 h-20 object-contain drop-shadow-2xl"
+            />
+          </motion.div>
+          <p className="text-sm text-gray-500 mb-1">
+            {greeting()}, bem-vindo
+          </p>
+          <TypingHeadline />
+        </div>
+      )}
+
+      {/* Input area */}
+      <div className="px-4 pb-6">
+        <div className="w-full bg-[#F9F9F9] rounded-2xl border border-gray-200 p-3">
           <textarea
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
+            placeholder={t("dash.placeholder")}
             rows={1}
-            placeholder="Pergunte qualquer coisa"
-            className="flex-1 bg-transparent outline-none resize-none text-[15px] text-black placeholder:text-gray-400 max-h-32 leading-[1.4] py-1.5"
+            className="w-full resize-none text-sm text-black placeholder:text-gray-400 focus:outline-none bg-transparent"
           />
-          <button
-            className="w-8 h-8 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-200 transition-colors shrink-0"
-            onClick={() => navigate("/register")}
-          >
-            <Mic className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || loading}
-            className={`w-8 h-8 flex items-center justify-center rounded-full shrink-0 transition-colors ${
-              input.trim() && !loading
-                ? "bg-black text-white hover:bg-gray-800"
-                : "bg-gray-200 text-gray-400"
-            }`}
-          >
-            {loading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <ArrowUp className="w-5 h-5" />
-            )}
-          </button>
+          <div className="flex items-center justify-between mt-2">
+            <button
+              onClick={() => navigate("/register")}
+              className="w-8 h-8 flex items-center justify-center text-black"
+            >
+              <Plus className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate("/register")}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F2F2F2] text-black"
+              >
+                <Mic className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || loading}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F2F2F2] text-black transition-colors"
+              >
+                {loading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <ArrowUp className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          </div>
         </div>
+        <p className="mt-2 text-center text-[10px] text-gray-400 px-4">
+          {t("dash.disclaimer")}
+        </p>
       </div>
 
       <PublicChatSidebar
