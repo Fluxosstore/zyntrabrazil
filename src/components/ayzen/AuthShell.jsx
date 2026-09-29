@@ -21,13 +21,13 @@ export default function AuthShell({ children }) {
       </div>
 
       {/* Mobile hero image on top */}
-      <div className="lg:hidden relative h-[32vh] shrink-0">
+      <div className="lg:hidden relative h-[40vh] shrink-0">
         <img
           src={HERO_IMG}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-top"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
       </div>
 
       <div className="flex-1 flex min-h-0">
