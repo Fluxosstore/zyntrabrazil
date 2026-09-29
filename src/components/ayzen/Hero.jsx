@@ -46,7 +46,7 @@ export default function Hero() {
       {/* dark scrim to ensure text legibility over the busy background */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/55" />
       {/* #FAFAFA bottom gradient to blend the image into the page */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 lg:h-28 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA]/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 lg:h-20 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA]/80 lg:via-[#FAFAFA]/40 to-transparent" />
 
       {/* floating purple particles rising from bottom to top */}
       <FloatingDots />
@@ -71,7 +71,7 @@ export default function Hero() {
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <span className="text-violet-500 [text-shadow:0_2px_12px_rgba(124,58,237,0.55)]">{t("hero.title3")}</span>
+              <span className="text-violet-600 [text-shadow:none]">{t("hero.title3")}</span>
             </h1>
 
             <p className="mt-6 text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
