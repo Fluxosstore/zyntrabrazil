@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, Download, Copy, MessageSquarePlus, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Download, Copy, MessageSquarePlus, Check, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
@@ -27,7 +27,7 @@ export default function MobileImageViewer({ item, items, onClose, onDelete }) {
 
   const current = gallery[index] || item;
 
-  if (!current) return null;
+  if (!item) return null;
 
   const canNavigate = gallery.length > 1;
 
@@ -112,9 +112,20 @@ export default function MobileImageViewer({ item, items, onClose, onDelete }) {
             >
               {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
             </button>
+            {onDelete && (
+              <>
+                <div className="w-px h-5 bg-white/10" />
+                <button
+                  onClick={handleDelete}
+                  className="w-9 h-9 flex items-center justify-center rounded-full text-white active:bg-red-500/20 active:text-red-400 transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </>
+            )}
             <div className="w-px h-5 bg-white/10" />
             <button
-              onClick={onDelete ? handleDelete : onClose}
+              onClick={onClose}
               className="w-9 h-9 flex items-center justify-center rounded-full text-white active:bg-white/10 transition-colors"
             >
               <X className="w-4 h-4" />
