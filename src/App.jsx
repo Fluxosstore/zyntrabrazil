@@ -9,6 +9,7 @@ import ScrollToTop from './components/ScrollToTop';
 import { LanguageProvider } from '@/lib/LanguageContext';
 // Add page imports here
 import HomeRoute from '@/components/HomeRoute';
+import PublicChat from '@/pages/PublicChat';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
@@ -62,6 +63,7 @@ const AuthenticatedApp = () => {
       <Route path="/reset-password" element={<ResetPassword />} />
       {/* Public landing */}
       <Route path="/" element={<HomeRoute />} />
+      <Route path="/public-chat" element={<PublicChat />} />
       {/* Authenticated app */}
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route element={<TrialGuard />}>
