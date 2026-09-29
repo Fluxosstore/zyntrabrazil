@@ -36,7 +36,7 @@ export default function Hero() {
       className="relative pt-28 lg:pt-36 pb-16 lg:pb-24 overflow-hidden">
       {/* background image with parallax */}
       <Image
-        src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8324bd1ab_quality_restoration_20260917024743415.jpg"
+        src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/b0e22d040_quality_restoration_20260929144820196.jpg"
         alt=""
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out will-change-transform scale-110"
         fittingType="fill"
