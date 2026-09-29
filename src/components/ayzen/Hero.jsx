@@ -74,7 +74,7 @@ export default function Hero() {
               <span className="text-violet-600 [text-shadow:0_1px_6px_rgba(0,0,0,0.7)] lg:[text-shadow:none]">{t("hero.title3")}</span>
             </h1>
 
-            <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
+            <p className="mt-4 sm:mt-6 2xl:translate-y-12 text-xs sm:text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
               <span className="whitespace-nowrap"><span className="font-bold">{t("hero.descBold")}</span> {t("hero.desc2")}</span>{" "}
               <span className="whitespace-nowrap">{t("hero.desc3")}</span>{" "}
               <span className="whitespace-nowrap">{t("hero.desc4")}</span>{" "}
