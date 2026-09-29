@@ -8,7 +8,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { isWebAuthnSupported, authenticatePasskey } from "@/lib/webauthnUtils";
 
 const LOGO =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ef650f55a_ChatGPTImage16desetde202623_41_31.png";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/4242d5902_quality_restoration_20260928203908003.png";
 
 export default function Login() {
   const { t } = useLanguage();
