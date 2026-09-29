@@ -46,7 +46,7 @@ export default function Hero() {
       {/* dark scrim to ensure text legibility over the busy background */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/55" />
       {/* #FAFAFA bottom gradient to blend the image into the page */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA]/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 lg:h-28 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA]/80 to-transparent" />
 
       {/* floating purple particles rising from bottom to top */}
       <FloatingDots />
