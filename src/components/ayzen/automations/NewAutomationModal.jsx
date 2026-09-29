@@ -165,7 +165,7 @@ export default function NewAutomationModal({ open, onClose, onCreated, prefill }
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto px-3.5 py-3 space-y-3 md:px-5 md:py-4 md:space-y-4" ref={dropdownRef}>
+            <div className="flex-1 overflow-y-auto automation-modal-scroll px-3.5 py-3 space-y-3 md:px-5 md:py-4 md:space-y-4" ref={dropdownRef}>
               {/* Name */}
               <input
                 value={name}
