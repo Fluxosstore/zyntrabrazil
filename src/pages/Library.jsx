@@ -223,7 +223,7 @@ export default function LibraryPage() {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5">
           <button
-            onClick={() => setSidebarOpen(true)}
+            onClick={() => setSidebarOpen((v) => !v)}
             className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60 rounded-lg"
           >
             <PanelLeftClose className="w-5 h-5" />
