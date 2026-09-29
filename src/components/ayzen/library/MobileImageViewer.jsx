@@ -103,7 +103,7 @@ export default function MobileImageViewer({ item, onClose, onDelete }) {
 
         {/* Details footer card */}
         <div className="px-3 pb-4">
-          <div className="bg-[#1e1e1e] rounded-2xl p-3.5">
+          <div className="bg-[#1e1e1e] rounded-2xl p-3.5 lg:max-w-md lg:mx-auto">
             <p className="text-sm text-white leading-snug line-clamp-3">
               {item.prompt || item.title}
             </p>
