@@ -99,12 +99,8 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
             {t("auto.newAutomation")}
           </button>
         </div>
-        <div className="hidden lg:block shrink-0 -mr-10 -mt-6 pointer-events-none">
-          <img
-            src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5c75bab10_Capturadetela2026-09-29202923.png"
-            alt=""
-            className="w-[420px] h-[420px] object-contain object-right select-none"
-          />
+        <div className="hidden lg:block shrink-0">
+          <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/ec2419a5c_Capturadetela2026-09-29202923.png" alt="" className="w-56 h-56 object-contain hidden" />
         </div>
       </div>
 
