@@ -98,7 +98,7 @@ export default function Hero() {
               </a>
             </div>
 
-            <p className="mt-4 sm:mt-5 text-xs sm:text-sm text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.55)]">
+            <p className="mt-4 sm:mt-5 2xl:translate-y-24 text-xs sm:text-sm text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.55)]">
               {t("hero.socialProof")}
             </p>
           </div>
