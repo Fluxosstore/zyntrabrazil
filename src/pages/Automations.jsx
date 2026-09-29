@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Send, Plus, PanelLeftClose, MessageSquarePlus } from "lucide-react";
+import { Plus, PanelLeftClose, MessageSquarePlus } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
-import AutomationCatalog from "@/components/ayzen/automations/AutomationCatalog";
+import DesktopAutomationsContent from "@/components/ayzen/automations/DesktopAutomationsContent";
 import MobileAutomationCard from "@/components/ayzen/automations/MobileAutomationCard";
 import NewAutomationModal from "@/components/ayzen/automations/NewAutomationModal";
 import { AUTOMATION_TEMPLATES } from "@/components/ayzen/automations/automationTemplates";
@@ -28,49 +28,19 @@ export default function Automations() {
 
   return (
     <>
-      {/* Desktop (legacy - now uses mobile layout) */}
-      <div className="hidden h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
+      {/* Desktop */}
+      <div className="hidden lg:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
         <DashboardSidebar activePage="automations" />
-
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
-          {/* Header */}
-          <div className="px-8 pt-8 pb-6">
-            <div className="p-6 bg-white border border-gray-200 rounded-2xl">
-              <h1 className="text-2xl font-bold text-black">{t("auto.title")}</h1>
-              <p className="text-sm text-gray-500 mt-1.5">{t("auto.desc1")}</p>
-              <p className="text-sm text-gray-500 mt-1 max-w-2xl">{t("auto.desc2")}</p>
-            </div>
-          </div>
-
-          {/* Telegram integration */}
-          <div className="px-8 pb-6">
-            <div className="flex items-center gap-3 p-4 border border-gray-200 rounded-2xl">
-              <div className="w-10 h-10 rounded-xl bg-[#2AABEE] flex items-center justify-center shrink-0">
-                <Send className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-black">Telegram</p>
-                <p className="text-xs text-gray-500 mt-0.5">{t("auto.telegramDesc")}</p>
-              </div>
-              <button className="px-4 py-2 rounded-xl bg-black text-white text-xs font-medium hover:bg-gray-800 transition-colors shrink-0">
-                {t("auto.connect")}
-              </button>
-            </div>
-          </div>
-
-          {/* Catalog */}
-          <div className="flex-1 px-8 pb-8 overflow-y-auto">
-            <div className="mb-5">
-              <h2 className="text-sm font-semibold text-black">Automações prontas</h2>
-              <p className="text-xs text-gray-500 mt-0.5">Ative um modelo para começar. Você pode desativar quando quiser.</p>
-            </div>
-            <AutomationCatalog />
-          </div>
+          <DesktopAutomationsContent
+            onNewAutomation={() => openModal(null)}
+            onSelectTemplate={(tpl) => openModal(tpl)}
+          />
         </main>
       </div>
 
       {/* Mobile (also used on desktop/notebook) */}
-      <div className="h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
+      <div className="lg:hidden h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
         <div className="flex items-center justify-between px-4 py-2 bg-[#F5F5F7] border-b border-[#D1D1D1]">
           <button
             onClick={() => setSidebarOpen(true)}
