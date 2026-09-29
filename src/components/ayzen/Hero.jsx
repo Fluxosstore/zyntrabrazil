@@ -104,7 +104,7 @@ export default function Hero() {
           </div>
 
           {/* Right: stats (top) + bullets (middle) + included models (bottom) */}
-          <div className="lg:col-span-5 relative self-start">
+          <div className="lg:col-span-5 relative self-start 2xl:translate-y-16">
             {/* Top: stats */}
             <div className="text-right">
               <div className="text-xs font-medium text-white/90 mb-1 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
