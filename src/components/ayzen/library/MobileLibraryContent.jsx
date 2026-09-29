@@ -180,8 +180,8 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
                 <h2 className="text-sm font-bold text-black">Imagens geradas</h2>
                 <button className="text-xs text-gray-400 font-medium">{t("library.viewAll")}</button>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                {images.slice(0, 4).map((item) => (
+              <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
+                {images.slice(0, 12).map((item) => (
                   <AllTabImageCard
                     key={item.id}
                     item={item}
@@ -271,7 +271,7 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
   if (activeTab === "images") {
     return (
       <>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
           {filtered.map((item) => (
             <div
               key={item.id}
