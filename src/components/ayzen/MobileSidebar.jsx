@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical, Code2 } from "lucide-react";
+import { Search, ChevronsUpDown, PanelLeftClose, Plus, ChevronRight, Folder, MoreVertical, Code2, Lock } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
@@ -21,7 +21,7 @@ import { useFolders } from "@/hooks/useFolders";
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png";
 
-export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder, balanceRefreshKey }) {
+export default function MobileSidebar({ open, onClose, conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder, balanceRefreshKey, locked = false }) {
   const { folders, reloadFolders } = useFolders();
   const [expandedFolders, setExpandedFolders] = useState({});
   const [foldersSectionOpen, setFoldersSectionOpen] = useState(false);
@@ -53,6 +53,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
   const formatCredits = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
   useEffect(() => {
+    if (locked) return;
     (async () => {
       try {
         const records = await base44.entities.TokenUsage.list("-created_date", 500);
@@ -129,10 +130,9 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             {/* Nav */}
             <div className="px-3 space-y-1.5">
               <button
-                onClick={handleNewConversation}
+                onClick={locked ? () => navigate("/register") : handleNewConversation}
                 className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white text-sm font-medium hover:opacity-90 transition-opacity">
-
-                <ChatPlusIcon className="w-4 h-4 shrink-0" />
+                {locked ? <Lock className="w-4 h-4 shrink-0" /> : <ChatPlusIcon className="w-4 h-4 shrink-0" />}
                 {t("dash.newConversation")}
               </button>
 
@@ -148,27 +148,25 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
 
               <div className="rounded-xl bg-gray-200/50 p-1 space-y-0.5">
                 <Link
-                  to="/library"
+                  to={locked ? "/register" : "/library"}
                   onClick={onClose}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
-
-                  <BooksIcon className="w-4 h-4 text-gray-500 shrink-0" />
+                  {locked ? <Lock className="w-4 h-4 text-gray-500 shrink-0" /> : <BooksIcon className="w-4 h-4 text-gray-500 shrink-0" />}
                   {t("dash.library")}
                 </Link>
                 <Link
-                  to="/automations"
+                  to={locked ? "/register" : "/automations"}
                   onClick={onClose}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
-
-                  <IntegrationIcon className="w-4 h-4 text-gray-500 shrink-0" />
+                  {locked ? <Lock className="w-4 h-4 text-gray-500 shrink-0" /> : <IntegrationIcon className="w-4 h-4 text-gray-500 shrink-0" />}
                   {t("dash.automations")}
                 </Link>
                 {isAdmin &&
               <Link
-                to="/codrax"
+                to={locked ? "/register" : "/codrax"}
                 onClick={onClose}
                 className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 hover:bg-white/60 transition-colors">
-                  <Code2 className="w-4 h-4 text-gray-500 shrink-0" />
+                  {locked ? <Lock className="w-4 h-4 text-gray-500 shrink-0" /> : <Code2 className="w-4 h-4 text-gray-500 shrink-0" />}
                   Zintre Code
                 </Link>
               }
@@ -284,6 +282,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             </div>
 
             {/* credits bar */}
+            {!locked && (
             <div className="px-3 pb-0.5">
               <div className="flex items-center justify-between rounded-xl bg-[#eceef0] border border-gray-300/70 px-3 py-2.5">
                 <div className="flex items-center gap-2">
@@ -295,9 +294,27 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                 </Link>
               </div>
             </div>
+            )}
 
             {/* User footer */}
             <div className="relative px-3 py-1">
+              {locked ? (
+                <div className="flex gap-2">
+                  <Link
+                    to="/login"
+                    onClick={onClose}
+                    className="flex-1 text-center py-2.5 rounded-xl bg-[#7c3aed] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors">
+                    Entrar
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={onClose}
+                    className="flex-1 text-center py-2.5 rounded-xl bg-white border border-gray-300 text-black text-sm font-medium hover:bg-gray-50 transition-colors">
+                    Cadastre-se
+                  </Link>
+                </div>
+              ) : (
+              <>
               <AnimatePresence>
                 {popoverOpen &&
               <UserPopover
@@ -330,6 +347,8 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
                 </div>
                 <ChevronsUpDown className="w-4 h-4 text-gray-400 shrink-0" />
               </button>
+              </>
+              )}
             </div>
 
             <NewFolderModal open={folderModalOpen || !!editFolder} editFolder={editFolder} onClose={() => { setFolderModalOpen(false); setEditFolder(null); }} onCreated={() => { reloadFolders(); setEditFolder(null); }} />

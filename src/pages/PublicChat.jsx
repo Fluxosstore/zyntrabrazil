@@ -12,7 +12,7 @@ import {
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
 import TypingHeadline from "@/components/ayzen/TypingHeadline";
-import PublicChatSidebar from "@/components/ayzen/PublicChatSidebar";
+import MobileSidebar from "@/components/ayzen/MobileSidebar";
 
 const FREE_KEY = "zyntra_free_command_used";
 const ORB_IMG =
@@ -226,10 +226,11 @@ export default function PublicChat() {
         </p>
       </div>
 
-      <PublicChatSidebar
+      <MobileSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        onNewChat={handleNewChat}
+        onNewConversation={handleNewChat}
+        locked
       />
     </div>
   );
