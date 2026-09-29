@@ -76,8 +76,8 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
       {/* Hero */}
       <div className="flex items-start justify-between gap-8">
         <div className="flex-1 max-w-xl">
-          <h1 className="text-3xl font-bold text-black leading-tight">{t("auto.heroTitle")}</h1>
-          <p className="text-sm text-gray-500 mt-3 leading-relaxed">{t("auto.heroDesc")}</p>
+          <h1 className="text-3xl font-bold text-black leading-tight">{t("auto.heroTitle1")}<br />{t("auto.heroTitle2")}</h1>
+          <p className="text-sm text-gray-500 mt-3 leading-relaxed">{t("auto.heroDesc1")}<br />{t("auto.heroDesc2")}</p>
           <div className="mt-6 space-y-3">
             {steps.map((s) => (
               <div key={s.n} className="flex items-start gap-3">
