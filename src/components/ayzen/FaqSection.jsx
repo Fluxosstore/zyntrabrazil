@@ -21,7 +21,7 @@ export default function FaqSection() {
           {/* Left card with full background image */}
           <div className="relative rounded-3xl overflow-hidden min-h-[560px] flex flex-col justify-end p-8 lg:p-10">
             <img
-              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/1536c52c1_ChatGPTImage17desetde202601_00_23.png"
+              src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/826189177_quality_restoration_20260928211911374.png"
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
