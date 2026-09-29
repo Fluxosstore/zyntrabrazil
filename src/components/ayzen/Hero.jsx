@@ -33,7 +33,7 @@ export default function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative pt-28 lg:pt-52 pb-20 lg:pb-72 overflow-hidden">
+      className="relative pt-24 lg:pt-52 pb-14 lg:pb-72 overflow-hidden">
       {/* background image with parallax */}
       <Image
         src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/b0e22d040_quality_restoration_20260929144820196.jpg"
@@ -66,15 +66,15 @@ export default function Hero() {
               </span>
             </div>
 
-            <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-[1.05] [text-shadow:0_2px_10px_rgba(0,0,0,0.45)]">
+            <h1 className="text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-[1.05] [text-shadow:0_2px_10px_rgba(0,0,0,0.45)]">
               {t("hero.title1")}
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <span className="text-violet-600 [text-shadow:none]">{t("hero.title3")}</span>
+              <span className="text-violet-600 [text-shadow:0_1px_6px_rgba(0,0,0,0.7)] lg:[text-shadow:none]">{t("hero.title3")}</span>
             </h1>
 
-            <p className="mt-6 text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
+            <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
               <span className="whitespace-nowrap"><span className="font-bold">{t("hero.descBold")}</span> {t("hero.desc2")}</span>{" "}
               <span className="whitespace-nowrap">{t("hero.desc3")}</span>{" "}
               <span className="whitespace-nowrap">{t("hero.desc4")}</span>{" "}
@@ -82,23 +82,23 @@ export default function Hero() {
               <span className="whitespace-nowrap">{t("hero.desc6")}</span>
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
               <Link
                 to="/register"
-                className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-base font-semibold px-7 py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
+                className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-sm sm:text-base font-semibold px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
                 
                 {t("hero.cta1")}
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
                 href="#planos"
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-base font-semibold px-7 py-3.5 rounded-full border border-gray-200 transition-all">
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 text-sm sm:text-base font-semibold px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-full border border-gray-200 transition-all">
 
                 {t("hero.cta2")}
               </a>
             </div>
 
-            <p className="mt-5 text-sm text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.55)]">
+            <p className="mt-4 sm:mt-5 text-xs sm:text-sm text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.55)]">
               {t("hero.socialProof")}
             </p>
           </div>
@@ -110,7 +110,7 @@ export default function Hero() {
               <div className="text-xs font-medium text-white/90 mb-1 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
                 {t("hero.avgSavings")}
               </div>
-              <div className="text-5xl lg:text-6xl font-bold text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.5)]">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.5)]">
                 67%
               </div>
               <div className="text-sm text-white/90 mt-1 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
@@ -119,7 +119,7 @@ export default function Hero() {
             </div>
 
             {/* Middle: bullets */}
-            <ul className="mt-24 space-y-2 text-sm text-white text-right [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
+            <ul className="mt-12 sm:mt-24 space-y-2 text-xs sm:text-sm text-white text-right [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
               <li className="flex items-center justify-end gap-2">
                 {t("hero.bullet1")}
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
@@ -135,7 +135,7 @@ export default function Hero() {
             </ul>
 
             {/* Bottom: included models */}
-            <div className="mt-24 text-right">
+            <div className="mt-12 sm:mt-24 text-right">
               <div className="text-xs font-medium text-white/90 mb-2 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
                 {t("hero.included")}
               </div>
