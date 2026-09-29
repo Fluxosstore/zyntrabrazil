@@ -89,8 +89,8 @@ export default function LibraryPage() {
 
   return (
     <>
-      {/* Desktop (legacy - now uses mobile layout) */}
-      <div className="hidden h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
+      {/* Desktop */}
+      <div className="hidden lg:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
         <DashboardSidebar activePage="library" />
 
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
@@ -100,9 +100,9 @@ export default function LibraryPage() {
             <p className="text-sm text-gray-500 mt-1.5">{t("library.desc")}</p>
           </div>
 
-          {/* Filter tabs */}
-          <div className="px-8 pb-4">
-            <div className="inline-flex items-center gap-1 bg-gray-100 rounded-full p-1">
+          {/* Tabs + Search row */}
+          <div className="px-8 pb-5 flex items-center justify-between gap-4 flex-wrap">
+            <div className="inline-flex items-center gap-1">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
@@ -110,54 +110,28 @@ export default function LibraryPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       active
-                        ? "bg-white border border-gray-300 text-black shadow-sm"
-                        : "text-gray-600 hover:text-gray-900"
+                        ? "bg-[#111111] text-white"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                     }`}
                   >
-                    <Icon className="w-3.5 h-3.5" />
+                    <Icon className="w-4 h-4" />
                     {t(`library.tab${tab.id.charAt(0).toUpperCase()}${tab.id.slice(1)}`)}
                   </button>
                 );
               })}
             </div>
-          </div>
-
-          {/* Search + controls */}
-          {showControls && (
-            <div className="px-8 pb-4 flex items-center gap-3">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  placeholder={t(searchKey)}
-                  className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
-                />
-              </div>
-              <button className="flex items-center gap-1.5 h-10 px-4 rounded-xl bg-gray-50 border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors">
-                {t("library.recent")}
-                <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
-              </button>
-              <div className="flex items-center gap-0.5 bg-gray-100 rounded-lg p-0.5">
-                <button
-                  onClick={() => setView("grid")}
-                  className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
-                    view === "grid" ? "bg-white text-black shadow-sm" : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  <LayoutGrid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setView("list")}
-                  className={`w-8 h-8 flex items-center justify-center rounded-md transition-colors ${
-                    view === "list" ? "bg-white text-black shadow-sm" : "text-gray-500 hover:text-gray-700"
-                  }`}
-                >
-                  <List className="w-4 h-4" />
-                </button>
-              </div>
+            <div className="relative w-72">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                value={mobileSearch}
+                onChange={(e) => setMobileSearch(e.target.value)}
+                placeholder={t(searchKey)}
+                className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+              />
             </div>
-          )}
+          </div>
 
           {/* Sub-filter (files only) */}
           {activeTab === "files" && (
@@ -165,7 +139,7 @@ export default function LibraryPage() {
               <div className="flex items-center gap-1.5">
                 {SUB_FILTERS.map((sub) => {
                   const Icon = sub.icon;
-                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase() + sub.id.slice(1)}`;
+                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase()}${sub.id.slice(1)}`;
                   const active = subFilter === sub.id;
                   return (
                     <button
@@ -186,40 +160,19 @@ export default function LibraryPage() {
             </div>
           )}
 
-          {/* Items / Empty state */}
+          {/* Content */}
           <div className="flex-1 px-8 pb-8 overflow-y-auto">
-            <LibraryItems
+            <MobileLibraryContent
               activeTab={activeTab}
               subFilter={subFilter}
-              view={view}
-              emptyState={
-                <div className="h-full border border-gray-200 rounded-2xl flex flex-col items-center justify-center">
-                  {showNoResults ? (
-                    <>
-                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                        <Search className="w-5 h-5 text-gray-400" />
-                      </div>
-                      <p className="mt-4 text-sm font-semibold text-gray-700">{t("library.noResultsTitle")}</p>
-                      <p className="mt-1.5 text-sm text-gray-400 text-center max-w-sm">{t("library.noResultsDesc")}</p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                        <EmptyIcon className="w-5 h-5 text-gray-400" />
-                      </div>
-                      <p className="mt-4 text-sm font-semibold text-black">{t(emptyTitleKey)}</p>
-                      <p className="mt-1.5 text-sm text-gray-500 text-center max-w-sm">{t(emptyDescKey)}</p>
-                    </>
-                  )}
-                </div>
-              }
+              searchQuery={mobileSearch}
             />
           </div>
         </main>
       </div>
 
-      {/* Mobile (also used on desktop/notebook) */}
-      <div className="h-screen flex flex-col bg-[#F4F4F6] overflow-hidden">
+      {/* Mobile */}
+      <div className="lg:hidden h-screen flex flex-col bg-[#F4F4F6] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5">
           <button
@@ -323,7 +276,7 @@ export default function LibraryPage() {
               <div className="inline-flex items-center gap-1.5">
                 {SUB_FILTERS.map((sub) => {
                   const Icon = sub.icon;
-                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase() + sub.id.slice(1)}`;
+                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase()}${sub.id.slice(1)}`;
                   const active = subFilter === sub.id;
                   return (
                     <button
