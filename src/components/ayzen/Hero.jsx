@@ -33,7 +33,7 @@ export default function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative pt-28 lg:pt-36 pb-16 lg:pb-24 overflow-hidden">
+      className="relative pt-28 lg:pt-36 pb-20 lg:pb-48 overflow-hidden">
       {/* background image with parallax */}
       <Image
         src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/b0e22d040_quality_restoration_20260929144820196.jpg"
@@ -71,7 +71,7 @@ export default function Hero() {
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <span className="bg-gradient-to-r from-fuchsia-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(192,38,211,0.5)]">{t("hero.title3")}</span>
+              <span className="text-violet-500 [text-shadow:0_2px_12px_rgba(124,58,237,0.55)]">{t("hero.title3")}</span>
             </h1>
 
             <p className="mt-6 text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
