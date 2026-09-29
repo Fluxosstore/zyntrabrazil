@@ -17,6 +17,26 @@ export default function Header() {
   const navLinks = navLinkDefs.map((l) => ({ ...l, label: t(l.key) }));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
+  const [overDark, setOverDark] = useState(true);
+
+  useEffect(() => {
+    const computeOverDark = () => {
+      const hero = document.querySelector("main > section");
+      if (!hero) {
+        setOverDark(window.scrollY < 200);
+        return;
+      }
+      const heroBottom = hero.getBoundingClientRect().bottom + window.scrollY;
+      setOverDark(window.scrollY + 72 < heroBottom - 56);
+    };
+    computeOverDark();
+    window.addEventListener("scroll", computeOverDark, { passive: true });
+    window.addEventListener("resize", computeOverDark);
+    return () => {
+      window.removeEventListener("scroll", computeOverDark);
+      window.removeEventListener("resize", computeOverDark);
+    };
+  }, []);
 
   useEffect(() => {
     const sections = navLinks
@@ -54,7 +74,13 @@ export default function Header() {
               className="w-10 h-10 rounded-lg"
               fittingType="fit"
             />
-            <span className="text-xl font-bold tracking-tight text-gray-900">
+            <span
+              className={`text-xl font-bold tracking-tight transition-colors duration-300 ${
+                overDark
+                  ? "text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.5)]"
+                  : "text-gray-900"
+              }`}
+            >
               Zyntra
             </span>
           </a>
