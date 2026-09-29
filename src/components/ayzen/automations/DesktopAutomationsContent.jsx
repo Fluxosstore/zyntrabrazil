@@ -104,8 +104,8 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
         </div>
       </div>
 
-      {/* Lower section */}
-      <div className="mt-10">
+      {/* Lower section — wrapped in an outer light-gray card */}
+      <div className="mt-10 bg-[#f3f3f5] rounded-2xl p-5">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-lg font-bold text-black">{t("auto.createFirst")}</h2>
@@ -113,7 +113,7 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
           </div>
           <button
             onClick={onNewAutomation}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#7c3aed] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#7b5db7] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors shrink-0"
           >
             <Plus className="w-4 h-4" />
             {t("auto.newAutomation")}
