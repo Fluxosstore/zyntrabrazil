@@ -82,7 +82,7 @@ export default function Hero() {
               <span className="whitespace-nowrap">{t("hero.desc6")}</span>
             </p>
 
-            <div className="mt-6 sm:mt-8 2xl:mt-24 flex flex-col sm:flex-row gap-3">
+            <div className="mt-6 sm:mt-8 2xl:translate-y-24 flex flex-col sm:flex-row gap-3">
               <Link
                 to="/register"
                 className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-sm sm:text-base font-semibold px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
