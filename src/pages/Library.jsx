@@ -102,7 +102,7 @@ export default function LibraryPage() {
 
           {/* Tabs + Search row */}
           <div className="px-8 pb-5 flex items-center justify-between gap-4 flex-wrap">
-            <div className="inline-flex items-center gap-1 bg-[hsl(var(--sidebar-border))] rounded-full">
+            <div className="inline-flex items-center gap-1 bg-[#eeeeef] rounded-full p-1">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
@@ -112,9 +112,9 @@ export default function LibraryPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                     active ?
-                    "bg-[#111111] text-white" :
-                    "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`
-                    }>
+                    "bg-white text-black shadow-sm" :
+                    "text-[#46474e] hover:text-black"}`}
+                    >
                     
                     <Icon className="w-4 h-4" />
                     {t(`library.tab${tab.id.charAt(0).toUpperCase()}${tab.id.slice(1)}`)}
