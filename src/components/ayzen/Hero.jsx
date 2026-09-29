@@ -71,7 +71,7 @@ export default function Hero() {
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <span className="text-violet-200">{t("hero.title3")}</span>
+              <span className="bg-gradient-to-r from-fuchsia-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(192,38,211,0.5)]">{t("hero.title3")}</span>
             </h1>
 
             <p className="mt-6 text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
