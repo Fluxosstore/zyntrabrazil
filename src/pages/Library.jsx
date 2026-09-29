@@ -13,8 +13,8 @@ import {
   Music,
   Video,
   PanelLeftClose,
-  MessageSquarePlus,
-} from "lucide-react";
+  MessageSquarePlus } from
+"lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
@@ -22,27 +22,27 @@ import LibraryItems from "@/components/ayzen/LibraryItems";
 import MobileLibraryContent from "@/components/ayzen/library/MobileLibraryContent";
 
 const TABS = [
-  { id: "all", icon: Folder },
-  { id: "images", icon: ImageIcon },
-  { id: "docs", icon: FilePlus },
-  { id: "responses", icon: Star },
-  { id: "files", icon: FileText },
-];
+{ id: "all", icon: Folder },
+{ id: "images", icon: ImageIcon },
+{ id: "docs", icon: FilePlus },
+{ id: "responses", icon: Star },
+{ id: "files", icon: FileText }];
+
 
 const SUB_FILTERS = [
-  { id: "all", icon: LayoutGrid },
-  { id: "docs", icon: FileText },
-  { id: "images", icon: ImageIcon },
-  { id: "audio", icon: Music },
-  { id: "video", icon: Video },
-];
+{ id: "all", icon: LayoutGrid },
+{ id: "docs", icon: FileText },
+{ id: "images", icon: ImageIcon },
+{ id: "audio", icon: Music },
+{ id: "video", icon: Video }];
+
 
 const EMPTY_ICON = {
   all: FileText,
   images: ImageIcon,
   files: FileText,
   docs: FileText,
-  responses: Star,
+  responses: Star
 };
 
 export default function LibraryPage() {
@@ -75,9 +75,9 @@ export default function LibraryPage() {
   }, [sortOpen]);
 
   const sortOptions = [
-    { id: "recent", label: "Mais recentes" },
-    { id: "oldest", label: "Mais antigas" },
-  ];
+  { id: "recent", label: "Mais recentes" },
+  { id: "oldest", label: "Mais antigas" }];
+
 
   const showNoResults = activeTab === "files" && subFilter !== "all";
 
@@ -102,7 +102,7 @@ export default function LibraryPage() {
 
           {/* Tabs + Search row */}
           <div className="px-8 pb-5 flex items-center justify-between gap-4 flex-wrap">
-            <div className="inline-flex items-center gap-1">
+            <div className="inline-flex items-center gap-1 bg-[hsl(var(--sidebar-border))]">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
@@ -111,15 +111,15 @@ export default function LibraryPage() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                      active
-                        ? "bg-[#111111] text-white"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                    }`}
-                  >
+                    active ?
+                    "bg-[#111111] text-white" :
+                    "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`
+                    }>
+                    
                     <Icon className="w-4 h-4" />
                     {t(`library.tab${tab.id.charAt(0).toUpperCase()}${tab.id.slice(1)}`)}
-                  </button>
-                );
+                  </button>);
+
               })}
             </div>
             <div className="relative w-72">
@@ -128,45 +128,45 @@ export default function LibraryPage() {
                 value={mobileSearch}
                 onChange={(e) => setMobileSearch(e.target.value)}
                 placeholder={t(searchKey)}
-                className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
-              />
+                className="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-gray-300" />
+              
             </div>
           </div>
 
           {/* Sub-filter (files only) */}
-          {activeTab === "files" && (
-            <div className="px-8 pb-4">
+          {activeTab === "files" &&
+          <div className="px-8 pb-4">
               <div className="flex items-center gap-1.5">
                 {SUB_FILTERS.map((sub) => {
-                  const Icon = sub.icon;
-                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase()}${sub.id.slice(1)}`;
-                  const active = subFilter === sub.id;
-                  return (
-                    <button
-                      key={sub.id}
-                      onClick={() => setSubFilter(sub.id)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                        active
-                          ? "bg-black text-white"
-                          : "bg-[#F3F3F5] text-gray-700 hover:bg-gray-200"
-                      }`}
-                    >
+                const Icon = sub.icon;
+                const labelKey = `library.sub${sub.id.charAt(0).toUpperCase()}${sub.id.slice(1)}`;
+                const active = subFilter === sub.id;
+                return (
+                  <button
+                    key={sub.id}
+                    onClick={() => setSubFilter(sub.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                    active ?
+                    "bg-black text-white" :
+                    "bg-[#F3F3F5] text-gray-700 hover:bg-gray-200"}`
+                    }>
+                    
                       <Icon className="w-3.5 h-3.5" />
                       {t(labelKey)}
-                    </button>
-                  );
-                })}
+                    </button>);
+
+              })}
               </div>
             </div>
-          )}
+          }
 
           {/* Content */}
           <div className="flex-1 px-8 pb-8 overflow-y-auto">
             <MobileLibraryContent
               activeTab={activeTab}
               subFilter={subFilter}
-              searchQuery={mobileSearch}
-            />
+              searchQuery={mobileSearch} />
+            
           </div>
         </main>
       </div>
@@ -177,17 +177,17 @@ export default function LibraryPage() {
         <div className="flex items-center justify-between px-4 py-2.5">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60 rounded-lg"
-          >
+            className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60 rounded-lg">
+            
             <PanelLeftClose className="w-5 h-5" />
           </button>
           <button
             onClick={() => {
-              try { localStorage.removeItem(`zyntra_open_conversation_${undefined}`); } catch {}
+              try {localStorage.removeItem(`zyntra_open_conversation_${undefined}`);} catch {}
               window.location.href = "/dashboard";
             }}
-            className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60 rounded-lg"
-          >
+            className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60 rounded-lg">
+            
             <MessageSquarePlus className="w-5 h-5" />
           </button>
         </div>
@@ -211,102 +211,102 @@ export default function LibraryPage() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
-                      active
-                        ? "bg-white text-black shadow-sm"
-                        : "text-gray-500"
-                    }`}
-                  >
+                    active ?
+                    "bg-white text-black shadow-sm" :
+                    "text-gray-500"}`
+                    }>
+                    
                     <Icon className="w-3.5 h-3.5" />
                     {t(`library.tab${tab.id.charAt(0).toUpperCase()}${tab.id.slice(1)}`)}
-                  </button>
-                );
+                  </button>);
+
               })}
             </div>
           </div>
 
           {/* Search + filter */}
-          {showControls && (
-            <div className="flex items-center gap-2 pb-3">
+          {showControls &&
+          <div className="flex items-center gap-2 pb-3">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
-                  value={mobileSearch}
-                  onChange={(e) => setMobileSearch(e.target.value)}
-                  placeholder={t(searchKey)}
-                  className="w-full h-10 pl-10 pr-4 rounded-full bg-[#EBEBEB] text-sm text-black placeholder:text-gray-400 focus:outline-none"
-                />
+                value={mobileSearch}
+                onChange={(e) => setMobileSearch(e.target.value)}
+                placeholder={t(searchKey)}
+                className="w-full h-10 pl-10 pr-4 rounded-full bg-[#EBEBEB] text-sm text-black placeholder:text-gray-400 focus:outline-none" />
+              
               </div>
               <div className="relative" ref={sortRef}>
                 <button
-                  onClick={() => setSortOpen((v) => !v)}
-                  className="flex items-center justify-between gap-1.5 h-9 w-40 px-3.5 rounded-full bg-[#EBEBEB] text-xs font-medium text-gray-700 active:bg-gray-200 transition-colors whitespace-nowrap shrink-0"
-                >
+                onClick={() => setSortOpen((v) => !v)}
+                className="flex items-center justify-between gap-1.5 h-9 w-40 px-3.5 rounded-full bg-[#EBEBEB] text-xs font-medium text-gray-700 active:bg-gray-200 transition-colors whitespace-nowrap shrink-0">
+                
                   <span className="flex-1 text-left truncate">{sortOptions.find((o) => o.id === sortOrder)?.label || t("library.recent")}</span>
                   <ChevronDown className={`w-3.5 h-3.5 text-gray-500 shrink-0 transition-transform ${sortOpen ? "rotate-180" : ""}`} />
                 </button>
-                {sortOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
+                {sortOpen &&
+              <div className="absolute right-0 top-full mt-2 w-44 bg-white rounded-2xl shadow-lg shadow-black/10 border border-gray-100 py-1.5 z-50">
                     {sortOptions.map((opt) => {
-                      const active = sortOrder === opt.id;
-                      return (
-                        <button
-                          key={opt.id}
-                          onClick={() => {
-                            setSortOrder(opt.id);
-                            setSortOpen(false);
-                          }}
-                          className={`w-[calc(100%-0.75rem)] mx-auto flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                            active ? "bg-[#E6E6ED] text-black" : "text-black hover:bg-gray-50"
-                          }`}
-                        >
-                          {opt.label}
-                          {active && <Check className="w-4 h-4 text-gray-700" />}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Sub-filter (files only) */}
-          {activeTab === "files" && (
-            <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 pb-3">
-              <div className="inline-flex items-center gap-1.5">
-                {SUB_FILTERS.map((sub) => {
-                  const Icon = sub.icon;
-                  const labelKey = `library.sub${sub.id.charAt(0).toUpperCase()}${sub.id.slice(1)}`;
-                  const active = subFilter === sub.id;
+                  const active = sortOrder === opt.id;
                   return (
                     <button
-                      key={sub.id}
-                      onClick={() => setSubFilter(sub.id)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
-                        active
-                          ? "bg-white text-black border border-gray-200 shadow-sm"
-                          : "bg-[#EBEBEB] text-gray-600"
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                      {t(labelKey)}
-                    </button>
-                  );
+                      key={opt.id}
+                      onClick={() => {
+                        setSortOrder(opt.id);
+                        setSortOpen(false);
+                      }}
+                      className={`w-[calc(100%-0.75rem)] mx-auto flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      active ? "bg-[#E6E6ED] text-black" : "text-black hover:bg-gray-50"}`
+                      }>
+                      
+                          {opt.label}
+                          {active && <Check className="w-4 h-4 text-gray-700" />}
+                        </button>);
+
                 })}
+                  </div>
+              }
               </div>
             </div>
-          )}
+          }
+
+          {/* Sub-filter (files only) */}
+          {activeTab === "files" &&
+          <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 pb-3">
+              <div className="inline-flex items-center gap-1.5">
+                {SUB_FILTERS.map((sub) => {
+                const Icon = sub.icon;
+                const labelKey = `library.sub${sub.id.charAt(0).toUpperCase()}${sub.id.slice(1)}`;
+                const active = subFilter === sub.id;
+                return (
+                  <button
+                    key={sub.id}
+                    onClick={() => setSubFilter(sub.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap ${
+                    active ?
+                    "bg-white text-black border border-gray-200 shadow-sm" :
+                    "bg-[#EBEBEB] text-gray-600"}`
+                    }>
+                    
+                      <Icon className="w-3.5 h-3.5" />
+                      {t(labelKey)}
+                    </button>);
+
+              })}
+              </div>
+            </div>
+          }
 
           {/* Content */}
           <MobileLibraryContent
             activeTab={activeTab}
             subFilter={subFilter}
-            searchQuery={mobileSearch}
-          />
+            searchQuery={mobileSearch} />
+          
         </div>
 
         <MobileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       </div>
-    </>
-  );
+    </>);
+
 }
