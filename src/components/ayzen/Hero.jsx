@@ -66,7 +66,7 @@ export default function Hero() {
               </span>
             </div>
 
-            <h1 className="text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-[1.05] [text-shadow:0_2px_10px_rgba(0,0,0,0.45)]">
+            <h1 className="2xl:translate-y-6 text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-[1.05] [text-shadow:0_2px_10px_rgba(0,0,0,0.45)]">
               {t("hero.title1")}
               <br />
               <span>{t("hero.title2")}</span>
