@@ -43,6 +43,8 @@ export default function Hero() {
         style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
       />
 
+      {/* dark scrim to ensure text legibility over the busy background */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-black/55" />
       {/* #FAFAFA bottom gradient to blend the image into the page */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA]/80 to-transparent" />
 
@@ -64,15 +66,15 @@ export default function Hero() {
               </span>
             </div>
 
-            <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-gray-900 leading-[1.05]">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold tracking-tight text-white leading-[1.05] [text-shadow:0_2px_10px_rgba(0,0,0,0.45)]">
               {t("hero.title1")}
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <span className="text-violet-600">{t("hero.title3")}</span>
+              <span className="text-violet-200">{t("hero.title3")}</span>
             </h1>
 
-            <p className="mt-6 text-sm text-gray-500 leading-relaxed max-w-xl font-light">
+            <p className="mt-6 text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
               <span className="whitespace-nowrap"><span className="font-bold">{t("hero.descBold")}</span> {t("hero.desc2")}</span>{" "}
               <span className="whitespace-nowrap">{t("hero.desc3")}</span>{" "}
               <span className="whitespace-nowrap">{t("hero.desc4")}</span>{" "}
@@ -96,7 +98,7 @@ export default function Hero() {
               </a>
             </div>
 
-            <p className="mt-5 text-sm text-gray-400">
+            <p className="mt-5 text-sm text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.55)]">
               {t("hero.socialProof")}
             </p>
           </div>
@@ -105,19 +107,19 @@ export default function Hero() {
           <div className="lg:col-span-5 relative self-start">
             {/* Top: stats */}
             <div className="text-right">
-              <div className="text-xs font-medium text-gray-500 mb-1">
+              <div className="text-xs font-medium text-white/90 mb-1 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
                 {t("hero.avgSavings")}
               </div>
-              <div className="text-5xl lg:text-6xl font-bold text-gray-900">
+              <div className="text-5xl lg:text-6xl font-bold text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.5)]">
                 67%
               </div>
-              <div className="text-sm text-gray-500 mt-1">
+              <div className="text-sm text-white/90 mt-1 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
                 {t("hero.vsAvulsas")}
               </div>
             </div>
 
             {/* Middle: bullets */}
-            <ul className="mt-24 space-y-2 text-sm text-gray-600 text-right">
+            <ul className="mt-24 space-y-2 text-sm text-white text-right [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
               <li className="flex items-center justify-end gap-2">
                 {t("hero.bullet1")}
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
@@ -134,14 +136,14 @@ export default function Hero() {
 
             {/* Bottom: included models */}
             <div className="mt-24 text-right">
-              <div className="text-xs font-medium text-gray-400 mb-2">
+              <div className="text-xs font-medium text-white/90 mb-2 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
                 {t("hero.included")}
               </div>
               <div className="flex flex-wrap items-center justify-end gap-2">
                 {aiModels.map((m) =>
                 <span
                   key={m.name}
-                  className="inline-flex items-center gap-2 text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full">
+                  className="inline-flex items-center gap-2 text-xs font-medium text-gray-800 bg-white/90 border border-white/60 backdrop-blur-sm px-3 py-1.5 rounded-full">
                   <img src={m.logo} alt={m.name} className="w-4 h-4 object-contain" />
                   {m.name}
                 </span>
