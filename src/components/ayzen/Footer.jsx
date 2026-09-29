@@ -60,8 +60,8 @@ export default function Footer() {
             {/* Right - visual */}
             <div className="order-1 lg:order-2 relative rounded-3xl overflow-hidden min-h-[320px] lg:min-h-[440px]">
               <img
-                src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3d455afee_ChatGPTImage17desetde202601_13_21.png"
-                alt="Astronauta em paisagem lunar olhando para uma esfera de energia"
+                src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/02365ceab_quality_restoration_20260929192803537.jpg"
+                alt="Astronauta em paisagem alienígena alcançando uma flor roxa brilhante"
                 className="absolute inset-0 w-full h-full object-cover" />
               
               {/* Soft white gradients on top, bottom and right edge */}
