@@ -58,7 +58,7 @@ export default function Hero() {
       <div className="relative max-w-[1280px] mx-auto px-6 lg:px-10">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left: copy */}
-          <div className="lg:col-span-7 2xl:translate-y-32">
+          <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-50 border border-violet-200 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
               <span className="text-xs font-medium text-violet-700">
@@ -82,7 +82,7 @@ export default function Hero() {
               <span className="whitespace-nowrap">{t("hero.desc6")}</span>
             </p>
 
-            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="mt-6 sm:mt-8 2xl:translate-y-24 flex flex-col sm:flex-row gap-3">
               <Link
                 to="/register"
                 className="inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white text-sm sm:text-base font-semibold px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-full transition-all shadow-xl shadow-violet-600/25 hover:shadow-violet-600/40 hover:-translate-y-0.5">
