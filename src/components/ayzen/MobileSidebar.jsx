@@ -111,7 +111,7 @@ export default function MobileSidebar({ open, onClose, conversations = [], activ
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-            className="md:hidden fixed top-0 left-0 h-full w-[85%] max-w-xs bg-white flex flex-col z-50 shadow-2xl rounded-r-2xl overflow-hidden pb-3">
+            className="md:hidden fixed top-4 left-4 h-[calc(100%-2rem)] w-[85%] max-w-xs bg-white flex flex-col z-50 shadow-2xl rounded-2xl overflow-hidden pb-3">
 
             {/* Header */}
             <div className="flex items-center justify-between px-3 py-2.5">

@@ -146,7 +146,7 @@ export default function PublicChat() {
   return (
     <div className="md:hidden h-[100dvh] flex flex-col bg-white overflow-hidden overscroll-none">
       {/* Top nav */}
-      <div className="flex items-center justify-between px-4 py-3 safe-area-top">
+      <div className="flex items-center justify-between px-4 pt-6 pb-3 safe-area-top">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -154,7 +154,7 @@ export default function PublicChat() {
           >
             <PanelLeft className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <img src={LOGO} alt="Zyntra" className="w-5 h-5 rounded object-contain" />
             <span className="text-sm font-semibold text-black">Zyntra</span>
             <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
