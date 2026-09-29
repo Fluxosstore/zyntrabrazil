@@ -33,7 +33,7 @@ export default function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative pt-28 lg:pt-36 pb-20 lg:pb-48 overflow-hidden">
+      className="relative pt-28 lg:pt-52 pb-20 lg:pb-72 overflow-hidden">
       {/* background image with parallax */}
       <Image
         src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/b0e22d040_quality_restoration_20260929144820196.jpg"
