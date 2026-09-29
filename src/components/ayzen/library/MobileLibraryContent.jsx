@@ -324,9 +324,9 @@ export default function MobileLibraryContent({ activeTab, subFilter = "all", sea
 
 function SimpleResponseCard({ item }) {
   return (
-    <div className="p-3 bg-[#F1F1F3] rounded-xl">
+    <div className="p-3 bg-white border border-gray-200 rounded-xl">
       <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 overflow-hidden">
+        <div className="w-8 h-8 rounded-full bg-[#F1F1F3] flex items-center justify-center shrink-0 overflow-hidden">
           <img src={getModelLogo(item.model)} alt="" className="w-5 h-5 object-contain" />
         </div>
         <div className="flex-1 min-w-0">
