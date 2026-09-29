@@ -4,7 +4,7 @@ import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const HERO_IMG =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/3d455afee_ChatGPTImage17desetde202601_13_21.png";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5f3e11fd3_quality_restoration_20260929160751648.jpg";
 
 export default function AuthShell({ children }) {
   const { t } = useLanguage();
