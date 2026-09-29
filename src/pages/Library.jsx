@@ -102,7 +102,7 @@ export default function LibraryPage() {
 
           {/* Tabs + Search row */}
           <div className="px-8 pb-5 flex items-center justify-between gap-4 flex-wrap">
-            <div className="inline-flex items-center gap-1 bg-[hsl(var(--sidebar-border))]">
+            <div className="inline-flex items-center gap-1 bg-[hsl(var(--sidebar-border))] rounded-full">
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const active = activeTab === tab.id;
