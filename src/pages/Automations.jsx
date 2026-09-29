@@ -37,6 +37,12 @@ export default function Automations() {
             onSelectTemplate={(tpl) => openModal(tpl)}
           />
         </main>
+        <NewAutomationModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onCreated={() => {}}
+          prefill={prefill}
+        />
       </div>
 
       {/* Mobile (also used on desktop/notebook) */}
