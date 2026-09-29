@@ -49,6 +49,55 @@ export function isImageGenerationIntent(text) {
   return IMAGE_INTENT_KEYWORDS.some((kw) => lower.includes(kw));
 }
 
+const AUDIO_INTENT_KEYWORDS = [
+  "gerar áudio",
+  "gerar audio",
+  "gere áudio",
+  "gere audio",
+  "gere um áudio",
+  "gere um audio",
+  "gerar um áudio",
+  "gerar um audio",
+  "gera áudio",
+  "gera audio",
+  "gera um áudio",
+  "gera um audio",
+  "criar áudio",
+  "criar audio",
+  "criar um áudio",
+  "criar um audio",
+  "crie áudio",
+  "crie audio",
+  "crie um áudio",
+  "crie um audio",
+  "fazer um áudio",
+  "fazer um audio",
+  "narrar",
+  "narre",
+  "narra",
+  "narração",
+  "narracao",
+  "fale",
+  "ler em voz alta",
+  "leia em voz alta",
+  "texto para fala",
+  "texto para áudio",
+  "texto para audio",
+  "transforme em áudio",
+  "transforme em audio",
+  "converta em áudio",
+  "converta em audio",
+  "áudio deste texto",
+  "audio deste texto",
+  "voz",
+];
+
+export function isAudioGenerationIntent(text) {
+  if (!text) return false;
+  const lower = text.toLowerCase().trim();
+  return AUDIO_INTENT_KEYWORDS.some((kw) => lower.includes(kw));
+}
+
 // Mapeia modelos visíveis do site para modelos reais da integração nativa InvokeLLM
 export const REAL_MODEL_MAP = {
   auto: "automatic",

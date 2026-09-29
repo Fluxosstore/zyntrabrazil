@@ -11,10 +11,14 @@ import {
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useLanguage } from "@/lib/LanguageContext";
+import { isImageGenerationIntent, isAudioGenerationIntent } from "@/lib/chatUtils";
 import TypingHeadline from "@/components/ayzen/TypingHeadline";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
 
-const FREE_KEY = "zyntra_free_command_used";
+const TEXT_COUNT_KEY = "zyntra_free_text_count";
+const IMAGE_USED_KEY = "zyntra_free_image_used";
+const AUDIO_USED_KEY = "zyntra_free_audio_used";
+const FREE_TEXT_LIMIT = 3;
 const ORB_IMG =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png";
 const LOGO =
@@ -43,21 +47,53 @@ export default function PublicChat() {
     }
   }, [messages, loading]);
 
+  const getNum = (key) => {
+    try {
+      return parseInt(localStorage.getItem(key) || "0", 10) || 0;
+    } catch {
+      return 0;
+    }
+  };
+  const getFlag = (key) => {
+    try {
+      return localStorage.getItem(key) === "1";
+    } catch {
+      return false;
+    }
+  };
+  const setNum = (key, val) => {
+    try {
+      localStorage.setItem(key, String(val));
+    } catch {}
+  };
+  const setFlag = (key, val) => {
+    try {
+      localStorage.setItem(key, val ? "1" : "0");
+    } catch {}
+  };
+
   const handleSend = async () => {
     const text = input.trim();
     if (!text || loading) return;
 
-    const used = (() => {
-      try {
-        return localStorage.getItem(FREE_KEY) === "1";
-      } catch {
-        return false;
-      }
-    })();
+    const isImage = isImageGenerationIntent(text);
+    const isAudio = isAudioGenerationIntent(text);
 
-    if (used) {
-      navigate("/register");
-      return;
+    if (isImage) {
+      if (getFlag(IMAGE_USED_KEY)) {
+        navigate("/register");
+        return;
+      }
+    } else if (isAudio) {
+      if (getFlag(AUDIO_USED_KEY)) {
+        navigate("/register");
+        return;
+      }
+    } else {
+      if (getNum(TEXT_COUNT_KEY) >= FREE_TEXT_LIMIT) {
+        navigate("/register");
+        return;
+      }
     }
 
     setMessages((prev) => [...prev, { role: "user", content: text }]);
@@ -65,12 +101,24 @@ export default function PublicChat() {
     setLoading(true);
 
     try {
-      const res = await base44.functions.invoke("publicChat", { prompt: text });
-      const content = res.data?.content || "Sem resposta.";
-      setMessages((prev) => [...prev, { role: "assistant", content }]);
-      try {
-        localStorage.setItem(FREE_KEY, "1");
-      } catch {}
+      if (isImage) {
+        const res = await base44.functions.invoke("publicImage", { prompt: text });
+        const imageUrl = res.data?.url;
+        if (!imageUrl) throw new Error("Nenhuma imagem gerada");
+        setMessages((prev) => [...prev, { role: "assistant", content: "Aqui está a imagem gerada:", image: imageUrl }]);
+        setFlag(IMAGE_USED_KEY, true);
+      } else if (isAudio) {
+        const res = await base44.functions.invoke("publicAudio", { prompt: text });
+        const audioUrl = res.data?.url;
+        if (!audioUrl) throw new Error("Nenhum áudio gerado");
+        setMessages((prev) => [...prev, { role: "assistant", content: "Aqui está o áudio gerado:", audio: audioUrl }]);
+        setFlag(AUDIO_USED_KEY, true);
+      } else {
+        const res = await base44.functions.invoke("publicChat", { prompt: text });
+        const content = res.data?.content || "Sem resposta.";
+        setMessages((prev) => [...prev, { role: "assistant", content }]);
+        setNum(TEXT_COUNT_KEY, getNum(TEXT_COUNT_KEY) + 1);
+      }
     } catch (e) {
       setMessages((prev) => [
         ...prev,
@@ -141,8 +189,16 @@ export default function PublicChat() {
                   {m.content}
                 </div>
               ) : (
-                <div className="text-[15px] text-[#202124] leading-relaxed whitespace-pre-wrap break-words">
-                  {m.content}
+                <div className="w-full">
+                  <div className="text-[15px] text-[#202124] leading-relaxed whitespace-pre-wrap break-words">
+                    {m.content}
+                  </div>
+                  {m.image && (
+                    <img src={m.image} alt="Imagem gerada" className="mt-2 rounded-xl max-w-full max-h-72 object-contain" />
+                  )}
+                  {m.audio && (
+                    <audio controls src={m.audio} className="mt-2 w-full" />
+                  )}
                 </div>
               )}
             </div>
