@@ -146,7 +146,7 @@ export default function PublicChat() {
   return (
     <div className="md:hidden h-[100dvh] flex flex-col bg-white overflow-hidden overscroll-none">
       {/* Top nav */}
-      <div className="flex items-center justify-between px-4 pt-6 pb-3 safe-area-top">
+      <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSidebarOpen(true)}
@@ -154,7 +154,7 @@ export default function PublicChat() {
           >
             <PanelLeft className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <img src={LOGO} alt="Zyntra" className="w-5 h-5 rounded object-contain" />
             <span className="text-sm font-semibold text-black">Zyntra</span>
             <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
@@ -238,7 +238,7 @@ export default function PublicChat() {
       )}
 
       {/* Input area */}
-      <div className="px-4 pb-6 safe-area-bottom">
+      <div className="px-4 pb-6">
         <div className="w-full bg-[#F9F9F9] rounded-2xl border border-gray-200 p-3">
           <textarea
             ref={inputRef}

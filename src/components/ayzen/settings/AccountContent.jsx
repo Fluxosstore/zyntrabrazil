@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ShieldCheck, Fingerprint, Lock, X, Plus, Trash2, AlertTriangle } from "lucide-react";
+import { ShieldCheck, Fingerprint, Lock, X, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
@@ -26,9 +26,6 @@ export default function AccountContent() {
   const [showPwdModal, setShowPwdModal] = useState(false);
   const [pwdInput, setPwdInput] = useState("");
   const [pwdError, setPwdError] = useState("");
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState("");
-  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     loadPasskeys();
@@ -99,15 +96,6 @@ export default function AccountContent() {
       await base44.functions.invoke("passkeyAuth", { action: "delete", id });
       await loadPasskeys();
     } catch (e) {}
-  };
-
-  const handleDeleteAccount = async () => {
-    setDeleteLoading(true);
-    try {
-      await base44.auth.logout();
-    } catch (e) {
-      setDeleteLoading(false);
-    }
   };
 
   const has2FA = false;
@@ -267,88 +255,7 @@ export default function AccountContent() {
             </div>
           </section>
         }
-        {/* Delete account */}
-        <section>
-          <div className="rounded-2xl border border-red-200 bg-red-50/50 p-5">
-            <div className="flex items-start gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-                <AlertTriangle className="w-5 h-5 text-red-600" />
-              </div>
-              <div className="min-w-0">
-                <h2 className="text-base font-bold text-black">Deletar Conta</h2>
-                <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
-                  Exclua permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => { setDeleteConfirm(""); setShowDeleteModal(true); }}
-              className="px-4 py-2.5 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors"
-            >
-              Deletar conta
-            </button>
-          </div>
-        </section>
       </div>
-
-      {/* Delete account confirmation dialog */}
-      {showDeleteModal &&
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => !deleteLoading && setShowDeleteModal(false)}>
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm mx-4" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center">
-                  <Trash2 className="w-4 h-4 text-red-600" />
-                </div>
-                <h3 className="text-sm font-bold text-black">Deletar conta</h3>
-              </div>
-              <button
-                onClick={() => !deleteLoading && setShowDeleteModal(false)}
-                className="text-gray-400 hover:text-gray-600 disabled:opacity-50"
-                disabled={deleteLoading}
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <p className="text-sm text-gray-700 leading-relaxed mb-3">
-              Você está prestes a excluir permanentemente sua conta Zyntra. Esta ação:
-            </p>
-            <ul className="text-xs text-gray-500 space-y-1.5 pl-4 list-disc mb-4">
-              <li>Excluirá todo o seu histórico de conversas e biblioteca de mídias</li>
-              <li>Cancelará todas as automações ativas</li>
-              <li>Removerá passkeys e métodos de login cadastrados</li>
-              <li>Não poderá ser desfeita</li>
-            </ul>
-            <p className="text-xs text-red-500 mb-2 font-medium">
-              Digite "deletar" para confirmar:
-            </p>
-            <input
-              type="text"
-              autoFocus
-              value={deleteConfirm}
-              onChange={(e) => setDeleteConfirm(e.target.value)}
-              placeholder="deletar"
-              className="w-full h-10 px-3 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-red-400 transition-colors mb-4"
-            />
-            <div className="flex gap-2">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                disabled={deleteLoading}
-                className="flex-1 h-10 rounded-lg bg-gray-100 text-black text-sm font-semibold hover:bg-gray-200 transition-colors disabled:opacity-50"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleDeleteAccount}
-                disabled={deleteLoading || deleteConfirm !== "deletar"}
-                className="flex-1 h-10 rounded-lg bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
-              >
-                {deleteLoading ? "Excluindo..." : "Deletar conta"}
-              </button>
-            </div>
-          </div>
-        </div>
-      }
 
       {/* Password modal for passkey confirmation */}
       {showPwdModal &&

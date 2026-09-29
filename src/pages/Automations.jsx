@@ -71,7 +71,7 @@ export default function Automations() {
 
       {/* Mobile (also used on desktop/notebook) */}
       <div className="h-screen flex flex-col bg-[#F9F9FB] overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-2 bg-[#F5F5F7] border-b border-[#D1D1D1] safe-area-top">
+        <div className="flex items-center justify-between px-4 py-2 bg-[#F5F5F7] border-b border-[#D1D1D1]">
           <button
             onClick={() => setSidebarOpen(true)}
             className="w-9 h-9 flex items-center justify-center text-[#333333] active:bg-gray-200/60"
