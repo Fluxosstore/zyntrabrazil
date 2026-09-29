@@ -107,8 +107,8 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       <div className={`flex items-center ${collapsed ? "justify-center" : "justify-between"} px-3 py-2.5`}>
         {!collapsed &&
         <button onClick={() => toggleCollapsed(true)} className="flex items-center gap-2">
-            <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
-            <span className="text-base font-bold text-black">Zyntra</span>
+            <img src={LOGO} alt="Zyntra" className="w-8 h-8 rounded-lg object-contain" />
+            <span className="text-lg font-bold text-black">Zyntra</span>
           </button>
         }
         {collapsed &&
@@ -116,15 +116,15 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
           onClick={() => toggleCollapsed(false)}
           className="w-full flex items-center justify-center aspect-square py-2 rounded-lg hover:bg-gray-200/60 transition-colors">
           
-            <img src={LOGO} alt="Zyntra" className="w-6 h-6 rounded-lg object-contain" />
+            <img src={LOGO} alt="Zyntra" className="w-8 h-8 rounded-lg object-contain" />
           </button>
         }
         {!collapsed &&
         <button
           onClick={() => toggleCollapsed(true)}
-          className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors">
+          className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors">
           
-            <PanelLeftClose className="w-3.5 h-3.5" />
+            <PanelLeftClose className="w-5 h-5" />
           </button>
         }
       </div>
@@ -133,37 +133,37 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         {collapsed ?
         <>
             <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
-              <Search className="w-4 h-4" />
+              <Search className="w-5 h-5" />
             </button>
             <button onClick={handleNew} className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
-              <ChatPlusIcon className="w-4 h-4" />
+              <ChatPlusIcon className="w-5 h-5" />
             </button>
             <Link to="/library" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "library" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
-              <BooksIcon className="w-4 h-4" />
+              <BooksIcon className="w-5 h-5" />
             </Link>
             <Link to="/automations" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "automations" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
-              <IntegrationIcon className="w-4 h-4" />
+              <IntegrationIcon className="w-5 h-5" />
             </Link>
             {isAdmin &&
           <Link to="/codrax" className={`w-full flex items-center justify-center aspect-square py-2 rounded-lg transition-colors ${activePage === "codrax" ? "bg-gray-200/60 text-gray-800" : "text-gray-800 hover:bg-gray-200/60"}`}>
-                <Code2 className="w-4 h-4" />
+                <Code2 className="w-5 h-5" />
               </Link>
           }
           </> :
 
         <>
-            <button onClick={handleNew} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl bg-[#7C5DCF] text-white text-xs font-medium hover:bg-[#6B4DD0] transition-colors">
-              <ChatPlusIcon className="w-3.5 h-3.5 shrink-0" />
+            <button onClick={handleNew} className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#7C5DCF] text-white text-sm font-medium hover:bg-[#6B4DD0] transition-colors">
+              <ChatPlusIcon className="w-4 h-4 shrink-0" />
               {t("dash.newConversation")}
             </button>
 
             <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t("dash.searchConversation")}
-              className="w-full h-8 pl-8 pr-10 rounded-xl bg-[#F4F4F6] border border-gray-300/70 text-xs placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
+              className="w-full h-10 pl-9 pr-10 rounded-xl bg-[#F4F4F6] border border-gray-300/70 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gray-400" />
             
               <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-medium text-gray-400 bg-gray-100 px-1 py-0.5 rounded">
                 Ctrl K
@@ -173,24 +173,24 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
             <div className="rounded-xl bg-gray-200/50 p-1 space-y-0.5">
               <Link
               to="/library"
-              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "library" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activePage === "library" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
               
-                <BooksIcon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                <BooksIcon className="w-4 h-4 text-gray-500 shrink-0" />
                 {t("dash.library")}
               </Link>
               <Link
               to="/automations"
-              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${activePage === "automations" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${activePage === "automations" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
               
-                <IntegrationIcon className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                <IntegrationIcon className="w-4 h-4 text-gray-500 shrink-0" />
                 {t("dash.automations")}
               </Link>
               {isAdmin &&
             <Link
               to="/codrax"
-              className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-xs font-medium transition-colors ${activePage === "codrax" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
+              className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${activePage === "codrax" ? "bg-white text-gray-900 shadow-sm" : "text-gray-700 hover:bg-white/60"}`}>
               
-                  <Code2 className="w-3.5 h-3.5 text-gray-500 shrink-0" />
+                  <Code2 className="w-4 h-4 text-gray-500 shrink-0" />
                   Zintre Code
                 </Link>
             }
@@ -202,16 +202,16 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       {!collapsed &&
       <>
           <div className="flex items-center justify-between px-3 pt-3 pb-1">
-            <span className="text-[10px] font-semibold tracking-wider text-gray-400">Pastas</span>
+            <span className="text-xs font-semibold tracking-wider text-gray-400">Pastas</span>
             <div className="flex items-center gap-0.5">
               <button
                 onClick={() => setFoldersSectionOpen((v) => !v)}
-                className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors"
+                className="w-6 h-6 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors"
               >
-                <ChevronRight className={`w-3 h-3 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
+                <ChevronRight className={`w-4 h-4 transition-transform ${foldersSectionOpen ? "rotate-90" : ""}`} />
               </button>
-              <button onClick={() => setFolderModalOpen(true)} className="w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
-                <Plus className="w-3.5 h-3.5" />
+              <button onClick={() => setFolderModalOpen(true)} className="w-6 h-6 flex items-center justify-center rounded text-gray-400 hover:bg-gray-200/60 hover:text-gray-600 transition-colors">
+                <Plus className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -226,16 +226,16 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                     onClick={() => setExpandedFolders((p) => ({ ...p, [folder.id]: !isExpanded }))}
                     className="flex items-center gap-2 px-2.5 py-2 rounded-xl cursor-pointer text-gray-700 hover:bg-gray-200/60 transition-colors group"
                   >
-                    <Folder className="w-3.5 h-3.5 shrink-0" style={{ color: folder.color || "#6C31E3" }} />
-                    <span className="flex-1 text-xs font-medium truncate">{folder.name}</span>
-                    {folderChats.length > 0 && <span className="text-[10px] text-gray-400">{folderChats.length}</span>}
+                    <Folder className="w-4 h-4 shrink-0" style={{ color: folder.color || "#6C31E3" }} />
+                    <span className="flex-1 text-sm font-medium truncate">{folder.name}</span>
+                    {folderChats.length > 0 && <span className="text-xs text-gray-400">{folderChats.length}</span>}
                     <button
                       onClick={(e) => { e.stopPropagation(); setFolderMenuId(folderMenuId === folder.id ? null : folder.id); }}
-                      className="w-5 h-5 flex items-center justify-center rounded shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 hover:bg-gray-300/50 transition-colors"
+                      className="w-6 h-6 flex items-center justify-center rounded shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 hover:bg-gray-300/50 transition-colors"
                     >
-                      <MoreVertical className="w-3.5 h-3.5" />
+                      <MoreVertical className="w-4 h-4" />
                     </button>
-                    <ChevronRight className={`w-3 h-3 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
+                    <ChevronRight className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
                   </div>
                   <AnimatePresence>
                     {folderMenuId === folder.id && (
@@ -266,6 +266,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                           onMoveToFolder={onMoveToFolder}
                           onRemoveFromFolder={onRemoveFromFolder}
                           indent
+                          desktop
                         />
                       )}
                     </div>
@@ -276,7 +277,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
 
             {/* Chats without folder */}
             <div className="px-2 pt-2 pb-1">
-              <span className="text-[10px] font-semibold tracking-wider text-gray-400">
+              <span className="text-xs font-semibold tracking-wider text-gray-400">
                 {t("dash.chats")}
               </span>
             </div>
@@ -295,7 +296,8 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               onSelectToggle={onToggleSelect}
               onDelete={onDeleteConversation}
               folders={folders}
-              onMoveToFolder={onMoveToFolder} />
+              onMoveToFolder={onMoveToFolder}
+              desktop />
 
             )}
               </div>
@@ -307,7 +309,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       {collapsed &&
       <div className="px-3 pb-1">
           <Link to="/settings" className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
-            <Settings className="w-4 h-4" />
+            <Settings className="w-5 h-5" />
           </Link>
         </div>
       }
@@ -317,10 +319,10 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
       <div className="px-3 pb-1">
           <div className="flex items-center justify-between rounded-xl bg-[#eceef0] border border-gray-300/70 px-3 py-2.5">
             <div className="flex items-center gap-2">
-              <CoinStackIcon className="w-4 h-4 text-gray-600" />
-              <span className="text-xs font-semibold text-black">{formatCredits(balance)}</span>
+              <CoinStackIcon className="w-5 h-5 text-gray-600" />
+              <span className="text-sm font-semibold text-black">{formatCredits(balance)}</span>
             </div>
-            <Link to="/recharge-credits" className="px-3 py-1.5 rounded-lg text-xs font-medium text-black bg-[#eceef0] hover:bg-[#e2e4e8] transition-colors">
+            <Link to="/recharge-credits" className="px-3 py-2 rounded-lg text-sm font-medium text-black bg-[#eceef0] hover:bg-[#e2e4e8] transition-colors">
               {t("dash.recharge")}
             </Link>
           </div>
@@ -346,23 +348,23 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
           onClick={() => setPopoverOpen((v) => !v)}
           className={`w-full flex items-center ${collapsed ? "justify-center aspect-square rounded-lg hover:bg-gray-200/60" : "gap-2.5 px-2.5 py-2 rounded-xl bg-[#eceef0] border border-gray-300/70 hover:bg-[#e2e4e8]"} transition-colors`}>
           
-          <div className="relative w-7 h-7 shrink-0 rounded-full overflow-hidden">
+          <div className="relative w-9 h-9 shrink-0 rounded-full overflow-hidden">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7E57C2] to-[#EC4899] opacity-30 blur-[3px]" />
             <Image
               src={getAvatarForUser(user?.id)}
               alt="Profile"
-              className="relative w-7 h-7 object-cover" />
+              className="relative w-9 h-9 object-cover" />
             
           </div>
           {!collapsed &&
           <>
               <div className="flex-1 text-left min-w-0">
-                <p className="text-xs font-semibold text-black truncate">
+                <p className="text-sm font-semibold text-black truncate">
                   {user?.full_name || firstName}
                 </p>
-                <p className="text-[10px] text-gray-500 truncate">{planLabel}</p>
+                <p className="text-xs text-gray-500 truncate">{planLabel}</p>
               </div>
-              <ChevronsUpDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+              <ChevronsUpDown className="w-4 h-4 text-gray-400 shrink-0" />
             </>
           }
         </button>
