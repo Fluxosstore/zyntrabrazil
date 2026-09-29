@@ -71,7 +71,7 @@ export default function Hero() {
               <br />
               <span>{t("hero.title2")}</span>
               <br />
-              <span className="text-violet-600" style={{ color: "#7c3aed", textShadow: "none" }}>{t("hero.title3")}</span>
+              <span className="text-violet-600 [text-shadow:0_1px_6px_rgba(0,0,0,0.7)] lg:[text-shadow:none]">{t("hero.title3")}</span>
             </h1>
 
             <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-white leading-relaxed max-w-xl font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]">
