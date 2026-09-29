@@ -120,7 +120,7 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
           </button>
         </div>
         <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-3">
-          {AUTOMATION_TEMPLATES.map((tpl) =>
+          {AUTOMATION_TEMPLATES.slice(0, 4).map((tpl) =>
           <DesktopAutomationCard
             key={tpl.id}
             template={tpl}
