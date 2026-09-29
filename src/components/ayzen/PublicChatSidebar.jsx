@@ -86,7 +86,7 @@ export default function PublicChatSidebar({ open, onClose, onNewChat }) {
               </>
             );
             const cls =
-              "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 transition-colors";
+              "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-gray-100 transition-colors";
             return item.action === "new" ? (
               <button key={item.label} className={cls} onClick={onNewChat}>
                 {content}
