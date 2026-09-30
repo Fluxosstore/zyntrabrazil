@@ -191,7 +191,7 @@ function UsageContent({ onNavigate }) {
           <div className="rounded-2xl border border-gray-200 bg-white p-5 flex flex-col">
             <h2 className="text-base font-bold text-black mb-3">Seu plano</h2>
             {/* Subscription card */}
-            <div className="relative rounded-2xl bg-[#F4F4F4] p-3 overflow-hidden h-[80px] xl:h-[240px] flex flex-col justify-between">
+            <div className="relative rounded-2xl p-3 overflow-hidden h-[80px] xl:h-[240px] flex flex-col justify-between" style={{ backgroundColor: '#F4F4F4' }}>
               {/* Decorative lupa */}
               <img
                 src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cbb8fd4bf_ddb60374d_ChatGPTImage16desetde202623_41_31.png"
@@ -201,18 +201,18 @@ function UsageContent({ onNavigate }) {
                 style={{ filter: "brightness(0) invert(1)" }} />
               
               <div className="relative flex items-start justify-between">
-                <p className="text-sm font-bold text-black">Zyntra</p>
-                <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
+                <p className="text-sm font-bold text-[#1a1a1a]">Zyntra</p>
+                <span className="inline-flex items-center gap-1.5 text-xs text-[#6b6b6b]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#067049]" />
                   Ativo
                 </span>
               </div>
               <div className="relative flex items-end justify-between">
                 <div>
-                  <p className="text-[10px] text-gray-400 mb-0.5">Assinatura</p>
-                  <p className="text-lg font-bold text-black">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
+                  <p className="text-[10px] text-[#6b6b6b] mb-0.5">Assinatura</p>
+                  <p className="text-lg font-bold text-[#1a1a1a]">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
                 </div>
-                <p className="text-xs text-gray-600">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"} por mês</p>
+                <p className="text-xs text-[#6b6b6b]">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"} por mês</p>
               </div>
             </div>
             {/* Info rows */}

@@ -193,18 +193,18 @@ export default function MobileProfileContent({ onNavigate }) {
           {/* Decorative blob */}
           <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-gradient-to-br from-[#7C5DCF]/15 to-[#EC4899]/10 blur-2xl pointer-events-none" />
           <div className="relative flex items-start justify-between">
-            <p className="text-sm font-bold text-black">Zyntra</p>
-            <span className="inline-flex items-center gap-1.5 text-xs text-gray-600">
+            <p className="text-sm font-bold text-[#1a1a1a]">Zyntra</p>
+            <span className="inline-flex items-center gap-1.5 text-xs text-[#6b6b6b]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#006644]" />
               Ativo
             </span>
           </div>
           <div className="relative flex items-end justify-between mt-3">
             <div>
-              <p className="text-[10px] text-gray-500 mb-0.5">Assinatura</p>
-              <p className="text-lg font-bold text-black">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
+              <p className="text-[10px] text-[#6b6b6b] mb-0.5">Assinatura</p>
+              <p className="text-lg font-bold text-[#1a1a1a]">{PLAN_LABELS[plan] || PLAN_LABELS.free}</p>
             </div>
-            <p className="text-xs text-gray-600">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"} por mês</p>
+            <p className="text-xs text-[#6b6b6b]">{PLAN_PRICES[plan]?.mensal || "R$ 0,00"} por mês</p>
           </div>
         </div>
         {/* Info rows */}
