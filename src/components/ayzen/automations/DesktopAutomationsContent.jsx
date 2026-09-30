@@ -23,7 +23,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { AUTOMATION_TEMPLATES } from "./automationTemplates";
 
 const HEADER_IMAGE =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8041d55c7_Capturadetela2026-09-29214341.png";
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/065557b31_ChatGPTImage29desetde202621_44_26.png";
 
 const ICONS = {
   Mail,
