@@ -95,7 +95,7 @@ export default function Login() {
   return (
     <AuthShell>
       <div className="mb-3 lg:mb-5">
-        <Link to="/" className="flex items-center justify-center gap-2 mb-2 lg:hidden">
+        <Link to="/" className="flex items-center justify-center gap-2 mb-2 lg:mb-4">
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </Link>

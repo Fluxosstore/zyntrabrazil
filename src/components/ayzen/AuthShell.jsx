@@ -1,13 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Sun } from "lucide-react";
 import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const HERO_IMG =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5f3e11fd3_quality_restoration_20260929160751648.jpg";
-const LOGO =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5f3e11fd3_quality_restoration_20260929160751648.jpg";
 
 export default function AuthShell({ children }) {
   const { t } = useLanguage();
@@ -28,8 +25,8 @@ export default function AuthShell({ children }) {
         <img
           src={HERO_IMG}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover object-top" />
-        
+          className="absolute inset-0 w-full h-full object-cover object-top"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
       </div>
 
@@ -39,15 +36,11 @@ export default function AuthShell({ children }) {
           <img
             src={HERO_IMG}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover" />
-          
+            className="absolute inset-0 w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
           <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white via-white/70 to-transparent" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white/60 to-transparent" />
-          <Link to="/" className="absolute top-6 left-12 flex items-center gap-2 z-20">
-            <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8296f3f0a_Imagem_do_ChatGPT_29_de_set_de_2026__22_38_05.png" alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
-            <span className="text-lg font-bold text-white">Zyntra</span>
-          </Link>
           <div className="relative flex flex-col justify-end p-12 z-10">
             <p className="text-xs font-medium tracking-[0.2em] text-white/80 uppercase mb-3">
               {t("auth.platform")}
@@ -74,6 +67,6 @@ export default function AuthShell({ children }) {
           </div>
         </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
