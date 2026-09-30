@@ -94,11 +94,11 @@ export default function Login() {
 
   return (
     <AuthShell>
-      <Link to="/" className="flex items-center justify-center gap-2 mb-2 lg:mb-0 lg:absolute lg:top-6 lg:left-12 z-20">
-        <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
-        <span className="text-lg font-bold text-black">Zyntra</span>
-      </Link>
       <div className="mb-3 lg:mb-5">
+        <Link to="/" className="flex items-center justify-center gap-2 mb-2 lg:hidden">
+          <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
+          <span className="text-lg font-bold text-black">Zyntra</span>
+        </Link>
         <h1 className="hidden lg:block text-base font-bold text-black mb-0.5 text-center">{t("login.title")}</h1>
         <p className="text-xs text-[#757575] text-center">
           {t("login.subtitle")}
