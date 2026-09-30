@@ -189,8 +189,8 @@ export default function Register() {
   /* ---------- Registration form (image 2) ---------- */
   return (
     <AuthShell>
-      <div className="mb-3 text-center lg:text-left">
-        <Link to="/" className="flex items-center justify-center lg:justify-start gap-2 mb-2">
+      <div className="mb-3 text-center">
+        <Link to="/" className="flex items-center justify-center gap-2 mb-2">
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </Link>
