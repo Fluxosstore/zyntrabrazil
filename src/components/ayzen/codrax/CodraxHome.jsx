@@ -14,10 +14,10 @@ export default function CodraxHome({ onStart }) {
         <div className="flex items-center gap-8">
           <div className="flex-1 min-w-0">
             <h1 className="text-2xl md:text-3xl font-bold text-black leading-tight">
-              Do pedido ao app no ar, sem sair da conversa
+              Do pedido ao app no ar,<br />sem sair da conversa
             </h1>
             <p className="text-sm text-gray-500 mt-3 leading-relaxed">
-              Descreva o que precisa. A IA escreve o código, roda o preview e publica no seu endereço.
+              Descreva o que precisa. A IA escreve o código,<br />roda o preview e publica no seu endereço.
             </p>
             <div className="flex flex-wrap gap-2 mt-5">
               {PILLS.map((p) => (
