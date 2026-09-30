@@ -32,7 +32,7 @@ export const translations = {
     "login.error": "E-mail ou senha inválidos",
 
     // Register
-    "register.subtitle": "Entre na sua conta para conversar com a Zyntra.",
+    "register.subtitle": "Crie sua conta para conversar com a Zyntra.",
     "register.title": "Crie sua conta",
     "register.name": "Nome",
     "register.namePlaceholder": "Como podemos te chamar?",
