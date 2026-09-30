@@ -5,6 +5,7 @@ import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { useTheme } from "@/lib/ThemeContext";
+import ThemeToggle from "@/components/ayzen/ThemeToggle";
 
 const navLinkDefs = [
   { key: "nav.ias", href: "#ias", id: "ias" },
@@ -207,6 +208,9 @@ export default function Header() {
               )}
             </a>
           </nav>
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <ThemeToggle variant="row" />
+          </div>
         </div>
       )}
     </header>
