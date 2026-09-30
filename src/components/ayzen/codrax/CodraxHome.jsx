@@ -9,7 +9,7 @@ const PILLS = ["Telas e componentes", "API e banco de dados", "Publicação com 
 export default function CodraxHome({ onStart }) {
   return (
     <div className="flex-1 overflow-y-auto bg-[#f9fafb]">
-      <div className="px-6 md:px-10 py-8 md:py-10 max-w-5xl mx-auto">
+      <div className="px-8 py-8">
         {/* Hero */}
         <div className="flex items-center gap-8">
           <div className="flex-1 min-w-0">
