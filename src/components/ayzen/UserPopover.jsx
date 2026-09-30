@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -13,6 +13,7 @@ import {
 import Flag from "@/components/ayzen/Flag";
 import { Image } from "@/components/ui/image";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useTheme } from "@/lib/ThemeContext";
 import { getAvatarForUser } from "@/lib/avatars";
 
 const THEMES = [
@@ -29,7 +30,7 @@ const LANGS = [
 
 export default function UserPopover({ user, firstName, planLabel, onLogout, onClose, collapsed }) {
   const { lang, setLang, t } = useLanguage();
-  const [theme, setTheme] = useState("light");
+  const { theme, setTheme } = useTheme();
   const ref = useRef(null);
 
   const langLabel = LANGS.find((l) => l.code === lang)?.label || "Português";

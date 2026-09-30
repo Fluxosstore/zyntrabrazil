@@ -18,7 +18,6 @@ import NewFolderModal from "@/components/ayzen/chat/NewFolderModal";
 import FolderMenu from "@/components/ayzen/chat/FolderMenu";
 import { useFolders } from "@/hooks/useFolders";
 import { useConversations } from "@/hooks/useConversations";
-import ThemeToggle from "@/components/ayzen/ThemeToggle";
 
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png";
@@ -289,11 +288,6 @@ export default function MobileSidebar({ open, onClose, conversations, activeConv
               )}
                 </div>
             }
-            </div>
-
-            {/* theme toggle */}
-            <div className="px-3 pb-1">
-              <ThemeToggle variant="row" />
             </div>
 
             {/* credits bar */}
