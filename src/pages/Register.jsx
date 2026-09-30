@@ -9,14 +9,14 @@ import {
   Loader2,
   User,
   Tag,
-  MailCheck,
-} from "lucide-react";
+  MailCheck } from
+"lucide-react";
 import AuthShell from "@/components/ayzen/AuthShell";
 import { toast } from "@/components/ui/use-toast";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const LOGO =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/4242d5902_quality_restoration_20260928203908003.png";
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/4242d5902_quality_restoration_20260928203908003.png";
 
 export default function Register() {
   const { t } = useLanguage();
@@ -110,7 +110,7 @@ export default function Register() {
     const digits = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
     if (!digits) return;
     const next = ["", "", "", "", "", ""];
-    digits.split("").forEach((d, i) => (next[i] = d));
+    digits.split("").forEach((d, i) => next[i] = d);
     setOtp(next);
     otpRefs.current[Math.min(digits.length, 5)]?.focus();
   };
@@ -130,60 +130,60 @@ export default function Register() {
             {t("register.otpDesc", { email })}
           </p>
 
-          {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-600 text-sm w-full">
+          {error &&
+          <div className="mb-4 p-3 rounded-lg bg-red-50 text-red-600 text-sm w-full">
               {error}
             </div>
-          )}
+          }
 
           <div className="flex gap-1.5 mb-5" onPaste={onOtpPaste}>
-            {otp.map((d, i) => (
-              <input
-                key={i}
-                ref={(el) => (otpRefs.current[i] = el)}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={d}
-                onChange={(e) => onOtpChange(i, e.target.value)}
-                onKeyDown={(e) => onOtpKey(i, e)}
-                autoFocus={i === 0}
-                className="w-9 h-11 rounded-lg bg-white border border-[#E5E5E5] text-center text-base font-bold text-[#1e1e1e] focus:outline-none focus:border-[#7E57C2] transition-colors"
-              />
-            ))}
+            {otp.map((d, i) =>
+            <input
+              key={i}
+              ref={(el) => otpRefs.current[i] = el}
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              value={d}
+              onChange={(e) => onOtpChange(i, e.target.value)}
+              onKeyDown={(e) => onOtpKey(i, e)}
+              autoFocus={i === 0}
+              className="w-9 h-11 rounded-lg bg-white border border-[#E5E5E5] text-center text-base font-bold text-[#1e1e1e] focus:outline-none focus:border-[#7E57C2] transition-colors" />
+
+            )}
           </div>
 
           <button
             onClick={handleVerify}
             disabled={loading || otp.join("").length < 6}
-            className="w-full h-9 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-xs font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
-          >
+            className="w-full h-9 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-xs font-semibold transition-colors disabled:opacity-60 flex items-center justify-center">
+            
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("register.confirm")}
           </button>
 
           <div className="mt-4 flex flex-col gap-1.5">
             <p className="text-xs text-[#707070]">
-              {resendIn > 0
-                ? t("register.resendIn", { s: resendIn })
-                : (
-                  <button
-                    onClick={handleResend}
-                    className="text-[#7E57C2] font-medium hover:underline"
-                  >
+              {resendIn > 0 ?
+              t("register.resendIn", { s: resendIn }) :
+
+              <button
+                onClick={handleResend}
+                className="text-[#7E57C2] font-medium hover:underline">
+                
                     {t("register.resend")}
                   </button>
-                )}
+              }
             </p>
             <Link
               to="/login"
-              className="text-xs text-[#707070] hover:text-[#7E57C2] transition-colors"
-            >
+              className="text-xs text-[#707070] hover:text-[#7E57C2] transition-colors">
+              
               {t("register.backLogin")}
             </Link>
           </div>
         </div>
-      </AuthShell>
-    );
+      </AuthShell>);
+
   }
 
   /* ---------- Registration form (image 2) ---------- */
@@ -194,17 +194,17 @@ export default function Register() {
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </Link>
-        <h1 className="hidden lg:block text-base font-bold text-black mb-0.5">{t("register.title")}</h1>
+        
         <p className="text-xs text-[#757575]">
           {t("register.subtitle")}
         </p>
       </div>
 
-      {error && (
-        <div className="mb-3 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
+      {error &&
+      <div className="mb-3 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
           {error}
         </div>
-      )}
+      }
 
       <form onSubmit={handleSubmit} className="space-y-2">
         <div className="space-y-1">
@@ -217,8 +217,8 @@ export default function Register() {
               placeholder={t("register.namePlaceholder")}
               required
               autoFocus
-              className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+              className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+            
           </div>
         </div>
 
@@ -232,8 +232,8 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("register.emailPlaceholder").toLowerCase()}
               required
-              className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+              className="w-full h-9 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+            
           </div>
         </div>
 
@@ -252,13 +252,13 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("register.pwdPlaceholder")}
               required
-              className="w-full h-9 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+              className="w-full h-9 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+            
             <button
               type="button"
               onClick={() => setShowPwd(!showPwd)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              
               {showPwd ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
@@ -280,8 +280,8 @@ export default function Register() {
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
               placeholder={t("register.couponPlaceholder")}
-              className="w-full h-9 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+              className="w-full h-9 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+            
             <button type="button" className="absolute right-3 text-xs font-medium text-[#7E57C2] hover:underline">
               {t("register.apply")}
             </button>
@@ -293,8 +293,8 @@ export default function Register() {
             type="checkbox"
             checked={accepted}
             onChange={(e) => setAccepted(e.target.checked)}
-            className="mt-0.5 w-3.5 h-3.5 rounded border-[#E5E5E5] accent-[#7E57C2]"
-          />
+            className="mt-0.5 w-3.5 h-3.5 rounded border-[#E5E5E5] accent-[#7E57C2]" />
+          
           <span className="text-[11px] text-[#666] leading-relaxed">
             {(() => {
               const parts = t("register.terms", { terms: "__T__", privacy: "__P__" }).split(/__T__|__P__/);
@@ -305,8 +305,8 @@ export default function Register() {
                   {parts[1]}
                   <a href="#" className="text-[#7E57C2] font-medium">{t("register.privacyLink")}</a>
                   {parts[2]}
-                </>
-              );
+                </>);
+
             })()}
           </span>
         </label>
@@ -314,8 +314,8 @@ export default function Register() {
         <button
           type="submit"
           disabled={loading || !canSubmit || !accepted}
-          className="w-full h-9 rounded-lg bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center"
-        >
+          className="w-full h-9 rounded-lg bg-[#D1D1D6] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-80 flex items-center justify-center">
+          
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("register.submit")}
         </button>
       </form>
@@ -326,6 +326,6 @@ export default function Register() {
           {t("register.signin")}
         </Link>
       </p>
-    </AuthShell>
-  );
+    </AuthShell>);
+
 }
