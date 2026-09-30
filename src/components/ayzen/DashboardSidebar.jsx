@@ -26,12 +26,21 @@ import ChatListItem from "@/components/ayzen/chat/ChatListItem";
 import NewFolderModal from "@/components/ayzen/chat/NewFolderModal";
 import FolderMenu from "@/components/ayzen/chat/FolderMenu";
 import { useFolders } from "@/hooks/useFolders";
+import { useConversations } from "@/hooks/useConversations";
 
 const LOGO =
 "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/057474ffd_quality_restoration_20260928203908003.png";
 
-export default function DashboardSidebar({ activePage = "dashboard", conversations = [], activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder, balanceRefreshKey }) {
+export default function DashboardSidebar({ activePage = "dashboard", conversations, activeConversationId, onNewConversation, onSelectConversation, onDeleteConversation, onRenameConversation, onTogglePin, onToggleSelect, onMoveToFolder, onRemoveFromFolder, balanceRefreshKey }) {
   const { folders, reloadFolders } = useFolders();
+  const fallbackConvos = useConversations();
+  const allConversations = conversations ?? fallbackConvos.conversations;
+  const handleDelete = onDeleteConversation ?? fallbackConvos.deleteConversation;
+  const handleRename = onRenameConversation ?? fallbackConvos.renameConversation;
+  const handlePin = onTogglePin ?? fallbackConvos.togglePin;
+  const handleSelectToggle = onToggleSelect ?? fallbackConvos.toggleSelect;
+  const handleMove = onMoveToFolder ?? fallbackConvos.moveToFolder;
+  const handleRemove = onRemoveFromFolder ?? fallbackConvos.removeFromFolder;
   const [expandedFolders, setExpandedFolders] = useState({});
   const [foldersSectionOpen, setFoldersSectionOpen] = useState(false);
   const [folderMenuId, setFolderMenuId] = useState(null);
@@ -90,10 +99,10 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
   }, [plan, user?.id, user?.balance, balanceRefreshKey]);
 
   const filteredConversations = searchQuery.trim() ?
-  conversations.filter((c) =>
+  allConversations.filter((c) =>
   (c.title || "").toLowerCase().includes(searchQuery.trim().toLowerCase())
   ) :
-  conversations;
+  allConversations;
 
   const handleSelect = onSelectConversation || ((convId) => {
     try {
@@ -258,13 +267,13 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
                           conv={conv}
                           active={conv.id === activeConversationId}
                           onSelect={handleSelect}
-                          onPin={onTogglePin}
-                          onRenameCommit={onRenameConversation}
-                          onSelectToggle={onToggleSelect}
-                          onDelete={onDeleteConversation}
+                          onPin={handlePin}
+                          onRenameCommit={handleRename}
+                          onSelectToggle={handleSelectToggle}
+                          onDelete={handleDelete}
                           folders={folders}
-                          onMoveToFolder={onMoveToFolder}
-                          onRemoveFromFolder={onRemoveFromFolder}
+                          onMoveToFolder={handleMove}
+                          onRemoveFromFolder={handleRemove}
                           indent
                           desktop
                         />
@@ -291,12 +300,12 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
               conv={conv}
               active={conv.id === activeConversationId}
               onSelect={handleSelect}
-              onPin={onTogglePin}
-              onRenameCommit={onRenameConversation}
-              onSelectToggle={onToggleSelect}
-              onDelete={onDeleteConversation}
+              onPin={handlePin}
+              onRenameCommit={handleRename}
+              onSelectToggle={handleSelectToggle}
+              onDelete={handleDelete}
               folders={folders}
-              onMoveToFolder={onMoveToFolder}
+              onMoveToFolder={handleMove}
               desktop />
 
             )}

@@ -7,6 +7,7 @@ import {
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import MobileSidebar from "@/components/ayzen/MobileSidebar";
+import DashboardSidebar from "@/components/ayzen/DashboardSidebar";
 import {
   MODELS_BY_PLAN, IMAGE_MODELS, IMAGE_MODELS_BY_PLAN,
   AUDIO_MODELS, AUDIO_MODELS_BY_PLAN, LOGO,
@@ -354,6 +355,7 @@ export default function CreditStatement() {
 
       {/* Desktop */}
       <div className="hidden md:flex h-screen bg-[#F4F4F6] overflow-hidden py-2 pl-2 pr-2 gap-2">
+        <DashboardSidebar activePage="statement" />
         <div className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
           <div className="flex-1 overflow-y-auto">
             <div className="max-w-2xl mx-auto px-6 py-8">
