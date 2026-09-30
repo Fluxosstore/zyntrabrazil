@@ -96,7 +96,7 @@ export default function LibraryPage() {
         <main className="flex-1 flex flex-col bg-white rounded-2xl overflow-hidden">
           {/* Header */}
           <div className="px-8 pt-8 pb-5">
-            <h1 className="text-2xl font-bold text-black">{t("library.title")}</h1>
+            <h1 className="text-3xl font-bold text-black">{t("library.title")}</h1>
             <p className="text-sm text-gray-500 mt-1.5">{t("library.desc")}</p>
           </div>
 
