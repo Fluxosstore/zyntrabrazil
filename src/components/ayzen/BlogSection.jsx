@@ -65,15 +65,15 @@ export default function BlogSection() {
               </span>
             </div>
             <div className="relative z-10 max-w-md">
-              <h3 className="text-2xl lg:text-3xl font-bold text-[#111111] leading-tight mb-5">
+              <h3 className="text-2xl lg:text-3xl font-bold text-[#1a1a1a] leading-tight mb-5">
                 {featured.title}
               </h3>
               <div className="inline-flex items-center gap-3">
-                <span className="text-sm font-semibold text-[#111111]">
+                <span className="text-sm font-semibold text-[#1a1a1a]">
                   {featured.cta}
                 </span>
-                <span className="w-9 h-9 rounded-full border border-[#DDDDDD] bg-white flex items-center justify-center group-hover:bg-[#111111] group-hover:border-[#111111] transition-colors">
-                  <ArrowUpRight className="w-4 h-4 text-[#111111] group-hover:text-white transition-colors" />
+                <span className="w-9 h-9 rounded-full border border-[#DDDDDD] bg-[#ffffff] flex items-center justify-center group-hover:bg-[#1a1a1a] group-hover:border-[#1a1a1a] transition-colors">
+                  <ArrowUpRight className="w-4 h-4 text-[#1a1a1a] group-hover:text-white transition-colors" />
                 </span>
               </div>
             </div>

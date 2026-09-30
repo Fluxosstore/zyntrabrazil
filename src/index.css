@@ -217,8 +217,17 @@
 
 /* #FAFAFA gradient stops — blend sections into dark page background */
 .dark .from-\[\#FAFAFA\] { --tw-gradient-from: #141416 var(--tw-gradient-from-position, 0%); }
-.dark .via-\[\#FAFAFA\]\/80 { --tw-gradient-via: rgba(20,20,22,0.8) var(--tw-gradient-via-position, 50%); }
-.dark .via-\[\#FAFAFA\]\/40 { --tw-gradient-via: rgba(20,20,22,0.4) var(--tw-gradient-via-position, 50%); }
+.dark .via-\[\#FAFAFA\]\/80 {
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(20 20 22 / 0.8) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.dark .via-\[\#FAFAFA\]\/40 {
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(20 20 22 / 0.4) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+@media (min-width: 1024px) {
+  .dark .lg\:via-\[\#FAFAFA\]\/40 {
+    --tw-gradient-stops: var(--tw-gradient-from), rgb(20 20 22 / 0.4) var(--tw-gradient-via-position), var(--tw-gradient-to);
+  }
+}
 .dark .to-\[\#d6caff\] { --tw-gradient-to: #2a2540 var(--tw-gradient-to-position, 100%); }
 
 /* Semi-transparent light surfaces — keep dark in dark mode */
@@ -230,6 +239,7 @@
 .dark .bg-gray-200\/50 { background-color: rgba(42,42,47,0.5); }
 .dark .bg-white\/10 { background-color: rgba(24,24,27,0.1); }
 .dark .bg-white\/20 { background-color: rgba(24,24,27,0.2); }
+.dark .bg-white\/30 { background-color: rgba(24,24,27,0.3); }
 .dark .bg-white\/40 { background-color: rgba(24,24,27,0.4); }
 .dark .bg-white\/50 { background-color: rgba(24,24,27,0.5); }
 .dark .border-white\/40 { border-color: rgba(255,255,255,0.12); }
