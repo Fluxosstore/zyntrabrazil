@@ -129,7 +129,7 @@ export default function DashboardSidebar({ activePage = "dashboard", conversatio
         }
       </div>
 
-      <div className={`${collapsed ? "px-3" : "px-3"} space-y-1`}>
+      <div className={`${collapsed ? "px-3" : "px-3"} space-y-1 md:space-y-2.5`}>
         {collapsed ?
         <>
             <button className="w-full flex items-center justify-center aspect-square py-2 rounded-lg text-gray-800 hover:bg-gray-200/60 transition-colors">
