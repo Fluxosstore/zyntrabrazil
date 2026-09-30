@@ -12,10 +12,10 @@ export default function CodraxHome({ onStart }) {
       <div className="px-8 py-8">
         {/* Hero */}
         <div
-          className="flex items-center gap-8 relative rounded-2xl overflow-hidden md:min-h-[300px]"
+          className="flex items-center gap-8 relative rounded-2xl overflow-hidden md:min-h-[520px]"
           style={{
             backgroundImage: `url(${ASTRONAUT})`,
-            backgroundSize: "cover",
+            backgroundSize: "contain",
             backgroundPosition: "right center",
             backgroundRepeat: "no-repeat",
           }}
