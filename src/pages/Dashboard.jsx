@@ -747,7 +747,7 @@ export default function Dashboard() {
                 <div className="relative">
                   <button
                       onClick={() => setModelOpen((v) => !v)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-[#f0f0f0] text-xs font-medium text-gray-700 transition-colors">
+                      className="flex items-center gap-1.5 h-9 px-3 rounded-lg hover:bg-[#f0f0f0] text-xs font-medium text-gray-700 transition-colors">
 
                     <img src={getModelInfo(model, plan).logo} alt={getModelInfo(model, plan).name} className="w-4 h-4 rounded object-contain" />
                     {getModelInfo(model, plan).name}
