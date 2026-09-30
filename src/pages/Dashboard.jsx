@@ -553,7 +553,7 @@ export default function Dashboard() {
           {tempMode ?
               <>
               <motion.div
-                  className="relative w-20 h-20 mb-5"
+                  className="relative w-20 h-20 mb-5 md:w-28 md:h-28 md:mb-6 lg:w-32 lg:h-32"
                   animate={{
                     scale: [1, 1.08, 0.96, 1.05, 1],
                     rotate: [0, 6, -4, 3, 0]
@@ -563,17 +563,17 @@ export default function Dashboard() {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}>
-                  
+
                 <img
                     src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
                     alt="Zyntra"
-                    className="relative w-20 h-20 object-contain drop-shadow-2xl" />
-                  
+                    className="relative w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain drop-shadow-2xl" />
+
               </motion.div>
-              <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-2">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black text-center mb-2">
                 {t("dash.tempTitle")}
               </h1>
-              <p className="text-sm text-gray-500 text-center max-w-md mb-6">
+              <p className="text-sm md:text-base text-gray-500 text-center max-w-md mb-6">
                 {t("dash.tempDesc")}
               </p>
             </> :
