@@ -45,7 +45,7 @@ export default function AuthShell({ children }) {
           <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white via-white/70 to-transparent" />
           <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white/60 to-transparent" />
           <Link to="/" className="absolute top-6 left-12 flex items-center gap-2 z-20">
-            <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/a14d70862_Capturadetela2026-09-29215641.png" alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
+            <img src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/249bce754_Imagem_do_ChatGPT_29_de_set_de_2026__22_34_38.png" alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
             <span className="text-lg font-bold text-white">Zyntra</span>
           </Link>
           <div className="relative flex flex-col justify-end p-12 z-10">
