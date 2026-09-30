@@ -174,6 +174,26 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                         <button onClick={() => handleCopyLink(msg.image)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors" title="Copiar link">
                           {linkCopied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Link2 className="w-3.5 h-3.5" />}
                         </button>
+                        <button
+                          onClick={() => handleCopy(msg.content, i)}
+                          className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                          title="Copiar"
+                        >
+                          {copiedIdx === i ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                        </button>
+                        <button
+                          onClick={() => toggleFav(i, msg)}
+                          className={`w-7 h-7 flex items-center justify-center rounded-lg transition-colors ${favMap[i] ? "text-yellow-500 hover:bg-yellow-50" : "text-gray-400 hover:bg-gray-100 hover:text-gray-600"}`}
+                          title="Favoritar"
+                        >
+                          <Star className="w-3.5 h-3.5" fill={favMap[i] ? "currentColor" : "none"} />
+                        </button>
+                        {msg.credits != null && (
+                          <div className="flex items-center gap-1 ml-1 text-xs text-gray-500">
+                            <CoinStackIcon className="w-3.5 h-3.5 text-orange-500" />
+                            <span>{formatCredits(msg.credits)} créditos</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ) : msg.audio ? (
@@ -197,6 +217,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                   )}
 
                   {/* Barra de ações: copiar + favoritar + créditos */}
+                  {!msg.image && (
                   <div className="flex items-center gap-1 mt-2">
                     <button
                       onClick={() => handleCopy(msg.content, i)}
@@ -219,6 +240,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                       </div>
                     )}
                   </div>
+                  )}
                 </div>
               )}
             </motion.div>
