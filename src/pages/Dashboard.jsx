@@ -687,8 +687,8 @@ export default function Dashboard() {
                         setToolsPanelOpen(false);
                         setConnectorsPanelOpen(false);
                       }}
-                      className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
-                      plusMenuOpen ? "bg-[#e8e8e8] text-gray-600" : "bg-[#f0f0f0] text-gray-600 hover:bg-[#e8e8e8]"}`
+                      className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${
+                      plusMenuOpen ? "bg-[#f0f0f0] text-gray-600" : "text-gray-600 hover:bg-[#f0f0f0]"}`
                       }>
 
                     <Plus className="w-4 h-4" />
@@ -747,7 +747,7 @@ export default function Dashboard() {
                 <div className="relative">
                   <button
                       onClick={() => setModelOpen((v) => !v)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#f0f0f0] hover:bg-[#e8e8e8] text-xs font-medium text-gray-700 transition-colors">
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-[#f0f0f0] text-xs font-medium text-gray-700 transition-colors">
 
                     <img src={getModelInfo(model, plan).logo} alt={getModelInfo(model, plan).name} className="w-4 h-4 rounded object-contain" />
                     {getModelInfo(model, plan).name}
@@ -771,7 +771,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-1.5">
                 <button
                     onClick={toggleMic}
-                    className={`w-9 h-8 flex items-center justify-center rounded-lg transition-colors ${
+                    className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${
                     listening ? "bg-red-500 text-white" : "bg-[#f0f0f0] text-gray-600 hover:bg-[#e8e8e8]"}`
                     }>
 
@@ -780,7 +780,7 @@ export default function Dashboard() {
                 <button
                     onClick={handleSend}
                     disabled={!msg.trim() && !attachedFile}
-                    className={`w-9 h-8 flex items-center justify-center rounded-lg transition-colors ${
+                    className={`w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${
                     msg || attachedFile ? "bg-[#f0f0f0] text-gray-700 hover:bg-[#e8e8e8]" : "bg-gray-100 text-gray-300"}`
                     }>
 
