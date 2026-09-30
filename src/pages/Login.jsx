@@ -8,7 +8,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { isWebAuthnSupported, authenticatePasskey } from "@/lib/webauthnUtils";
 
 const LOGO =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/4242d5902_quality_restoration_20260928203908003.png";
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/4242d5902_quality_restoration_20260928203908003.png";
 
 export default function Login() {
   const { t } = useLanguage();
@@ -36,7 +36,7 @@ export default function Login() {
       const assertion = await authenticatePasskey({
         challenge: startData.challenge,
         rpId,
-        allowCredentials: startData.allowCredentials || [],
+        allowCredentials: startData.allowCredentials || []
       });
       const finishRes = await base44.functions.invoke("passkeyAuth", {
         action: "finishAuth",
@@ -45,7 +45,7 @@ export default function Login() {
         clientDataJSON: assertion.clientDataJSON,
         signature: assertion.signature,
         challenge: startData.challenge,
-        challengeSignature: startData.challengeSignature,
+        challengeSignature: startData.challengeSignature
       });
       const finishData = finishRes.data || finishRes;
       if (finishData.success && finishData.email) {
@@ -99,17 +99,17 @@ export default function Login() {
           <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
           <span className="text-lg font-bold text-black">Zyntra</span>
         </Link>
-        <h1 className="hidden lg:block text-base font-bold text-black mb-0.5 text-center">{t("login.title")}</h1>
+        
         <p className="text-xs text-[#757575] text-center">
           {t("login.subtitle")}
         </p>
       </div>
 
-      {error && (
-        <div className="mb-2 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
+      {error &&
+      <div className="mb-2 p-2.5 rounded-lg bg-red-50 text-red-600 text-xs">
           {error}
         </div>
-      )}
+      }
 
       <form onSubmit={handleSubmit} className="space-y-2.5">
         <div className="space-y-1">
@@ -123,8 +123,8 @@ export default function Login() {
               placeholder={t("login.emailPlaceholder")}
               required
               autoFocus
-              className="w-full h-9 lg:h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+              className="w-full h-9 lg:h-10 pl-9 pr-4 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+            
           </div>
         </div>
         <div className="space-y-1">
@@ -137,13 +137,13 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("login.pwdPlaceholder")}
               required
-              className="w-full h-9 lg:h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors"
-            />
+              className="w-full h-9 lg:h-10 pl-9 pr-9 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
+            
             <button
               type="button"
               onClick={() => setShowPwd(!showPwd)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              
               {showPwd ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           </div>
@@ -152,8 +152,8 @@ export default function Login() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-9 lg:h-10 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center"
-        >
+          className="w-full h-9 lg:h-10 rounded-lg bg-[#DCDCDC] hover:bg-[#7E57C2] hover:text-white text-[#666] text-sm font-semibold transition-colors disabled:opacity-60 flex items-center justify-center">
+          
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t("login.submit")}
         </button>
       </form>
@@ -170,36 +170,36 @@ export default function Login() {
       <button
         onClick={handlePasskeyLogin}
         disabled={passkeyLoading}
-        className="w-full h-9 lg:h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors disabled:opacity-60"
-      >
+        className="w-full h-9 lg:h-10 rounded-lg bg-white border border-[#E5E5E5] text-sm font-medium text-[#333] flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors disabled:opacity-60">
+        
         {passkeyLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#7E57C2]" /> : <Fingerprint className="w-3.5 h-3.5 text-[#7E57C2]" />}
         {passkeyLoading ? "Verificando..." : t("login.passkey")}
       </button>
 
-      {passkeyVerified && (
-        <div className="mt-2 p-2.5 rounded-lg bg-green-50 text-green-700 text-xs flex items-center gap-1.5">
+      {passkeyVerified &&
+      <div className="mt-2 p-2.5 rounded-lg bg-green-50 text-green-700 text-xs flex items-center gap-1.5">
           <Fingerprint className="w-3.5 h-3.5 shrink-0" />
           Identidade verificada por biometria. Digite sua senha para entrar.
         </div>
-      )}
+      }
 
       <div className="mt-3 lg:mt-4 flex flex-col gap-1 text-center">
         <Link
           to="/forgot-password"
-          className="text-xs font-medium text-[#7E57C2] hover:underline"
-        >
+          className="text-xs font-medium text-[#7E57C2] hover:underline">
+          
           {t("login.forgot")}
         </Link>
         <p className="text-xs text-[#757575]">
           {t("login.noAccount")}{" "}
           <Link
             to="/register"
-            className="text-[#7E57C2] font-medium hover:underline"
-          >
+            className="text-[#7E57C2] font-medium hover:underline">
+            
             {t("login.createAccount")}
           </Link>
         </p>
       </div>
-    </AuthShell>
-  );
+    </AuthShell>);
+
 }
