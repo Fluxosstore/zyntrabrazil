@@ -6,12 +6,12 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 20%;
+    --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 20%;
+    --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 20%;
-    --primary: 0 0% 20%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -146,15 +146,3 @@
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
 }
-
-/* Escuros mais suaves: texto, fundos e bordas em tom de cinza clarinho */
-.text-black { color: #2b2b2d; }
-.text-gray-900 { color: #2b2b2d; }
-.text-gray-800 { color: #3a3a3c; }
-.text-gray-700 { color: #4a4a4d; }
-.bg-black { background-color: #2b2b2d; }
-.bg-gray-900 { background-color: #2b2b2d; }
-.bg-gray-800 { background-color: #3a3a3c; }
-.border-gray-400 { border-color: #d8d8dc; }
-.border-gray-500 { border-color: #c8c8cc; }
-.border-gray-600 { border-color: #b8b8bc; }
