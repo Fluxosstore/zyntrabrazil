@@ -67,10 +67,10 @@ export default function CodraxHome({ onStart }) {
       </div>
 
       {/* Feedback floating button */}
-      <button className="fixed bottom-6 right-6 px-4 py-2.5 rounded-full bg-[#4c1d95] text-white text-sm font-medium shadow-lg hover:bg-[#3b1773] transition-colors flex items-center gap-1.5 z-30 hidden">
-        <MessageSquare className="w-4 h-4" />
-        Feedback
-      </button>
+      
+
+
+      
     </div>);
 
 }
