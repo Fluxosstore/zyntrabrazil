@@ -49,7 +49,7 @@ export default function CodraxHome({ onStart }) {
         </div>
 
         {/* Empty state card */}
-        <div className="mt-8 md:mt-10 rounded-2xl border border-dashed border-gray-300 bg-white p-10 flex flex-col items-center text-center">
+        <div className="mt-8 md:mt-24 rounded-2xl border border-dashed border-gray-300 bg-white p-10 md:p-16 md:min-h-[420px] flex flex-col items-center justify-center text-center">
           <div className="w-14 h-14 rounded-full bg-gray-200 flex items-center justify-center mb-4">
             <Orbit className="w-7 h-7 text-white" />
           </div>
