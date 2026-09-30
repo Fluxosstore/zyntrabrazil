@@ -46,7 +46,7 @@ export default function TypingHeadline() {
   }, [displayText, phase, wordIndex]);
 
   return (
-    <h1 className="text-xl sm:text-2xl font-bold text-black text-center mb-6 min-h-[2em] flex items-center justify-center flex-wrap gap-x-1.5">
+    <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black text-center mb-6 min-h-[2em] flex items-center justify-center flex-wrap gap-x-1.5">
       <span>Do rascunho</span>
       <span className="inline-flex items-baseline">
         {displayText}

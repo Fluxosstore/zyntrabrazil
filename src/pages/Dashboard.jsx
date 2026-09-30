@@ -580,7 +580,7 @@ export default function Dashboard() {
 
               <>
               <motion.div
-                  className="relative w-20 h-20 mb-5"
+                  className="relative w-20 h-20 mb-5 md:w-28 md:h-28 md:mb-6 lg:w-32 lg:h-32"
                   animate={{
                     scale: [1, 1.08, 0.96, 1.05, 1],
                     rotate: [0, 6, -4, 3, 0]
@@ -590,14 +590,14 @@ export default function Dashboard() {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}>
-                  
+
                 <img
                     src="https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png"
                     alt="Zyntra"
-                    className="relative w-20 h-20 object-contain drop-shadow-2xl" />
-                  
+                    className="relative w-20 h-20 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain drop-shadow-2xl" />
+
               </motion.div>
-              <p className="text-xs text-gray-500 mb-1">
+              <p className="text-xs md:text-base text-gray-500 mb-1 md:mb-1.5">
                 {greetingText}, {firstName}
               </p>
               <TypingHeadline />
