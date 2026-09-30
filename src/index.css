@@ -215,6 +215,12 @@
 .dark .via-white\/40 { --tw-gradient-via: rgba(24,24,27,0.4) var(--tw-gradient-via-position, 50%); }
 .dark .via-white\/70 { --tw-gradient-via: rgba(24,24,27,0.7) var(--tw-gradient-via-position, 50%); }
 
+/* #FAFAFA gradient stops — blend sections into dark page background */
+.dark .from-\[\#FAFAFA\] { --tw-gradient-from: #141416 var(--tw-gradient-from-position, 0%); }
+.dark .via-\[\#FAFAFA\]\/80 { --tw-gradient-via: rgba(20,20,22,0.8) var(--tw-gradient-via-position, 50%); }
+.dark .via-\[\#FAFAFA\]\/40 { --tw-gradient-via: rgba(20,20,22,0.4) var(--tw-gradient-via-position, 50%); }
+.dark .to-\[\#d6caff\] { --tw-gradient-to: #2a2540 var(--tw-gradient-to-position, 100%); }
+
 /* Semi-transparent light surfaces — keep dark in dark mode */
 .dark .bg-gray-50\/50 { background-color: rgba(35,35,39,0.5); }
 .dark .bg-gray-50\/70 { background-color: rgba(35,35,39,0.7); }
