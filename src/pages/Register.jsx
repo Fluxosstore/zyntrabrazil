@@ -189,11 +189,11 @@ export default function Register() {
   /* ---------- Registration form (image 2) ---------- */
   return (
     <AuthShell>
+      <Link to="/" className="flex items-center justify-center gap-2 mb-2 lg:mb-0 lg:absolute lg:top-6 lg:left-12 z-20">
+        <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
+        <span className="text-lg font-bold text-black">Zyntra</span>
+      </Link>
       <div className="mb-3 text-center">
-        <Link to="/" className="flex items-center justify-center gap-2 mb-2">
-          <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded-lg object-contain" />
-          <span className="text-lg font-bold text-black">Zyntra</span>
-        </Link>
         <h1 className="hidden lg:block text-base font-bold text-black mb-0.5">{t("register.title")}</h1>
         <p className="text-xs text-[#757575]">
           {t("register.subtitle")}
