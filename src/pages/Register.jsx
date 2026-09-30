@@ -28,6 +28,8 @@ export default function Register() {
   const [accepted, setAccepted] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [couponStatus, setCouponStatus] = useState("idle");
+  const [couponData, setCouponData] = useState(null);
 
   // OTP step
   const [showOtp, setShowOtp] = useState(false);
@@ -36,6 +38,31 @@ export default function Register() {
   const otpRefs = useRef([]);
 
   const canSubmit = name && email && password;
+
+  const handleApplyCoupon = async () => {
+    const code = coupon.trim().toUpperCase();
+    if (!code) return;
+    setCouponStatus("checking");
+    try {
+      const records = await base44.entities.Coupon.filter({ code });
+      const c = records?.[0];
+      if (!c || !c.active || (c.uses || 0) >= (c.max_uses || 0)) {
+        setCouponStatus("invalid");
+        setCouponData(null);
+        return;
+      }
+      if (c.expires_at && new Date(c.expires_at) < new Date()) {
+        setCouponStatus("invalid");
+        setCouponData(null);
+        return;
+      }
+      setCouponStatus("valid");
+      setCouponData(c);
+    } catch {
+      setCouponStatus("invalid");
+      setCouponData(null);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,6 +91,12 @@ export default function Register() {
       const result = await base44.auth.verifyOtp({ email, otpCode: code });
       if (result?.access_token) {
         base44.auth.setToken(result.access_token);
+      }
+      if (couponData) {
+        try {
+          await base44.auth.updateMe({ coupon_code: couponData.code });
+          await base44.entities.Coupon.update(couponData.id, { uses: (couponData.uses || 0) + 1 });
+        } catch {}
       }
       window.location.href = "/dashboard";
     } catch (err) {
@@ -282,10 +315,16 @@ export default function Register() {
               placeholder={t("register.couponPlaceholder")}
               className="w-full h-9 pl-9 pr-14 rounded-lg bg-[#F9F9F9] border border-[#E5E5E5] text-sm text-black placeholder:text-gray-400 focus:outline-none focus:border-[#7E57C2] transition-colors" />
             
-            <button type="button" className="absolute right-3 text-xs font-medium text-[#7E57C2] hover:underline">
+            <button type="button" onClick={handleApplyCoupon} className="absolute right-3 text-xs font-medium text-[#7E57C2] hover:underline">
               {t("register.apply")}
             </button>
           </div>
+          {couponStatus === "valid" && (
+            <p className="text-[10px] text-green-600 font-medium mt-1">{t("register.couponValid")}</p>
+          )}
+          {couponStatus === "invalid" && (
+            <p className="text-[10px] text-red-500 font-medium mt-1">{t("register.couponInvalid")}</p>
+          )}
         </div>
 
         <label className="flex items-start gap-2 cursor-pointer">

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Sun, Star, Loader2, AlertCircle, X } from "lucide-react";
+import { ArrowLeft, Sun, Moon, Star, Loader2, AlertCircle, X, Tag } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
 import { base44 } from "@/api/base44Client";
@@ -11,7 +11,9 @@ import {
   PLAN_NUMERIC_PRICES,
   formatBRL,
   getFreeTimeLabel,
+  applyCouponDiscount,
 } from "@/lib/planData";
+import { useTheme } from "@/lib/ThemeContext";
 import PixPaymentModal from "@/components/ayzen/PixPaymentModal";
 
 const MONTHS_PT = [
@@ -39,6 +41,8 @@ export default function PlanSelection() {
   const [blockedDowngrade, setBlockedDowngrade] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [pixData, setPixData] = useState(null);
+  const [coupon, setCoupon] = useState(null);
+  const { resolved, toggle } = useTheme();
 
   const currentPlan = user?.plan || "free";
   const currentCycle = user?.plan_cycle || "mensal";
@@ -48,10 +52,25 @@ export default function PlanSelection() {
 
   const currentPlanIndex = PLAN_IDS.indexOf(currentPlan);
 
+  useEffect(() => {
+    (async () => {
+      const code = user?.coupon_code;
+      if (!code) return;
+      try {
+        const records = await base44.entities.Coupon.filter({ code });
+        const c = records?.[0];
+        if (!c || !c.active || (c.uses || 0) >= (c.max_uses || 0)) return;
+        if (c.expires_at && new Date(c.expires_at) < new Date()) return;
+        setCoupon(c);
+      } catch {}
+    })();
+  }, [user?.coupon_code]);
+
   const getChangeInfo = (plan, selectedCycle = cycle) => {
     const newPlanIndex = PLAN_IDS.indexOf(plan.id);
     const alreadyPaid = PLAN_NUMERIC_PRICES[currentPlan]?.[currentCycle] || 0;
-    const newPrice = PLAN_NUMERIC_PRICES[plan.id]?.[selectedCycle] || 0;
+    const baseNewPrice = PLAN_NUMERIC_PRICES[plan.id]?.[selectedCycle] || 0;
+    const newPrice = coupon ? applyCouponDiscount(baseNewPrice, coupon) : baseNewPrice;
     const isUpgrade = newPlanIndex > currentPlanIndex;
     const isDowngrade = newPlanIndex < currentPlanIndex;
     const amountToPay = isUpgrade ? Math.max(0, newPrice - alreadyPaid) : 0;
@@ -138,8 +157,8 @@ export default function PlanSelection() {
     <div className="min-h-screen bg-[#F7F8FA]">
       {/* Header */}
       <header className="max-w-[1280px] mx-auto px-6 lg:px-10 py-2 flex items-center justify-end gap-2">
-        <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
-          <Sun className="w-4 h-4" />
+        <button onClick={toggle} className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-colors">
+          {resolved === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
         </button>
         <button
           onClick={() => navigate("/settings", { state: { section: "plan" } })}
@@ -164,6 +183,14 @@ export default function PlanSelection() {
         <p className="text-sm text-gray-500 mt-1.5 max-w-xl">
           {t("planSelection.subtitle")}
         </p>
+        {coupon && (
+          <div className="mt-3 inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-3 py-1.5">
+            <Tag className="w-3.5 h-3.5 text-green-600" />
+            <span className="text-xs font-semibold text-green-700">
+              Cupom {coupon.code} aplicado — {coupon.discount_type === "percent" ? `${coupon.discount_value}% off` : `${formatBRL(coupon.discount_value)} de desconto`}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Tabs + Cycle toggle */}
@@ -231,7 +258,11 @@ export default function PlanSelection() {
                 <p className="text-xs text-[#666666] mt-1 leading-relaxed">{plan.desc}</p>
                 <hr className="my-3 border-[#e5e5e5]" />
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-[#111111]">{plan.price[cycle]}</span>
+                  {coupon ? (
+                    <span className="text-3xl font-bold text-[#111111]">{formatBRL(applyCouponDiscount(PLAN_NUMERIC_PRICES[plan.id]?.[cycle] || 0, coupon))}</span>
+                  ) : (
+                    <span className="text-3xl font-bold text-[#111111]">{plan.price[cycle]}</span>
+                  )}
                   {plan.period && <span className="text-xs text-[#666666]">{plan.period}</span>}
                 </div>
                 <ul className="mt-3 space-y-1.5">

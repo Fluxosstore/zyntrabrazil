@@ -1,13 +1,15 @@
 import React from "react";
-import { Sun } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useTheme } from "@/lib/ThemeContext";
 
 const HERO_IMG =
   "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/5f3e11fd3_quality_restoration_20260929160751648.jpg";
 
 export default function AuthShell({ children }) {
   const { t } = useLanguage();
+  const { resolved, toggle } = useTheme();
 
   return (
     <div className="h-[100dvh] lg:h-screen flex flex-col bg-white overflow-hidden relative">
@@ -15,8 +17,8 @@ export default function AuthShell({ children }) {
       <div className="absolute top-4 right-4 lg:top-6 lg:right-8 flex items-center gap-2 lg:gap-3 z-20">
         <LanguageSwitcher variant="pill" />
 
-        <button className="w-8 h-8 flex items-center justify-center rounded-full text-[#4A4A4A] hover:bg-gray-100 transition-colors">
-          <Sun className="w-4 h-4" />
+        <button onClick={toggle} className="w-8 h-8 flex items-center justify-center rounded-full text-[#4A4A4A] hover:bg-gray-100 transition-colors">
+          {resolved === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
         </button>
       </div>
 
@@ -27,7 +29,7 @@ export default function AuthShell({ children }) {
           alt=""
           className="absolute inset-0 w-full h-full object-cover object-top"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent dark:from-zinc-900 dark:via-zinc-900/40" />
       </div>
 
       <div className="flex-1 flex min-h-0">
@@ -39,8 +41,8 @@ export default function AuthShell({ children }) {
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white via-white/70 to-transparent" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white/60 to-transparent" />
+          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-white via-white/70 to-transparent dark:from-zinc-900 dark:via-zinc-900/70" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white/60 to-transparent dark:from-zinc-900/60" />
           <div className="relative flex flex-col justify-end p-12 z-10">
             <p className="text-xs font-medium tracking-[0.2em] text-white/80 uppercase mb-3">
               {t("auth.platform")}

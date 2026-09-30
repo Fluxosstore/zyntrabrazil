@@ -31,6 +31,14 @@ export function formatBRL(value) {
   }).format(value || 0);
 }
 
+export function applyCouponDiscount(price, coupon) {
+  if (!coupon) return price;
+  if (coupon.discount_type === "percent") {
+    return Math.max(0, price * (1 - (coupon.discount_value || 0) / 100));
+  }
+  return Math.max(0, price - (coupon.discount_value || 0));
+}
+
 export function getFreeTimeLabel(planId, t) {
   const prices = PLAN_NUMERIC_PRICES[planId];
   if (!prices || prices.mensal <= 0) return "";

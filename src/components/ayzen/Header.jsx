@@ -4,6 +4,7 @@ import { Image } from "@/components/ui/image";
 import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useAuth } from "@/lib/AuthContext";
+import { useTheme } from "@/lib/ThemeContext";
 
 const navLinkDefs = [
   { key: "nav.ias", href: "#ias", id: "ias" },
@@ -16,6 +17,7 @@ const navLinkDefs = [
 export default function Header() {
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
+  const { theme, setTheme } = useTheme();
   const navLinks = navLinkDefs.map((l) => ({ ...l, label: t(l.key) }));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
@@ -149,15 +151,23 @@ export default function Header() {
 
             {/* Theme pill */}
             <div className="hidden lg:flex items-center gap-1 bg-white/70 backdrop-blur-xl border border-white/60 rounded-full px-2 py-2 shadow-lg shadow-violet-200/30">
-              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white transition-colors">
-                <Sun className="w-4 h-4" />
-              </button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
-                <Moon className="w-4 h-4" />
-              </button>
-              <button className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
-                <Monitor className="w-4 h-4" />
-              </button>
+              {[
+                { id: "light", icon: <Sun className="w-4 h-4" /> },
+                { id: "dark", icon: <Moon className="w-4 h-4" /> },
+                { id: "system", icon: <Monitor className="w-4 h-4" /> },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  onClick={() => setTheme(opt.id)}
+                  className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                    theme === opt.id
+                      ? "bg-violet-600 text-white"
+                      : "text-gray-400 hover:text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  {opt.icon}
+                </button>
+              ))}
               <LanguageSwitcher variant="text" />
             </div>
           </div>

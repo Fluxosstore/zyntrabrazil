@@ -57,6 +57,10 @@
       "description": "Saldo de tokens do usu\u00e1rio",
       "default": 0
     },
+    "coupon_code": {
+      "type": "string",
+      "description": "C\u00f3digo de cupom de desconto aplicado no cadastro"
+    },
     "blocked": {
       "type": "boolean",
       "description": "Se o usu\u00e1rio est\u00e1 bloqueado",
