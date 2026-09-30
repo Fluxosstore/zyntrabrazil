@@ -687,11 +687,11 @@ export default function Dashboard() {
                         setToolsPanelOpen(false);
                         setConnectorsPanelOpen(false);
                       }}
-                      className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
+                      className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
                       plusMenuOpen ? "bg-gray-100 text-gray-600" : "hover:bg-gray-100 text-gray-600"}`
                       }>
-                      
-                    <Plus className="w-3.5 h-3.5" />
+
+                    <Plus className="w-4 h-4" />
                   </button>
                   <AnimatePresence>
                     {plusMenuOpen && !toolsPanelOpen && !connectorsPanelOpen && !synthesisOpen && !skillsOpen &&
@@ -747,11 +747,11 @@ export default function Dashboard() {
                 <div className="relative">
                   <button
                       onClick={() => setModelOpen((v) => !v)}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-gray-100 text-xs font-medium text-gray-700 transition-colors">
-                      
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f0f0f0] hover:bg-[#e8e8e8] text-xs font-medium text-gray-700 transition-colors">
+
                     <img src={getModelInfo(model, plan).logo} alt={getModelInfo(model, plan).name} className="w-4 h-4 rounded object-contain" />
                     {getModelInfo(model, plan).name}
-                    <ChevronDown className="w-3 h-3 text-gray-500" />
+                    <ChevronDown className="w-3.5 h-3.5 text-gray-500" />
                   </button>
                   <AnimatePresence>
                     {modelOpen &&
@@ -771,20 +771,20 @@ export default function Dashboard() {
               <div className="flex items-center gap-1.5">
                 <button
                     onClick={toggleMic}
-                    className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
-                    listening ? "bg-red-500 text-white" : "text-gray-500 hover:bg-gray-100"}`
+                    className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors ${
+                    listening ? "bg-red-500 text-white" : "bg-[#f0f0f0] text-gray-600 hover:bg-[#e8e8e8]"}`
                     }>
-                    
-                  <Mic className="w-3.5 h-3.5" />
+
+                  <Mic className="w-4 h-4" />
                 </button>
                 <button
                     onClick={handleSend}
                     disabled={!msg.trim() && !attachedFile}
-                    className={`w-7 h-7 flex items-center justify-center rounded-full transition-colors ${
-                    msg || attachedFile ? "bg-[#1D1D1F] text-white" : "bg-gray-200 text-gray-400"}`
+                    className={`w-9 h-9 flex items-center justify-center rounded-xl transition-colors ${
+                    msg || attachedFile ? "bg-[#f0f0f0] text-gray-700 hover:bg-[#e8e8e8]" : "bg-gray-100 text-gray-300"}`
                     }>
-                    
-                  <ArrowUpIcon className="w-3.5 h-3.5" />
+
+                  <ArrowUpIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>
