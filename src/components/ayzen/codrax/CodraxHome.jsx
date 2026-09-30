@@ -2,7 +2,7 @@ import React from "react";
 import { Orbit, ArrowRight, MessageSquare } from "lucide-react";
 
 const ASTRONAUT =
-  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cb35a24ff_generated_image.png";
+  "https://media.base44.com/images/public/6aab2e6298f803d865228a5d/cf118eaf2_ChatGPTImage29desetde202621_18_06.png";
 
 const PILLS = ["Telas e componentes", "API e banco de dados", "Publicação com um clique"];
 
@@ -11,8 +11,18 @@ export default function CodraxHome({ onStart }) {
     <div className="flex-1 overflow-y-auto bg-[#f9fafb]">
       <div className="px-8 py-8">
         {/* Hero */}
-        <div className="flex items-center gap-8">
-          <div className="flex-1 min-w-0">
+        <div
+          className="flex items-center gap-8 relative rounded-2xl overflow-hidden md:min-h-[300px]"
+          style={{
+            backgroundImage: `url(${ASTRONAUT})`,
+            backgroundSize: "cover",
+            backgroundPosition: "right center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* White blend overlay */}
+          <div className="absolute inset-0 z-0 bg-gradient-to-r from-white via-white/70 to-transparent" />
+          <div className="flex-1 min-w-0 relative z-10">
             <h1 className="text-2xl md:text-3xl font-bold text-black leading-tight">
               Do pedido ao app no ar,<br />sem sair da conversa
             </h1>
@@ -36,9 +46,6 @@ export default function CodraxHome({ onStart }) {
               Começar meu app
               <ArrowRight className="w-4 h-4" />
             </button>
-          </div>
-          <div className="hidden lg:block shrink-0">
-            <img src={ASTRONAUT} alt="" className="w-64 h-64 object-contain" />
           </div>
         </div>
 
