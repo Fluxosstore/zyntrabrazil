@@ -166,7 +166,7 @@ export default function ChatMessages({ messages, loading, onEdit, onReprocess, p
                   {msg.image ? (
                     <div className="space-y-2">
                       {msg.content && <p className="text-sm text-black whitespace-pre-wrap">{msg.content}</p>}
-                      <img src={msg.image} alt="Imagem gerada" className="rounded-2xl w-full object-contain" />
+                      <img src={msg.image} alt="Imagem gerada" className="rounded-2xl w-full max-w-xs object-contain" />
                       <div className="flex items-center gap-1">
                         <button onClick={() => handleDownload(msg.image)} className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors" title="Baixar">
                           <Download className="w-3.5 h-3.5" />
