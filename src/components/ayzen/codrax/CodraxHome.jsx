@@ -8,8 +8,17 @@ const PILLS = ["Telas e componentes", "API e banco de dados", "Publicação com 
 
 export default function CodraxHome({ onStart }) {
   return (
-    <div className="flex-1 overflow-y-auto bg-[#f9fafb]">
-      <div className="px-8 py-8">
+    <div className="flex-1 overflow-y-auto bg-[#f9fafb] relative">
+      <div className="hidden lg:block absolute top-0 left-0 right-0 h-[440px] pointer-events-none">
+        <img
+          src={HEADER_IMAGE}
+          alt=""
+          className="w-full h-full object-cover object-right-top"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f9fafb] via-[#f9fafb]/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#f9fafb] to-transparent" />
+      </div>
+      <div className="relative px-8 py-8">
         {/* Hero */}
         <div className="flex items-center gap-8">
           <div className="flex-1 min-w-0">
@@ -36,14 +45,6 @@ export default function CodraxHome({ onStart }) {
               Começar meu app
               <ArrowRight className="w-4 h-4" />
             </button>
-          </div>
-          <div className="hidden lg:block shrink-0 w-[420px] h-64 relative">
-            <img
-              src={HEADER_IMAGE}
-              alt=""
-              className="w-full h-full object-cover object-right-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f9fafb]" />
           </div>
         </div>
 
