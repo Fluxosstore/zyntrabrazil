@@ -150,26 +150,26 @@ export default function PublicChat() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
+            className="w-11 h-11 flex items-center justify-center rounded-lg text-gray-700 active:bg-gray-100"
           >
-            <PanelLeft className="w-5 h-5" />
+            <PanelLeft className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-1.5">
-            <img src={LOGO} alt="Zyntra" className="w-5 h-5 rounded object-contain" />
-            <span className="text-sm font-semibold text-black">Zyntra</span>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+            <img src={LOGO} alt="Zyntra" className="w-7 h-7 rounded object-contain" />
+            <span className="text-base font-semibold text-black">Zyntra</span>
+            <ChevronDown className="w-5 h-5 text-gray-400" />
           </div>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <Link
             to="/login"
-            className="px-3 py-1.5 rounded-full bg-[#7c3aed] text-white text-xs font-medium hover:bg-[#6d28d9] transition-colors"
+            className="px-4 py-2 rounded-full bg-[#7c3aed] text-white text-sm font-medium hover:bg-[#6d28d9] transition-colors"
           >
             Entrar
           </Link>
           <Link
             to="/register"
-            className="px-3 py-1.5 rounded-full bg-white border border-gray-300 text-black text-xs font-medium hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 rounded-full bg-white border border-gray-300 text-black text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             Cadastre-se gratuitamente
           </Link>
