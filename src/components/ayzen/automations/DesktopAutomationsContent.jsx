@@ -22,8 +22,8 @@ import {
 import { useLanguage } from "@/lib/LanguageContext";
 import { AUTOMATION_TEMPLATES } from "./automationTemplates";
 
-const ASTRONAUT =
-"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/6d3c3f358_ChatGPTImage17desetde202619_47_55.png";
+const HEADER_IMAGE =
+"https://media.base44.com/images/public/6aab2e6298f803d865228a5d/8041d55c7_Capturadetela2026-09-29214341.png";
 
 const ICONS = {
   Mail,
@@ -72,7 +72,18 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
 
 
   return (
-    <div className="flex-1 overflow-y-auto px-8 py-8">
+    <div className="flex-1 overflow-y-auto relative bg-white">
+      {/* Banner image — full width at top, astronaut pinned right, blended into white */}
+      <div className="hidden lg:block absolute top-0 left-0 right-0 h-[440px] pointer-events-none">
+        <img
+          src={HEADER_IMAGE}
+          alt=""
+          className="w-full h-full object-cover object-right-top"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent" />
+      </div>
+      <div className="relative px-8 py-8">
       {/* Hero */}
       <div className="flex items-start justify-between gap-8">
         <div className="flex-1 max-w-xl">
@@ -128,6 +139,7 @@ export default function DesktopAutomationsContent({ onNewAutomation, onSelectTem
 
           )}
         </div>
+      </div>
       </div>
     </div>);
 
