@@ -7,6 +7,7 @@ export const translations = {
     "nav.faq": "FAQ",
     "nav.blog": "Blog",
     "header.entrar": "Entrar",
+    "header.painel": "Painel",
     "header.assinar": "Assinar",
 
     // AuthShell
@@ -712,6 +713,7 @@ export const translations = {
     "nav.faq": "FAQ",
     "nav.blog": "Blog",
     "header.entrar": "Sign in",
+    "header.painel": "Dashboard",
     "header.assinar": "Subscribe",
 
     // AuthShell
@@ -1417,6 +1419,7 @@ export const translations = {
     "nav.faq": "FAQ",
     "nav.blog": "Blog",
     "header.entrar": "Entrar",
+    "header.painel": "Panel",
     "header.assinar": "Suscribirse",
 
     // AuthShell

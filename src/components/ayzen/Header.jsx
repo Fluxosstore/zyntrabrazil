@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, Monitor } from "lucide-react";
+import { Menu, X, Sun, Moon, Monitor, LayoutDashboard } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import LanguageSwitcher from "@/components/ayzen/LanguageSwitcher";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useAuth } from "@/lib/AuthContext";
 
 const navLinkDefs = [
   { key: "nav.ias", href: "#ias", id: "ias" },
@@ -14,6 +15,7 @@ const navLinkDefs = [
 
 export default function Header() {
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
   const navLinks = navLinkDefs.map((l) => ({ ...l, label: t(l.key) }));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState("");
@@ -111,12 +113,22 @@ export default function Header() {
 
               <span className="h-5 w-px bg-gray-200 mx-1 hidden lg:block" />
 
-              <a
-                href="/login"
-                className="hidden lg:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full transition-colors"
-              >
-                {t("header.entrar")}
-              </a>
+              {isAuthenticated ? (
+                <a
+                  href="/dashboard"
+                  className="hidden lg:inline-flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1.5 rounded-full transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  {t("header.painel") || "Painel"}
+                </a>
+              ) : (
+                <a
+                  href="/login"
+                  className="hidden lg:inline-flex text-sm font-medium text-gray-600 hover:text-gray-900 px-3 py-1.5 rounded-full transition-colors"
+                >
+                  {t("header.entrar")}
+                </a>
+              )}
 
               <a
                 href="#planos"
@@ -171,11 +183,18 @@ export default function Header() {
               </a>
             ))}
             <a
-              href="/login"
+              href={isAuthenticated ? "/dashboard" : "/login"}
               onClick={() => setMobileOpen(false)}
-              className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50"
+              className="text-base font-medium text-gray-700 hover:text-violet-600 px-3 py-2 rounded-lg hover:bg-gray-50 flex items-center gap-1.5"
             >
-              {t("header.entrar")}
+              {isAuthenticated ? (
+                <>
+                  <LayoutDashboard className="w-4 h-4" />
+                  {t("header.painel") || "Painel"}
+                </>
+              ) : (
+                t("header.entrar")
+              )}
             </a>
           </nav>
         </div>
